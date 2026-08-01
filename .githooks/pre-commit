@@ -36,6 +36,12 @@ staged=$(git diff --cached --name-only)
 if printf '%s\n' "$staged" | grep -qE '^(semantic_verifier|tests|tools|examples)/'; then
   printf '%s\n' "$staged" | grep -qx 'PROGRESS.md' || \
     fail "code changes staged without PROGRESS.md (append a ledger entry and stage it)"
+  if ! printf '%s\n' "$staged" | grep -qx 'TODO.md'; then
+    today=$(date +%Y-%m-%d)
+    todo=$(git show :TODO.md 2>/dev/null || cat TODO.md 2>/dev/null)
+    printf '%s' "$todo" | grep -q "$today" || \
+      fail "TODO.md is stale (no entry dated $today): update the active set and stage it"
+  fi
 fi
 
 exit 0

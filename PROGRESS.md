@@ -80,3 +80,16 @@ commit passing through them.
 Evidence: this commit (`F0: bootstrap plan system and guardrails`); pre-commit
 hook ran the suite (64/64) during the commit.
 Next: A1.1 (SMT-LIB2 emitter) — tomorrow's big start.
+
+## 2026-08-02 — chore: TODO staleness guard + Z3 install — DONE
++ pre-commit extended: code commits now require TODO.md either staged or
+  already carrying today's date (staleness guard). PROGRESS stays enforced
+  per commit; TODO freshness enforced per working day.
++ Z3 5.0.0 (x64-win) installed user-scope at
+  %LOCALAPPDATA%\Programs\z3-5.0.0-x64-win\bin\z3.exe;
+  SEMANTIC_VERIFIER_Z3 User env var set. A1.2 blocker cleared.
+- PATH deliberately untouched (setx truncation risk); discovery contract is
+  the env var + known locations.
+Evidence: `z3 --version` → "Z3 version 5.0.0 - 64 bit"; owner approved the
+install in-session.
+Next: A1.1 (SMT-LIB2 emitter).

@@ -64,7 +64,9 @@ C++17).
 - Clang required (JSON AST): `clang`/`clang++` on PATH or
   `SEMANTIC_VERIFIER_CLANG`. Tested with Clang 20.1.8.
 - Z3 (from A1.2 on): `z3` on PATH or `SEMANTIC_VERIFIER_Z3`; NO library
-  linking, subprocess + SMT-LIB2 text only. Not installed yet (see TODO).
+  linking, subprocess + SMT-LIB2 text only. Installed: Z3 5.0.0 at
+  `%LOCALAPPDATA%\Programs\z3-5.0.0-x64-win\bin\z3.exe`, pointed to by the
+  `SEMANTIC_VERIFIER_Z3` User env var (PATH deliberately untouched).
 - Run: `python -m semantic_verifier examples/vertical_slice.cpp
   --format text|json|ir`
 - Exit codes: 0 = all verified, 1 = violation, 2 = unknown/unsupported,

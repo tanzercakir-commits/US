@@ -20,11 +20,10 @@
 
 ## Blockers / open questions
 
-- Z3 is not installed on this machine (checked 2026-08-02: `z3` not on PATH).
-  Decide install method before A1.2: GitHub release zip +
-  `SEMANTIC_VERIFIER_Z3`, or a package manager. A1.1 does not need Z3.
+- None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
+  User env var points to it. New shells pick the variable up automatically.)
 
 ## Last updated
 
-2026-08-02 — F0 (plan system + guardrails) completed and committed; next work
-item is A1.1.
+2026-08-02 — F0 committed; TODO staleness guard added to pre-commit; Z3 5.0.0
+installed. Next work item is A1.1.
