@@ -1,0 +1,249 @@
+"""Strict parser for the prototype's CodeSkeptic-compatible cs: contracts."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+import re
+from typing import Mapping
+
+from .locations import LineMap
+from .model import Contract, Expr, SourceLocation
+
+
+class ContractSyntaxError(ValueError):
+    pass
+
+
+@dataclass(frozen=True, slots=True)
+class ContractIssue:
+    location: SourceLocation
+    reason: str
+
+
+@dataclass(frozen=True, slots=True)
+class _Token:
+    kind: str
+    text: str
+    position: int
+
+
+_TOKEN = re.compile(
+    r"\s*(?:"
+    r"(?P<int>[0-9]+)|"
+    r"(?P<ident>[A-Za-z_][A-Za-z0-9_]*)|"
+    r"(?P<op>==|!=|<=|>=|&&|\|\||[()+\-*/!<>])|"
+    r"(?P<bad>.)"
+    r")"
+)
+
+
+class ContractExpressionParser:
+    def __init__(self, text: str, symbols: Mapping[str, str]) -> None:
+        self.text = text
+        self.symbols = dict(symbols)
+        self.tokens: list[_Token] = []
+        for match in _TOKEN.finditer(text):
+            kind = match.lastgroup or "bad"
+            token_text = match.group(kind)
+            if kind == "bad":
+                raise ContractSyntaxError(
+                    f"unexpected token {token_text!r} at column {match.start() + 1}"
+                )
+            self.tokens.append(_Token(kind, token_text, match.start()))
+        self.tokens.append(_Token("eof", "", len(text)))
+        self.index = 0
+
+    def parse(self) -> Expr:
+        result = self._or()
+        if self._peek().kind != "eof":
+            token = self._peek()
+            raise ContractSyntaxError(
+                f"unexpected token {token.text!r} at column {token.position + 1}"
+            )
+        return result
+
+    def _peek(self) -> _Token:
+        return self.tokens[self.index]
+
+    def _take(self, text: str | None = None) -> _Token:
+        token = self._peek()
+        if text is not None and token.text != text:
+            raise ContractSyntaxError(
+                f"expected {text!r} at column {token.position + 1}"
+            )
+        self.index += 1
+        return token
+
+    def _or(self) -> Expr:
+        left = self._and()
+        while self._peek().text == "||":
+            self._take()
+            right = self._and()
+            self._require(left, "bool", "||")
+            self._require(right, "bool", "||")
+            left = Expr.binary("||", left, right, "bool")
+        return left
+
+    def _and(self) -> Expr:
+        left = self._equality()
+        while self._peek().text == "&&":
+            self._take()
+            right = self._equality()
+            self._require(left, "bool", "&&")
+            self._require(right, "bool", "&&")
+            left = Expr.binary("&&", left, right, "bool")
+        return left
+
+    def _equality(self) -> Expr:
+        left = self._relational()
+        while self._peek().text in {"==", "!="}:
+            op = self._take().text
+            right = self._relational()
+            if left.type != right.type:
+                raise ContractSyntaxError(
+                    f"{op} operands have different types: {left.type}, {right.type}"
+                )
+            left = Expr.binary(op, left, right, "bool")
+        return left
+
+    def _relational(self) -> Expr:
+        left = self._additive()
+        while self._peek().text in {"<", "<=", ">", ">="}:
+            op = self._take().text
+            right = self._additive()
+            self._require(left, "int", op)
+            self._require(right, "int", op)
+            left = Expr.binary(op, left, right, "bool")
+        return left
+
+    def _additive(self) -> Expr:
+        left = self._multiplicative()
+        while self._peek().text in {"+", "-"}:
+            op = self._take().text
+            right = self._multiplicative()
+            self._require(left, "int", op)
+            self._require(right, "int", op)
+            left = Expr.binary(op, left, right, "int")
+        return left
+
+    def _multiplicative(self) -> Expr:
+        left = self._unary()
+        while self._peek().text in {"*", "/"}:
+            op = self._take().text
+            right = self._unary()
+            self._require(left, "int", op)
+            self._require(right, "int", op)
+            left = Expr.binary(op, left, right, "int")
+        return left
+
+    def _unary(self) -> Expr:
+        if self._peek().text == "!":
+            self._take()
+            value = self._unary()
+            self._require(value, "bool", "!")
+            return Expr.unary("!", value, "bool")
+        if self._peek().text == "-":
+            self._take()
+            value = self._unary()
+            self._require(value, "int", "-")
+            return Expr.unary("-", value, "int")
+        return self._primary()
+
+    def _primary(self) -> Expr:
+        token = self._peek()
+        if token.text == "(":
+            self._take()
+            value = self._or()
+            self._take(")")
+            return value
+        if token.kind == "int":
+            self._take()
+            return Expr.integer(int(token.text))
+        if token.kind == "ident":
+            self._take()
+            if token.text in {"true", "false"}:
+                return Expr.boolean(token.text == "true")
+            name = "result" if token.text == "return" else token.text
+            if name not in self.symbols:
+                raise ContractSyntaxError(f"unknown name {token.text!r}")
+            return Expr.variable(name, self.symbols[name])
+        raise ContractSyntaxError(
+            f"expected expression at column {token.position + 1}"
+        )
+
+    @staticmethod
+    def _require(expr: Expr, expected: str, operator: str) -> None:
+        if expr.type != expected:
+            raise ContractSyntaxError(
+                f"operator {operator!r} requires {expected}, got {expr.type}"
+            )
+
+
+def parse_contract_expression(text: str, symbols: Mapping[str, str]) -> Expr:
+    return ContractExpressionParser(text, symbols).parse()
+
+
+_CONTRACT_LINE = re.compile(
+    r"^\s*//\s*cs:\s*(?P<ai>ai\s+)?"
+    r"(?P<kind>requires|ensures)\s+(?P<expr>.*?)\s*$"
+)
+
+
+def contracts_before(
+    source: str,
+    function_offset: int,
+    line_map: LineMap,
+    parameter_types: Mapping[str, str],
+    return_type: str,
+) -> tuple[tuple[Contract, ...], tuple[ContractIssue, ...]]:
+    """Attach the contiguous line-comment block before a declaration."""
+
+    line = line_map.line_index(function_offset) - 1
+    candidates: list[tuple[int, str]] = []
+    while line >= 0:
+        text = line_map.line_text(line)
+        candidate = text.removeprefix("\ufeff") if line == 0 else text
+        if not candidate.strip().startswith("//"):
+            break
+        candidates.append((line, text))
+        line -= 1
+    candidates.reverse()
+
+    contracts: list[Contract] = []
+    issues: list[ContractIssue] = []
+    for line_index, text in candidates:
+        if "cs:" not in text:
+            continue
+        candidate = text.removeprefix("\ufeff") if line_index == 0 else text
+        column = text.find("cs:") + 1
+        location = SourceLocation(
+            line_map.display_path, line_index + 1, max(1, column)
+        )
+        match = _CONTRACT_LINE.match(candidate)
+        if not match:
+            issues.append(
+                ContractIssue(location, f"unsupported or malformed contract: {text.strip()}")
+            )
+            continue
+        kind = match.group("kind")
+        symbols = dict(parameter_types)
+        if kind == "ensures":
+            symbols["result"] = return_type
+        expression_text = match.group("expr")
+        try:
+            expression = parse_contract_expression(expression_text, symbols)
+            if expression.type != "bool":
+                raise ContractSyntaxError("contract expression must be boolean")
+        except ContractSyntaxError as error:
+            issues.append(ContractIssue(location, str(error)))
+            continue
+        contracts.append(
+            Contract(
+                kind=kind,
+                expression=expression,
+                location=location,
+                text=f"{kind} {expression_text}",
+                machine_proposed=bool(match.group("ai")),
+            )
+        )
+    return tuple(contracts), tuple(issues)
