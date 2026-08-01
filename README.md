@@ -27,3 +27,21 @@ unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, result taxonomy, examples, and limitations.
+
+## Development workflow
+
+Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries
+status), [TODO.md](TODO.md) (active set) and [PROGRESS.md](PROGRESS.md)
+(append-only ledger; the single source of truth for "done"). The session
+protocol lives in [CLAUDE.md](CLAUDE.md).
+
+After cloning, enable the guardrail hooks once:
+
+```
+git config core.hooksPath .githooks
+```
+
+The pre-commit hook runs the full test suite, enforces the test-count ratchet
+(`guardrails/test_baseline.txt`), and requires PROGRESS.md to be staged
+whenever code changes are committed. Commit messages must start with a plan
+stage ID (e.g. `A1.2: ...`) or an allowed prefix.

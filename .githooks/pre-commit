@@ -1,0 +1,41 @@
+#!/bin/sh
+# Guardrails (PLAN.md section 0.5):
+#   1. Full test suite must pass.
+#   2. Test-count ratchet: suite size must equal guardrails/test_baseline.txt.
+#      Fewer tests blocks (constitution #8); more requires a deliberate,
+#      staged baseline bump.
+#   3. Staged code changes require a staged PROGRESS.md entry.
+# Requires python and clang on PATH (see CLAUDE.md).
+# Do not bypass with --no-verify without explicit owner approval.
+
+fail() { echo "pre-commit: $1" >&2; exit 1; }
+
+output=$(python -m unittest discover -s tests 2>&1)
+status=$?
+if [ "$status" -ne 0 ]; then
+  printf '%s\n' "$output" | tail -15 >&2
+  fail "test suite failed"
+fi
+
+count=$(printf '%s' "$output" | grep -oE 'Ran [0-9]+ tests' | grep -oE '[0-9]+')
+[ -n "$count" ] || fail "could not determine test count from unittest output"
+
+baseline_file="guardrails/test_baseline.txt"
+baseline=$(git show :"$baseline_file" 2>/dev/null || cat "$baseline_file" 2>/dev/null)
+baseline=$(printf '%s' "$baseline" | tr -d '[:space:]')
+[ -n "$baseline" ] || fail "missing or empty $baseline_file"
+
+if [ "$count" -lt "$baseline" ]; then
+  fail "test count dropped: $count < baseline $baseline (constitution #8)"
+fi
+if [ "$count" -gt "$baseline" ]; then
+  fail "test count grew to $count: update and stage $baseline_file (deliberate ratchet bump)"
+fi
+
+staged=$(git diff --cached --name-only)
+if printf '%s\n' "$staged" | grep -qE '^(semantic_verifier|tests|tools|examples)/'; then
+  printf '%s\n' "$staged" | grep -qx 'PROGRESS.md' || \
+    fail "code changes staged without PROGRESS.md (append a ledger entry and stage it)"
+fi
+
+exit 0

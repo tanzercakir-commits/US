@@ -1,0 +1,12 @@
+#!/bin/sh
+# Guardrail: commit messages must reference a plan stage ID (e.g. "A1.2: ...")
+# or use an allowed prefix. Keeps the ledger and git history joinable.
+
+msg=$(head -1 "$1")
+
+printf '%s' "$msg" | grep -qE '^[A-F][0-9]+(\.[0-9]+)?: ' && exit 0
+printf '%s' "$msg" | grep -qE '^(plan|docs|chore|fix|test|wip): ' && exit 0
+printf '%s' "$msg" | grep -qE '^(Merge|Revert|fixup!|squash!)' && exit 0
+
+echo "commit-msg: first line must start with a stage ID ('A1.2: ...') or one of: plan|docs|chore|fix|test|wip:" >&2
+exit 1
