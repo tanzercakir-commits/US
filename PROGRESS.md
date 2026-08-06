@@ -970,3 +970,35 @@ green; unsupported boundary tests -> green; forbidden dependency scan -> clean;
 314/314; commit: this reference-ledger commit.
 Next: B1.5 (native arithmetic contract parsing and ContractInfo adaptation),
 then B1.4 (byte-for-byte native/Python fixture equality).
+
+## 2026-08-06 - B1.5: arithmetic contracts and Semantic IR adaptation - DONE
++ Replaced the predicate-only parse path with an owned scalar expression tree
+  covering the reference precedence ladder from unary through logical OR while
+  retaining the legacy `ContractPred` recognizer shape for existing rules.
++ Added strict FunctionDecl-aware binding for parameters and `return`, boolean
+  and fixed-width typing, pinned usual-arithmetic conversions, canonical
+  constant conversion, i32-min/u64-max boundaries, and `integral` cast identity
+  matching the Python reference IR.
++ Attached valid requires/ensures clauses to native functions with exact text,
+  provenance, and source locations; requires now become source-ordered IR
+  `assume` nodes with explicit `requires` origin.
++ Kept unknown names, non-boolean clauses, incompatible operands, overflowed
+  literals, malformed syntax, guarded ensures, pointer/null clauses, effects,
+  and policies explicit at the scalar semantic boundary rather than dropping
+  or approximating them.
++ Preserved all legacy null, ownership, sidecar, policy, and guarded-contract
+  consumers; the complete 48-test production contract suite remains green.
++ Updated the contract grammar and added six production tests for precedence,
+  token separation, malformed arithmetic, assume origins, typed adaptation,
+  signed/unsigned conversion, literal bounds, and fail-closed binding; the
+  production suite grew from 824 to 830 tests.
++ Expanded the B1.5 Goal/Output/exact file set/grammar boundary/DoD before
+  implementation.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: focused parser/IR/lowerer tests -> 24/24; legacy contract suite ->
+48/48; full CodeSkeptic suite -> 830/830; reference expression-shape probe ->
+matched for u32/i64/u64 arithmetic, i32 minimum, u64 maximum, result naming,
+and `integral` casts; full reference suite -> 314/314; `Rule.h` diff -> empty;
+production commit -> `f7fb925`; commit: this reference-ledger commit.
+Next: B1.4 (byte-for-byte native/Python fixture equality).

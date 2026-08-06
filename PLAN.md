@@ -741,6 +741,31 @@ infrastructure. Reference: prototype fixtures = the specification.
 - Depends: B1.5 (contract-bearing fixtures require native contract adaptation).
 #### B1.5 — Extend the existing `cs:` parser with arithmetic; ContractInfo
   adaptation
+- Goal: make the production contract surface express the reference scalar
+  contract language and adapt accepted clauses into owned Semantic IR without
+  weakening the existing rule-facing contract recognizers.
+- Output: a precedence-correct owned contract-expression tree; strict typed
+  scalar adaptation for native parameters and `return`; requires/ensures IR
+  attachment and requires-assume lowering; explicit deterministic adaptation
+  issues; updated grammar documentation and focused compatibility tests.
+- Expanded exact file set: CodeSkeptic `CONTRACTS.md`;
+  `src/contracts/{ContractParser,ContractInfo}.{h,cpp}`;
+  `src/semantic/{SemanticIR,SemanticLowerer}.{h,cpp}`;
+  `tests/{Contract,SemanticIR,SemanticLowerer}Test.cpp`; reference `PLAN.md`,
+  `PROGRESS.md`, and `TODO.md`.
+- Supported scalar grammar: boolean and fixed-width integer names, `return`,
+  decimal literals, `true`/`false`, parentheses, unary `! - ~`, multiplicative,
+  additive, shift, relational, equality, bitwise, and logical operators with
+  the reference precedence and pinned usual-arithmetic conversions. Pointer
+  `null`, guarded ensures, effects, policies, arrays, records, and invariants
+  remain available to their existing consumers but are outside scalar IR
+  adaptation and fail closed there.
+- DoD: legacy contract/parser/rule tests remain green; arithmetic precedence,
+  literal bounds, signed/unsigned conversion, unknown names, type mismatch,
+  non-boolean clauses, provenance, text, and locations have positive/negative
+  tests; valid native requires/ensures equal the reference expression shape;
+  requires become source-ordered assume nodes; malformed or unadaptable
+  clauses never disappear; focused/full production and reference suites pass.
 
 ### Phase B2 — VC + referee on the production path (expand via B2.0)
 

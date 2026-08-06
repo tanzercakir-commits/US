@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **B1.5 - arithmetic contract parsing and ContractInfo adaptation**
+- [ ] **B1.4 - native/Python byte-comparison harness**
 
 ## Next
 
-- [ ] **B1.4 - native/Python byte-comparison harness**
+- [ ] **B2.0 - production VC/referee route expansion and decision**
 
 ## Blockers / open questions
 
@@ -21,7 +21,7 @@
 
 ## Last updated
 
-2026-08-06 - B1.3 added exact, owned ASTContext lowering for the native scalar
-subset; CodeSkeptic is green at 824/824 and the reference suite at 314/314.
-B1.5 comes before B1.4 because contract-bearing fixture equality requires the
-native contract adaptation.
+2026-08-06 - B1.5 added the precedence-correct arithmetic contract tree,
+typed scalar Semantic IR adaptation, and requires-assume lowering. CodeSkeptic
+is green at 830/830 and the reference suite at 314/314. Next is the native/
+Python canonical byte-equality gate.
