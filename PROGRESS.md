@@ -1057,3 +1057,25 @@ Evidence: full CodeSkeptic suite -> 833/833; full reference suite -> 314/314;
 production diff check -> clean; production commit -> `84eebfd`; commit: this
 reference-ledger commit.
 Next: B2.1 (native VC generator and obligation fixture equality).
+
+## 2026-08-06 - B2.1: native verification-condition generator - DONE
++ Added owned native obligation and trace-template value objects, structural
+  expression identity, a pure C++17 verification-condition generator, and
+  canonical obligation JSON with no checker, Z3, Rule, or Diagnostic coupling.
++ Ported contract consistency/well-formedness, expression safety, calls,
+  frame preservation, branch compaction and merges, loop invariant entry and
+  preservation, recursion detection, and fail-closed unsupported boundaries.
++ Vendored all 14 canonical obligation payloads and pinned their manifest
+  hashes; native lowering plus VCG is byte-identical to the Python reference
+  for every payload and repeated complete renders are deterministic.
++ Added focused negative/determinism tests and a corpus behavior gate covering
+  bounds, division, overflow, call preconditions, external contracts,
+  postconditions, loops, and unsupported constructs.
++ Production grew from 833 to 840 tests and every test is green.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: obligation hashes -> 14/14; native/Python obligation byte equality ->
+14/14; focused VC/fixture tests -> 7/7; full CodeSkeptic suite -> 840/840;
+production commit -> `a36425e`; reference suite -> 314/314; commit: this
+reference-ledger commit.
+Next: B2.2 (native deterministic referee and verification rule).

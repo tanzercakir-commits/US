@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **B2.1 - native VC generator and obligation fixture equality**
+- [ ] **B2.2 - native deterministic referee and verification rule**
 
 ## Next
 
-- [ ] **B2.2 - native deterministic referee and verification rule**
 - [ ] **B2.3 - SARIF semantic-verification output**
+- [ ] **B2.4 - MCP `verify_function` referee surface**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-06 - B2.0 selected the native C++17 VC/referee route, retained Z3 as
-an unlinked subprocess, and expanded B2.1-B2.4. CodeSkeptic is green at 833/833
-and the reference suite at 314/314. Next is obligation byte equality in B2.1.
+2026-08-06 - B2.1 added the pure native VC generator. All 14 obligation
+payloads are byte-identical to the Python reference; CodeSkeptic is green at
+840/840 and the reference suite at 314/314. Next is the deterministic referee.
