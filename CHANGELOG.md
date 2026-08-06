@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.10 adds C++17 `unsigned int`/`unsigned long long` as `u32`/`u64`,
+  exact usual conversions and modulo arithmetic, homogeneous QF_BV emission,
+  exact widened signed-result overflow checks, width-checked BV model
+  decoding/replay, unsigned calls/contracts/loops, and a
+  20-obligation explicit-Z3 fixture. Affine and default cross-check fail closed
+  for BV-required obligations; cache identity now pins both SMT lanes.
 - A6.9 adds C++17 `long long` as owned `i64` across lowering, contracts,
   signed promotions, pinned i64-to-i32 narrowing, width-specific safety VCs,
   affine reasoning/search, SMT-LIB, replay, modular calls, and loops. Signed
@@ -74,6 +80,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- A6.10 remains schema v2 because unsigned identities and integral casts were
+  reserved by A6.8, and the additive `predicate/signed_no_overflow` form occurs
+  only in new unsigned-tainted objects. Consumers must implement that predicate,
+  modulo-width values, and the frozen conversion table or reject those objects
+  fail-closed. Fixture manifest cases may set `backend: z3`; omission preserves
+  the default cross-check lane.
 - A6.9 remains in v2 because its fixed-width identities were reserved by A6.8.
   Consumers that do not implement `i64` or the additive `integral` cast
   expression kind must reject those objects fail-closed; existing i32 fixture

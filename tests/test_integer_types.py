@@ -95,7 +95,7 @@ class IntegerTypeTests(unittest.TestCase):
 
         self.assertEqual(result["counterexample"], {"ready": False, "x": "-1"})
 
-    def test_existing_cpp_int_lowers_to_i32_without_accepting_unsigned_types(self):
+    def test_existing_cpp_int_lowers_to_i32(self):
         report = verify_source(
             "int identity(int x) { int y = x; return y; }\n", "types.cpp"
         )
@@ -104,13 +104,6 @@ class IntegerTypeTests(unittest.TestCase):
         self.assertEqual(function.parameters[0].type, "i32")
         self.assertEqual(function.locals[0].type, "i32")
         self.assertEqual(report.summary()["unsupported"], 0)
-
-        for source in (
-            "unsigned int f(unsigned int x) { return x; }\n",
-            "unsigned long long f(unsigned long long x) { return x; }\n",
-        ):
-            rejected = verify_source(source, "future-type.cpp")
-            self.assertGreater(rejected.summary()["unsupported"], 0)
 
     def test_target_profile_mismatch_becomes_frontend_solver_error(self):
         message = f"target mismatch: {TARGET_PROFILE_ID}"

@@ -20,8 +20,9 @@ Before adoption, pin or document:
 
 - Python 3.11 or newer;
 - a Clang executable that supports JSON AST output;
-- Z3 for the default `both` backend, or an explicit decision to use the weaker
-  dependency-free `affine` backend;
+- Z3 for the default signed-only `both` backend and the explicit `z3` backend
+  required by unsigned/mixed QF_BV obligations, or an explicit decision to use
+  the weaker dependency-free `affine` backend;
 - the verifier commit and `schema` identifier;
 - the source paths/functions allowed into the initial subset;
 - the CI owner responsible for `unknown`, `unsupported`, and `solver_error`.
@@ -146,7 +147,9 @@ A minimal observation job can follow this shape:
 
 Preserve the verifier exit code if the job is intended to gate. Some pipelines
 lose the first command's status when output is piped; capture and restore it
-explicitly for that shell.
+explicitly for that shell. A pilot containing unsigned or mixed arithmetic must
+use `--backend z3`; default `both` intentionally returns `unsupported` because
+the affine referee cannot check QF_BV.
 
 For the reference repository, `.github/workflows/determinism.yml` is the model
 for full-suite plus two-run fixture comparison.
@@ -247,8 +250,8 @@ counterexample core; apply the same artifact access policy to both fields.
 
 ## Schema and fixture discipline
 
-- Validate the pinned target profile before accepting i32/i64 evidence; do not
-  reinterpret it on a target with different widths or signed behavior.
+- Validate the pinned target profile before accepting i32/u32/i64/u64 evidence;
+  do not reinterpret it on a target with different widths or signed behavior.
 - Require `codeskeptic.semantic-verification/v2` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.
@@ -256,7 +259,9 @@ counterexample core; apply the same artifact access policy to both fields.
 - Ignore unknown object fields only within a known major; never ignore an unknown
   status as success.
 - Keep golden fixture bytes under review and forced to LF.
-- Use `python tools/regenerate_fixtures.py --check` in CI.
+- Use `python tools/regenerate_fixtures.py --check` in CI. Fixture cases may
+  select `backend: z3` only when their formulas require the QF_BV lane; omitted
+  backend values retain the default cross-check corpus.
 
 See [the field reference](result_schema.md) for every report and Semantic IR
 field. Schema-breaking decisions and migration windows follow the

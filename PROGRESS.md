@@ -663,3 +663,25 @@ Evidence: int64 tests -> 10/10; exact SMT-LIB/referee tests -> green; i64
 example -> 22 verified, zero non-verified results; full suite -> 199/199;
 fixture check -> 12/12 current; diff check -> clean; commit: this commit.
 Next: A6.10 (unsigned integers and homogeneous QF_BV lane).
+
+## 2026-08-06 - A6.10: unsigned integers and homogeneous QF_BV lane - DONE
++ Added C++17 `unsigned int`/`unsigned long long` lowering as `u32`/`u64`,
+  exact assignment casts, the complete i32/u32/i64/u64 usual-conversion table,
+  and modulo-width unary/add/subtract/multiply semantics.
++ Added deterministic per-obligation QF_LIA/QF_BV classification and homogeneous
+  QF_BV emission with exact signed/zero extension, truncation, comparisons,
+  division, remainder, and no mixed `Int`/`BitVec` declarations.
++ Preserved signed C++ undefined behavior inside BV-tainted paths with an exact
+  double-width `signed_no_overflow` predicate for addition, subtraction, and
+  multiplication; replayed counterexamples cover all three unsafe operations.
++ Added strict width/sort-aware bitvector model parsing, source-signedness replay,
+  counterexample minimization, and cache/backend identities for both SMT lanes.
++ Extended unsigned contracts, result-bearing calls, loop invariants, fixtures,
+  explicit-Z3 adoption guidance, schema documentation, and migration notes.
++ Added 17 focused tests and the 20-obligation unsigned example/fixture; advanced
+  the test-count ratchet from 199 to 216.
+- None.
+Evidence: unsigned/BV tests -> 17/17; mixed signed-overflow negatives -> 3/3;
+explicit-Z3 example -> 20 verified, zero non-verified results; full suite ->
+216/216; fixture check -> 14/14 current; diff check -> clean; commit: this commit.
+Next: A6.11 (C++17 bitwise and shift operators).

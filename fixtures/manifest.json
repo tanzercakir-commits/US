@@ -65,6 +65,18 @@
       },
       "name": "int64_slice",
       "source": "cases/int64_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 20,
+        "violated": 0
+      },
+      "name": "unsigned_slice",
+      "source": "cases/unsigned_slice.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

@@ -112,8 +112,19 @@ positive literal.
 A6.9 keeps signed expression obligations inside QF_LIA: source `/` and `%`
 always receive divisor-nonzero and minimum/-1 definedness VCs, while exact
 quotient/remainder terms are emitted only when the divisor is a literal. A
-variable-divisor quotient/remainder appearing in a logical contract fails
-closed rather than silently selecting a stronger logic.
+variable-divisor quotient/remainder appearing in a signed-only logical contract
+fails closed rather than silently selecting a stronger logic.
+
+A6.10 implements the unsigned/mixed arithmetic portion of QF_BV. Any unsigned
+taint moves the complete obligation to width-matching bitvectors; no `Int` sort
+appears. Casts use sign/zero extension, same-width bits, or truncation. Unsigned
+operations wrap modulo width, comparisons/division/remainder use unsigned
+operators, and countermodels decode to source values before replay. A signed
+result inside this lane retains C++ undefined-overflow checks through the
+`predicate/signed_no_overflow` IR form, encoded by comparing a double-width
+signed operation with the sign-extension of its wrapped result. Affine and
+default cross-check remain fail-closed; explicit Z3 mode decides this lane.
+Bitwise and shift admission remains A6.11.
 
 The C++17 shift rules, including undefined counts, conditional signed left
 shift, and implementation-defined negative signed right shift, are stated in

@@ -560,6 +560,15 @@ may append implementation stages after A6.7 without renumbering existing IDs.
   signed/zero extension and truncation; BV model parse/replay/minimization;
   cache/backend logic identity; `tests/test_unsigned.py` and
   `tests/test_smtlib_bv.py`; docs/examples/fixtures/changelog/ledger/ratchet.
+- Expanded exact file set: `semantic_verifier/{integer_types,model,query_fragment,
+  lowering,contracts,vc,checker,smtlib,z3_backend,backend}.py`;
+  `tests/{test_unsigned,test_smtlib_bv,test_integer_types,test_contracts,
+  test_int64,test_fixtures}.py`;
+  `examples/unsigned_slice.cpp`; current fixture manifest/case/expected
+  artifacts and `tools/regenerate_fixtures.py`; `docs/{result_schema,adoption_guide,
+  semantic_verification_prototype,solver_decision,
+  integer_semantics_decision}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: unsigned wrap, mixed i32/u32/i64/u64 conversion table, comparisons,
   arithmetic, division/remainder definedness, calls/contracts/loops, replay,
   and cache separation pass; no query mixes Int and BitVec; affine and default

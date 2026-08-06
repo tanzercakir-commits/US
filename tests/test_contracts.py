@@ -29,7 +29,7 @@ class ContractParserTests(unittest.TestCase):
             ContractExpressionParser("missing != 0", {"x": "i32"}).parse()
 
     def test_type_mismatch_is_explicit_error(self):
-        with self.assertRaisesRegex(ContractSyntaxError, "requires signed integers"):
+        with self.assertRaisesRegex(ContractSyntaxError, "requires fixed-width integers"):
             ContractExpressionParser("flag + 1 > 0", {"flag": "bool"}).parse()
 
     def test_parses_contiguous_invariant_block_before_while(self):

@@ -15,7 +15,15 @@ from typing import Iterable, Mapping
 
 from .backend import CheckerBackend
 from .counterexample import minimize_counterexample
-from .integer_types import I32, I64, convert_integer, is_signed_integer_type
+from .integer_types import (
+    I32,
+    I64,
+    convert_integer,
+    integer_type,
+    is_fixed_integer_type,
+    is_signed_integer_type,
+    is_unsigned_integer_type,
+)
 from .model import (
     Expr,
     Obligation,
@@ -81,6 +89,7 @@ def linearize(expr: Expr) -> LinearForm | None:
             return left.scale(right.constant)
     return None
 
+
 def simplify(expr: Expr) -> Expr:
     if not expr.args:
         return expr
@@ -88,8 +97,15 @@ def simplify(expr: Expr) -> Expr:
     if expr.kind == "cast":
         value = args[0]
         if value.kind == "constant":
-            converted = int(bool(value.value)) if value.type == "bool" else convert_integer(int(value.value), expr.type)
+            converted = (
+                int(bool(value.value))
+                if value.type == "bool"
+                else convert_integer(int(value.value), expr.type)
+            )
             return Expr.integer(converted, expr.type)
+        return Expr(expr.kind, expr.type, expr.value, expr.op, args)
+
+    if expr.kind == "predicate":
         return Expr(expr.kind, expr.type, expr.value, expr.op, args)
 
     if expr.kind == "unary":
@@ -110,7 +126,7 @@ def simplify(expr: Expr) -> Expr:
             if inverse:
                 return Expr.binary(inverse, value.args[0], value.args[1], "bool")
         if expr.op == "-" and value.kind == "constant":
-            return Expr.integer(-int(value.value), expr.type)
+            return _integer_constant(-int(value.value), expr.type)
         return Expr(expr.kind, expr.type, expr.value, expr.op, args)
 
     left, right = args
@@ -153,19 +169,34 @@ def simplify(expr: Expr) -> Expr:
     return Expr(expr.kind, expr.type, expr.value, expr.op, args)
 
 
-def _constant_binary(op: str, left: Expr, right: Expr, type_name: str) -> Expr:
+def _integer_constant(value: int, type_name: str) -> Expr:
+    if is_unsigned_integer_type(type_name):
+        value = convert_integer(value, type_name)
+    return Expr.integer(value, type_name)
+
+
+def _constant_binary(
+    op: str, left: Expr, right: Expr, type_name: str
+) -> Expr:
     a, b = left.value, right.value
     if op == "+":
-        return Expr.integer(int(a) + int(b), type_name)
+        return _integer_constant(int(a) + int(b), type_name)
     if op == "-":
-        return Expr.integer(int(a) - int(b), type_name)
+        return _integer_constant(int(a) - int(b), type_name)
     if op == "*":
-        return Expr.integer(int(a) * int(b), type_name)
+        return _integer_constant(int(a) * int(b), type_name)
     if op == "/":
-        return Expr.integer(_cxx_div(int(a), int(b)), type_name)
+        quotient = (
+            int(a) // int(b)
+            if is_unsigned_integer_type(type_name)
+            else _cxx_div(int(a), int(b))
+        )
+        return _integer_constant(quotient, type_name)
     if op == "%":
+        if is_unsigned_integer_type(type_name):
+            return _integer_constant(int(a) % int(b), type_name)
         quotient = _cxx_div(int(a), int(b))
-        return Expr.integer(int(a) - int(b) * quotient, type_name)
+        return _integer_constant(int(a) - int(b) * quotient, type_name)
     if op == "&&":
         return Expr.boolean(bool(a) and bool(b))
     if op == "||":
@@ -564,6 +595,14 @@ def _constraint_implied(
     return False
 
 
+def _integer_value(value: int, type_name: str) -> int:
+    return (
+        convert_integer(value, type_name)
+        if is_unsigned_integer_type(type_name)
+        else value
+    )
+
+
 def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
     if expr.kind == "constant":
         return expr.value  # type: ignore[return-value]
@@ -571,15 +610,29 @@ def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
         return environment[str(expr.value)]
     if expr.kind == "cast":
         value = evaluate(expr.args[0], environment)
-        if expr.args[0].type == "bool" and expr.type == "i32":
+        if expr.args[0].type == "bool" and is_fixed_integer_type(expr.type):
             return int(bool(value))
         return convert_integer(int(value), expr.type)
+    if expr.kind == "predicate":
+        if expr.op != "signed_no_overflow" or len(expr.args) != 1:
+            raise ValueError(f"unsupported predicate {expr.op}")
+        operation = expr.args[0]
+        if (
+            operation.kind != "binary"
+            or operation.op not in {"+", "-", "*"}
+            or not is_signed_integer_type(operation.type)
+            or len(operation.args) != 2
+        ):
+            raise ValueError("malformed signed-overflow predicate")
+        return integer_type(operation.type).contains(
+            int(evaluate(operation, environment))
+        )
     if expr.kind == "unary":
         value = evaluate(expr.args[0], environment)
         if expr.op == "!":
             return not bool(value)
         if expr.op == "-":
-            return -int(value)
+            return _integer_value(-int(value), expr.type)
         raise ValueError(f"unsupported unary operator {expr.op}")
     op = expr.op
     # Preserve C++ short-circuit evaluation so an unreachable partial RHS does
@@ -591,16 +644,20 @@ def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
         return bool(left) or bool(evaluate(expr.args[1], environment))
     right = evaluate(expr.args[1], environment)
     if op == "+":
-        return int(left) + int(right)
+        return _integer_value(int(left) + int(right), expr.type)
     if op == "-":
-        return int(left) - int(right)
+        return _integer_value(int(left) - int(right), expr.type)
     if op == "*":
-        return int(left) * int(right)
+        return _integer_value(int(left) * int(right), expr.type)
     if op == "/":
+        if is_unsigned_integer_type(expr.type):
+            return int(left) // int(right)
         return _cxx_div(int(left), int(right))
     if op == "%":
+        if is_unsigned_integer_type(expr.type):
+            return int(left) % int(right)
         quotient = _cxx_div(int(left), int(right))
-        return int(left) - int(right) * quotient
+        return _integer_value(int(left) - int(right) * quotient, expr.type)
     if op == "==":
         return left == right
     if op == "!=":

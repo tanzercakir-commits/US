@@ -17,10 +17,11 @@ class FixtureInfrastructureTests(unittest.TestCase):
         )
 
         self.assertEqual(manifest["schema"], "codeskeptic.fixture-corpus/v0")
-        self.assertGreaterEqual(len(manifest["cases"]), 6)
+        self.assertGreaterEqual(len(manifest["cases"]), 7)
         names = []
         for case in manifest["cases"]:
             names.append(case["name"])
+            self.assertIn(case.get("backend", "both"), {"both", "z3"})
             self.assertTrue((FIXTURES / case["source"]).is_file())
             self.assertTrue(
                 (FIXTURES / "expected" / f"{case['name']}.ir").is_file()
@@ -50,7 +51,7 @@ class FixtureInfrastructureTests(unittest.TestCase):
             )
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
-        self.assertIn("fixtures are current (12 artifacts)", completed.stdout)
+        self.assertIn("fixtures are current (14 artifacts)", completed.stdout)
 
     def test_two_independent_regenerations_are_byte_identical(self):
         with tempfile.TemporaryDirectory() as directory:

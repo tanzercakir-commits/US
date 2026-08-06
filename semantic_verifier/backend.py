@@ -44,7 +44,7 @@ class CheckerBackend(ABC):
 
 
 class Z3Checker(CheckerBackend):
-    name = "z3-qf-lia"
+    name = "z3-homogeneous-qf-lia-qf-bv"
 
     def __init__(
         self,
@@ -73,7 +73,8 @@ class Z3Checker(CheckerBackend):
         )
         return {
             "configuration": configuration,
-            "implementation": "smtlib-replay/v1",
+            "implementation": "smtlib-replay/v2",
+            "query_policy": "homogeneous-qf-lia-qf-bv/v0",
             "name": self.name,
         }
 

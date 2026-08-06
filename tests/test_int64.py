@@ -2,7 +2,9 @@ import json
 import unittest
 
 from semantic_verifier.backend import create_backend
+from semantic_verifier.checker import evaluate
 from semantic_verifier.integer_types import I64
+from semantic_verifier.model import Expr
 from semantic_verifier.pipeline import VerificationPipeline
 
 
@@ -102,6 +104,15 @@ class SignedInt64Tests(unittest.TestCase):
         )
 
     def test_division_and_remainder_by_literals_follow_cxx_sign_rules(self):
+        self.assertEqual(
+            evaluate(
+                Expr.binary(
+                    "%", Expr.integer(-7, "i64"), Expr.integer(3, "i64"), "i64"
+                ),
+                {},
+            ),
+            -1,
+        )
         for operator, expected in (("/", -2), ("%", -1)):
             report = verify(
                 f"// cs: ensures result == {expected}\n"
@@ -169,12 +180,10 @@ class SignedInt64Tests(unittest.TestCase):
         loop = report.module.functions[0].body[1]
         self.assertTrue(all(item.type == "i64" for item in loop.loop_variables))
 
-    def test_long_extended_unsigned_and_unsigned_literal_fail_closed(self):
+    def test_long_and_extended_integers_fail_closed(self):
         sources = (
             "long f(long x) { return x; }\n",
             "__int128 f(__int128 x) { return x; }\n",
-            "unsigned long long f(unsigned long long x) { return x; }\n",
-            "long long f() { return 1ULL; }\n",
         )
         for source in sources:
             with self.subTest(source=source):

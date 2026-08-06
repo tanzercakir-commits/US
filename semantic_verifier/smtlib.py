@@ -1,8 +1,7 @@
-"""Deterministic SMT-LIB2 emission for supported verification obligations.
+"""Deterministic homogeneous QF_LIA/QF_BV emission.
 
-The emitter is deliberately limited to quantifier-free linear integer
-arithmetic and booleans.  Unsupported or malformed expressions fail closed
-before any solver process is started.
+Unsupported or malformed expressions fail closed before any solver process is
+started.
 """
 
 from __future__ import annotations
@@ -10,11 +9,13 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 
+from .integer_types import integer_type, is_fixed_integer_type
 from .model import Expr, Obligation
+from .query_fragment import QueryFragment, classify_expressions
 
 
 class SmtLibEmissionError(ValueError):
-    """Raised when an obligation cannot be represented faithfully in QF_LIA."""
+    """Raised when an obligation cannot be represented faithfully."""
 
 
 _SSA_SUFFIX = re.compile(r"#([0-9]+)$")
@@ -151,6 +152,8 @@ def emit_smtlib(obligation: Obligation) -> str:
     expressions = list(obligation.assumptions)
     if obligation.conclusion is not None:
         expressions.append(obligation.conclusion)
+    if classify_expressions(expressions) == QueryFragment.QF_BV:
+        return _emit_bv_query(obligation, expressions)
     variable_types = _collect_variable_types(expressions)
 
     for assumption in obligation.assumptions:
@@ -251,6 +254,15 @@ def _emit_expr(expression: Expr) -> str:
             return f"(- (mod (+ {emitted} {offset}) {modulus}) {offset})"
         raise SmtLibEmissionError(
             f"unsupported integral cast {operand.type!r} to {expression.type!r}"
+        )
+
+    if expression.kind == "predicate":
+        operation = _signed_no_overflow_operation(expression)
+        profile = integer_type(operation.type)
+        emitted = _emit_expr(operation)
+        return (
+            f"(and (>= {emitted} {_emit_integer(profile.minimum)}) "
+            f"(<= {emitted} {_emit_integer(profile.maximum)}))"
         )
 
     if expression.kind == "unary":
@@ -382,3 +394,222 @@ def _integer_literal_value(expression: Expr) -> int:
 
 def _emit_integer(value: int) -> str:
     return str(value) if value >= 0 else f"(- {abs(value)})"
+
+def _emit_bv_query(obligation: Obligation, expressions: list[Expr]) -> str:
+    variable_types = _collect_variable_types(expressions)
+    for assumption in obligation.assumptions:
+        if assumption.type != "bool":
+            raise SmtLibEmissionError("obligation assumptions must have bool type")
+        _emit_bv_expr(assumption)
+    if obligation.conclusion is not None:
+        if obligation.conclusion.type != "bool":
+            raise SmtLibEmissionError("obligation conclusion must have bool type")
+        _emit_bv_expr(obligation.conclusion)
+
+    declarations = sorted(
+        (encode_symbol(source_name), type_name, source_name)
+        for source_name, type_name in variable_types.items()
+    )
+    encoded_names = [encoded for encoded, _, _ in declarations]
+    if len(set(encoded_names)) != len(encoded_names):
+        raise SmtLibEmissionError("variable names collide after SMT encoding")
+
+    lines = ["(set-logic QF_BV)"]
+    for encoded, type_name, _ in declarations:
+        lines.append(f"(declare-fun {encoded} () {_emit_bv_sort(type_name)})")
+    if obligation.assumptions:
+        lines.extend(
+            f"(assert {_emit_bv_expr(assumption)})"
+            for assumption in obligation.assumptions
+        )
+    elif obligation.mode == "satisfiable":
+        lines.append("(assert true)")
+    if obligation.mode == "validity":
+        assert obligation.conclusion is not None
+        lines.append(f"(assert (not {_emit_bv_expr(obligation.conclusion)}))")
+    lines.append("(check-sat)")
+    return "\n".join(lines) + "\n"
+
+
+def _emit_bv_sort(type_name: str) -> str:
+    if type_name == "bool":
+        return "Bool"
+    if is_fixed_integer_type(type_name):
+        return f"(_ BitVec {integer_type(type_name).width})"
+    raise SmtLibEmissionError(f"unsupported expression type {type_name!r}")
+
+
+def _emit_bv_expr(expression: Expr) -> str:
+    if expression.kind == "constant":
+        if expression.args or expression.op is not None:
+            raise SmtLibEmissionError("malformed constant expression")
+        if expression.type == "bool" and isinstance(expression.value, bool):
+            return "true" if expression.value else "false"
+        if is_fixed_integer_type(expression.type) and type(expression.value) is int:
+            profile = integer_type(expression.type)
+            if not profile.contains(expression.value):
+                raise SmtLibEmissionError("integer constant is outside its declared type")
+            encoded = int(expression.value) % (2**profile.width)
+            return f"(_ bv{encoded} {profile.width})"
+        raise SmtLibEmissionError("constant value does not match its declared type")
+
+    if expression.kind == "variable":
+        if expression.args or expression.op is not None:
+            raise SmtLibEmissionError("malformed variable expression")
+        if not isinstance(expression.value, str):
+            raise SmtLibEmissionError("variable value must be a string name")
+        _emit_bv_sort(expression.type)
+        return encode_symbol(expression.value)
+
+    if expression.kind == "cast":
+        if expression.op != "integral" or len(expression.args) != 1:
+            raise SmtLibEmissionError("malformed integral cast expression")
+        operand = expression.args[0]
+        if operand.type == "bool" and is_fixed_integer_type(expression.type):
+            width = integer_type(expression.type).width
+            emitted = _emit_bv_expr(operand)
+            return f"(ite {emitted} (_ bv1 {width}) (_ bv0 {width}))"
+        if not (
+            is_fixed_integer_type(operand.type)
+            and is_fixed_integer_type(expression.type)
+        ):
+            raise SmtLibEmissionError(
+                f"unsupported integral cast {operand.type!r} to {expression.type!r}"
+            )
+        source = integer_type(operand.type)
+        target = integer_type(expression.type)
+        emitted = _emit_bv_expr(operand)
+        if source.width == target.width:
+            return emitted
+        if source.width < target.width:
+            extension = "sign_extend" if source.signed else "zero_extend"
+            return f"((_ {extension} {target.width - source.width}) {emitted})"
+        return f"((_ extract {target.width - 1} 0) {emitted})"
+
+    if expression.kind == "predicate":
+        operation = _signed_no_overflow_operation(expression)
+        profile = integer_type(operation.type)
+        left, right = operation.args
+        extended_left = (
+            f"((_ sign_extend {profile.width}) {_emit_bv_expr(left)})"
+        )
+        extended_right = (
+            f"((_ sign_extend {profile.width}) {_emit_bv_expr(right)})"
+        )
+        wide_op = {"+": "bvadd", "-": "bvsub", "*": "bvmul"}[operation.op]
+        wide_result = f"({wide_op} {extended_left} {extended_right})"
+        wrapped = _emit_bv_expr(operation)
+        extended_wrapped = (
+            f"((_ sign_extend {profile.width}) {wrapped})"
+        )
+        return f"(= {wide_result} {extended_wrapped})"
+
+    if expression.kind == "unary":
+        if len(expression.args) != 1:
+            raise SmtLibEmissionError("unary expressions must have one operand")
+        operand = expression.args[0]
+        if expression.op == "!":
+            _require_types(expression, "bool", (operand, "bool"))
+            return f"(not {_emit_bv_expr(operand)})"
+        if expression.op == "-" and is_fixed_integer_type(expression.type):
+            _require_types(expression, expression.type, (operand, expression.type))
+            return f"(bvneg {_emit_bv_expr(operand)})"
+        raise SmtLibEmissionError(f"unsupported unary operator {expression.op!r}")
+
+    if expression.kind != "binary" or len(expression.args) != 2:
+        raise SmtLibEmissionError(
+            f"unsupported expression kind {expression.kind!r}"
+        )
+    left, right = expression.args
+    op = expression.op
+    if op in {"&&", "||"}:
+        _require_types(expression, "bool", (left, "bool"), (right, "bool"))
+        smt_op = "and" if op == "&&" else "or"
+    elif op in {"==", "!="}:
+        if left.type != right.type or not (
+            left.type == "bool" or is_fixed_integer_type(left.type)
+        ):
+            raise SmtLibEmissionError(
+                f"operator {op!r} requires matching fixed-width or bool operands"
+            )
+        _require_types(expression, "bool")
+        smt_op = "=" if op == "==" else "distinct"
+    elif op in {"<", "<=", ">", ">="}:
+        if left.type != right.type or not is_fixed_integer_type(left.type):
+            raise SmtLibEmissionError(
+                f"operator {op!r} requires matching fixed-width operands"
+            )
+        _require_types(expression, "bool")
+        signed = integer_type(left.type).signed
+        smt_op = {
+            "<": "bvslt" if signed else "bvult",
+            "<=": "bvsle" if signed else "bvule",
+            ">": "bvsgt" if signed else "bvugt",
+            ">=": "bvsge" if signed else "bvuge",
+        }[op]
+    elif op in {"+", "-", "*", "/", "%"}:
+        if not is_fixed_integer_type(expression.type):
+            raise SmtLibEmissionError(
+                f"operator {op!r} requires a fixed-width result"
+            )
+        _require_types(
+            expression,
+            expression.type,
+            (left, expression.type),
+            (right, expression.type),
+        )
+        if op in {"/", "%"} and _is_fixed_literal(right):
+            if _fixed_literal_value(right) == 0:
+                raise SmtLibEmissionError("literal divisor must be non-zero")
+        signed = integer_type(expression.type).signed
+        smt_op = {
+            "+": "bvadd",
+            "-": "bvsub",
+            "*": "bvmul",
+            "/": "bvsdiv" if signed else "bvudiv",
+            "%": "bvsrem" if signed else "bvurem",
+        }[op]
+    else:
+        raise SmtLibEmissionError(f"unsupported binary operator {op!r}")
+    return f"({smt_op} {_emit_bv_expr(left)} {_emit_bv_expr(right)})"
+
+
+def _is_fixed_literal(expression: Expr) -> bool:
+    if expression.kind == "constant":
+        return is_fixed_integer_type(expression.type) and type(expression.value) is int
+    return (
+        expression.kind == "unary"
+        and expression.op == "-"
+        and is_fixed_integer_type(expression.type)
+        and len(expression.args) == 1
+        and _is_fixed_literal(expression.args[0])
+    )
+
+
+def _fixed_literal_value(expression: Expr) -> int:
+    if expression.kind == "constant":
+        return int(expression.value)
+    if expression.kind == "unary" and expression.op == "-":
+        return -_fixed_literal_value(expression.args[0])
+    raise SmtLibEmissionError("expression is not a fixed-width literal")
+
+
+def _signed_no_overflow_operation(expression: Expr) -> Expr:
+    if (
+        expression.type != "bool"
+        or expression.op != "signed_no_overflow"
+        or len(expression.args) != 1
+    ):
+        raise SmtLibEmissionError("malformed signed-overflow predicate")
+    operation = expression.args[0]
+    if (
+        operation.kind != "binary"
+        or operation.op not in {"+", "-", "*"}
+        or operation.type not in {"i32", "i64"}
+        or len(operation.args) != 2
+        or any(argument.type != operation.type for argument in operation.args)
+    ):
+        raise SmtLibEmissionError(
+            "signed-overflow predicate requires a matching signed operation"
+        )
+    return operation

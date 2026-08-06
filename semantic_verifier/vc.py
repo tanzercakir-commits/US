@@ -5,7 +5,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
 
-from .integer_types import integer_type, is_signed_integer_type
+from .integer_types import (
+    integer_type,
+    is_fixed_integer_type,
+    is_signed_integer_type,
+)
 from .model import (
     Contract,
     Expr,
@@ -16,6 +20,7 @@ from .model import (
     SourceLocation,
     TraceTemplate,
 )
+from .query_fragment import QueryFragment, classify_expressions
 
 
 def _binary(op: str, left: Expr, right: Expr) -> Expr:
@@ -354,7 +359,7 @@ class VerificationConditionGenerator:
                 return [defined]
             if (
                 node.result_type is None
-                or not is_signed_integer_type(node.result_type)
+                or not is_fixed_integer_type(node.result_type)
                 or self._symbol_type(function, node.target) != node.result_type
             ):
                 self._add(
@@ -369,21 +374,23 @@ class VerificationConditionGenerator:
                 )
                 return [defined]
             target = Expr.variable(node.target, node.result_type)
-            profile = integer_type(node.result_type)
-            after_call = defined.add(
-                _binary(
-                    ">=",
-                    target,
-                    Expr.integer(profile.minimum, node.result_type),
+            after_call = defined
+            if is_signed_integer_type(node.result_type):
+                profile = integer_type(node.result_type)
+                after_call = after_call.add(
+                    _binary(
+                        ">=",
+                        target,
+                        Expr.integer(profile.minimum, node.result_type),
+                    )
                 )
-            )
-            after_call = after_call.add(
-                _binary(
-                    "<=",
-                    target,
-                    Expr.integer(profile.maximum, node.result_type),
+                after_call = after_call.add(
+                    _binary(
+                        "<=",
+                        target,
+                        Expr.integer(profile.maximum, node.result_type),
+                    )
                 )
-            )
             return [self._assume_call_postconditions(node, after_call)]
         if node.kind == "loop":
             assert node.expression is not None
@@ -654,11 +661,18 @@ class VerificationConditionGenerator:
                 trace_templates=current.trace_templates,
             )
             return current.add(in_range)
-        if expr.kind != "binary" or not is_signed_integer_type(expr.type):
+        if expr.kind != "binary" or not is_fixed_integer_type(expr.type):
             return current
-        profile = integer_type(expr.type)
         if expr.op in {"+", "-", "*"}:
-            if expr.op == "*" and _contains_nonlinear_multiplication(expr):
+            if not is_signed_integer_type(expr.type):
+                return current
+            profile = integer_type(expr.type)
+            fragment = classify_expressions(current.assumptions + (expr,))
+            if (
+                expr.op == "*"
+                and _contains_nonlinear_multiplication(expr)
+                and fragment == QueryFragment.QF_LIA
+            ):
                 self._add(
                     function,
                     "unsupported_logic",
@@ -670,6 +684,18 @@ class VerificationConditionGenerator:
                     trace_templates=current.trace_templates,
                 )
                 return current
+            if fragment == QueryFragment.QF_BV:
+                in_range = Expr.predicate("signed_no_overflow", expr)
+                self._add(
+                    function,
+                    "signed_overflow",
+                    current.assumptions,
+                    in_range,
+                    node.location,
+                    f"signed {expr.op} result must remain within {expr.type}",
+                    trace_templates=current.trace_templates,
+                )
+                return current.add(in_range)
             lower_bound = _binary(
                 ">=", expr, Expr.integer(profile.minimum, expr.type)
             )
@@ -689,9 +715,7 @@ class VerificationConditionGenerator:
             return current.add(lower_bound).add(upper_bound)
         if expr.op in {"/", "%"}:
             numerator, denominator = expr.args
-            nonzero = _binary(
-                "!=", denominator, Expr.integer(0, expr.type)
-            )
+            nonzero = _binary("!=", denominator, Expr.integer(0, expr.type))
             self._add(
                 function,
                 "division_by_zero",
@@ -702,15 +726,16 @@ class VerificationConditionGenerator:
                 trace_templates=current.trace_templates,
             )
             denominator_defined = current.add(nonzero)
+            if not is_signed_integer_type(expr.type):
+                return denominator_defined
+            profile = integer_type(expr.type)
             overflow_case = _and(
                 _binary(
                     "==",
                     numerator,
                     Expr.integer(profile.minimum, expr.type),
                 ),
-                _binary(
-                    "==", denominator, Expr.integer(-1, expr.type)
-                ),
+                _binary("==", denominator, Expr.integer(-1, expr.type)),
             )
             no_overflow = _not(overflow_case)
             self._add(

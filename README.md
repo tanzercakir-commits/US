@@ -5,14 +5,16 @@ This repository is an isolated prototype for a small
 created after inspecting CodeSkeptic, but it does not modify or vendor the
 CodeSkeptic repository.
 
-The prototype deliberately supports only C++17 `int`/`long long` (owned IR
-types `i32`/`i64`), `bool`, local state, assignment, side-effect-free
-expressions, `if`/`else`, direct contracted calls with matching signed results,
-invariant-annotated
-`while`, `assert`, and `return`. Unsupported C++ is reported
-explicitly. It uses a real Clang AST and has no Python package dependencies.
-The affine checker is dependency-free; the default cross-check backend also
-invokes a separately installed Z3 executable through SMT-LIB2.
+The prototype deliberately supports C++17 `int`/`unsigned int` and `long
+long`/`unsigned long long` (owned IR types `i32`/`u32`/`i64`/`u64`), `bool`,
+local state, assignment, side-effect-free expressions, `if`/`else`, direct
+contracted calls with matching fixed-width results, invariant-annotated
+`while`, `assert`, and `return`. Unsupported C++ is reported explicitly. It
+uses a real Clang AST and has no Python package dependencies. The affine
+checker is dependency-free; the default cross-check backend also invokes a
+separately installed Z3 executable through SMT-LIB2. Unsigned or mixed
+obligations require explicit `--backend z3` because they use homogeneous
+QF_BV and the affine referee fails closed.
 
 Run the vertical slice (the CLI defaults to affine/Z3 cross-check mode):
 
@@ -47,7 +49,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 199 deterministic tests. The separately cloned,
+The current suite contains 216 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -81,7 +83,10 @@ ordering, trust boundaries, and per-stage acceptance requirements. The
 homogeneous QF_LIA/QF_BV strategy and pinned C++17 target profile. Clang
 validates that profile before any source is lowered; a mismatch fails closed.
 The [signed int64 example](examples/int64_slice.cpp) covers widening, pinned
-narrowing, arithmetic, modular calls, and loop invariants.
+narrowing, arithmetic, modular calls, and loop invariants. The
+[unsigned example](examples/unsigned_slice.cpp) covers modulo arithmetic,
+usual conversions, unsigned comparison/division, calls, and loops; run it with
+`--backend z3`.
 
 ## Development workflow
 

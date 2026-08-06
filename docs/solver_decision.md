@@ -12,7 +12,7 @@ a Python package dependency.
 The accepted backend modes are:
 
 - `affine`: dependency-free, exact where it decides, deliberately incomplete;
-- `z3`: complete for the emitted QF_LIA fragment;
+- `z3`: complete for the emitted homogeneous QF_LIA and QF_BV fragments;
 - `both` (CLI default): run both and report a `solver_error` soundness
   alarm if their definitive (`verified`/`violated`) answers disagree.
 
@@ -35,19 +35,28 @@ Rejected alternatives:
 - `z3-solver` Python package: adds a package and native-wheel dependency;
 - linked C/C++ API: adds build-system, ABI, and per-platform linker coupling;
 - a general first-order-logic encoding: unnecessary and less predictable for
-  the current quantifier-free linear-integer fragment.
+  the current quantifier-free LIA/BV fragments.
 
 ## Supported logic and query semantics
 
-The emitter declares `QF_LIA` and accepts typed `i32`/`i64`/`bool` constants
-and variables, boolean connectives, equality/order comparisons, addition,
-subtraction, negation, i32-to-i64 widening, pinned i64-to-i32 narrowing by
-constant-modulus arithmetic, and multiplication by an integer literal. Signed
-division and remainder are encoded with C++ truncation/sign rules when the
-divisor is a literal. Variable-divisor logical expressions,
-variable-by-variable multiplication, malformed types, and unknown expression
-kinds fail closed before Z3 starts. Source operations with variable divisors
-still receive exact nonzero and signed minimum/-1 safety obligations.
+The query classifier selects one homogeneous lane per obligation. Signed-only
+formulas emit QF_LIA with `i32`/`i64` as `Int`; widening, pinned narrowing,
+literal multiplication, and literal-divisor C++ quotient/remainder are exact.
+Variable multiplication or division/remainder in a signed-only logical formula
+fails closed. Any `u32`/`u64` taint selects QF_BV and emits every fixed-width
+term as `(_ BitVec 32|64)`. That lane supports modulo arithmetic, variable
+multiplication, signed/unsigned division/remainder and comparisons, sign/zero
+extension, same-width reinterpretation, and truncation. It never declares an
+`Int`. Signed-result `+`, `-`, and `*` safety in this lane uses a widened
+`sign_extend` equality, not a tautological comparison of an already wrapped
+term. Source division/remainder receives exact nonzero VCs in both lanes and
+signed minimum/-1 VCs where applicable. Malformed types and unknown expression
+kinds fail closed before Z3 starts.
+
+The affine backend rejects every BV-required obligation. Default `both` also
+returns explicit `unsupported` under the cross-check policy; users must select
+`--backend z3` for unsigned or mixed formulas. The Z3/cache identity pins the
+homogeneous lane policy so earlier referee results cannot alias it.
 
 For a validity obligation, assumptions are asserted together with the negated
 conclusion. `unsat` means `verified`; `sat` is only a candidate violation until
@@ -157,10 +166,11 @@ Models are requested in a second deterministic run only after the first run
 returns `sat`. This avoids asking Z3 for a model after `unsat`, which Z3 reports
 as an error.
 
-The parser accepts only zero-arity `define-fun` entries with `Int` or `Bool`
-values. It rejects quoted/unknown symbols, functions with arguments, unknown
-sorts, non-literal values, duplicates, missing bindings, unexpected bindings,
-and malformed S-expressions.
+The parser accepts only zero-arity `define-fun` entries with `Int`, `Bool`, or
+width-matching `BitVec` values. Bitvectors decode to source signedness before
+replay. It rejects quoted/unknown symbols, functions with arguments, unknown
+sorts, width/range mismatches, non-literal values, duplicates, missing or
+unexpected bindings, and malformed S-expressions.
 
 SMT symbols use an injective reversible codec. SSA names remain readable
 (`y#0` becomes `y_v0`); underscores, scopes, Unicode, numeric-leading names,
@@ -194,7 +204,8 @@ Run the Z3 backend and cross-check mode with:
 ```powershell
 python -m semantic_verifier examples/vertical_slice.cpp --backend z3
 python -m semantic_verifier examples/vertical_slice.cpp --backend both
-python -m unittest tests.test_z3_backend tests.test_backend
+python -m semantic_verifier examples/unsigned_slice.cpp --backend z3
+python -m unittest tests.test_z3_backend tests.test_backend tests.test_smtlib_bv
 ```
 
 On the accepted Z3 5.0.0 reference setup, the vertical slice produces

@@ -39,13 +39,15 @@ def load_manifest() -> dict[str, Any]:
     names = [str(case.get("name", "")) for case in cases]
     if len(names) != len(set(names)):
         raise ValueError("fixture case names must be unique")
+    for case in cases:
+        backend = str(case.get("backend", "both"))
+        if backend not in {"both", "z3"}:
+            raise ValueError(f"unsupported fixture backend {backend!r}")
     return manifest
 
 
 def generate(*, z3: str | None = None) -> dict[PurePosixPath, bytes]:
     manifest = load_manifest()
-    pipeline = VerificationPipeline()
-    pipeline.checker = create_backend("both", z3=z3)
     artifacts: dict[PurePosixPath, bytes] = {}
     for case in manifest["cases"]:
         name = str(case["name"])
@@ -53,6 +55,8 @@ def generate(*, z3: str | None = None) -> dict[PurePosixPath, bytes]:
         source_path = FIXTURES.joinpath(*source_relative.parts)
         source = source_path.read_text(encoding="utf-8")
         display_path = (PurePosixPath("fixtures") / source_relative).as_posix()
+        backend = str(case.get("backend", "both"))
+        pipeline = VerificationPipeline(checker=create_backend(backend, z3=z3))
         report = pipeline.verify_source(source, display_path=display_path)
         actual_summary = report.summary()
         if actual_summary != case["expected_summary"]:

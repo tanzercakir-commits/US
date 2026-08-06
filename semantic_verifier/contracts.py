@@ -6,7 +6,14 @@ from dataclasses import dataclass
 import re
 from typing import Mapping
 
-from .integer_types import I32, I64, is_signed_integer_type
+from .integer_types import (
+    I32,
+    I64,
+    U64,
+    convert_integer,
+    is_fixed_integer_type,
+    usual_arithmetic_type,
+)
 from .locations import LineMap
 from .model import Contract, Expr, SourceLocation
 
@@ -100,8 +107,11 @@ class ContractExpressionParser:
         while self._peek().text in {"==", "!="}:
             op = self._take().text
             right = self._relational()
-            if is_signed_integer_type(left.type) and is_signed_integer_type(right.type):
-                left, right, _ = self._signed_pair(left, right, op)
+            if (
+                is_fixed_integer_type(left.type)
+                and is_fixed_integer_type(right.type)
+            ):
+                left, right, _ = self._integer_pair(left, right, op)
             elif left.type != right.type:
                 raise ContractSyntaxError(
                     f"{op} operands have different types: {left.type}, {right.type}"
@@ -114,7 +124,7 @@ class ContractExpressionParser:
         while self._peek().text in {"<", "<=", ">", ">="}:
             op = self._take().text
             right = self._additive()
-            left, right, _ = self._signed_pair(left, right, op)
+            left, right, _ = self._integer_pair(left, right, op)
             left = Expr.binary(op, left, right, "bool")
         return left
 
@@ -123,7 +133,7 @@ class ContractExpressionParser:
         while self._peek().text in {"+", "-"}:
             op = self._take().text
             right = self._multiplicative()
-            left, right, type_name = self._signed_pair(left, right, op)
+            left, right, type_name = self._integer_pair(left, right, op)
             left = Expr.binary(op, left, right, type_name)
         return left
 
@@ -132,7 +142,7 @@ class ContractExpressionParser:
         while self._peek().text in {"*", "/", "%"}:
             op = self._take().text
             right = self._unary()
-            left, right, type_name = self._signed_pair(left, right, op)
+            left, right, type_name = self._integer_pair(left, right, op)
             left = Expr.binary(op, left, right, type_name)
         return left
 
@@ -145,9 +155,9 @@ class ContractExpressionParser:
         if self._peek().text == "-":
             self._take()
             value = self._unary()
-            if not is_signed_integer_type(value.type):
+            if not is_fixed_integer_type(value.type):
                 raise ContractSyntaxError(
-                    f"operator '-' requires a signed integer, got {value.type}"
+                    f"operator '-' requires a fixed-width integer, got {value.type}"
                 )
             if (
                 value.kind == "constant"
@@ -172,7 +182,9 @@ class ContractExpressionParser:
                 return Expr.integer(value, "i32")
             if I64.contains(value):
                 return Expr.integer(value, "i64")
-            raise ContractSyntaxError("integer literal is outside i64")
+            if U64.contains(value):
+                return Expr.integer(value, "u64")
+            raise ContractSyntaxError("integer literal is outside u64")
         if token.kind == "ident":
             self._take()
             if token.text in {"true", "false"}:
@@ -186,23 +198,29 @@ class ContractExpressionParser:
         )
 
     @staticmethod
-    def _signed_pair(left: Expr, right: Expr, operator: str) -> tuple[Expr, Expr, str]:
-        if not is_signed_integer_type(left.type) or not is_signed_integer_type(right.type):
+    def _integer_pair(
+        left: Expr, right: Expr, operator: str
+    ) -> tuple[Expr, Expr, str]:
+        if (
+            not is_fixed_integer_type(left.type)
+            or not is_fixed_integer_type(right.type)
+        ):
             raise ContractSyntaxError(
-                f"operator {operator!r} requires signed integers, "
+                f"operator {operator!r} requires fixed-width integers, "
                 f"got {left.type}, {right.type}"
             )
-        type_name = "i64" if "i64" in {left.type, right.type} else "i32"
+        type_name = usual_arithmetic_type(left.type, right.type)
 
         def convert(value: Expr) -> Expr:
             if value.type == type_name:
                 return value
             if value.kind == "constant":
-                return Expr.integer(int(value.value), type_name)
+                return Expr.integer(
+                    convert_integer(int(value.value), type_name), type_name
+                )
             return Expr.cast(value, type_name)
 
         return convert(left), convert(right), type_name
-
 
     @staticmethod
     def _require(expr: Expr, expected: str, operator: str) -> None:

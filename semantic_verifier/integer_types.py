@@ -92,6 +92,30 @@ def is_signed_integer_type(type_name: str) -> bool:
     return item is not None and item.signed
 
 
+def is_unsigned_integer_type(type_name: str) -> bool:
+    item = FIXED_INTEGER_TYPES.get(type_name)
+    return item is not None and not item.signed
+
+
+def usual_arithmetic_type(left: str, right: str) -> str:
+    """Return the C++17 usual-arithmetic-conversion result for owned integers."""
+
+    left_type = integer_type(left)
+    right_type = integer_type(right)
+    if left_type == right_type:
+        return left
+    if left_type.signed == right_type.signed:
+        return left if left_type.width > right_type.width else right
+
+    signed = left_type if left_type.signed else right_type
+    unsigned = right_type if left_type.signed else left_type
+    if unsigned.width >= signed.width:
+        return unsigned.name
+    if signed.maximum >= unsigned.maximum:
+        return signed.name
+    return f"u{signed.width}"
+
+
 def integer_type(type_name: str) -> IntegerType:
     try:
         return FIXED_INTEGER_TYPES[type_name]

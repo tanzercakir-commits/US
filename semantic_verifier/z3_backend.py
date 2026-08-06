@@ -15,6 +15,7 @@ import subprocess
 from .budget import SolverTimeout
 from .checker import evaluate, resolve_trace
 from .counterexample import minimize_counterexample
+from .integer_types import convert_integer, integer_type, is_fixed_integer_type
 from .model import (
     Expr,
     Obligation,
@@ -129,7 +130,7 @@ class Z3ProcessRunner:
         except Z3DiscoveryError:
             executable = self._configured_z3
         return {
-            "command_policy": "qf-lia-deterministic-seeds/v0",
+            "command_policy": "homogeneous-qf-lia-qf-bv-deterministic-seeds/v0",
             "executable": executable,
             "timeout_seconds": self.timeout_seconds,
         }
@@ -286,7 +287,7 @@ def parse_z3_model(
     output: str,
     expected_types: Mapping[str, str] | None = None,
 ) -> dict[str, int | bool]:
-    """Parse a zero-arity int/bool Z3 model into source-level bindings."""
+    """Parse zero-arity Int/BitVec/Bool models into source-level bindings."""
 
     expressions = _parse_s_expressions(output)
     if len(expressions) != 2 or expressions[0] != "sat":
@@ -305,7 +306,6 @@ def parse_z3_model(
             or form[0] != "define-fun"
             or not isinstance(form[1], str)
             or form[2] != []
-            or not isinstance(form[3], str)
         ):
             raise Z3ModelError("model contains an unsupported definition")
         try:
@@ -314,7 +314,7 @@ def parse_z3_model(
             raise Z3ModelError(f"invalid model symbol {form[1]!r}: {error}") from error
         if source_name in bindings:
             raise Z3ModelError(f"duplicate model binding for {source_name!r}")
-        sort = form[3]
+        sort = _normalize_model_sort(form[3])
         bindings[source_name] = _parse_model_value(form[4], sort)
         sorts[source_name] = sort
 
@@ -328,15 +328,34 @@ def parse_z3_model(
                 f"model binding mismatch: missing={missing!r}, "
                 f"unexpected={unexpected!r}"
             )
+        fixed_sorts = {
+            sorts[name]
+            for name, type_name in expected_types.items()
+            if is_fixed_integer_type(type_name)
+        }
+        if "Int" in fixed_sorts and any(
+            sort.startswith("BitVec") for sort in fixed_sorts
+        ):
+            raise Z3ModelError("model mixes Int and BitVec fixed-width bindings")
         for name in sorted(expected_types):
-            expected_sort = {"i32": "Int", "i64": "Int", "bool": "Bool"}.get(
-                expected_types[name]
-            )
-            if expected_sort is None or sorts[name] != expected_sort:
+            type_name = expected_types[name]
+            actual_sort = sorts[name]
+            if type_name == "bool":
+                expected_sorts = {"Bool"}
+            elif is_fixed_integer_type(type_name):
+                profile = integer_type(type_name)
+                expected_sorts = {f"BitVec{profile.width}"}
+                if profile.signed:
+                    expected_sorts.add("Int")
+            else:
+                expected_sorts = set()
+            if actual_sort not in expected_sorts:
                 raise Z3ModelError(
                     f"model sort mismatch for {name!r}: "
-                    f"expected {expected_sort!r}, got {sorts[name]!r}"
+                    f"expected {sorted(expected_sorts)!r}, got {actual_sort!r}"
                 )
+            if actual_sort.startswith("BitVec"):
+                bindings[name] = convert_integer(int(bindings[name]), type_name)
     return bindings
 
 
@@ -517,6 +536,22 @@ def _tokenize_s_expressions(text: str) -> list[str]:
     return tokens
 
 
+def _normalize_model_sort(value: object) -> str:
+    if isinstance(value, str) and value in {"Bool", "Int"}:
+        return str(value)
+    if (
+        isinstance(value, list)
+        and len(value) == 3
+        and value[0] == "_"
+        and value[1] == "BitVec"
+        and isinstance(value[2], str)
+        and value[2].isdecimal()
+        and int(value[2]) > 0
+    ):
+        return f"BitVec{value[2]}"
+    raise Z3ModelError(f"unsupported model sort {value!r}")
+
+
 def _parse_model_value(value: object, sort: str) -> int | bool:
     if sort == "Bool":
         if value == "true":
@@ -524,6 +559,30 @@ def _parse_model_value(value: object, sort: str) -> int | bool:
         if value == "false":
             return False
         raise Z3ModelError(f"unsupported Bool model value {value!r}")
+    if sort.startswith("BitVec"):
+        width = int(sort.removeprefix("BitVec"))
+        parsed: int | None = None
+        if isinstance(value, str) and value.startswith("#x"):
+            digits = value[2:]
+            if digits and all(character in "0123456789abcdefABCDEF" for character in digits):
+                parsed = int(digits, 16)
+        elif isinstance(value, str) and value.startswith("#b"):
+            digits = value[2:]
+            if digits and all(character in "01" for character in digits):
+                parsed = int(digits, 2)
+        elif (
+            isinstance(value, list)
+            and len(value) == 3
+            and value[0] == "_"
+            and isinstance(value[1], str)
+            and value[1].startswith("bv")
+            and value[1][2:].isdecimal()
+            and value[2] == str(width)
+        ):
+            parsed = int(value[1][2:])
+        if parsed is None or not 0 <= parsed < 2**width:
+            raise Z3ModelError(f"unsupported {sort} model value {value!r}")
+        return parsed
     if sort != "Int":
         raise Z3ModelError(f"unsupported model sort {sort!r}")
     if isinstance(value, str) and value.isdecimal():

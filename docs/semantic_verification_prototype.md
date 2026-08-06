@@ -15,10 +15,10 @@ Implemented:
 - an owned, deterministic, versioned Semantic IR for branches, modular calls,
   and invariant-annotated while loops;
 - strict inline cs: preconditions, postconditions, and loop invariants;
-- path-specific VCs for contracts, defined signed i32/i64 arithmetic,
-  conversions, modular calls, and the loop entry/preservation/exit triple;
+- path-specific VCs for contracts, signed i32/i64 definedness, unsigned
+  u32/u64 modulo arithmetic, conversions, modular calls, and loop obligations;
 - a dependency-free affine checker plus a complete external Z3 backend for the
-  emitted QF_LIA fragment;
+  emitted homogeneous QF_LIA/QF_BV fragments;
 - deterministic SMT-LIB2, solver timeouts, model parsing, mandatory replay,
   minimized/relevance-projected counterexample cores, and source-mapped branch
   traces for violated paths;
@@ -34,28 +34,29 @@ Implemented:
   per-process solver timeouts, with exhaustion remaining explicit `unknown`;
 - a committed scaling slice and hash/count-based phase gate covering exact join
   compaction, uncached/warm cache identity, and repeated budget identity;
-- 199 deterministic tests, including independent soundness regressions.
+- 216 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
-- modular calls are direct only; assigned/initialized results must have matching i32/i64 type, and
-  callers learn results from callee ensures rather than body inlining;
+- modular calls are direct only; assigned/initialized results must have matching
+  fixed-width type, and callers learn results from callee ensures rather than
+  body inlining;
 - recursive call cycles are rejected until a decreasing-measure policy exists;
 - loops are while-only, require user-written invariants, and establish partial
   correctness without proving termination;
-- multiplication is supported only when one operand is a literal constant;
+- signed-only QF_LIA multiplication requires a literal operand; QF_BV supports
+  variable multiplication;
 - source mapping is statement-granular, but preserves CRLF and Clang UTF-8
   byte offsets;
-- the dependency-free affine checker is deliberately incomplete, while Z3 is
-  complete only for the emitted QF_LIA fragment;
-- v0 and v1 are archived and v2 is current; C++17 `int` lowers to owned
-  `i32`, integer wire evidence is canonical decimal text, and Clang must pass
-  the pinned fixed-width target-profile probe before lowering.
+- the dependency-free affine checker is deliberately incomplete and rejects
+  QF_BV; Z3 is complete for both emitted homogeneous fragments;
+- v0 and v1 are archived and v2 is current; owned C++17 fixed-width types lower
+  to `i32`/`u32`/`i64`/`u64`, integer wire evidence is canonical decimal text,
+  and Clang must pass the pinned target-profile probe before lowering.
 
 Proposed, not implemented:
 
-- unsigned, homogeneous QF_BV, bitwise, and shift stages under the selected
-  fixed-width integer profile;
+- bitwise and shift operators under the selected fixed-width integer profile;
 - a native clang::ASTContext adapter inside CodeSkeptic;
 - reuse of CodeSkeptic .csk sidecars;
 - production diagnostic/SARIF/MCP adapters for proof results and models;
@@ -230,7 +231,8 @@ The implemented node kinds are:
 - unsupported.
 
 Expressions contain typed constants, versioned variables, unary not/negation,
-arithmetic, comparisons, and boolean connectives. The JSON schema identifier is
+arithmetic, comparisons, boolean connectives, and the exact
+`signed_no_overflow` safety predicate. The JSON schema identifier is
 codeskeptic.semantic-verification/v2. Serialization uses sorted JSON object keys
 and source-ordered arrays. Compatibility and major-version triggers are defined in the
 [schema version policy](schema_versioning.md).
@@ -279,8 +281,8 @@ edges add the condition or its negation and retain guarded branch source
 provenance. A structured join factors common assumptions and represents the
 exact union of residual path conjunctions as one disjunction; merge equalities
 remain inside the edge that selected them. A result-bearing call havocs its
-fresh target, adds destination-width
-bounds, proves substituted requires, and assumes substituted ensures. Recursive
+fresh target, adds signed destination-width bounds, proves substituted requires,
+and assumes substituted ensures. Recursive
 call components fail closed.
 
 A loop proves each invariant at the concrete entry state, checks one arbitrary
@@ -304,10 +306,10 @@ Generated obligation kinds:
 
 Obligations distinguish validity, satisfiability, and fragment-well-formedness
 modes. Every signed i32/i64 parameter receives implicit type-minimum/type-maximum
-bounds.
-Program addition, subtraction, constant multiplication, and negation receive range
-safety obligations. Division receives both divisor-nonzero and
-INT_MIN / -1 obligations.
+bounds. Signed addition, subtraction, multiplication, and negation receive
+range-safety obligations. Unsigned arithmetic wraps without overflow VCs.
+Division/remainder always receives a divisor-nonzero obligation; signed forms
+also receive the type-minimum/-1 obligation.
 
 Expression safety follows C++ short-circuit behavior. Definedness guards are
 added to later path states, so a postcondition is not refuted by an execution
@@ -332,12 +334,16 @@ arithmetic, proves matching path facts, and searches a deterministic finite set
 for witnesses or counterexamples. Found models are real; exhausting the fixed
 100,000-evaluation search set is never promoted to proof and returns unknown.
 
-semantic_verifier/smtlib.py emits sorted QF_LIA declarations and reversible
-symbols for i32/i64/bool constants and variables, boolean connectives, equality/
-order, addition, subtraction, negation, widening, pinned signed narrowing, and
-multiplication by a literal. Signed division/remainder with a literal divisor
-is exact; variable-divisor logical expressions, nonlinear multiplication,
-malformed types, and unknown expression kinds fail closed before Z3 starts.
+semantic_verifier/smtlib.py classifies each obligation before emission.
+Signed-only formulas use sorted QF_LIA declarations and mathematical `Int`;
+unsigned-tainted formulas use homogeneous QF_BV, with every fixed-width term
+encoded as a 32/64-bit vector. The BV lane implements modulo arithmetic,
+variable multiplication/division/remainder, signed/unsigned comparisons,
+sign/zero extension, and truncation. Signed-result addition, subtraction, and
+multiplication use an exact double-width overflow predicate before their wrapped
+results become path facts. QF_LIA retains its literal multiplier and
+literal divisor restrictions. No query mixes `Int` and `BitVec`; malformed
+sorts, widths, casts, or expression kinds fail closed before Z3 starts.
 
 The Z3 runner has deterministic discovery order, a configurable timeout,
 fixed solver options, structured stdout/stderr handling, and explicit mappings
@@ -350,9 +356,11 @@ order only when exact reasoning proves the remaining core still forces the
 negated conclusion.
 
 Cross-check mode accepts the stronger definitive answer when the other backend
-is unknown. Definitive disagreement, backend process failure, or replay failure
-becomes solver_error. No solver library or Python solver package is linked; z3
-and both modes require the separately installed Z3 executable. Licensing,
+is unknown. It does not override `unsupported`: unsigned/BV obligations require
+explicit `--backend z3`. Definitive disagreement, backend process failure, or
+replay failure becomes solver_error. No solver library or Python solver package
+is linked; z3 and both modes require the separately installed Z3 executable.
+Licensing,
 packaging, timeout, and determinism decisions are recorded in
 [the solver decision](solver_decision.md). The exponential sequential-diamond
 baseline and exact structured-merge choice are recorded in
@@ -384,21 +392,23 @@ reference](result_schema.md).
 
 ## Supported source subset
 
-- free functions with `int`, `long long`, or `bool` return types;
-- named `int`, `long long`, and `bool` parameters;
-- initialized local `int`, `long long`, and `bool` variables;
+- free functions with owned `int`, `unsigned int`, `long long`, `unsigned
+  long long`, or `bool` return types;
+- named fixed-width integer and `bool` parameters;
+- initialized local fixed-width integer and `bool` variables;
 - assignment to locals;
 - unary plus, unary minus, and boolean not;
 - addition and subtraction;
-- multiplication when one side is an integer literal;
-- signed division/remainder safety plus exact QF_LIA reasoning when the divisor
-  is a literal;
+- literal multiplication in signed-only QF_LIA and general multiplication in
+  unsigned-tainted QF_BV;
+- signed/unsigned division and remainder safety; QF_LIA formulas require a
+  literal divisor while QF_BV accepts variable divisors;
 - equality, inequality, and ordered comparisons;
 - side-effect-free boolean and/or;
 - if/else;
 - standalone direct function calls;
-- direct matching i32/i64 call results assigned to or initializing a local, with contracted
-  postconditions assumed after a fresh result havoc;
+- direct matching fixed-width call results assigned to or initializing a local,
+  with contracted postconditions assumed after a fresh result havoc;
 - assert represented only by a declaration-only void assert(bool) sentinel;
 - return;
 - implicit return 0 when main falls through;
@@ -425,11 +435,11 @@ The frontend explicitly rejects:
   arithmetic, or argument expressions;
 - calls with neither a visible body nor a contract;
 - direct and mutual recursive call cycles without a decreasing measure;
-- implicit casts outside bool-to-i32, i32-to-i64, pinned i64-to-i32,
+- implicit casts outside bool-to-fixed-width, owned fixed-width conversions,
   integral-to-bool, lvalue-to-rvalue, and no-op;
-- unsigned integer types, `long`, `short`, `char`, and extended integers;
-- variable-by-variable multiplication and variable-divisor division/remainder
-  in logical contracts;
+- `long`, `unsigned long`, `short`, `char`, and extended integers;
+- variable multiplication and variable-divisor division/remainder in
+  signed-only QF_LIA logical contracts;
 - multiple translation units and sidecar contracts.
 
 Unsupported input is not approximated.
@@ -545,21 +555,22 @@ fetch. CodeSkeptic's source worktree remained clean.
 
 - Clang JSON is a convenient prototype transport, not the recommended
   production API. CodeSkeptic should lower directly from ASTContext.
-- Verified results are sound only within the documented mathematical-int
-  formula model, emitted QF_LIA fragment, and generated signed-width
-  program-safety obligations; broader C++ semantics remain outside the claim.
+- Verified results are sound only within the documented homogeneous QF_LIA/
+  QF_BV formulas, pinned fixed-width conversions, and generated definedness
+  obligations; broader C++ semantics remain outside the claim.
 - Affine model search is finite. Found models are real, while exhaustion is
   unknown. Z3 is complete only for formulas accepted by the fail-closed emitter.
 - Structured branch joins retain exact factored disjunctions, which bound the
   measured diamond obligations but can still grow with formula complexity. Loops
   are summarized by user-written invariants; termination is not checked.
-- Modular calls are direct and contract-based. Only matching i32/i64 results in a
-  local initializer/assignment are modeled, and callee bodies are not inlined.
+- Modular calls are direct and contract-based. Only matching fixed-width results
+  in a local initializer/assignment are modeled, and bodies are not inlined.
 - Source columns identify the containing statement rather than the exact
   operator token.
-- The prototype validates 32-bit signed `int` and 64-bit signed `long long`
-  under the pinned target profile; i64-to-i32 narrowing uses its selected
-  two's-complement result.
+- The prototype validates 32-bit `int`/`unsigned int` and 64-bit `long long`/
+  `unsigned long long` under the pinned profile. Unsigned/mixed obligations
+  require explicit Z3 mode; default cross-check remains intentionally
+  `unsupported` for them.
 - Overloads are separated by normalized parameter-type signatures, but a
   production integration should still use canonical Clang declaration identity
   and CodeSkeptic's existing attachment/sidecar machinery.

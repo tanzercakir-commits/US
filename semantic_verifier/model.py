@@ -75,6 +75,10 @@ class Expr:
             )
         return Expr("binary", type_name, op=op, args=(left, right))
 
+    @staticmethod
+    def predicate(op: str, *args: "Expr") -> "Expr":
+        return Expr("predicate", "bool", op=op, args=tuple(args))
+
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {"kind": self.kind, "type": self.type}
         if self.value is not None:
@@ -120,6 +124,9 @@ class Expr:
             return f"(({self.type}) {self.args[0].text()})"
         if self.kind == "binary":
             return f"({self.args[0].text()} {self.op} {self.args[1].text()})"
+        if self.kind == "predicate":
+            arguments = ", ".join(argument.text() for argument in self.args)
+            return f"{self.op}({arguments})"
         return f"<{self.kind}>"
 
 
