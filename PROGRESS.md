@@ -1161,3 +1161,24 @@ Evidence: existing sidecar parser/enforcement tests -> green; production suite
 at unchanged B2.4 commit -> 866/866; reference suite -> 314/314; plan links and
 stage IDs -> present; commit: this planning commit.
 Next: B3.1 (adjacent `.csk` contracts on the native verification path).
+
+## 2026-08-06 - B3.1: adjacent sidecars on native verification - DONE
++ Merged inline and adjacent `.csk` clauses through the same strict typed
+  semantic binder in inline-first order while retaining sidecar file and
+  absolute-line provenance.
++ Made exact duplicate clauses and a second `modifies` contract fail closed;
+  invalid sidecar names/types remain explicit unsupported contract records.
++ Extended targeted VCG so direct callee contract consistency and external
+  postcondition well-formedness obligations precede any assumed callee ensures.
++ Added native lowering/VCG and MCP coverage for bodiless external sidecar
+  requires/ensures, deterministic provenance, and edited-sidecar cache reload.
++ A live production MCP request with native Z3 produced two verified callee
+  trust obligations and one replayed call-precondition violation.
++ Production grew from 866 to 869 tests and every test is green.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and serial
+  linking; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: focused sidecar/native tests -> 4/4; live native-Z3 MCP summary ->
+verified=2, violated=1, unknown=0, unsupported=0, solver_error=0; full
+CodeSkeptic suite -> 869/869; reference suite -> 314/314; production commit ->
+`75411c4`; commit: this reference-ledger commit.
+Next: B3.2 (first value-semantic standard-library mini-models).

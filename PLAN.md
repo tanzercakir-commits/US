@@ -931,12 +931,15 @@ infrastructure. Reference: prototype fixtures = the specification.
 - Output: provenance-preserving inline/sidecar semantic merge, strict typed
   binding through the existing contract grammar, and end-to-end CLI/SARIF/MCP
   evidence for a sidecar-contracted external call.
-- Planned file set (confirm before edits): CodeSkeptic `CONTRACTS.md`;
-  `src/contracts/{ContractInfo.h,ContractInfo.cpp,Sidecar.h,Sidecar.cpp}`;
-  minimal `src/semantic/SemanticLowerer.cpp` wiring;
-  `tests/{ContractTest.cpp,SemanticLowererTest.cpp,
-  VerificationConditionTest.cpp,McpServerTest.cpp}`; reference `PLAN.md`,
+- Exact file set: CodeSkeptic `CONTRACTS.md`;
+  `src/contracts/{ContractInfo.h,ContractInfo.cpp}`;
+  `src/verification/VerificationConditionGenerator.cpp`;
+  `tests/{SemanticLowererTest.cpp,McpServerTest.cpp}`; reference `PLAN.md`,
   `PROGRESS.md`, and `TODO.md`.
+- Wiring decision: semantic contract adaptation loads inline and adjacent
+  sidecar sources separately, binds each against the same parameter/type
+  environment, then merges them inline-first. Targeted VCG emits direct callee
+  contract consistency/well-formedness dependencies before trusting ensures.
 - Boundaries: B3.1 reads only adjacent `<declaring-file>.csk` files; inline
   clauses remain first in source order and sidecar clauses retain their `.csk`
   file/absolute line provenance. Conflicting or malformed clauses are never
