@@ -146,3 +146,15 @@ Evidence: `python -m unittest tests.test_backend` → 10/10; full suite →
 both --format text` → 10 verified, 2 violated, 0 unknown/unsupported/
 solver_error, exit 1 as expected; commit: this commit.
 Next: A1.5 (solver decision document).
+
+## 2026-08-06 — A1.5: solver decision document — DONE
++ Added `docs/solver_decision.md`: MIT license, subprocess decision, QF_LIA
+  boundary, Windows/Linux/macOS packaging, discovery, timeout, determinism,
+  failure taxonomy, model serialization, and mandatory replay.
++ Linked the decision record from README; refreshed backend usage and the
+  current 106-test count.
+- None.
+Evidence: document exists; README local link resolves; license/release and
+parameter claims checked against official Z3 project/guide sources; full suite
+→ 106/106; commit: this commit.
+Next: A1.6 (phase gate: golden tests).

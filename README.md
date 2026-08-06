@@ -8,12 +8,21 @@ CodeSkeptic repository.
 The prototype deliberately supports only 32-bit `int`, `bool`, local state,
 assignment, side-effect-free expressions, `if`/`else`, standalone contracted
 calls, `assert`, and `return`. Unsupported C++ is reported explicitly. It uses
-a real Clang AST, but has no Python package or solver dependency.
+a real Clang AST and has no Python package dependencies. The affine checker is
+dependency-free; the stronger backend invokes an optional Z3 executable through
+SMT-LIB2.
 
 Run the vertical slice:
 
 ```powershell
 python -m semantic_verifier examples/vertical_slice.cpp --format json
+```
+
+Use Z3 directly or cross-check it against the affine checker:
+
+```powershell
+python -m semantic_verifier examples/vertical_slice.cpp --backend z3
+python -m semantic_verifier examples/vertical_slice.cpp --backend both
 ```
 
 Run the tests:
@@ -22,11 +31,13 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 64 deterministic tests. The separately cloned,
+The current suite contains 106 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
-implemented boundary, result taxonomy, examples, and limitations.
+implemented boundary, result taxonomy, examples, and limitations. The
+[Z3 backend decision record](docs/solver_decision.md) documents licensing,
+packaging, timeouts, determinism, failure handling, and model replay.
 
 ## Development workflow
 

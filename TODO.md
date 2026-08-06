@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A1.5 — Solver decision document** (`docs/solver_decision.md` +
-  README link; DoD in the plan)
+- [ ] **A1.6 — Phase gate: golden tests** (vertical slice, determinism,
+  suite target; DoD in the plan)
 
 ## Next
 
-- [ ] A1.6 — Phase gate: golden tests
 - [ ] A2.1 — IR: call-with-result node
+- [ ] A2.2 — VC: havoc + assumed ensures
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A1.4 completed with swappable affine/Z3 backends and
-deterministic cross-check alarms. Next work item is A1.5.
+2026-08-06 — A1.5 completed with the solver decision record and README
+link. Next work item is A1.6.
