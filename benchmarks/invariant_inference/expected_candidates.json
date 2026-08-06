@@ -1,0 +1,123 @@
+{
+  "cases": [
+    {
+      "candidate": "(!((i <= -1)) && !(((i + (-1 * n)) >= 1)))",
+      "certificate_sha256": "2c2bd0ed6aeea348f120bca4fcc35797c8115e639244d479c3194af1d2f8559f",
+      "id": "count_exact",
+      "query_sha256": "7461a6a60a5732079ab2bfc67c063295732c00a2b8e590aec5c4cb1a9d40270a",
+      "reason": "ordinary verifier accepted every obligation",
+      "source_sha256": "2360bc4dd489b65aa629998af64615491c8eef5b7f4b4e04e887f38673e1b139",
+      "status": "useful",
+      "validation": {
+        "accepted": true,
+        "inductive": true,
+        "machine_proposed": true,
+        "results": [
+          {
+            "kind": "contract_consistency",
+            "status": "verified"
+          },
+          {
+            "kind": "loop_invariant_entry",
+            "status": "verified"
+          },
+          {
+            "kind": "signed_overflow",
+            "status": "verified"
+          },
+          {
+            "kind": "loop_invariant_preservation",
+            "status": "verified"
+          },
+          {
+            "kind": "postcondition",
+            "status": "verified"
+          }
+        ],
+        "summary": {
+          "solver_error": 0,
+          "unknown": 0,
+          "unsupported": 0,
+          "verified": 5,
+          "violated": 0
+        }
+      }
+    },
+    {
+      "candidate": "!((i <= -1))",
+      "certificate_sha256": "0234b66b3040d4b43a7d02140570bfd2bcd808b3f4fbe13138021cb9bc71d3b1",
+      "id": "count_insufficient",
+      "query_sha256": "8b760cf2fb5ff6539ae0075d0088c2ce48d72fb243350fa4e98d284307c8714e",
+      "reason": "candidate is inductive but insufficient for full verification",
+      "source_sha256": "d9fddcebc697e8bffecc91f57fb74cfde16adebbe47826c962478bbff363ffc8",
+      "status": "insufficient",
+      "validation": {
+        "accepted": false,
+        "inductive": true,
+        "machine_proposed": true,
+        "results": [
+          {
+            "kind": "contract_consistency",
+            "status": "verified"
+          },
+          {
+            "kind": "loop_invariant_entry",
+            "status": "verified"
+          },
+          {
+            "kind": "signed_overflow",
+            "status": "verified"
+          },
+          {
+            "kind": "loop_invariant_preservation",
+            "status": "verified"
+          },
+          {
+            "kind": "postcondition",
+            "status": "violated"
+          }
+        ],
+        "summary": {
+          "solver_error": 0,
+          "unknown": 0,
+          "unsupported": 0,
+          "verified": 4,
+          "violated": 1
+        }
+      }
+    },
+    {
+      "id": "malformed",
+      "reason": "missing required fields: bad",
+      "status": "malformed"
+    },
+    {
+      "id": "timeout",
+      "query_sha256": "2b84f05d106186e373011cdc2d4fa5feac1effbea902c2e8483ca66c849a9167",
+      "reason": "solver process timeout",
+      "status": "timeout"
+    },
+    {
+      "id": "unsafe",
+      "query_sha256": "51d510dfc7e351bb0ce608800f0a561dd9c8fb1c1a646a3a1a83b4059c0a31e2",
+      "reason": "Spacer returned sat",
+      "status": "no_candidate"
+    },
+    {
+      "id": "unsupported",
+      "reason": "unsupported profile 'u32'; only i32 LIA is admitted",
+      "status": "unsupported"
+    }
+  ],
+  "manifest_sha256": "39e14f69034baef9888f5ec8249673420e06e71d401f1634d539839058544840",
+  "policy": {
+    "max_solver_cases": null,
+    "timeout_seconds": 2.0
+  },
+  "schema": "codeskeptic.invariant-candidates/v0",
+  "solver": {
+    "command_policy": "z3-spacer-deterministic-seeds/v0",
+    "required_version": "Z3 version 5.0.0 - 64 bit",
+    "version": "Z3 version 5.0.0 - 64 bit"
+  }
+}

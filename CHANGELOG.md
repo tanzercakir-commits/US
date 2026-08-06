@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.6 adds an isolated, proposal-only CHC/Spacer research runner with strict
+  signed-linear Horn input, pinned Z3 identity and seeds, deterministic
+  timeout/count budgets, canonical candidate artifacts, and a six-case corpus.
+  Every generated candidate is reattached as `cs: ai invariant` and judged by
+  ordinary entry/preservation and downstream VCs; useful, insufficient,
+  no-candidate, timeout, unsupported, and malformed outcomes remain distinct.
 - A6.5 adds strict empty/single/multiple/nested `cs: modifies` contracts for
   declaration-only const/mutable lvalue reference parameters. Calls normalize
   permitted targets to caller-owned paths, havoc each affected root once,

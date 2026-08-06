@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **A6.6 - optional invariant-inference research**
+- [ ] **A6.7 - semantic-extensions phase gate**
 
 ## Next
 
-- [ ] **A6.7 - semantic-extensions phase gate**
+- None.
 
 ## Blockers / open questions
 
@@ -21,7 +21,6 @@
 
 ## Last updated
 
-2026-08-06 - A6.5 added exact modular `modifies` frames, post-state reference
-summaries, preservation of unlisted caller locations, schema v6 migration, the
-immutable v5 archive, and a fully verified frame fixture; next is the isolated
-CHC/Spacer invariant-inference research spike.
+2026-08-06 - A6.6 added the isolated deterministic CHC/Spacer research corpus,
+proposal-only ordinary-referee validation, explicit failure outcomes, and the
+inference decision memo; next is the combined semantic-extension phase gate.

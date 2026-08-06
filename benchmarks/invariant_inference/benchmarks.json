@@ -1,0 +1,56 @@
+{
+  "schema": "codeskeptic.invariant-research-benchmarks/v0",
+  "timeout_seconds": 2.0,
+  "cases": [
+    {
+      "id": "count_exact",
+      "profile": "i32",
+      "variables": ["i", "n"],
+      "init": "(and (>= n 0) (= i 0))",
+      "transition": "(and (< i n) (= i_next (+ i 1)) (= n_next n))",
+      "bad": "(or (< i 0) (> i n))",
+      "source": "count_exact.cpp"
+    },
+    {
+      "id": "count_insufficient",
+      "profile": "i32",
+      "variables": ["i", "n"],
+      "init": "(and (>= n 0) (= i 0))",
+      "transition": "(and (< i n) (= i_next (+ i 1)) (= n_next n))",
+      "bad": "(< i 0)",
+      "source": "count_insufficient.cpp"
+    },
+    {
+      "id": "malformed",
+      "profile": "i32",
+      "variables": ["i"],
+      "init": "(= i 0)",
+      "transition": "(= i_next (+ i 1))"
+    },
+    {
+      "id": "timeout",
+      "profile": "i32",
+      "variables": ["i", "n"],
+      "init": "(and (>= n 0) (= i 0))",
+      "transition": "(and (< i n) (= i_next (+ i 1)) (= n_next n))",
+      "bad": "(or (< i 0) (> i n))",
+      "timeout_seconds": 0.000001
+    },
+    {
+      "id": "unsafe",
+      "profile": "i32",
+      "variables": ["i"],
+      "init": "(= i 0)",
+      "transition": "(= i_next (+ i 1))",
+      "bad": "(>= i 1)"
+    },
+    {
+      "id": "unsupported",
+      "profile": "u32",
+      "variables": ["i"],
+      "init": "(= i 0)",
+      "transition": "(= i_next (+ i 1))",
+      "bad": "(< i 0)"
+    }
+  ]
+}

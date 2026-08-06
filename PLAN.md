@@ -531,6 +531,11 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: isolated CHC emitter/runner, fixed benchmark corpus, sorted candidate
   artifact schema, timeout/budget policy, decision memo, and spike tests. No
   inferred candidate enters ordinary proof assumptions directly.
+- Expanded exact file set: `semantic_verifier/invariant_research.py`;
+  `tools/invariant_research.py`; `tests/test_invariant_research.py`;
+  `benchmarks/invariant_inference/**`; `docs/invariant_inference_decision.md`;
+  `README.md`, `CHANGELOG.md`, `PLAN.md`, `PROGRESS.md`, `TODO.md`, and the test
+  ratchet.
 - DoD: repeated clauses/candidates are byte-identical under a pinned solver;
   useful, insufficient, timeout, unsupported, and malformed cases are recorded;
   every candidate accepted for evaluation is reattached as a proposal and

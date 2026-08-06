@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 288 deterministic tests. The separately cloned,
+The current suite contains 301 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -68,6 +68,12 @@ Run the deterministic scaling/cache/budget and fixed-width integer phase gates:
 ```powershell
 python tools/scaling_phase_gate.py --backend both
 python tools/integer_phase_gate.py
+```
+
+Reproduce the isolated, proposal-only invariant-inference research artifact:
+
+```powershell
+python tools/invariant_research.py --check
 ```
 
 See [the design document](docs/semantic_verification_prototype.md) for the
@@ -88,7 +94,10 @@ A5 phase gate and failure handling. The
 ordering, trust boundaries, and per-stage acceptance requirements. The
 [fixed-width integer decision](docs/integer_semantics_decision.md) selects the
 homogeneous QF_LIA/QF_BV strategy and pinned C++17 target profile. Clang
-validates that profile before any source is lowered; a mismatch fails closed.
+validates that profile before any source is lowered; a mismatch fails closed. The
+[invariant-inference research decision](docs/invariant_inference_decision.md)
+records the isolated CHC/Spacer corpus, deterministic resource policy, measured
+useful/insufficient outcomes, and untrusted-proposal boundary.
 The [signed int64 example](examples/int64_slice.cpp) covers widening, pinned
 narrowing, arithmetic, modular calls, and loop invariants. The
 [unsigned example](examples/unsigned_slice.cpp) covers modulo arithmetic,
@@ -101,7 +110,7 @@ The [value-struct example](examples/struct_slice.cpp) covers construction, neste
 field/array updates, copy isolation, by-value calls, and record contracts.
 The [reference example](examples/reference_slice.cpp) covers scalar and whole-
 record aliases, disjoint field references, writes, and branch-disjoint
-lifetimes.The [frame-condition example](examples/frame_conditions.cpp) covers empty,
+lifetimes. The [frame-condition example](examples/frame_conditions.cpp) covers empty,
 scalar, multiple, and nested record-field `modifies` summaries with exact
 post-state constraints and preservation of unlisted fields.
 The [combined integer gate](examples/fixed_integer_gate.cpp) carries positive

@@ -839,3 +839,27 @@ example -> 10 verified, zero non-verified; integer phase gate v4 -> green; v5
 archive -> 37/37 hashes; full suite -> 288/288; fixture check -> 26/26 current;
 diff check -> clean; commit: this commit.
 Next: A6.6 (CHC/Spacer invariant-inference research spike).
+## 2026-08-06 - A6.6: CHC/Spacer invariant-inference research spike - DONE
++ Added an isolated signed-i32 Horn problem model, strict S-expression parser,
+  canonical CHC emitter, and Z3/Spacer subprocess runner pinned to 5.0.0 with
+  fixed SMT/SAT/Spacer seeds, disabled parallel solving, and bounded execution.
++ Added a sorted six-case corpus and v0 candidate artifact recording useful,
+  insufficient, no-candidate, timeout, unsupported, and malformed outcomes.
++ Reattached every solver candidate as `cs: ai invariant` and sent it through
+  the ordinary affine/Z3 referee; machine provenance, loop entry, and loop
+  preservation remain explicit in the resulting Semantic IR and VCs.
++ Demonstrated one candidate that verifies all five obligations and one
+  inductive candidate whose violated postcondition remains `insufficient`.
++ Added deterministic solver-case budgeting, strict certificate/`let` parsing,
+  canonical query/certificate/source hashes, and artifact check/write CLI modes.
++ Added the decision memo recommending an optional proposal-only pre-pass for
+  signed-linear loops without integrating inference into the trusted path.
++ Added 13 focused tests and advanced the test ratchet from 288 to 301.
++ Expanded the A6.6 exact file set in PLAN before implementation edits.
+- None.
+Evidence: invariant research tests -> 13/13; repeated corpus renders -> byte-
+identical; committed artifact SHA-256 ->
+`e644ec4c61032510888f44d162d57bc4b72a87f16b2a067f0b3120f498fdc0e1`;
+proposal-only check -> green; full suite -> 301/301; fixture check -> 26/26
+current; diff check -> clean; commit: this commit.
+Next: A6.7 (semantic-extension phase gate).
