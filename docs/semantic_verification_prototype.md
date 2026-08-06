@@ -352,6 +352,9 @@ bindings when present. Non-goals are separate from statuses: every loop records
 loop_termination with the statement location and the partial-correctness scope,
 including when Semantic IR is omitted from JSON.
 
+The field-level contract is documented in [the result and Semantic IR schema
+reference](result_schema.md).
+
 ## Supported source subset
 
 - free functions with int or bool return types;

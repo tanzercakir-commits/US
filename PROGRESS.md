@@ -330,3 +330,16 @@ Next: F3.1 (documentation phase-gate upkeep).
 Evidence: stale-capability text scan -> clean; local documentation links ->
 valid; full suite -> 137/137; diff check -> clean; commit: this commit.
 Next: F3.2 (result taxonomy and schema reference).
+## 2026-08-06 - F3.2: result and schema reference - DONE
++ Added a field-level v0 reference for the report envelope, five result statuses,
+  CLI precedence, obligations/modes/kinds, counterexamples, and non-goals.
++ Documented every shared expression/location value and Semantic IR module,
+  function, symbol, contract, node, and loop-variable field.
++ Defined omission rules, one-to-one obligation/result linkage, replay evidence,
+  stable ordering, UTF-8/newline behavior, and fixture byte contracts.
++ Linked the reference from the main prototype document.
+- The v0 compatibility/change policy remains intentionally deferred to F4.1.
+Evidence: committed fixture envelope/status keys -> all present in reference;
+local documentation links -> valid; full suite -> 137/137; diff check -> clean;
+commit: this commit.
+Next: F3.3 (adoption guide).

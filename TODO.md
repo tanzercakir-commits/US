@@ -8,12 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **F3.2 - result taxonomy + schema reference page** (machine-readable
-  field contracts and status/non-goal semantics)
+- [ ] **F3.3 - adoption guide** (path for introducing the verifier into a new
+  codebase without widening the soundness claim)
 
 ## Next
 
-- [ ] F3.3 - adoption guide
 - [ ] F4.1 - schema version policy
 - [ ] F4.2 - CHANGELOG discipline
 ## Blockers / open questions
@@ -23,5 +22,5 @@
 
 ## Last updated
 
-2026-08-06 - F3.1 completed: the prototype document now separates implemented,
-partial, and proposed capabilities through A3/F2. Next is F3.2.
+2026-08-06 - F3.2 completed: field-level result, obligation, non-goal, and
+Semantic IR v0 contracts are documented. Next is F3.3.
