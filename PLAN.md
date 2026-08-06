@@ -386,15 +386,122 @@ produce `verified`.
 
 ### Phase A6 — Semantic extensions (far horizon; each expands when due)
 
-- A6.0 — Expansion stage
-- A6.1 — **Decision point (reopens D9):** int64/unsigned/bit ops → QF_BV vs
-  mathematical ints + extra obligations
-- A6.2 — Arrays (restricted QF_ARRAY)
-- A6.3 — Value-type structs
-- A6.4 — Restricted references (provably alias-free cases)
-- A6.5 — `modifies` / frame conditions ("and nothing else changed")
-- A6.6 — CHC/Spacer invariant inference (research spike; path to reducing
-  user-written invariants)
+Phase rule: each source family is admitted only through owned IR, exact VCs,
+backend capability checks, schema/migration review, and fail-closed tests. A
+backend-specific unsupported result remains unsupported in default cross-check
+mode; a single capable backend is never silently substituted. Decision stages
+may append implementation stages after A6.7 without renumbering existing IDs.
+
+#### A6.0 — Expansion stage
+- Goal: turn the semantic-extension horizon into ordered, independently
+  reviewable stages with explicit trust, schema, backend, and unsupported
+  boundaries before any parser acceptance grows.
+- Output: detailed A6.1–A6.7 contracts in this plan,
+  `docs/semantic_extensions_roadmap.md`, README navigation, PROGRESS/TODO.
+- DoD: every stage has Goal/Output/DoD/Depends; integer, aggregate, alias,
+  frame, and inference boundaries are explicit; no stage treats unsupported or
+  inferred facts as proof; full suite and fixture check are green.
+- Depends: A5.4.
+
+#### A6.1 — Fixed-width integer-semantics decision point (reopens D9)
+- Goal: choose and document the exact representation for int64, unsigned
+  arithmetic, conversions, comparisons, bitwise operators, and shifts: QF_BV,
+  mathematical integers plus safety/range obligations, or a typed hybrid.
+  Preserve the current int32 claim until migration is explicit.
+- Output: `docs/integer_semantics_decision.md`; operator/type/conversion truth
+  tables; backend and default cross-check capability policy; schema-major and
+  fixture migration impact; appended implementation stages after A6.7 with
+  declared file sets and dependencies.
+- DoD: examples cover signed overflow, unsigned wrap, mixed signedness,
+  narrowing/widening, negative/oversized shifts, and bitwise results; every
+  operator maps to exact IR/SMT semantics or explicit unsupported; the affine
+  boundary and Z3 logic identity are stated; selected stages are added without
+  renumbering; documentation tests, full suite, and fixture check are green.
+- Depends: A6.0.
+
+#### A6.2 — Restricted arrays (QF_ARRAY)
+- Goal: support a reviewed fixed-size array subset with exact select/store and
+  bounds obligations. Dynamic allocation, decay to pointers, multidimensional
+  arrays, aliasing, and unmodeled library operations remain unsupported.
+- Output: owned array type/value/index IR; frontend/lowering/VC/SMT support;
+  contract expression indexing; schema/migration updates; `tests/test_arrays.py`;
+  result/adoption/prototype/changelog documentation.
+- DoD: constant and symbolic reads/writes verify; in-range facts prove access;
+  feasible out-of-bounds access violates with replayed evidence; unknown bounds
+  never verify; array copy/store isolation is exact; decay/alias/dynamic cases
+  fail closed; deterministic JSON/SMT, schema fixtures, full suite, and fixture
+  check are green.
+- Depends: A6.1 and every prerequisite implementation stage it appends.
+
+#### A6.3 — Value-type structs
+- Goal: support aggregate-by-value records whose fields are already-supported
+  scalar/array/value-record types, with field-sensitive SSA and copy semantics.
+  Methods, inheritance, unions, bitfields, padding/layout claims, references,
+  pointers, and escaping addresses remain unsupported.
+- Output: record type/field IR; frontend/lowering/VC/SMT projection/update;
+  contract field access; schema/migration updates; `tests/test_structs.py`;
+  result/adoption/prototype/changelog documentation.
+- DoD: construction, field read/write, nested value copy, branch merge, calls by
+  value, contracts, and counterexamples are exact; updating one field preserves
+  all others; unsupported C++ record features fail closed; serialization and
+  solver output are deterministic; full suite and fixture check are green.
+- Depends: A6.2 (arrays may be fields; record lvalue paths become the shared
+  aggregate update mechanism).
+
+#### A6.4 — Restricted references with proved alias discipline
+- Goal: admit only reference bindings whose single target and lifetime are
+  statically established and whose allowed reads/writes can be lowered to the
+  same aggregate lvalue path. No general alias analysis is inferred.
+- Output: reference target/lifetime IR; frontend escape and mutation checks;
+  exact lowering/VC rules; explicit unsupported diagnostics;
+  `tests/test_references.py`; result/adoption/prototype/changelog documentation.
+- DoD: unique local bindings, const reads, permitted writes, aggregate-field
+  targets, and branch lifetimes match direct-target behavior; multiple possible
+  targets, rebinding patterns, temporary/dangling, parameter/return escape, and
+  unsupported aliasing fail closed; no snapshot approximation is used; full
+  suite and fixture check are green.
+- Depends: A6.3.
+
+#### A6.5 — `modifies` contracts and frame conditions
+- Goal: specify and prove which caller-visible aggregate/reference locations a
+  modular call may change, including the exact fact that every other reachable
+  modeled location is unchanged.
+- Output: strict `cs: modifies` parser/attachment; normalized lvalue-path IR;
+  call summaries and frame VCs; schema fields/migration; diagnostics;
+  `tests/test_frame_conditions.py`; result/adoption/prototype/changelog docs.
+- DoD: empty/single/multiple/nested modifies sets work; permitted updates are
+  havoced and constrained by ensures while unlisted locations retain equality;
+  invalid, duplicate, inaccessible, aliased, or missing required frame specs
+  fail closed; caller proofs demonstrate both change and non-change; full suite
+  and fixture check are green.
+- Depends: A6.4.
+
+#### A6.6 — CHC/Spacer invariant-inference research spike
+- Goal: measure whether deterministic Horn-clause candidates can reduce manual
+  loop invariants without adding an inference engine to the trusted referee.
+- Output: isolated CHC emitter/runner, fixed benchmark corpus, sorted candidate
+  artifact schema, timeout/budget policy, decision memo, and spike tests. No
+  inferred candidate enters ordinary proof assumptions directly.
+- DoD: repeated clauses/candidates are byte-identical under a pinned solver;
+  useful, insufficient, timeout, unsupported, and malformed cases are recorded;
+  every candidate accepted for evaluation is reattached as a proposal and
+  proved by the ordinary loop entry/preservation VCs; inference failure remains
+  unknown/no-candidate; full suite and fixture check are green.
+- Depends: A6.5; reuses A3 loop semantics and A5 resource policy.
+
+#### A6.7 — Semantic-extension phase gate
+- Goal: freeze the combined A6 support matrix and prove that added types,
+  aggregates, alias discipline, frames, and optional inference preserve the
+  existing int32/report behavior and fail-closed boundary.
+- Output: combined extension examples/fixtures, backend capability matrix,
+  schema migration evidence, deterministic phase-gate tool, operations docs,
+  and PROGRESS evidence.
+- DoD: all A6 feature and negative-boundary tests are green; legacy v1 fixtures
+  remain archived/unchanged; current fixtures regenerate twice byte-identically;
+  capable-backend results replay; default cross-check never hides unsupported;
+  inferred candidates are independently proved or rejected; full suite and
+  fixture check are green.
+- Depends: A6.1–A6.6 and any implementation stages appended by A6.1.
 
 ---
 

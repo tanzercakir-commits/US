@@ -73,7 +73,9 @@ packaging, timeouts, determinism, failure handling, model replay, and minimized
 evidence cores. The [path-scaling decision](docs/path_scaling_decision.md)
 records the measured exponential baseline and chosen exact merge architecture.
 The [scaling operations runbook](docs/scaling_operations.md) defines the frozen
-A5 phase gate and failure handling.
+A5 phase gate and failure handling. The
+[semantic extensions roadmap](docs/semantic_extensions_roadmap.md) fixes A6
+ordering, trust boundaries, and per-stage acceptance requirements.
 
 ## Development workflow
 

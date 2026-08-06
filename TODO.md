@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **A6.0 - semantic-extensions expansion stage**
+- [ ] **A6.1 - fixed-width integer-semantics decision point**
 
 ## Next
 
-- [ ] **A6.1 - integer-semantics decision point**
 - [ ] **A6.2 - restricted arrays**
+- [ ] **A6.3 - value-type structs**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-06 - A5.4 froze the scaling slice and executable phase gate: 11/11
-cross-check obligations verify, warm cache makes zero backend calls, budgeted
-reports repeat exactly, and the merge probe remains 1/1/1/1. Next is A6.0.
+2026-08-06 - A6.0 expanded A6.1-A6.7 with exact trust, schema, backend,
+unsupported, and phase-gate contracts. Next is the fixed-width integer-semantics
+decision and its implementation-stage insertion.

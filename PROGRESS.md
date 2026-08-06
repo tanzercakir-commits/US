@@ -582,3 +582,22 @@ Evidence: scaling-gate tests -> 2/2; two default cross-check gate renders ->
 byte-identical, exit 0; full suite -> 175/175; fixture check -> 10/10 current;
 path probe -> 1/1/1/1 target; diff check -> clean; commit: this commit.
 Next: A6.0 (semantic-extensions expansion stage).
+
+## 2026-08-06 - A6.0: semantic-extensions expansion stage - DONE
++ Expanded A6.1-A6.7 into Goal/Output/DoD/Depends contracts without renumbering
+  existing stages; added the combined semantic-extension phase gate.
++ Ordered fixed-width decisions before aggregate lvalues, value records, proved
+  references, modular frames, and optional invariant-inference research.
++ Fixed parser-last admission: every feature requires owned IR, exact VCs,
+  capability checks, replay, schema review, and negative fail-closed tests.
++ Preserved default cross-check policy: a backend-specific unsupported result is
+  never silently discarded in favor of one capable backend.
++ Required A6.1 to document the integer truth tables and append selected
+  implementation stages after A6.7 without changing existing IDs.
++ Added the semantic-extensions roadmap covering trust, schema/fixture migration,
+  dependencies, and the per-stage acceptance template.
+- None.
+Evidence: plan extended: A6.1-A6.7; stage contract review -> 7/7 complete;
+full suite -> 175/175; fixture check -> 10/10 current; diff check -> clean;
+commit: this commit.
+Next: A6.1 (fixed-width integer-semantics decision point).
