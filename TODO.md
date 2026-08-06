@@ -8,12 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **F3.3 - adoption guide** (path for introducing the verifier into a new
-  codebase without widening the soundness claim)
+- [ ] **F4.1 - schema version policy** (v0 to v1 triggers, compatibility,
+  migration, and fixture requirements)
 
 ## Next
 
-- [ ] F4.1 - schema version policy
 - [ ] F4.2 - CHANGELOG discipline
 ## Blockers / open questions
 
@@ -22,5 +21,5 @@
 
 ## Last updated
 
-2026-08-06 - F3.2 completed: field-level result, obligation, non-goal, and
-Semantic IR v0 contracts are documented. Next is F3.3.
+2026-08-06 - F3 completed: current scope, schema, and staged adoption are
+documented and linked from README. Next is F4.1.

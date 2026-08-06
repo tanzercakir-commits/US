@@ -621,4 +621,5 @@ Implement a native, test-only CodeSkeptic ASTContext-to-Semantic-IR adapter for
 the first int/bool fixture subset and reuse the existing contract parser. Stop
 when assignment, if/else merge, return, unsupported handling, and deterministic
 IR JSON match the corresponding pinned Python fixtures. Do not add native solver
-integration in that milestone.
+integration in that milestone. For a conservative staged rollout, follow
+[the adoption guide](adoption_guide.md).

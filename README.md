@@ -5,12 +5,13 @@ This repository is an isolated prototype for a small
 created after inspecting CodeSkeptic, but it does not modify or vendor the
 CodeSkeptic repository.
 
-The prototype deliberately supports only 32-bit `int`, `bool`, local state,
-assignment, side-effect-free expressions, `if`/`else`, standalone contracted
-calls, `assert`, and `return`. Unsupported C++ is reported explicitly. It uses
-a real Clang AST and has no Python package dependencies. The affine checker is
-dependency-free; the stronger backend invokes an optional Z3 executable through
-SMT-LIB2.
+The prototype deliberately supports only 32-bit `int`, `bool`, local
+state, assignment, side-effect-free expressions, `if`/`else`, direct
+contracted calls (including assigned `int` results), invariant-annotated
+`while`, `assert`, and `return`. Unsupported C++ is reported
+explicitly. It uses a real Clang AST and has no Python package dependencies.
+The affine checker is dependency-free; the default cross-check backend also
+invokes a separately installed Z3 executable through SMT-LIB2.
 
 Run the vertical slice (the CLI defaults to affine/Z3 cross-check mode):
 
@@ -31,11 +32,19 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 109 deterministic tests. The separately cloned,
+The current suite contains 137 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
+Committed fixtures are checked with:
+
+```powershell
+python tools/regenerate_fixtures.py --check
+```
 
 See [the design document](docs/semantic_verification_prototype.md) for the
-implemented boundary, result taxonomy, examples, and limitations. The
+implemented boundary, examples, and limitations. The
+[result/schema reference](docs/result_schema.md) defines machine-readable
+fields and status semantics, and the [adoption guide](docs/adoption_guide.md)
+gives a staged path into another codebase. The
 [Z3 backend decision record](docs/solver_decision.md) documents licensing,
 packaging, timeouts, determinism, failure handling, and model replay.
 

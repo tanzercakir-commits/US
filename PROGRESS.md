@@ -343,3 +343,17 @@ Evidence: committed fixture envelope/status keys -> all present in reference;
 local documentation links -> valid; full suite -> 137/137; diff check -> clean;
 commit: this commit.
 Next: F3.3 (adoption guide).
+## 2026-08-06 - F3.3: adoption guide - DONE
++ Added a fail-closed rollout guide from observation-only CI through a frozen
+  pilot subset, reviewed contracts/invariants, controlled gating, and semantic
+  feature expansion.
++ Documented CI exit-code preservation, per-status triage, counterexample data
+  handling, schema/fixture discipline, and the native CodeSkeptic adapter seam.
++ Added a completion checklist that keeps non-goals, unsupported ownership,
+  compatibility review, and the deterministic referee explicit.
++ Refreshed README capability/test counts and linked all documentation entry
+  points; linked the guide from the prototype assessment.
+- None.
+Evidence: documentation links and code fences -> valid; full suite -> 137/137;
+diff check -> clean; commit: this commit.
+Next: F4.1 (schema version policy).
