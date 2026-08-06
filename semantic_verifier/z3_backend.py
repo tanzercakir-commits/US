@@ -329,7 +329,7 @@ def parse_z3_model(
                 f"unexpected={unexpected!r}"
             )
         for name in sorted(expected_types):
-            expected_sort = {"int": "Int", "bool": "Bool"}.get(
+            expected_sort = {"i32": "Int", "bool": "Bool"}.get(
                 expected_types[name]
             )
             if expected_sort is None or sorts[name] != expected_sort:

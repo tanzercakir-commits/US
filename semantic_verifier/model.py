@@ -11,10 +11,12 @@ from enum import Enum
 import json
 from typing import Any, Iterable, Mapping
 
+from .integer_types import I32, canonical_decimal, is_fixed_integer_type
 
-SCHEMA = "codeskeptic.semantic-verification/v1"
-INT_MIN = -(2**31)
-INT_MAX = 2**31 - 1
+
+SCHEMA = "codeskeptic.semantic-verification/v2"
+INT_MIN = I32.minimum
+INT_MAX = I32.maximum
 
 
 @dataclass(frozen=True, order=True, slots=True)
@@ -38,15 +40,17 @@ class Expr:
     args: tuple["Expr", ...] = ()
 
     @staticmethod
-    def integer(value: int) -> "Expr":
-        return Expr("constant", "int", value=value)
+    def integer(value: int, type_name: str = "i32") -> "Expr":
+        if not is_fixed_integer_type(type_name):
+            raise ValueError(f"unsupported fixed-width integer type {type_name!r}")
+        return Expr("constant", type_name, value=value)
 
     @staticmethod
     def boolean(value: bool) -> "Expr":
         return Expr("constant", "bool", value=value)
 
     @staticmethod
-    def variable(name: str, type_name: str = "int") -> "Expr":
+    def variable(name: str, type_name: str = "i32") -> "Expr":
         return Expr("variable", type_name, value=name)
 
     @staticmethod
@@ -68,7 +72,11 @@ class Expr:
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {"kind": self.kind, "type": self.type}
         if self.value is not None:
-            result["value"] = self.value
+            result["value"] = (
+                canonical_decimal(self.value)
+                if self.kind == "constant" and is_fixed_integer_type(self.type)
+                else self.value
+            )
         if self.op is not None:
             result["op"] = self.op
         if self.args:
@@ -387,7 +395,12 @@ class VerificationResult:
         }
         if self.counterexample is not None:
             result["counterexample"] = {
-                key: self.counterexample[key] for key in sorted(self.counterexample)
+                key: (
+                    self.counterexample[key]
+                    if type(self.counterexample[key]) is bool
+                    else canonical_decimal(self.counterexample[key])
+                )
+                for key in sorted(self.counterexample)
             }
         if self.trace:
             result["trace"] = [step.to_dict() for step in self.trace]

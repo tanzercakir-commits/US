@@ -40,7 +40,7 @@
       "status": "unsupported"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v2",
+  "schema": "codeskeptic.semantic-verification/v1",
   "semantic_ir": {
     "functions": [
       {
@@ -52,13 +52,13 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "n#0"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "0"
+                      "type": "int",
+                      "value": 0
                     }
                   ],
                   "kind": "binary",
@@ -69,13 +69,13 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "n#0"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "10"
+                      "type": "int",
+                      "value": 10
                     }
                   ],
                   "kind": "binary",
@@ -99,8 +99,8 @@
           {
             "expression": {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             },
             "id": "n00002",
             "kind": "assign",
@@ -114,8 +114,8 @@
           {
             "expression": {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             },
             "id": "n00003",
             "kind": "assign",
@@ -133,18 +133,18 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "i#1"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "1"
+                      "type": "int",
+                      "value": 1
                     }
                   ],
                   "kind": "binary",
                   "op": "+",
-                  "type": "i32"
+                  "type": "int"
                 },
                 "id": "n00005",
                 "kind": "assign",
@@ -160,18 +160,18 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "total#1"
                     },
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "i#2"
                     }
                   ],
                   "kind": "binary",
                   "op": "+",
-                  "type": "i32"
+                  "type": "int"
                 },
                 "id": "n00006",
                 "kind": "assign",
@@ -187,12 +187,12 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "i#1"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "n#0"
                 }
               ],
@@ -215,7 +215,7 @@
                 "exit": "i#3",
                 "head": "i#1",
                 "name": "i",
-                "type": "i32"
+                "type": "int"
               },
               {
                 "back_edge": "total#2",
@@ -223,7 +223,7 @@
                 "exit": "total#3",
                 "head": "total#1",
                 "name": "total",
-                "type": "i32"
+                "type": "int"
               }
             ],
             "termination": "non_goal"
@@ -231,7 +231,7 @@
           {
             "expression": {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "total#3"
             },
             "id": "n00007",
@@ -251,13 +251,13 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "n#0"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "0"
+                      "type": "int",
+                      "value": 0
                     }
                   ],
                   "kind": "binary",
@@ -268,13 +268,13 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "n#0"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "10"
+                      "type": "int",
+                      "value": 10
                     }
                   ],
                   "kind": "binary",
@@ -302,13 +302,13 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "result"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "0"
+                      "type": "int",
+                      "value": 0
                     }
                   ],
                   "kind": "binary",
@@ -319,13 +319,13 @@
                   "args": [
                     {
                       "kind": "variable",
-                      "type": "i32",
+                      "type": "int",
                       "value": "result"
                     },
                     {
                       "kind": "constant",
-                      "type": "i32",
-                      "value": "100"
+                      "type": "int",
+                      "value": 100
                     }
                   ],
                   "kind": "binary",
@@ -358,7 +358,7 @@
               "line": 4
             },
             "name": "i",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "i#0"
           },
           {
@@ -369,7 +369,7 @@
               "line": 5
             },
             "name": "total",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "total#0"
           }
         ],
@@ -388,14 +388,14 @@
               "line": 3
             },
             "name": "n",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "n#0"
           }
         ],
-        "return_type": "i32"
+        "return_type": "int"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v2",
+    "schema": "codeskeptic.semantic-verification/v1",
     "source": "fixtures/cases/sum_loop_missing_invariant.cpp",
     "unsupported": []
   },

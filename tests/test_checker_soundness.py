@@ -61,7 +61,7 @@ class CheckerSoundnessTests(unittest.TestCase):
     def test_evaluator_uses_short_circuit_semantics(self):
         undefined_rhs = Expr.binary(
             "==",
-            Expr.binary("/", Expr.integer(1), Expr.integer(0), "int"),
+            Expr.binary("/", Expr.integer(1), Expr.integer(0), "i32"),
             Expr.integer(0),
             "bool",
         )

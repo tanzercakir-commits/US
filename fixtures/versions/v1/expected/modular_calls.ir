@@ -1,10 +1,10 @@
 module fixtures/cases/modular_calls.cpp
-function validate(candidate#0:i32) -> i32
+function validate(candidate#0:int) -> int
   requires (candidate#0 >= 0)
   ensures (result == candidate#0)
   n00001 assume (candidate#0 >= 0)
   n00002 return candidate#0
-function withdraw(balance#0:i32, amount#0:i32) -> i32
+function withdraw(balance#0:int, amount#0:int) -> int
   requires (amount#0 >= 0)
   requires (balance#0 >= amount#0)
   ensures (result >= 0)
@@ -13,6 +13,6 @@ function withdraw(balance#0:i32, amount#0:i32) -> i32
   n00005 remaining#0 := (balance#0 - amount#0)
   n00006 call validate(remaining#0)
   n00007 return checked#0
-function unchecked_validate(candidate#0:i32) -> i32
+function unchecked_validate(candidate#0:int) -> int
   n00008 call validate(candidate#0)
   n00009 return checked#0

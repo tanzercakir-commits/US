@@ -39,12 +39,12 @@ def obligation(
         kind="assertion",
         assumptions=(
             Expr.binary(
-                ">=", Expr.variable("x", "int"), Expr.integer(0), "bool"
+                ">=", Expr.variable("x", "i32"), Expr.integer(0), "bool"
             ),
         ),
         conclusion=conclusion
         or Expr.binary(
-            ">=", Expr.variable("x", "int"), Expr.integer(0), "bool"
+            ">=", Expr.variable("x", "i32"), Expr.integer(0), "bool"
         ),
         location=location,
         description="cache test",
@@ -115,7 +115,7 @@ int cached_run(int x) {
         original_second = obligation(
             "ob2",
             conclusion=Expr.binary(
-                ">=", Expr.variable("x", "int"), Expr.integer(1), "bool"
+                ">=", Expr.variable("x", "i32"), Expr.integer(1), "bool"
             ),
         )
         self.cached(CountingBackend()).check_all(
@@ -124,7 +124,7 @@ int cached_run(int x) {
         changed = obligation(
             "ob2-new",
             conclusion=Expr.binary(
-                ">", Expr.variable("x", "int"), Expr.integer(1), "bool"
+                ">", Expr.variable("x", "i32"), Expr.integer(1), "bool"
             ),
         )
         backend = CountingBackend()
@@ -199,6 +199,9 @@ int cached_run(int x) {
                 )
 
         self.cached(TraceBackend()).check(item)
+        persisted = json.loads(self.path.read_text(encoding="utf-8"))
+        stored = next(iter(persisted["entries"].values()))
+        self.assertEqual(stored["result"]["counterexample"], {"x": "-1"})
         new_location = SourceLocation("new.cpp", 20, 7)
         current = obligation(
             "current-id",

@@ -7,13 +7,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -24,13 +24,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -41,13 +41,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             }
           ],
           "kind": "binary",
@@ -72,13 +72,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -89,13 +89,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -106,13 +106,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             }
           ],
           "kind": "binary",
@@ -124,12 +124,12 @@
         "args": [
           {
             "kind": "variable",
-            "type": "i32",
+            "type": "int",
             "value": "candidate#0"
           },
           {
             "kind": "variable",
-            "type": "i32",
+            "type": "int",
             "value": "candidate#0"
           }
         ],
@@ -154,13 +154,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -171,13 +171,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -188,13 +188,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -205,13 +205,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -222,13 +222,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             }
           ],
           "kind": "binary",
@@ -239,12 +239,12 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             }
           ],
@@ -270,13 +270,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -287,13 +287,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -304,13 +304,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -321,13 +321,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -338,13 +338,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             }
           ],
           "kind": "binary",
@@ -355,12 +355,12 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             }
           ],
@@ -377,23 +377,23 @@
                 "args": [
                   {
                     "kind": "variable",
-                    "type": "i32",
+                    "type": "int",
                     "value": "balance#0"
                   },
                   {
                     "kind": "variable",
-                    "type": "i32",
+                    "type": "int",
                     "value": "amount#0"
                   }
                 ],
                 "kind": "binary",
                 "op": "-",
-                "type": "i32"
+                "type": "int"
               },
               {
                 "kind": "constant",
-                "type": "i32",
-                "value": "-2147483648"
+                "type": "int",
+                "value": -2147483648
               }
             ],
             "kind": "binary",
@@ -406,23 +406,23 @@
                 "args": [
                   {
                     "kind": "variable",
-                    "type": "i32",
+                    "type": "int",
                     "value": "balance#0"
                   },
                   {
                     "kind": "variable",
-                    "type": "i32",
+                    "type": "int",
                     "value": "amount#0"
                   }
                 ],
                 "kind": "binary",
                 "op": "-",
-                "type": "i32"
+                "type": "int"
               },
               {
                 "kind": "constant",
-                "type": "i32",
-                "value": "2147483647"
+                "type": "int",
+                "value": 2147483647
               }
             ],
             "kind": "binary",
@@ -451,13 +451,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -468,13 +468,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -485,13 +485,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -502,13 +502,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -519,13 +519,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             }
           ],
           "kind": "binary",
@@ -536,12 +536,12 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             }
           ],
@@ -555,23 +555,23 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -584,23 +584,23 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -611,25 +611,25 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "remaining#0"
             },
             {
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             }
           ],
           "kind": "binary",
@@ -641,13 +641,13 @@
         "args": [
           {
             "kind": "variable",
-            "type": "i32",
+            "type": "int",
             "value": "remaining#0"
           },
           {
             "kind": "constant",
-            "type": "i32",
-            "value": "0"
+            "type": "int",
+            "value": 0
           }
         ],
         "kind": "binary",
@@ -671,13 +671,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -688,13 +688,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -705,13 +705,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -722,13 +722,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -739,13 +739,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "0"
+              "type": "int",
+              "value": 0
             }
           ],
           "kind": "binary",
@@ -756,12 +756,12 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "balance#0"
             },
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "amount#0"
             }
           ],
@@ -775,23 +775,23 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -804,23 +804,23 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -831,25 +831,25 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "remaining#0"
             },
             {
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             }
           ],
           "kind": "binary",
@@ -860,13 +860,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "checked#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -877,13 +877,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "checked#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -894,12 +894,12 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "checked#0"
             },
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "remaining#0"
             }
           ],
@@ -912,13 +912,13 @@
         "args": [
           {
             "kind": "variable",
-            "type": "i32",
+            "type": "int",
             "value": "checked#0"
           },
           {
             "kind": "constant",
-            "type": "i32",
-            "value": "0"
+            "type": "int",
+            "value": 0
           }
         ],
         "kind": "binary",
@@ -942,13 +942,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "-2147483648"
+              "type": "int",
+              "value": -2147483648
             }
           ],
           "kind": "binary",
@@ -959,13 +959,13 @@
           "args": [
             {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             {
               "kind": "constant",
-              "type": "i32",
-              "value": "2147483647"
+              "type": "int",
+              "value": 2147483647
             }
           ],
           "kind": "binary",
@@ -977,13 +977,13 @@
         "args": [
           {
             "kind": "variable",
-            "type": "i32",
+            "type": "int",
             "value": "candidate#0"
           },
           {
             "kind": "constant",
-            "type": "i32",
-            "value": "0"
+            "type": "int",
+            "value": 0
           }
         ],
         "kind": "binary",
@@ -1077,7 +1077,7 @@
     },
     {
       "counterexample": {
-        "candidate": "-2147483648"
+        "candidate": -2147483648
       },
       "function": "unchecked_validate",
       "kind": "precondition",
@@ -1091,7 +1091,7 @@
       "status": "violated"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v2",
+  "schema": "codeskeptic.semantic-verification/v1",
   "semantic_ir": {
     "functions": [
       {
@@ -1101,13 +1101,13 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "candidate#0"
                 },
                 {
                   "kind": "constant",
-                  "type": "i32",
-                  "value": "0"
+                  "type": "int",
+                  "value": 0
                 }
               ],
               "kind": "binary",
@@ -1126,7 +1126,7 @@
           {
             "expression": {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "candidate#0"
             },
             "id": "n00002",
@@ -1144,13 +1144,13 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "candidate#0"
                 },
                 {
                   "kind": "constant",
-                  "type": "i32",
-                  "value": "0"
+                  "type": "int",
+                  "value": 0
                 }
               ],
               "kind": "binary",
@@ -1171,12 +1171,12 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "result"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "candidate#0"
                 }
               ],
@@ -1212,11 +1212,11 @@
               "line": 3
             },
             "name": "candidate",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "candidate#0"
           }
         ],
-        "return_type": "i32"
+        "return_type": "int"
       },
       {
         "body": [
@@ -1225,13 +1225,13 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 },
                 {
                   "kind": "constant",
-                  "type": "i32",
-                  "value": "0"
+                  "type": "int",
+                  "value": 0
                 }
               ],
               "kind": "binary",
@@ -1252,12 +1252,12 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
@@ -1279,18 +1279,18 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
               "kind": "binary",
               "op": "-",
-              "type": "i32"
+              "type": "int"
             },
             "id": "n00005",
             "kind": "assign",
@@ -1305,7 +1305,7 @@
             "arguments": [
               {
                 "kind": "variable",
-                "type": "i32",
+                "type": "int",
                 "value": "remaining#0"
               }
             ],
@@ -1317,13 +1317,13 @@
               "file": "fixtures/cases/modular_calls.cpp",
               "line": 12
             },
-            "result_type": "i32",
+            "result_type": "int",
             "target": "checked#0"
           },
           {
             "expression": {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "checked#0"
             },
             "id": "n00007",
@@ -1341,13 +1341,13 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 },
                 {
                   "kind": "constant",
-                  "type": "i32",
-                  "value": "0"
+                  "type": "int",
+                  "value": 0
                 }
               ],
               "kind": "binary",
@@ -1368,12 +1368,12 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "balance#0"
                 },
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "amount#0"
                 }
               ],
@@ -1395,13 +1395,13 @@
               "args": [
                 {
                   "kind": "variable",
-                  "type": "i32",
+                  "type": "int",
                   "value": "result"
                 },
                 {
                   "kind": "constant",
-                  "type": "i32",
-                  "value": "0"
+                  "type": "int",
+                  "value": 0
                 }
               ],
               "kind": "binary",
@@ -1429,7 +1429,7 @@
               "line": 11
             },
             "name": "remaining",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "remaining#0"
           },
           {
@@ -1440,7 +1440,7 @@
               "line": 12
             },
             "name": "checked",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "checked#0"
           }
         ],
@@ -1459,7 +1459,7 @@
               "line": 10
             },
             "name": "balance",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "balance#0"
           },
           {
@@ -1470,11 +1470,11 @@
               "line": 10
             },
             "name": "amount",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "amount#0"
           }
         ],
-        "return_type": "i32"
+        "return_type": "int"
       },
       {
         "body": [
@@ -1482,7 +1482,7 @@
             "arguments": [
               {
                 "kind": "variable",
-                "type": "i32",
+                "type": "int",
                 "value": "candidate#0"
               }
             ],
@@ -1494,13 +1494,13 @@
               "file": "fixtures/cases/modular_calls.cpp",
               "line": 17
             },
-            "result_type": "i32",
+            "result_type": "int",
             "target": "checked#0"
           },
           {
             "expression": {
               "kind": "variable",
-              "type": "i32",
+              "type": "int",
               "value": "checked#0"
             },
             "id": "n00009",
@@ -1524,7 +1524,7 @@
               "line": 17
             },
             "name": "checked",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "checked#0"
           }
         ],
@@ -1543,14 +1543,14 @@
               "line": 16
             },
             "name": "candidate",
-            "type": "i32",
+            "type": "int",
             "versioned_name": "candidate#0"
           }
         ],
-        "return_type": "i32"
+        "return_type": "int"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v2",
+    "schema": "codeskeptic.semantic-verification/v1",
     "source": "fixtures/cases/modular_calls.cpp",
     "unsupported": []
   },

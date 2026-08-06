@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .backend import CheckerBackend
+from .integer_types import canonical_decimal, parse_canonical_decimal
 from .model import (
     Obligation,
     SCHEMA,
@@ -219,7 +220,12 @@ def _encode_entry(
     }
     if result.counterexample is not None:
         encoded_result["counterexample"] = {
-            key: result.counterexample[key] for key in sorted(result.counterexample)
+            key: (
+                result.counterexample[key]
+                if type(result.counterexample[key]) is bool
+                else canonical_decimal(result.counterexample[key])
+            )
+            for key in sorted(result.counterexample)
         }
     return {
         "key": dict(payload),
@@ -238,9 +244,15 @@ def _decode_counterexample(
         return False, None
     decoded: dict[str, int | bool] = {}
     for key, value in raw.items():
-        if not isinstance(key, str) or type(value) not in {bool, int}:
+        if not isinstance(key, str):
             return False, None
-        decoded[key] = value
+        if type(value) is bool:
+            decoded[key] = value
+            continue
+        try:
+            decoded[key] = parse_canonical_decimal(value)
+        except ValueError:
+            return False, None
     return True, {key: decoded[key] for key in sorted(decoded)}
 
 

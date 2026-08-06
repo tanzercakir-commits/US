@@ -53,14 +53,14 @@ class LinearForm:
 
 
 def linearize(expr: Expr) -> LinearForm | None:
-    if expr.kind == "constant" and expr.type == "int":
+    if expr.kind == "constant" and expr.type == "i32":
         return LinearForm((), int(expr.value))
-    if expr.kind == "variable" and expr.type == "int":
+    if expr.kind == "variable" and expr.type == "i32":
         return LinearForm(((str(expr.value), 1),), 0)
-    if expr.kind == "unary" and expr.op == "-" and expr.type == "int":
+    if expr.kind == "unary" and expr.op == "-" and expr.type == "i32":
         inner = linearize(expr.args[0])
         return inner.scale(-1) if inner is not None else None
-    if expr.kind != "binary" or expr.type != "int":
+    if expr.kind != "binary" or expr.type != "i32":
         return None
     left = linearize(expr.args[0])
     right = linearize(expr.args[1])
@@ -244,19 +244,19 @@ def _normalize_constraint(
 def logic_supported(expr: Expr) -> bool:
     """Validate the original expression before any simplifying rewrite."""
 
-    if expr.type == "int":
+    if expr.type == "i32":
         if expr.kind in {"constant", "variable"}:
             return True
         if expr.kind == "unary":
             return (
                 expr.op == "-"
                 and len(expr.args) == 1
-                and expr.args[0].type == "int"
+                and expr.args[0].type == "i32"
                 and logic_supported(expr.args[0])
             )
         if expr.kind != "binary" or expr.op not in {"+", "-", "*"}:
             return False
-        if len(expr.args) != 2 or any(arg.type != "int" for arg in expr.args):
+        if len(expr.args) != 2 or any(arg.type != "i32" for arg in expr.args):
             return False
         return (
             all(logic_supported(arg) for arg in expr.args)
@@ -282,7 +282,7 @@ def logic_supported(expr: Expr) -> bool:
         )
     if expr.op in {"<", "<=", ">", ">="}:
         return all(
-            argument.type == "int"
+            argument.type == "i32"
             and logic_supported(argument)
             and linearize(argument) is not None
             for argument in expr.args
@@ -290,7 +290,7 @@ def logic_supported(expr: Expr) -> bool:
     if expr.op in {"==", "!="}:
         if expr.args[0].type != expr.args[1].type:
             return False
-        if expr.args[0].type == "int":
+        if expr.args[0].type == "i32":
             return all(
                 logic_supported(argument) and linearize(argument) is not None
                 for argument in expr.args
@@ -588,7 +588,7 @@ def _integer_constants(expressions: Iterable[Expr]) -> set[int]:
     result: set[int] = set()
 
     def visit(expr: Expr) -> None:
-        if expr.kind == "constant" and expr.type == "int":
+        if expr.kind == "constant" and expr.type == "i32":
             result.add(int(expr.value))
         for argument in expr.args:
             visit(argument)

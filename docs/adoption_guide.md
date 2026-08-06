@@ -236,7 +236,7 @@ Do not retry until green and then discard the failed report without review.
 ## Counterexamples and data handling
 
 Counterexample cores contain only the source/SSA variable names and concrete
-int/bool values retained by deterministic greedy minimization. They are proof
+fixed-width decimal-string/bool values retained by deterministic greedy minimization. They are proof
 evidence relative to the obligation assumptions, but may still expose sensitive
 business inputs in logs or CI artifacts. Apply the target repository's retention
 and access policy. Relevance projection is conservative and syntactic, while
@@ -247,7 +247,7 @@ counterexample core; apply the same artifact access policy to both fields.
 
 ## Schema and fixture discipline
 
-- Require `codeskeptic.semantic-verification/v1` before consuming fields and
+- Require `codeskeptic.semantic-verification/v2` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.

@@ -211,7 +211,7 @@ def _collect_variable_types(expressions: Iterable[Expr]) -> dict[str, str]:
 
 
 def _emit_sort(type_name: str) -> str:
-    if type_name == "int":
+    if type_name == "i32":
         return "Int"
     if type_name == "bool":
         return "Bool"
@@ -224,7 +224,7 @@ def _emit_expr(expression: Expr) -> str:
             raise SmtLibEmissionError("malformed constant expression")
         if expression.type == "bool" and isinstance(expression.value, bool):
             return "true" if expression.value else "false"
-        if expression.type == "int" and type(expression.value) is int:
+        if expression.type == "i32" and type(expression.value) is int:
             return _emit_integer(int(expression.value))
         raise SmtLibEmissionError("constant value does not match its declared type")
 
@@ -244,7 +244,7 @@ def _emit_expr(expression: Expr) -> str:
             _require_types(expression, "bool", (operand, "bool"))
             return f"(not {_emit_expr(operand)})"
         if expression.op == "-":
-            _require_types(expression, "int", (operand, "int"))
+            _require_types(expression, "i32", (operand, "i32"))
             return f"(- {_emit_expr(operand)})"
         raise SmtLibEmissionError(f"unsupported unary operator {expression.op!r}")
 
@@ -257,20 +257,20 @@ def _emit_expr(expression: Expr) -> str:
         _require_types(expression, "bool", (left, "bool"), (right, "bool"))
         smt_op = "and" if op == "&&" else "or"
     elif op in {"==", "!="}:
-        if left.type not in {"int", "bool"} or left.type != right.type:
+        if left.type not in {"i32", "bool"} or left.type != right.type:
             raise SmtLibEmissionError(
                 f"operator {op!r} requires same-typed int or bool operands"
             )
         _require_types(expression, "bool")
         smt_op = "=" if op == "==" else "distinct"
     elif op in {"<", "<=", ">", ">="}:
-        _require_types(expression, "bool", (left, "int"), (right, "int"))
+        _require_types(expression, "bool", (left, "i32"), (right, "i32"))
         smt_op = op
     elif op in {"+", "-"}:
-        _require_types(expression, "int", (left, "int"), (right, "int"))
+        _require_types(expression, "i32", (left, "i32"), (right, "i32"))
         smt_op = op
     elif op == "*":
-        _require_types(expression, "int", (left, "int"), (right, "int"))
+        _require_types(expression, "i32", (left, "i32"), (right, "i32"))
         if not (_is_integer_literal(left) or _is_integer_literal(right)):
             raise SmtLibEmissionError(
                 "variable-by-variable multiplication is outside QF_LIA"
@@ -299,11 +299,11 @@ def _require_types(
 
 def _is_integer_literal(expression: Expr) -> bool:
     if expression.kind == "constant":
-        return expression.type == "int" and type(expression.value) is int
+        return expression.type == "i32" and type(expression.value) is int
     return (
         expression.kind == "unary"
         and expression.op == "-"
-        and expression.type == "int"
+        and expression.type == "i32"
         and len(expression.args) == 1
         and _is_integer_literal(expression.args[0])
     )

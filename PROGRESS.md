@@ -623,3 +623,24 @@ Evidence: plan extended: A6.8-A6.12; decision tests -> 3/3; full suite ->
 178/178; fixture check -> 10/10 current; diff check -> clean; commit: this
 commit.
 Next: A6.8 (fixed-width type profile and schema v2).
+
+## 2026-08-06 - A6.8: fixed-width type profile and schema v2 - DONE
++ Added immutable owned `i32`/`u32`/`i64`/`u64` type identities, exact
+  signedness/width/range metadata, and the pinned C++17 target-profile value.
++ Added a cached Clang compile probe for 8-bit bytes, 32/64-bit widths,
+  two's-complement representation/narrowing, and arithmetic signed right shift;
+  mismatch becomes deterministic frontend `solver_error` before lowering.
++ Migrated existing C++ `int` lowering and the QF_LIA referee path to explicit
+  `i32` without accepting unsigned or 64-bit source types early.
++ Advanced report/Semantic IR to `codeskeptic.semantic-verification/v2`; fixed
+  integer constants, counterexample bindings, and cache evidence now use strict
+  canonical decimal strings while booleans remain JSON booleans.
++ Archived the complete v1 corpus with a 16-file SHA-256 manifest; regenerated
+  current v2 fixtures and proved identical summaries and result status tuples.
++ Updated the schema, adoption, prototype, solver, changelog, and README
+  contracts; expanded the ratchet from 178 to 189 tests.
+- None.
+Evidence: integer/profile/migration tests -> 11/11; full suite -> 189/189;
+fixture check -> 10/10 current; archived v1 hashes -> 16/16; v1/v2 result
+equivalence -> 5/5 cases; diff check -> clean; commit: this commit.
+Next: A6.9 (signed int64 QF_LIA lane).

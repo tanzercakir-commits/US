@@ -516,6 +516,15 @@ may append implementation stages after A6.7 without renumbering existing IDs.
   `codeskeptic.semantic-verification/v2`; immutable archived v1 fixtures;
   `tests/test_integer_types.py`; schema/result/adoption/prototype/changelog,
   fixture, README, PLAN/PROGRESS/TODO, and ratchet updates.
+- Expanded exact file set: `semantic_verifier/{integer_types,model,frontend,
+  lowering,contracts,vc,checker,smtlib,z3_backend,counterexample,cache}.py`;
+  direct type/schema assertions in `tests/{test_cache,test_checker_soundness,
+  test_contract_consistency,test_contracts,test_counterexample_quality,
+  test_determinism,test_frontend_failures,test_lowering,test_z3_backend,
+  test_integer_types}.py`; current and archived fixtures;
+  `docs/{result_schema,schema_versioning,adoption_guide,
+  semantic_verification_prototype,solver_decision}.md`; `CHANGELOG.md`,
+  `README.md`, `PLAN.md`, `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: the frontend validates the pinned 32/64-bit, two's-complement, arithmetic
   right-shift target assumptions or fails closed; v1 corpus bytes stay immutable;
   current int32 reports migrate deterministically to v2 without proof-status

@@ -20,7 +20,7 @@ class DeterminismTests(unittest.TestCase):
         second = verify_source(source, "repeat.cpp").to_json()
         self.assertEqual(first, second)
         payload = json.loads(first)
-        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v1")
+        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v2")
         self.assertEqual(payload["summary"]["verified"], 1)
 
     def test_result_order_follows_source_and_path_order(self):

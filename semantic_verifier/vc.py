@@ -53,14 +53,14 @@ def _equality(name: str, type_name: str, value: Expr) -> Expr:
 
 
 def _literal_integer(expr: Expr) -> bool:
-    if expr.kind == "constant" and expr.type == "int":
+    if expr.kind == "constant" and expr.type == "i32":
         return True
     return (
         expr.kind == "unary"
         and expr.op == "-"
         and len(expr.args) == 1
         and expr.args[0].kind == "constant"
-        and expr.args[0].type == "int"
+        and expr.args[0].type == "i32"
     )
 
 
@@ -353,7 +353,7 @@ class VerificationConditionGenerator:
             if node.target is None:
                 return [defined]
             if (
-                node.result_type != "int"
+                node.result_type != "i32"
                 or self._symbol_type(function, node.target) != node.result_type
             ):
                 self._add(
@@ -583,7 +583,7 @@ class VerificationConditionGenerator:
     ) -> _PathState:
         result = state
         for variable in node.loop_variables:
-            if variable.type != "int":
+            if variable.type != "i32":
                 continue
             value = Expr.variable(
                 str(getattr(variable, state_name)), variable.type
@@ -616,7 +616,7 @@ class VerificationConditionGenerator:
         current = state
         for argument in expr.args:
             current = self._expression_safety(function, argument, current, node)
-        if expr.kind == "unary" and expr.op == "-" and expr.type == "int":
+        if expr.kind == "unary" and expr.op == "-" and expr.type == "i32":
             in_range = _binary("!=", expr.args[0], Expr.integer(INT_MIN))
             self._add(
                 function,
@@ -628,7 +628,7 @@ class VerificationConditionGenerator:
                 trace_templates=current.trace_templates,
             )
             return current.add(in_range)
-        if expr.kind != "binary" or expr.type != "int":
+        if expr.kind != "binary" or expr.type != "i32":
             return current
         if expr.op in {"+", "-", "*"}:
             if expr.op == "*" and _contains_nonlinear_multiplication(expr):
@@ -795,9 +795,9 @@ class VerificationConditionGenerator:
     @staticmethod
     def _type_bounds(function: FunctionIR) -> Iterable[Expr]:
         for parameter in function.parameters:
-            if parameter.type != "int":
+            if parameter.type != "i32":
                 continue
-            value = Expr.variable(parameter.versioned_name, "int")
+            value = Expr.variable(parameter.versioned_name, "i32")
             yield _binary(">=", value, Expr.integer(INT_MIN))
             yield _binary("<=", value, Expr.integer(INT_MAX))
 

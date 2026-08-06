@@ -21,6 +21,7 @@ from .model import (
 
 
 SUPPORTED_TYPES = {"int", "bool"}
+SOURCE_TYPE_MAP = {"int": "i32", "bool": "bool"}
 TRANSPARENT_EXPR_KINDS = {
     "ParenExpr",
     "ExprWithCleanups",
@@ -362,7 +363,10 @@ class SemanticLowerer:
                 link_name = BUILTIN_ASSERT_LINK
             else:
                 link_name = f"{name}({','.join(signature)})" if overloaded else name
-            self._function_return_types[link_name] = _function_return_type(node)
+            source_return_type = _function_return_type(node)
+            self._function_return_types[link_name] = SOURCE_TYPE_MAP.get(
+                source_return_type, source_return_type
+            )
             declaration_id = node.get("id")
             if declaration_id is not None:
                 self._function_links[str(declaration_id)] = link_name
@@ -405,7 +409,8 @@ class SemanticLowerer:
             (child for child in inner if child.get("kind") == "CompoundStmt"),
             None,
         )
-        return_type = _function_return_type(node)
+        source_return_type = _function_return_type(node)
+        return_type = SOURCE_TYPE_MAP.get(source_return_type, source_return_type)
         if link_name == BUILTIN_ASSERT_LINK:
             return None
 
@@ -427,9 +432,9 @@ class SemanticLowerer:
         initial_error: UnsupportedNode | None = None
         if node_is_macro_expansion(node):
             initial_error = UnsupportedNode(node, "macro-generated function is unsupported")
-        if return_type not in SUPPORTED_TYPES:
+        if source_return_type not in SUPPORTED_TYPES:
             initial_error = UnsupportedNode(
-                node, f"return type {return_type or '<unknown>'!r} is unsupported"
+                node, f"return type {source_return_type or '<unknown>'!r} is unsupported"
             )
 
         parameters: list[Symbol] = []
@@ -437,7 +442,10 @@ class SemanticLowerer:
         for parameter_node in parameter_nodes:
             parameter_name = str(parameter_node.get("name", ""))
             raw_parameter_type = _qual_type(parameter_node)
-            parameter_type = _normalize_value_type(raw_parameter_type)
+            source_parameter_type = _normalize_value_type(raw_parameter_type)
+            parameter_type = SOURCE_TYPE_MAP.get(
+                source_parameter_type, source_parameter_type
+            )
             if not parameter_name:
                 initial_error = UnsupportedNode(
                     parameter_node, "unnamed parameters are unsupported"
@@ -452,24 +460,24 @@ class SemanticLowerer:
                 initial_error = UnsupportedNode(
                     parameter_node, "volatile parameters are unsupported"
                 )
-            if parameter_type not in SUPPORTED_TYPES:
+            if source_parameter_type not in SUPPORTED_TYPES:
                 initial_error = UnsupportedNode(
                     parameter_node,
-                    f"parameter type {parameter_type or '<unknown>'!r} is unsupported",
+                    f"parameter type {source_parameter_type or '<unknown>'!r} is unsupported",
                 )
             if parameter_name in environment:
                 initial_error = UnsupportedNode(
                     parameter_node, f"duplicate parameter {parameter_name!r}"
                 )
             ir_name = self._new_symbol_name(parameter_name)
-            self._types[ir_name] = parameter_type or "int"
+            self._types[ir_name] = parameter_type or "i32"
             self._versions[ir_name] = 0
             versioned = f"{ir_name}#0"
             environment[parameter_name] = versioned
             parameters.append(
                 self._new_symbol(
                     ir_name,
-                    parameter_type or "int",
+                    parameter_type or "i32",
                     versioned,
                     self._location(parameter_node),
                     source_name=parameter_name,
@@ -530,7 +538,7 @@ class SemanticLowerer:
                 lowered_body, _, falls_through = self._lower_sequence(
                     body_node.get("inner", []), environment
                 )
-                if falls_through and name == "main" and return_type == "int":
+                if falls_through and name == "main" and return_type == "i32":
                     lowered_body.append(
                         self._node(
                             "return",
@@ -624,7 +632,7 @@ class SemanticLowerer:
             ir_name = self._version_base(current[name])
             call_node = self._direct_call_expression(inner[1])
             if call_node is not None:
-                if self._types[ir_name] != "int":
+                if self._types[ir_name] != "i32":
                     raise UnsupportedNode(
                         node, "only int call results may be assigned"
                     )
@@ -703,7 +711,8 @@ class SemanticLowerer:
         current = dict(environment)
         name = str(node.get("name", ""))
         raw_type_name = _qual_type(node)
-        type_name = _normalize_value_type(raw_type_name)
+        source_type_name = _normalize_value_type(raw_type_name)
+        type_name = SOURCE_TYPE_MAP.get(source_type_name, source_type_name)
         if not name:
             raise UnsupportedNode(node, "unnamed local variable is unsupported")
         if name in current:
@@ -714,8 +723,8 @@ class SemanticLowerer:
             raise UnsupportedNode(
                 node, "static and thread_local local variables are unsupported"
             )
-        if type_name not in SUPPORTED_TYPES:
-            raise UnsupportedNode(node, f"local type {type_name!r} is unsupported")
+        if source_type_name not in SUPPORTED_TYPES:
+            raise UnsupportedNode(node, f"local type {source_type_name!r} is unsupported")
         initializer_nodes = [
             child for child in node.get("inner", []) if isinstance(child, dict)
         ]
@@ -737,7 +746,7 @@ class SemanticLowerer:
         )
         call_node = self._direct_call_expression(initializer_nodes[-1])
         if call_node is not None:
-            if type_name != "int":
+            if type_name != "i32":
                 raise UnsupportedNode(
                     node, "only int call results may initialize locals"
                 )
@@ -940,7 +949,7 @@ class SemanticLowerer:
             value = self._expression(inner, environment)
             if cast_kind in {"LValueToRValue", "NoOp"}:
                 return value
-            if cast_kind == "IntegralToBoolean" and value.type == "int":
+            if cast_kind == "IntegralToBoolean" and value.type == "i32":
                 return Expr.binary("!=", value, Expr.integer(0), "bool")
             raise UnsupportedNode(node, f"implicit cast {cast_kind!r} is unsupported")
         if kind == "IntegerLiteral":
@@ -958,10 +967,10 @@ class SemanticLowerer:
         if kind == "UnaryOperator":
             operator = str(node.get("opcode", ""))
             value = self._expression(self._inner(node, 1)[0], environment)
-            if operator == "+" and value.type == "int":
+            if operator == "+" and value.type == "i32":
                 return value
-            if operator == "-" and value.type == "int":
-                return Expr.unary("-", value, "int")
+            if operator == "-" and value.type == "i32":
+                return Expr.unary("-", value, "i32")
             if operator == "!" and value.type == "bool":
                 return Expr.unary("!", value, "bool")
             raise UnsupportedNode(node, f"unary operator {operator!r} is unsupported")
@@ -988,15 +997,15 @@ class SemanticLowerer:
             left = self._expression(left_node, environment)
             right = self._expression(right_node, environment)
             if operator in {"+", "-", "*", "/"}:
-                if left.type != "int" or right.type != "int":
+                if left.type != "i32" or right.type != "i32":
                     raise UnsupportedNode(node, f"{operator} requires integer operands")
-                return Expr.binary(operator, left, right, "int")
+                return Expr.binary(operator, left, right, "i32")
             if operator in {"&&", "||"}:
                 if left.type != "bool" or right.type != "bool":
                     raise UnsupportedNode(node, f"{operator} requires boolean operands")
                 return Expr.binary(operator, left, right, "bool")
             if operator in {"<", "<=", ">", ">="}:
-                if left.type != "int" or right.type != "int":
+                if left.type != "i32" or right.type != "i32":
                     raise UnsupportedNode(node, f"{operator} requires integer operands")
             elif left.type != right.type:
                 raise UnsupportedNode(node, f"{operator} operands have different types")
@@ -1026,7 +1035,7 @@ class SemanticLowerer:
     ) -> IRNode:
         callee, arguments = self._call(node, environment)
         return_type = self._function_return_types.get(callee)
-        if return_type != "int":
+        if return_type != "i32":
             shown = return_type or "unknown"
             raise UnsupportedNode(
                 node,
@@ -1036,7 +1045,7 @@ class SemanticLowerer:
             "call",
             self._location(node),
             target=target,
-            result_type="int",
+            result_type="i32",
             callee=callee,
             arguments=tuple(arguments),
         )

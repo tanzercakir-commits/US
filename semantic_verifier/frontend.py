@@ -17,6 +17,7 @@ import subprocess
 import tempfile
 from typing import Any
 
+from .integer_types import TARGET_PROFILE_ID, TARGET_PROFILE_PROBE
 from .locations import LineMap
 
 
@@ -60,9 +61,56 @@ def discover_clang(explicit: str | None = None) -> str:
     )
 
 
+_PROFILE_VALIDATION: dict[str, str | None] = {}
+
+
+def validate_integer_target_profile(clang: str) -> None:
+    """Require the pinned integer implementation choices before lowering."""
+
+    key = os.path.normcase(os.path.abspath(clang))
+    if key in _PROFILE_VALIDATION:
+        error = _PROFILE_VALIDATION[key]
+        if error is not None:
+            raise FrontendError(error)
+        return
+
+    command = [
+        clang,
+        "-x",
+        "c++",
+        "-std=c++17",
+        "-fsyntax-only",
+        "-Wno-everything",
+        "-",
+    ]
+    flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+    error: str | None = None
+    try:
+        completed = subprocess.run(
+            command,
+            input=TARGET_PROFILE_PROBE,
+            check=False,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            creationflags=flags,
+        )
+        if completed.returncode != 0:
+            error = (
+                f"Clang does not satisfy integer target profile "
+                f"{TARGET_PROFILE_ID}"
+            )
+    except OSError as failure:
+        error = f"failed to validate integer target profile: {failure}"
+    _PROFILE_VALIDATION[key] = error
+    if error is not None:
+        raise FrontendError(error)
+
+
 class ClangJsonFrontend:
     def __init__(self, clang: str | None = None) -> None:
         self.clang = discover_clang(clang)
+        validate_integer_target_profile(self.clang)
 
     def parse_file(
         self, path: str | os.PathLike[str], display_path: str | None = None

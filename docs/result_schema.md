@@ -2,16 +2,17 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v1`. It
+The current schema identifier is `codeskeptic.semantic-verification/v2`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation.
 
-F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moves to
-v1 because the public `counterexample` changed from a complete replay model to
-a minimized sufficient binding core. Consumers must check `schema`, ignore
-unknown object fields only within that known major, and fail closed on unknown
-status/mode/kind values. The complete [version and migration
-policy](schema_versioning.md) defines compatibility and preserves the v0 corpus.
+F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
+v1 for minimized public counterexample cores. A6.8 moves to v2 for explicit
+fixed-width type identities and canonical decimal-string integer evidence.
+Consumers must check `schema`, ignore unknown object fields only within that
+known major, and fail closed on unknown status/mode/kind values. The complete
+[version and migration policy](schema_versioning.md) defines compatibility and
+preserves the v0 and v1 corpora.
 
 ## Report envelope
 
@@ -22,7 +23,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v1",
+  "schema": "codeskeptic.semantic-verification/v2",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -143,7 +144,7 @@ file budget.
 | `status` | status string | yes | One of the five taxonomy values. |
 | `location` | location | yes | Primary source location. |
 | `message` | string | yes | Deterministic human-readable backend explanation. |
-| `counterexample` | object | no | Sorted `int`/`bool` bindings forming a minimized violation core. |
+| `counterexample` | object | no | Sorted bindings: fixed-width integers are canonical decimal strings; booleans are JSON booleans. |
 | `trace` | trace-step array | no | Source-ordered branch decisions leading to a violated obligation. |
 
 For a violated validity obligation, the backend first replays a complete model
@@ -156,6 +157,12 @@ assumptions plus the retained equalities imply the negated conclusion. Solver
 uncertainty or an emission failure keeps an in-cone binding. The public object
 can therefore be empty, and it is not a standalone replay model. Consumers must
 interpret it together with the referenced obligation's `assumptions`.
+
+Every fixed-width integer counterexample value is serialized as a canonical
+base-10 string (`0` or an optional leading `-` followed by nonzero digits).
+This avoids JSON-number precision loss for u64. Boolean bindings remain JSON
+booleans. Cache entries use the same evidence encoding; internal referee values
+remain Python integers and booleans.
 
 Counterexample keys use IR variable names. A unique `name#0` is displayed as
 `name`; later SSA versions retain `#N`. If shortening would collide, the full
@@ -242,6 +249,15 @@ corresponding top-level non-goal record, including JSON emitted with `--no-ir`.
 
 ## Shared values
 
+### Integer target profile
+
+Before lowering, Clang must accept the pinned
+`codeskeptic.cxx17-fixed-integers/i32-u32-i64-u64-twos-complement-arshift/v0`
+probe: 8-bit bytes, 32-bit `int`/`unsigned int`, 64-bit `long long`/`unsigned
+long long`, arithmetic signed right shift, and the selected two's-complement
+signed narrowing behavior. Failure is a deterministic `solver_error`; source
+is never lowered under a different target.
+
 ### Source location
 
 | Field | Type | Contract |
@@ -252,11 +268,12 @@ corresponding top-level non-goal record, including JSON emitted with `--no-ir`.
 
 ### Expression
 
-Every expression has `kind` and `type`. `type` is currently `int` or `bool`.
+Every expression has `kind` and `type`. v2 type identities are `bool`, `i32`,
+`u32`, `i64`, and `u64`; the current source subset emits only `bool` and `i32`.
 
 | Kind | Additional fields | Contract |
 | --- | --- | --- |
-| `constant` | `value` | JSON integer or boolean. |
+| `constant` | `value` | Canonical decimal string for fixed-width integers; JSON boolean for `bool`. |
 | `variable` | `value` | Versioned IR symbol name. |
 | `unary` | `op`, one-element `args` | `!` or unary `-`. |
 | `binary` | `op`, two-element `args` | Arithmetic, comparison, equality, or boolean connective. |
@@ -283,7 +300,7 @@ support: the QF_LIA emitter rejects division and nonlinear multiplication.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | Currently `int` or `bool`. |
+| `return_type` | string | yes | v2 type identity; currently emitted as `i32` or `bool`. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
@@ -298,7 +315,7 @@ support: the QF_LIA emitter rejects division and nonlinear multiplication.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | `int` or `bool`. |
+| `type` | string | yes | v2 type identity; currently emitted as `i32` or `bool`. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
 
@@ -335,7 +352,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | `int` or `bool`. |
+| `type` | string | v2 type identity; currently emitted as `i32` or `bool`. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

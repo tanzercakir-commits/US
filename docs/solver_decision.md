@@ -39,7 +39,7 @@ Rejected alternatives:
 
 ## Supported logic and query semantics
 
-The emitter declares `QF_LIA` and accepts typed `int`/`bool` constants and
+The emitter declares `QF_LIA` and accepts typed `i32`/`bool` constants and
 variables, boolean connectives, equality/order comparisons, addition,
 subtraction, negation, and multiplication by an integer literal. Division,
 variable-by-variable multiplication, malformed types, and unknown expression

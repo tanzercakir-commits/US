@@ -12,24 +12,24 @@ class ContractParserTests(unittest.TestCase):
     def test_parses_arithmetic_and_boolean_contract(self):
         expression = ContractExpressionParser(
             "result == balance - amount && result >= 0",
-            {"result": "int", "balance": "int", "amount": "int"},
+            {"result": "i32", "balance": "i32", "amount": "i32"},
         ).parse()
         self.assertEqual(expression.type, "bool")
         self.assertEqual(expression.op, "&&")
 
     def test_return_alias_is_canonical_result(self):
         expression = ContractExpressionParser(
-            "return > x", {"result": "int", "x": "int"}
+            "return > x", {"result": "i32", "x": "i32"}
         ).parse()
         self.assertIn("result", expression.variables())
         self.assertNotIn("return", expression.variables())
 
     def test_unknown_name_is_explicit_error(self):
         with self.assertRaisesRegex(ContractSyntaxError, "unknown name"):
-            ContractExpressionParser("missing != 0", {"x": "int"}).parse()
+            ContractExpressionParser("missing != 0", {"x": "i32"}).parse()
 
     def test_type_mismatch_is_explicit_error(self):
-        with self.assertRaisesRegex(ContractSyntaxError, "requires int"):
+        with self.assertRaisesRegex(ContractSyntaxError, "requires i32"):
             ContractExpressionParser("flag + 1 > 0", {"flag": "bool"}).parse()
 
     def test_parses_contiguous_invariant_block_before_while(self):
@@ -42,7 +42,7 @@ class ContractParserTests(unittest.TestCase):
             source,
             source.index("while"),
             LineMap(source, "loop.cpp"),
-            {"i": "int", "n": "int", "total": "int"},
+            {"i": "i32", "n": "i32", "total": "i32"},
             "WhileStmt",
         )
         self.assertEqual(issues, ())
@@ -70,7 +70,7 @@ class ContractParserTests(unittest.TestCase):
             source,
             source.index("while"),
             LineMap(source, "loop.cpp"),
-            {"i": "int"},
+            {"i": "i32"},
             "WhileStmt",
         )
         self.assertEqual(invariants, ())
@@ -84,7 +84,7 @@ class ContractParserTests(unittest.TestCase):
             source,
             source.index("if"),
             LineMap(source, "branch.cpp"),
-            {"x": "int"},
+            {"x": "i32"},
             "IfStmt",
         )
         self.assertEqual(invariants, ())

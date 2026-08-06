@@ -76,7 +76,7 @@ def _binding_equality(name: str, value: int | bool) -> Expr:
         type_name = "bool"
     elif isinstance(value, int):
         constant = Expr.integer(value)
-        type_name = "int"
+        type_name = "i32"
     else:
         raise TypeError(f"counterexample binding {name!r} has unsupported value")
     return Expr.binary(

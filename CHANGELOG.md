@@ -46,6 +46,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Changed
 
+- A6.8 moves the producer to `codeskeptic.semantic-verification/v2`, maps the
+  existing C++17 `int` subset to the explicit `i32` IR identity, and serializes
+  every fixed-width integer constant and counterexample binding as canonical
+  decimal text. Clang now validates the pinned fixed-width target profile before
+  lowering; mismatch is fail-closed. New unsigned and 64-bit source types remain
+  unsupported.
 - A4.1 moves the producer to `codeskeptic.semantic-verification/v1` and changes
   validity counterexamples from complete public replay models to deterministic
   minimized binding cores. A complete model is still replayed internally, and
@@ -62,10 +68,17 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- v2 consumers must replace the implicit `int` identity with `i32`, accept the
+  reserved `u32`/`i64`/`u64` identities, and decode fixed-width constants and
+  counterexample bindings from canonical decimal strings. Boolean values remain
+  JSON booleans. See `docs/schema_versioning.md`.
+- The complete v1 corpus is immutable under `fixtures/versions/v1/` with a
+  SHA-256 manifest; current fixture paths contain v2 bytes and preserve every
+  v1 obligation result status. v0 remains archived unchanged.
 - v1 consumers must treat `counterexample` as a possibly empty partial core and
   join it to the referenced obligation assumptions; they must not replay it as
   a complete input assignment.
-- Consumers must reject v0/v1 report/Semantic IR mixtures and unknown majors.
+- Consumers must reject v0/v1/v2 report/Semantic IR mixtures and unknown majors.
   The reference `require_current_schema` gate enforces both rules.
 - The complete v0 fixture corpus remains immutable under
   `fixtures/versions/v0/`; current fixture paths now contain v1 bytes.

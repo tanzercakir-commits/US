@@ -56,7 +56,7 @@ class ContractConsistencyTests(unittest.TestCase):
 
     def test_satisfiability_mode_verified_and_unknown(self):
         location = SourceLocation("contract.cpp", 1, 1)
-        x = Expr.variable("x#0", "int")
+        x = Expr.variable("x#0", "i32")
         verified = Obligation(
             id="ob1",
             function="f",
@@ -74,7 +74,7 @@ class ContractConsistencyTests(unittest.TestCase):
             assumptions=(
                 Expr.binary(
                     "==",
-                    Expr.binary("*", Expr.integer(100), x, "int"),
+                    Expr.binary("*", Expr.integer(100), x, "i32"),
                     Expr.integer(5000),
                     "bool",
                 ),

@@ -62,13 +62,13 @@ class LoweringTests(unittest.TestCase):
 
         self.assertEqual(call.kind, "call")
         self.assertEqual(call.target, "q#0")
-        self.assertEqual(call.result_type, "int")
+        self.assertEqual(call.result_type, "i32")
         self.assertEqual(call.callee, "callee")
         self.assertEqual([argument.value for argument in call.arguments], ["x#0"])
         self.assertEqual(returned.expression.value, "q#0")
         self.assertEqual(
             {key: call.to_dict()[key] for key in ("kind", "target", "result_type")},
-            {"kind": "call", "target": "q#0", "result_type": "int"},
+            {"kind": "call", "target": "q#0", "result_type": "i32"},
         )
 
     def test_int_call_assignment_creates_next_target_version(self):
@@ -86,7 +86,7 @@ class LoweringTests(unittest.TestCase):
             [(node.kind, node.target) for node in caller.body[:-1]],
             [("assign", "q#0"), ("call", "q#1")],
         )
-        self.assertEqual(caller.body[1].result_type, "int")
+        self.assertEqual(caller.body[1].result_type, "i32")
         self.assertEqual(caller.body[-1].expression.value, "q#1")
 
     def test_other_nested_call_positions_remain_fail_closed(self):

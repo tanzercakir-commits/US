@@ -8,15 +8,15 @@
 
 ## Now (active stage)
 
-- [ ] **A6.8 - fixed-width type profile and schema v2**
+- [ ] **A6.9 - signed int64 QF_LIA lane**
 
 ## Next
 
-- [ ] **A6.9 - signed int64 QF_LIA lane**
 - [ ] **A6.10 - unsigned integers and homogeneous QF_BV lane**
 - [ ] **A6.11 - C++17 bitwise and shift operators**
 - [ ] **A6.12 - fixed-width integer phase gate**
 - [ ] **A6.2 - restricted arrays**
+- [ ] **A6.3 - restricted value structs**
 
 ## Blockers / open questions
 
@@ -25,6 +25,6 @@
 
 ## Last updated
 
-2026-08-06 - A6.1 selected homogeneous per-obligation QF_LIA/QF_BV lowering,
-a pinned C++17 fixed-width profile, and schema v2. Added A6.8-A6.12; next is the
-type/profile and schema foundation.
+2026-08-06 - A6.8 established the pinned frontend target-profile gate, explicit
+fixed-width type identities, schema v2 decimal-string integer evidence, and
+immutable v1 migration corpus; next is signed int64 QF_LIA.

@@ -111,8 +111,8 @@ class ContractExpressionParser:
         while self._peek().text in {"<", "<=", ">", ">="}:
             op = self._take().text
             right = self._additive()
-            self._require(left, "int", op)
-            self._require(right, "int", op)
+            self._require(left, "i32", op)
+            self._require(right, "i32", op)
             left = Expr.binary(op, left, right, "bool")
         return left
 
@@ -121,9 +121,9 @@ class ContractExpressionParser:
         while self._peek().text in {"+", "-"}:
             op = self._take().text
             right = self._multiplicative()
-            self._require(left, "int", op)
-            self._require(right, "int", op)
-            left = Expr.binary(op, left, right, "int")
+            self._require(left, "i32", op)
+            self._require(right, "i32", op)
+            left = Expr.binary(op, left, right, "i32")
         return left
 
     def _multiplicative(self) -> Expr:
@@ -131,9 +131,9 @@ class ContractExpressionParser:
         while self._peek().text in {"*", "/"}:
             op = self._take().text
             right = self._unary()
-            self._require(left, "int", op)
-            self._require(right, "int", op)
-            left = Expr.binary(op, left, right, "int")
+            self._require(left, "i32", op)
+            self._require(right, "i32", op)
+            left = Expr.binary(op, left, right, "i32")
         return left
 
     def _unary(self) -> Expr:
@@ -145,8 +145,8 @@ class ContractExpressionParser:
         if self._peek().text == "-":
             self._take()
             value = self._unary()
-            self._require(value, "int", "-")
-            return Expr.unary("-", value, "int")
+            self._require(value, "i32", "-")
+            return Expr.unary("-", value, "i32")
         return self._primary()
 
     def _primary(self) -> Expr:

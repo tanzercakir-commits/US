@@ -270,7 +270,7 @@ class Z3ModelParserTests(unittest.TestCase):
         self.assertEqual(
             parse_z3_model(
                 MODEL_OUTPUT,
-                {"x#0": "int", "ready#0": "bool", "y@2#0": "int"},
+                {"x#0": "i32", "ready#0": "bool", "y@2#0": "i32"},
             ),
             {"x#0": -4, "ready#0": True, "y@2#0": 7},
         )
@@ -278,7 +278,7 @@ class Z3ModelParserTests(unittest.TestCase):
     def test_accepts_model_wrapper_and_comments(self):
         output = "sat\n(model ; comment\n (define-fun x_v0 () Int 0))\n"
 
-        self.assertEqual(parse_z3_model(output, {"x#0": "int"}), {"x#0": 0})
+        self.assertEqual(parse_z3_model(output, {"x#0": "i32"}), {"x#0": 0})
 
     def test_rejects_malformed_or_unsupported_model_forms(self):
         invalid_outputs = (
@@ -298,7 +298,7 @@ class Z3ModelParserTests(unittest.TestCase):
         with self.assertRaisesRegex(Z3ModelError, "missing"):
             parse_z3_model(
                 "sat\n((define-fun x_v0 () Int 0))\n",
-                {"x#0": "int", "y#0": "int"},
+                {"x#0": "i32", "y#0": "i32"},
             )
         with self.assertRaisesRegex(Z3ModelError, "unexpected"):
             parse_z3_model(
@@ -313,7 +313,7 @@ class Z3ModelParserTests(unittest.TestCase):
         with self.assertRaisesRegex(Z3ModelError, "sort mismatch"):
             parse_z3_model(
                 "sat\n((define-fun x_v0 () Bool true))\n",
-                {"x#0": "int"},
+                {"x#0": "i32"},
             )
 
 

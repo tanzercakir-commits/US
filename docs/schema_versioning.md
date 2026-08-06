@@ -8,10 +8,11 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v1`. F4.1 froze the
-report and Semantic IR contract as the v0 compatibility baseline; A4.1 advances
-the producer to v1 for the counterexample-evidence change below. A producer
-emits exactly one major version; there is no implicit negotiation or fallback.
+The current value is `codeskeptic.semantic-verification/v2`. F4.1 froze the
+report and Semantic IR contract as v0; A4.1 advanced to v1 for minimized public
+counterexample evidence; A6.8 advances to v2 for explicit fixed-width types and
+canonical integer evidence. A producer emits exactly one major version; there
+is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
@@ -54,9 +55,34 @@ unknown report majors and mixed report/Semantic IR schemas.
 A4.3 adds the optional diagnostic `trace` result field within v1. It is safe for
 a v1 consumer to ignore: branch explanations do not change the obligation,
 status, replay requirement, or counterexample-core meaning. Results without a
-violated source-branch path omit the field, so the existing five-case current
-fixture corpus remains byte-identical. An equivalent change that altered proof
+violated source-branch path omit the field, so the then-current five-case v1
+fixture corpus remained byte-identical. An equivalent change that altered proof
 meaning or existing fixture bytes would require a new major review.
+
+## v2 decision: fixed-width type identities and integer evidence
+
+A6.8 replaces the implicit v1 `int` identity with schema-owned `i32`, and
+reserves `u32`, `i64`, and `u64` alongside distinct `bool`. Every serialized
+fixed-width integer constant and counterexample binding becomes canonical
+base-10 text. Internal values remain integers. This avoids implicit width and
+signedness and prevents u64 precision loss in JSON-number consumers.
+
+Keeping this change under v1 was rejected: a v1 consumer expects `int` and JSON
+numbers and could misinterpret or reject the new evidence. The complete v1
+corpus is preserved byte-for-byte under `fixtures/versions/v1/` with checked
+SHA-256 hashes. Current fixtures are regenerated as v2, and status-equivalence
+tests show that legacy int32 proof outcomes do not change.
+
+Before lowering any source, the frontend validates the pinned C++17 target
+profile for 8-bit bytes, 32/64-bit widths, arithmetic signed right shift, and
+the selected two's-complement signed narrowing behavior. A mismatch fails
+closed. A6.8 does not accept new C++ source integer types: `int` maps to `i32`;
+unsigned and 64-bit source types remain unsupported until their dedicated
+stages.
+
+The `require_current_schema` gate rejects v0, v1, unknown, and mixed-major
+payloads. No legacy reader or conversion tool exists in this producer-only
+repository.
 
 ## Consumer rules
 
@@ -96,7 +122,7 @@ can change the semantic interpretation.
 
 ## Mandatory major-version triggers
 
-The next such change moves the identifier from v0 to v1. Triggers include:
+The next such change advances the major identifier. Triggers include:
 
 - removing, renaming, or changing the type/requiredness of an existing field;
 - changing status meaning, proof evidence, cross-check behavior, or CLI status
@@ -132,7 +158,7 @@ Every major bump must be one intentional stage/commit and include:
 3. an update to the single `SCHEMA` constant and every report/IR schema test;
 4. updated result/schema and adoption documentation;
 5. preservation of the complete previous fixture corpus under a versioned
-   archive such as `fixtures/versions/v0/`;
+   archive such as `fixtures/versions/v1/`;
 6. a new current corpus generated twice and byte-compared;
 7. tests that reject mixed report/IR majors and unknown majors;
 8. a consumer compatibility test or explicit statement that no compatible
@@ -156,20 +182,22 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A4.3:
+As of A6.8:
 
-- current producer: `codeskeptic.semantic-verification/v1`;
-- frozen previous baseline: the complete five-case v0 corpus under
-  `fixtures/versions/v0/`;
-- compatible readers: v1 readers that require the exact schema and apply the
-  minimized-core interpretation; `semantic_verifier.schema` supplies the
-  reference fail-closed gate;
-- v0 readers are intentionally incompatible with v1 evidence semantics;
+- current producer: `codeskeptic.semantic-verification/v2`;
+- frozen previous baselines: complete five-case v0 and v1 corpora under
+  `fixtures/versions/v0/` and `fixtures/versions/v1/`;
+- compatible readers: v2 readers that require the exact schema, understand
+  fixed-width type identities, decode integer evidence from canonical decimal
+  strings, and apply the minimized-core interpretation;
+  `semantic_verifier.schema` supplies the reference fail-closed gate;
+- v0 and v1 readers are intentionally incompatible with v2 type/evidence
+  semantics;
 - no legacy report reader or conversion tool exists in this producer-only
   reference repository, so none is deleted by this migration;
-- the Unreleased changelog period is the migration window; v0 fixture bytes
-  remain available throughout and are not scheduled for deletion.
+- the Unreleased changelog period is the migration window; archived fixture
+  bytes remain available and are not scheduled for deletion.
 
-This policy does not promise that every future source feature stays in v0. It
+This policy does not promise that every future source feature stays in v2. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,
 and impossible to confuse silently with the previous proof contract.

@@ -34,7 +34,7 @@ Implemented:
   per-process solver timeouts, with exhaustion remaining explicit `unknown`;
 - a committed scaling slice and hash/count-based phase gate covering exact join
   compaction, uncached/warm cache identity, and repeated budget identity;
-- 178 deterministic tests, including independent soundness regressions.
+- 189 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -48,13 +48,14 @@ Partially implemented:
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete, while Z3 is
   complete only for the emitted QF_LIA fragment;
-- v0 is archived and v1 is the current counterexample-core schema; the selected
-  fixed-width integer implementation will require an explicit v2 migration.
+- v0 and v1 are archived and v2 is current; C++17 `int` lowers to owned
+  `i32`, integer wire evidence is canonical decimal text, and Clang must pass
+  the pinned fixed-width target-profile probe before lowering.
 
 Proposed, not implemented:
 
-- the selected per-obligation homogeneous QF_LIA/QF_BV fixed-width integer
-  profile, schema v2 migration, signed i64, unsigned, bitwise, and shift stages;
+- signed i64, unsigned, homogeneous QF_BV, bitwise, and shift stages under the
+  selected fixed-width integer profile;
 - a native clang::ASTContext adapter inside CodeSkeptic;
 - reuse of CodeSkeptic .csk sidecars;
 - production diagnostic/SARIF/MCP adapters for proof results and models;
@@ -230,8 +231,8 @@ The implemented node kinds are:
 
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, and boolean connectives. The JSON schema identifier is
-codeskeptic.semantic-verification/v1. Serialization uses sorted JSON object keys
-and source-ordered arrays. Compatibility and v1 triggers are defined in the
+codeskeptic.semantic-verification/v2. Serialization uses sorted JSON object keys
+and source-ordered arrays. Compatibility and major-version triggers are defined in the
 [schema version policy](schema_versioning.md).
 
 Allocate, release, load, and store remain proposed. Adding their names without
