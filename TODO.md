@@ -8,12 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A5.0 - expand the scaling phase into concrete stages** (rolling-wave
-  planning before implementation)
+- [ ] **A5.1 - path-growth measurement and merge-point VC decision spike**
 
 ## Next
 
-- None pulled until the A5 phase is read at stage start.
+- [ ] **A5.2 - persistent obligation-result cache**
+- [ ] **A5.3 - deterministic resource budgets**
+- [ ] **A5.4 - scaling phase gate**
 
 ## Blockers / open questions
 
@@ -22,5 +23,5 @@
 
 ## Last updated
 
-2026-08-06 - A4 completed minimized/relevance-projected counterexample cores and
-source-mapped true/false branch traces. Next is A5.0.
+2026-08-06 - A5.0 expanded scaling into measurable path-growth research,
+fail-safe caching, deterministic budgets, and a phase gate. Next is A5.1.

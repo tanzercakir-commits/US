@@ -275,14 +275,76 @@ Target: `examples/vertical_slice.cpp` → `unknown=0`. The affine checker stays
 #### A4.3 — Trace explanation: path assumptions → source line mapping
   ("when this branch is taken"), machine-readable field + human-readable text
 
-### Phase A5 — Scaling (expand via A5.0 when its turn comes)
+### Phase A5 — Scaling
 
-- A5.0 — Expansion stage (rolling wave)
-- A5.1 — Path explosion: obligation dedup/subsumption; merge-point VC
-  research spike
-- A5.2 — Incremental verification: obligation hash → result cache
-- A5.3 — Resource budgets: per-obligation timeout, per-file budget; every
-  overrun → `unknown`
+Phase constraint: scaling is an optimization layer, never a new referee. It may
+reuse or skip work only under explicit semantic keys and budgets. Cache misses,
+corruption, inconclusive subsumption, timeout, and budget exhaustion never
+produce `verified`.
+
+#### A5.0 — Expansion stage (rolling wave)
+- Goal: replace the coarse A5 headings with bounded stages, declared file sets,
+  soundness constraints, runnable DoD commands, and a phase gate.
+- Output: `PLAN.md`, `TODO.md`, `PROGRESS.md` only.
+- DoD: A5.1–A5.4 each declare Goal/Output/DoD/Depends; local links remain valid;
+  `python -m unittest discover -s tests` is green.
+- Depends: A4.3.
+
+#### A5.1 — Path-growth measurement and merge-point VC decision spike
+- Goal: measure obligation/path growth on deterministic synthetic diamonds;
+  distinguish exact duplicate elimination from unsafe logical subsumption; make
+  a written implement/defer decision for merge-point VCs with a soundness
+  argument. The spike must add any implementation stage required before A5.4;
+  it must not approximate or silently drop paths.
+- Output: `tools/path_scaling_probe.py`, `tests/test_path_scaling.py`,
+  `docs/path_scaling_decision.md`; optional PLAN extension for the chosen
+  implementation stage. No production VC rewrite belongs to this spike.
+- DoD: `python -m unittest tests.test_path_scaling` is green; probe runs for
+  1/2/4/8 synthetic diamonds and emits byte-identical sorted JSON twice; the
+  decision records measured counts, exact-key definition, rejected unsound
+  shortcuts, chosen architecture, and whether a new pre-gate stage is required.
+- Depends: A5.0.
+
+#### A5.2 — Persistent obligation-result cache
+- Goal: compute a deterministic SHA-256 semantic key over schema, backend
+  identity/configuration, obligation mode/assumptions/conclusion, and relevant
+  solver policy; reuse only matching entries and reconstruct current IDs/source
+  metadata. Cache I/O is an optimization outside the logic path: missing,
+  malformed, stale, or unsupported entries are ignored and recomputed, never
+  trusted as proof.
+- Output: `semantic_verifier/cache.py`, backend/pipeline/CLI integration,
+  `tests/test_cache.py`, result-schema/adoption/changelog documentation.
+- DoD: `python -m unittest tests.test_cache` is green; two identical runs are
+  byte-identical and the second makes zero wrapped-backend calls; changing one
+  obligation invalidates only its entry; schema/backend/config changes miss;
+  malformed cache bytes recompute safely; full suite and fixture check are green.
+- Depends: A5.1 and any implementation stage it adds.
+
+#### A5.3 — Deterministic resource budgets
+- Goal: enforce a per-obligation solver timeout and deterministic per-file work
+  budget (obligation/check units, not wall-clock proof logic). Every unstarted or
+  timed-out supported obligation returns `unknown` with an explicit reason;
+  existing definitive results remain intact and exit-code precedence is
+  unchanged.
+- Output: budget value objects plus pipeline/backend/CLI integration,
+  `tests/test_budgets.py`, result-schema/adoption/changelog documentation.
+- DoD: `python -m unittest tests.test_budgets` is green; injected solver timeout
+  and file-budget exhaustion deterministically yield `unknown`, never
+  `verified`; repeated budgeted JSON is byte-identical; zero/unlimited boundary
+  cases, cross-check behavior, full suite, and fixture check are green.
+- Depends: A5.2.
+
+#### A5.4 — Scaling phase gate
+- Goal: freeze A5 operational behavior and demonstrate that scaling changes
+  work performed, not proof meaning.
+- Output: `examples/scaling_slice.cpp`, updated scaling decision/operations
+  documentation, deterministic evidence in `PROGRESS.md`.
+- DoD: uncached and warm-cache reports for the scaling slice are byte-identical;
+  the warm run records zero backend calls; two budgeted runs are byte-identical;
+  the path-growth probe and any A5.1 implementation benchmark meet their
+  recorded target; `python -m unittest discover -s tests` and
+  `python tools/regenerate_fixtures.py --check` are green.
+- Depends: A5.1–A5.3 and every implementation stage introduced by A5.1.
 
 ### Phase A6 — Semantic extensions (far horizon; each expands when due)
 

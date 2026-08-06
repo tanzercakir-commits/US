@@ -452,3 +452,21 @@ Evidence: focused trace/backend tests -> 12/12; fixture check -> 10/10 current
 with no byte diff; full suite -> 149/149; diff check -> clean; commit: this
 commit.
 Next: A5.0 (expand the scaling phase into concrete stages).
+## 2026-08-06 - A5.0: scaling phase expansion - DONE
++ Replaced the coarse scaling headings with A5.1–A5.4 stages carrying explicit
+  Goal, Output, DoD, and dependency contracts.
++ Made scaling subordinate to proof semantics: optimization misses, malformed
+  cache data, inconclusive path reduction, timeout, and budget exhaustion can
+  never produce verified.
++ Separated path-growth measurement/architecture choice from production VC
+  rewriting and required the spike to add any chosen implementation stage
+  before the phase gate.
++ Defined a semantic-keyed persistent cache with safe recomputation and a
+  deterministic work-unit file budget alongside the existing solver timeout.
++ Added a phase gate comparing cached/uncached report bytes and requiring
+  repeated budget/probe determinism plus full-suite and fixture evidence.
+- None.
+Evidence: A5 structure/field review -> A5.1–A5.4 complete; local documentation
+links -> valid via full suite; baseline/full suite -> 149/149; diff check ->
+clean; commit: this commit.
+Next: A5.1 (path-growth measurement and merge-point VC decision spike).
