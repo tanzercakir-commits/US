@@ -105,3 +105,16 @@ Evidence: `python -m unittest tests.test_smtlib` → 9/9; full suite → 73/73;
 `python -m compileall -q semantic_verifier tests` → success; emitted smoke
 query on Z3 5.0.0 → `unsat`, exit 0; commit: this commit.
 Next: A1.2 (Z3 process runner).
+
+## 2026-08-06 — A1.2: Z3 process runner — DONE
++ Added deterministic Z3 discovery: explicit path, environment, PATH, then
+  platform-known locations.
++ Added bounded subprocess execution with fixed seeds, disabled parallelism,
+  and exact `sat`/`unsat`/`unknown`/timeout/crash result-taxonomy mapping.
++ Missing or unlaunchable Z3 degrades to `solver_error` without terminating
+  the runner; added 13 tests and advanced the ratchet from 73 to 86.
+- None.
+Evidence: `python -m unittest tests.test_z3_backend` → 13/13 (real Z3 process
+included); full suite → 86/86; `python -m compileall -q semantic_verifier
+tests` → success; commit: this commit.
+Next: A1.3 (model parser + replay).

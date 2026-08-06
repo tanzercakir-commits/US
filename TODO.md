@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A1.2 — Z3 process runner** (`semantic_verifier/z3_backend.py` +
+- [ ] **A1.3 — Model parser + replay** (`semantic_verifier/z3_backend.py` +
   `tests/test_z3_backend.py`; DoD in the plan)
 
 ## Next
 
-- [ ] A1.3 — Model parser + replay
 - [ ] A1.4 — CheckerBackend interface and selection
+- [ ] A1.5 — Solver decision document
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A1.1 completed with a deterministic, fail-closed SMT-LIB2
-emitter and 9 focused tests. Next work item is A1.2.
+2026-08-06 — A1.2 completed with deterministic discovery, bounded Z3
+execution, and result-taxonomy mapping. Next work item is A1.3.
