@@ -34,10 +34,11 @@ from semantic_verifier.query_fragment import (  # noqa: E402
 from semantic_verifier.smtlib import emit_smtlib  # noqa: E402
 
 
-GATE_SCHEMA = "codeskeptic.fixed-integer-phase-gate/v1"
+GATE_SCHEMA = "codeskeptic.fixed-integer-phase-gate/v2"
 SLICE = ROOT / "examples" / "fixed_integer_gate.cpp"
 V1_ARCHIVE = ROOT / "fixtures" / "versions" / "v1"
 V2_ARCHIVE = ROOT / "fixtures" / "versions" / "v2"
+V3_ARCHIVE = ROOT / "fixtures" / "versions" / "v3"
 CURRENT_FIXTURES = ROOT / "fixtures" / "expected"
 EXPECTED_SUMMARY = {
     "solver_error": 0,
@@ -306,8 +307,10 @@ def run_gate(
         "migration": {
             "archive_v1": _archive_evidence(V1_ARCHIVE, "v1"),
             "archive_v2": _archive_evidence(V2_ARCHIVE, "v2"),
-            "v1_to_v3": _migration_evidence(V1_ARCHIVE, "v1/v3"),
-            "v2_to_v3": _migration_evidence(V2_ARCHIVE, "v2/v3"),
+            "archive_v3": _archive_evidence(V3_ARCHIVE, "v3"),
+            "v1_to_v4": _migration_evidence(V1_ARCHIVE, "v1/v4"),
+            "v2_to_v4": _migration_evidence(V2_ARCHIVE, "v2/v4"),
+            "v3_to_v4": _migration_evidence(V3_ARCHIVE, "v3/v4"),
         },
         "schema": GATE_SCHEMA,
         "target_profile": _target_profile(),

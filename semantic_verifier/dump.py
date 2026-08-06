@@ -11,6 +11,11 @@ def dump_module(module: ModuleIR) -> str:
         lines.append(
             f"  unsupported {issue.location.line}:{issue.location.column}: {issue.reason}"
         )
+    for record in module.records:
+        fields = ", ".join(
+            f"{field.name}:{field.type}" for field in record.fields
+        )
+        lines.append(f"record {record.source_name} {{ {fields} }}")
     for function in module.functions:
         lines.extend(_dump_function(function))
     return "\n".join(lines) + "\n"

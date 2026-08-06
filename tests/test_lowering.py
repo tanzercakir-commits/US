@@ -113,7 +113,7 @@ class LoweringTests(unittest.TestCase):
             "bool result initializer": (
                 "bool f(bool x) { return x; } "
                 "bool g(bool x) { bool q = f(x); return q; }",
-                "only int call results",
+                "only integer or value-record call results",
             ),
         }
         for label, (source, reason) in cases.items():

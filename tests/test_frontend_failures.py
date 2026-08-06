@@ -27,7 +27,7 @@ class FrontendFailureTests(unittest.TestCase):
 
         self.assertEqual(first.to_json(), second.to_json())
         payload = json.loads(first.to_json())
-        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v3")
+        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v4")
         self.assertEqual(payload["source"], "missing-clang.cpp")
         self.assertEqual(payload["summary"]["solver_error"], 1)
         self.assertEqual(len(payload["obligations"]), 1)
@@ -58,7 +58,7 @@ class FrontendFailureTests(unittest.TestCase):
         payload = json.loads(stdout.getvalue())
         self.assertEqual(exit_code, 3)
         self.assertEqual(stderr.getvalue(), "")
-        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v3")
+        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v4")
         self.assertEqual(payload["summary"]["solver_error"], 1)
         self.assertEqual(payload["results"][0]["status"], "solver_error")
 

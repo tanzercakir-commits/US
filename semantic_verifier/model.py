@@ -12,10 +12,11 @@ import json
 from typing import Any, Iterable, Mapping
 
 from .array_types import array_type, make_array_type
+from .record_types import RecordType, RecordValue, record_type
 from .integer_types import I32, canonical_decimal, is_fixed_integer_type
 
 
-SCHEMA = "codeskeptic.semantic-verification/v3"
+SCHEMA = "codeskeptic.semantic-verification/v4"
 INT_MIN = I32.minimum
 INT_MAX = I32.maximum
 
@@ -89,6 +90,34 @@ class Expr:
         return Expr("array", type_name, args=values)
 
     @staticmethod
+    def record(values: Iterable["Expr"], type_name: str) -> "Expr":
+        profile = record_type(type_name)
+        fields = tuple(values)
+        if len(fields) != len(profile.fields) or any(
+            value.type != field.type
+            for value, field in zip(fields, profile.fields)
+        ):
+            raise ValueError("record fields do not match the declared type")
+        return Expr("record", type_name, args=fields)
+
+    @staticmethod
+    def project(value: "Expr", field_name: str) -> "Expr":
+        field = record_type(value.type).field(field_name)
+        return Expr("project", field.type, value=field_name, args=(value,))
+
+    @staticmethod
+    def update(value: "Expr", field_name: str, replacement: "Expr") -> "Expr":
+        field = record_type(value.type).field(field_name)
+        if replacement.type != field.type:
+            raise ValueError("record update value has the wrong field type")
+        return Expr(
+            "update",
+            value.type,
+            value=field_name,
+            args=(value, replacement),
+        )
+
+    @staticmethod
     def select(array: "Expr", index: "Expr") -> "Expr":
         profile = array_type(array.type)
         if not is_fixed_integer_type(index.type):
@@ -154,6 +183,20 @@ class Expr:
             return f"{self.op}({arguments})"
         if self.kind == "array":
             return "{" + ", ".join(argument.text() for argument in self.args) + "}"
+        if self.kind == "record":
+            profile = record_type(self.type)
+            fields = ", ".join(
+                f"{field.name}={value.text()}"
+                for field, value in zip(profile.fields, self.args)
+            )
+            return f"{profile.source_name}{{{fields}}}"
+        if self.kind == "project":
+            return f"{self.args[0].text()}.{self.value}"
+        if self.kind == "update":
+            return (
+                f"update({self.args[0].text()}, {self.value}, "
+                f"{self.args[1].text()})"
+            )
         if self.kind == "select":
             return f"{self.args[0].text()}[{self.args[1].text()}]"
         if self.kind == "store":
@@ -330,11 +373,13 @@ class ModuleIR:
     source: str
     functions: tuple[FunctionIR, ...]
     unsupported: tuple[IRNode, ...] = ()
+    records: tuple[RecordType, ...] = ()
     schema: str = SCHEMA
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "functions": [function.to_dict() for function in self.functions],
+            "records": [record.to_dict() for record in self.records],
             "schema": self.schema,
             "source": self.source,
             "unsupported": [node.to_dict() for node in self.unsupported],
@@ -430,7 +475,7 @@ class VerificationResult:
     status: VerificationStatus
     location: SourceLocation
     message: str
-    counterexample: Mapping[str, int | bool | tuple[int, ...]] | None = None
+    counterexample: Mapping[str, int | bool | tuple[int, ...] | RecordValue] | None = None
     trace: tuple[TraceStep, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
@@ -454,14 +499,20 @@ class VerificationResult:
 
 
 def serialize_evidence_value(
-    value: int | bool | tuple[int, ...],
-) -> str | bool | list[str]:
+    value: int | bool | tuple[int, ...] | RecordValue,
+) -> str | bool | list[str] | dict[str, Any]:
     if type(value) is bool:
         return value
     if type(value) is int:
         return canonical_decimal(value)
     if isinstance(value, tuple) and all(type(item) is int for item in value):
         return [canonical_decimal(item) for item in value]
+    if isinstance(value, RecordValue):
+        profile = record_type(value.type)
+        return {
+            field.name: serialize_evidence_value(field_value)
+            for field, field_value in zip(profile.fields, value.fields)
+        }
     raise TypeError("counterexample evidence has an unsupported value")
 
 

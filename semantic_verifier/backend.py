@@ -12,6 +12,7 @@ from .model import (
     VerificationResult,
     VerificationStatus,
 )
+from .record_types import RecordValue
 
 if TYPE_CHECKING:
     from .budget import SolverTimeout
@@ -44,7 +45,7 @@ class CheckerBackend(ABC):
 
 
 class Z3Checker(CheckerBackend):
-    name = "z3-homogeneous-qf-lia-qf-bv-qf-array"
+    name = "z3-homogeneous-qf-lia-qf-bv-qf-array-qf-record"
 
     def __init__(
         self,
@@ -73,8 +74,8 @@ class Z3Checker(CheckerBackend):
         )
         return {
             "configuration": configuration,
-            "implementation": "smtlib-replay/v4",
-            "query_policy": "homogeneous-qf-lia-qf-bv-qf-array/v2",
+            "implementation": "smtlib-replay/v5",
+            "query_policy": "homogeneous-qf-lia-qf-bv-qf-array-qf-record/v3",
             "name": self.name,
         }
 
@@ -216,7 +217,7 @@ def _result(
     obligation: Obligation,
     status: VerificationStatus,
     message: str,
-    counterexample: Mapping[str, int | bool | tuple[int, ...]] | None = None,
+    counterexample: Mapping[str, int | bool | tuple[int, ...] | RecordValue] | None = None,
     trace: tuple[TraceStep, ...] = (),
 ) -> VerificationResult:
     return VerificationResult(

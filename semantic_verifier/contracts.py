@@ -7,6 +7,7 @@ import re
 from typing import Mapping
 
 from .array_types import is_array_type
+from .record_types import is_record_type
 from .integer_types import (
     I32,
     I64,
@@ -40,7 +41,7 @@ _TOKEN = re.compile(
     r"\s*(?:"
     r"(?P<int>[0-9]+)|"
     r"(?P<ident>[A-Za-z_][A-Za-z0-9_]*)|"
-    r"(?P<op>==|!=|<=|>=|<<|>>|&&|\|\||[()[\]+\-*/%!<>&|^~])|"
+    r"(?P<op>==|!=|<=|>=|<<|>>|&&|\|\||[.()[\]+\-*/%!<>&|^~])|"
     r"(?P<bad>.)"
     r")"
 )
@@ -211,7 +212,24 @@ class ContractExpressionParser:
 
     def _postfix(self) -> Expr:
         value = self._primary()
-        while self._peek().text == "[":
+        while self._peek().text in {"[", "."}:
+            if self._peek().text == ".":
+                if not is_record_type(value.type):
+                    raise ContractSyntaxError(
+                        f"member access requires a value record, got {value.type}"
+                    )
+                self._take(".")
+                field = self._peek()
+                if field.kind != "ident":
+                    raise ContractSyntaxError(
+                        f"expected field name at column {field.position + 1}"
+                    )
+                self._take()
+                try:
+                    value = Expr.project(value, field.text)
+                except ValueError as error:
+                    raise ContractSyntaxError(str(error)) from error
+                continue
             if not is_array_type(value.type):
                 raise ContractSyntaxError(
                     f"subscript requires an owned array, got {value.type}"

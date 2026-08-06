@@ -14,6 +14,7 @@ from math import gcd
 from typing import Iterable, Mapping
 
 from .array_types import array_type
+from .record_types import RecordValue, record_type
 from .backend import CheckerBackend
 from .counterexample import minimize_counterexample
 from .integer_types import (
@@ -108,6 +109,43 @@ def simplify(expr: Expr) -> Expr:
 
     if expr.kind == "array":
         return Expr.array(args, array_type(expr.type).element_type)
+
+    if expr.kind == "record":
+        return Expr.record(args, expr.type)
+
+    if expr.kind == "project":
+        value = args[0]
+        profile = record_type(value.type)
+        field_name = str(expr.value)
+        field_index = next(
+            index
+            for index, field in enumerate(profile.fields)
+            if field.name == field_name
+        )
+        if value.kind == "record":
+            return value.args[field_index]
+        if value.kind == "update":
+            if value.value == field_name:
+                return value.args[1]
+            return simplify(Expr.project(value.args[0], field_name))
+        return Expr.project(value, field_name)
+
+    if expr.kind == "update":
+        value, replacement = args
+        profile = record_type(value.type)
+        field_name = str(expr.value)
+        if value.kind == "record":
+            fields = list(value.args)
+            field_index = next(
+                index
+                for index, field in enumerate(profile.fields)
+                if field.name == field_name
+            )
+            fields[field_index] = replacement
+            return Expr.record(fields, value.type)
+        if value.kind == "update" and value.value == field_name:
+            return Expr.update(value.args[0], field_name, replacement)
+        return Expr.update(value, field_name, replacement)
 
     if expr.kind == "select":
         array, index = args
@@ -650,7 +688,7 @@ def _integer_value(value: int, type_name: str) -> int:
     )
 
 
-EvidenceValue = int | bool | tuple[int, ...]
+EvidenceValue = int | bool | tuple[int, ...] | RecordValue
 
 
 def evaluate(
@@ -662,6 +700,38 @@ def evaluate(
         return environment[str(expr.value)]
     if expr.kind == "array":
         return tuple(int(evaluate(item, environment)) for item in expr.args)
+    if expr.kind == "record":
+        return RecordValue(
+            expr.type,
+            tuple(evaluate(item, environment) for item in expr.args),
+        )
+    if expr.kind == "project":
+        value = evaluate(expr.args[0], environment)
+        if not isinstance(value, RecordValue):
+            raise ValueError("record projection requires a concrete record")
+        profile = record_type(value.type)
+        field_name = str(expr.value)
+        field_index = next(
+            index
+            for index, field in enumerate(profile.fields)
+            if field.name == field_name
+        )
+        return value.fields[field_index]
+    if expr.kind == "update":
+        value = evaluate(expr.args[0], environment)
+        replacement = evaluate(expr.args[1], environment)
+        if not isinstance(value, RecordValue):
+            raise ValueError("record update requires a concrete record")
+        profile = record_type(value.type)
+        field_name = str(expr.value)
+        field_index = next(
+            index
+            for index, field in enumerate(profile.fields)
+            if field.name == field_name
+        )
+        fields = list(value.fields)
+        fields[field_index] = replacement
+        return RecordValue(value.type, tuple(fields))
     if expr.kind == "select":
         array = evaluate(expr.args[0], environment)
         index = int(evaluate(expr.args[1], environment))

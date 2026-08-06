@@ -113,6 +113,18 @@
       },
       "name": "array_slice",
       "source": "cases/array_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 9,
+        "violated": 0
+      },
+      "name": "struct_slice",
+      "source": "cases/struct_slice.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

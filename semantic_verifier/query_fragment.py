@@ -8,18 +8,27 @@ from typing import Iterable
 from .array_types import is_array_type
 from .integer_types import is_unsigned_integer_type
 from .model import Expr, Obligation
+from .record_types import is_record_type
 
 
 class QueryFragment(str, Enum):
     QF_LIA = "QF_LIA"
     QF_BV = "QF_BV"
     QF_ARRAY = "QF_ARRAY"
+    QF_RECORD = "QF_RECORD"
 
 
 def classify_expressions(expressions: Iterable[Expr]) -> QueryFragment:
     """Classify scalar LIA/BV or owned-array formulas deterministically."""
 
     pending = list(expressions)
+    if any(
+        expression.kind in {"record", "project", "update"}
+        or is_record_type(expression.type)
+        for root in pending
+        for expression in _walk(root)
+    ):
+        return QueryFragment.QF_RECORD
     if any(
         expression.kind in {"array", "select", "store"}
         or is_array_type(expression.type)

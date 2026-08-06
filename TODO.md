@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **A6.3 - restricted value structs**
+- [ ] **A6.4 - restricted proved references**
 
 ## Next
 
-- [ ] **A6.4 - restricted proved references**
 - [ ] **A6.5 - modular calls and frame summaries**
 - [ ] **A6.6 - optional invariant-inference research**
 - [ ] **A6.7 - semantic-extensions phase gate**
@@ -24,6 +23,7 @@
 
 ## Last updated
 
-2026-08-06 - A6.2 added exact owned arrays, bounds VCs, QF_ALIA/QF_ABV,
-replay/cache support, schema v3 migration, the immutable v2 archive, and a
-fully verified array fixture; next is restricted value structs.
+2026-08-06 - A6.3 added exact value structs, field-sensitive SSA, QF_RECORD
+datatypes, typed replay/cache evidence, schema v4 migration, the immutable v3
+archive, and a fully verified struct fixture; next is restricted proved
+references.

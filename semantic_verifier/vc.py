@@ -5,12 +5,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
 
-from .array_types import array_type
+from .array_types import array_type, is_array_type
 from .integer_types import (
     integer_type,
     is_fixed_integer_type,
     is_signed_integer_type,
 )
+from .record_types import is_record_type, record_type
 from .model import (
     Contract,
     Expr,
@@ -75,6 +76,22 @@ def _contains_array_operation(expr: Expr) -> bool:
         _contains_array_operation(argument) for argument in expr.args
     )
 
+
+def _value_type_bounds(value: Expr) -> Iterable[Expr]:
+    if is_signed_integer_type(value.type):
+        profile = integer_type(value.type)
+        yield _binary(">=", value, Expr.integer(profile.minimum, value.type))
+        yield _binary("<=", value, Expr.integer(profile.maximum, value.type))
+        return
+    if is_array_type(value.type):
+        profile = array_type(value.type)
+        for index in range(profile.length):
+            element = Expr.select(value, Expr.integer(index, "i64"))
+            yield from _value_type_bounds(element)
+        return
+    if is_record_type(value.type):
+        for field in record_type(value.type).fields:
+            yield from _value_type_bounds(Expr.project(value, field.name))
 
 def _contains_nonlinear_multiplication(expr: Expr) -> bool:
     if expr.kind == "binary" and expr.op == "*":
@@ -366,7 +383,10 @@ class VerificationConditionGenerator:
                 return [defined]
             if (
                 node.result_type is None
-                or not is_fixed_integer_type(node.result_type)
+                or not (
+                    is_fixed_integer_type(node.result_type)
+                    or is_record_type(node.result_type)
+                )
                 or self._symbol_type(function, node.target) != node.result_type
             ):
                 self._add(
@@ -375,7 +395,7 @@ class VerificationConditionGenerator:
                     defined.assumptions,
                     None,
                     node.location,
-                    "call-result target must have explicit matching int type",
+                    "call-result target must have an explicit matching value type",
                     unsupported_reason="malformed call-result IR",
                     trace_templates=defined.trace_templates,
                 )
@@ -640,18 +660,11 @@ class VerificationConditionGenerator:
     ) -> _PathState:
         result = state
         for variable in node.loop_variables:
-            if not is_signed_integer_type(variable.type):
-                continue
-            profile = integer_type(variable.type)
             value = Expr.variable(
                 str(getattr(variable, state_name)), variable.type
             )
-            result = result.add(
-                _binary(">=", value, Expr.integer(profile.minimum, variable.type))
-            )
-            result = result.add(
-                _binary("<=", value, Expr.integer(profile.maximum, variable.type))
-            )
+            for bound in _value_type_bounds(value):
+                result = result.add(bound)
         return result
 
     def _expression_safety(
@@ -909,6 +922,8 @@ class VerificationConditionGenerator:
         key = (node.callee or "", len(node.arguments))
         result = Expr.variable(node.target, node.result_type)
         current = state
+        for bound in _value_type_bounds(result):
+            current = current.add(bound)
         seen: set[Expr] = set()
         for owner in self._by_key.get(key, []):
             replacements = {
@@ -951,16 +966,8 @@ class VerificationConditionGenerator:
     @staticmethod
     def _type_bounds(function: FunctionIR) -> Iterable[Expr]:
         for parameter in function.parameters:
-            if not is_signed_integer_type(parameter.type):
-                continue
-            profile = integer_type(parameter.type)
             value = Expr.variable(parameter.versioned_name, parameter.type)
-            yield _binary(
-                ">=", value, Expr.integer(profile.minimum, parameter.type)
-            )
-            yield _binary(
-                "<=", value, Expr.integer(profile.maximum, parameter.type)
-            )
+            yield from _value_type_bounds(value)
 
     @staticmethod
     def _symbol_type(function: FunctionIR, versioned_name: str) -> str:

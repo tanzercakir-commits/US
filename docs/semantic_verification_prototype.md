@@ -13,15 +13,18 @@ Implemented:
 
 - real Clang C++ parsing through the JSON AST interface;
 - an owned, deterministic, versioned Semantic IR for branches, modular calls,
-  invariant-annotated while loops, and exact owned fixed-size arrays;
+  invariant-annotated while loops, exact owned fixed-size arrays, and value records;
 - strict inline cs: preconditions, postconditions, and loop invariants;
 - path-specific VCs for contracts, signed i32/i64 definedness, unsigned
   u32/u64 modulo arithmetic, conversions, bitwise/shift definedness, modular
   calls, and loop obligations;
 - a dependency-free affine checker plus a complete external Z3 backend for the
-  emitted homogeneous QF_LIA/QF_BV/QF_ARRAY fragments;
+  emitted homogeneous QF_LIA/QF_BV/QF_ARRAY/QF_RECORD fragments;
 - exact local `array<E,N>` values (`1 <= N <= 64`), whole-array SSA stores,
   per-access bounds VCs, contract indexing, QF_ALIA/QF_ABV, and array-model replay;
+- named public value `struct` types with scalar/array/nested fields, whole-record
+  SSA, field projection/update, copy isolation, by-value calls, QF_RECORD
+  datatype emission, and typed model replay;
 - deterministic SMT-LIB2, solver timeouts, model parsing, mandatory replay,
   minimized/relevance-projected counterexample cores, and source-mapped branch
   traces for violated paths;
@@ -39,8 +42,8 @@ Implemented:
   compaction, uncached/warm cache identity, and repeated budget identity;
 - a fixed-width integer phase gate freezing the target profile, conversion and
   operator tables, homogeneous classifier, backend matrix, replay evidence, and
-  v1-to-v3 and v2-to-v3 migration equivalence;
-- 244 deterministic tests, including independent soundness regressions.
+  v1-to-v4, v2-to-v4, and v3-to-v4 migration equivalence;
+- 260 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -55,8 +58,8 @@ Partially implemented:
 - source mapping is statement-granular, but preserves CRLF and Clang UTF-8
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete and rejects
-  QF_BV and QF_ARRAY; Z3 is complete for every emitted homogeneous fragment;
-- v0, v1, and v2 are archived and v3 is current; owned C++17 fixed-width types lower
+  QF_BV, QF_ARRAY, and QF_RECORD; Z3 is complete for every emitted homogeneous fragment;
+- v0 through v3 are archived and v4 is current; owned C++17 fixed-width types lower
   to `i32`/`u32`/`i64`/`u64`, integer wire evidence is canonical decimal text,
   and Clang must pass the pinned target-profile probe before lowering.
 
@@ -230,19 +233,18 @@ The implemented node kinds are:
 - function, parameter, and local metadata;
 - assume, assign, assert, and return;
 - branch plus explicit merge nodes;
-- direct call, optionally with an int result target and result type;
+- direct call, optionally with a fixed-width or value-record result target and type;
 - loop with invariants, a body, loop-variable havoc metadata, and the explicit
   termination=non_goal record;
 - unsupported.
 
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, boolean connectives, owned `array`/`select`/`store`
-expressions, and the exact
+expressions, `record`/`project`/`update` expressions, and the exact
 `signed_no_overflow` safety predicate. The JSON schema identifier is
-codeskeptic.semantic-verification/v3. Serialization uses sorted JSON object keys
-and source-ordered arrays. Compatibility and major-version triggers are defined in the
-[schema version policy](schema_versioning.md).
-
+`codeskeptic.semantic-verification/v4`. Serialization uses sorted JSON object
+keys and source-ordered arrays. Compatibility and major-version triggers are
+defined in the [schema version policy](schema_versioning.md).
 Heap allocate/release and pointer-based load/store remain proposed. Adding them without
 an alias and memory model would create false confidence.
 
@@ -407,8 +409,10 @@ phase-gate commands are in [the integer operations runbook](integer_operations.m
 ## Supported source subset
 
 - free functions with owned `int`, `unsigned int`, `long long`, `unsigned
-  long long`, or `bool` return types;
+  long long`, or `bool` return types, plus supported value-record returns;
 - named fixed-width integer and `bool` parameters;
+- named public value structs with 1 to 16 supported fields, depth at most 8,
+  full aggregate initialization, field reads/writes, copy, and by-value flow;
 - initialized local fixed-width integer and `bool` variables;
 - assignment to locals;
 - unary plus, unary minus, boolean not, and bitwise complement;
@@ -422,7 +426,8 @@ phase-gate commands are in [the integer operations runbook](integer_operations.m
 - side-effect-free boolean and/or;
 - if/else;
 - standalone direct function calls;
-- direct matching fixed-width call results assigned to or initializing a local,
+- direct matching fixed-width or value-record call results assigned to or
+  initializing a local,
   with contracted postconditions assumed after a fresh result havoc;
 - assert represented only by a declaration-only void assert(bool) sentinel;
 - return;
@@ -436,10 +441,11 @@ The frontend explicitly rejects:
 
 - while loops without a contiguous invariant block, invariant inference, do,
   for, range-for, switch, and goto;
-- templates and top-level records/namespaces;
+- templates and namespaces;
 - all preprocessor directives and macros as semantic nodes;
 - exceptions and throw;
-- pointers, references, structs/classes, inheritance, and virtual calls;
+- pointers, references, classes/private state, record methods/constructors,
+  inheritance, unions, bitfields, layout claims, and virtual calls;
 - array decay/aliases, dynamic or multidimensional arrays, partial array
   initialization, allocation/release, pointer load/store, and heap semantics;
 - globals, static/thread-local locals, and volatile values;

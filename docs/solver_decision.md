@@ -12,7 +12,7 @@ a Python package dependency.
 The accepted backend modes are:
 
 - `affine`: dependency-free, exact where it decides, deliberately incomplete;
-- `z3`: complete for emitted homogeneous QF_LIA, QF_BV, QF_ALIA, and QF_ABV
+- `z3`: complete for emitted homogeneous QF_LIA, QF_BV, QF_ALIA, QF_ABV, and QF_RECORD
   fragments;
 - `both` (CLI default): run both and report a `solver_error` soundness
   alarm if their definitive (`verified`/`violated`) answers disagree.
@@ -62,9 +62,17 @@ deterministic const/store terms, every access has a separate bounds VC, and
 models are materialized to the declared owned length before replay. Malformed
 types and unknown expression kinds fail closed before Z3 starts.
 
-The affine backend rejects every BV- or array-required obligation. Default `both` also
+Value-record obligations are classified as QF_RECORD and use deterministic SMT
+datatypes under `(set-logic ALL)`. Nested record declarations are emitted
+inner-first. Their scalar and array leaves stay homogeneous: signed-only records
+use `Int`/Int-array terms; unsigned or bitwise taint uses width-matched
+bitvectors. `project` uses selectors and `update` reconstructs the datatype,
+which preserves whole-value copy isolation. Model constructors decode to exact
+typed records and replay recursively before violation evidence is accepted.
+
+The affine backend rejects every BV-, array-, or record-required obligation. Default `both` also
 returns explicit `unsupported` under the cross-check policy; users must select
-`--backend z3` for unsigned, mixed, bitwise, shift, or array formulas. The Z3/cache identity pins the
+`--backend z3` for unsigned, mixed, bitwise, shift, array, or record formulas. The Z3/cache identity pins the
 homogeneous lane policy so earlier referee results cannot alias it.
 
 For a validity obligation, assumptions are asserted together with the negated

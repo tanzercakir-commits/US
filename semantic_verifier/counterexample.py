@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 
 from .array_types import array_type
+from .record_types import RecordValue, record_type
 from .model import Expr, Obligation
 
 
@@ -31,8 +32,8 @@ def obligation_variable_cone(obligation: Obligation) -> frozenset[str]:
 
 def project_counterexample(
     obligation: Obligation,
-    model: Mapping[str, int | bool | tuple[int, ...]],
-) -> dict[str, int | bool | tuple[int, ...]]:
+    model: Mapping[str, int | bool | tuple[int, ...] | RecordValue],
+) -> dict[str, int | bool | tuple[int, ...] | RecordValue]:
     """Project a replayed model to variables in the obligation cone."""
 
     if obligation.mode != "validity" or obligation.conclusion is None:
@@ -43,9 +44,9 @@ def project_counterexample(
 
 def minimize_counterexample(
     obligation: Obligation,
-    model: Mapping[str, int | bool | tuple[int, ...]],
+    model: Mapping[str, int | bool | tuple[int, ...] | RecordValue],
     proves: ValidityProver,
-) -> dict[str, int | bool | tuple[int, ...]]:
+) -> dict[str, int | bool | tuple[int, ...] | RecordValue]:
     """Greedily remove bindings that are unnecessary to force a violation.
 
     The caller must first replay the complete model against the original
@@ -88,25 +89,47 @@ def _obligation_variable_types(obligation: Obligation) -> dict[str, str]:
     return result
 
 
-def _binding_equality(
-    name: str, value: int | bool | tuple[int, ...], type_name: str
+def _value_expression(
+    value: int | bool | tuple[int, ...] | RecordValue,
+    type_name: str,
 ) -> Expr:
-    if isinstance(value, bool):
+    if type(value) is bool:
         if type_name != "bool":
-            raise TypeError(f"counterexample binding {name!r} has mismatched type")
-        constant = Expr.boolean(value)
-    elif isinstance(value, int):
-        constant = Expr.integer(value, type_name)
-    elif isinstance(value, tuple):
+            raise TypeError("boolean has the wrong type")
+        return Expr.boolean(value)
+    if type(value) is int:
+        return Expr.integer(value, type_name)
+    if isinstance(value, tuple):
         profile = array_type(type_name)
         if len(value) != profile.length or any(type(item) is not int for item in value):
-            raise TypeError(f"counterexample binding {name!r} has mismatched array value")
-        constant = Expr.array(
+            raise TypeError("array has the wrong shape")
+        return Expr.array(
             (Expr.integer(item, profile.element_type) for item in value),
             profile.element_type,
         )
-    else:
-        raise TypeError(f"counterexample binding {name!r} has unsupported value")
+    if isinstance(value, RecordValue):
+        if value.type != type_name:
+            raise TypeError("record has the wrong type")
+        profile = record_type(type_name)
+        return Expr.record(
+            (
+                _value_expression(field_value, field.type)
+                for field, field_value in zip(profile.fields, value.fields)
+            ),
+            type_name,
+        )
+    raise TypeError("unsupported concrete value")
+
+
+def _binding_equality(
+    name: str, value: int | bool | tuple[int, ...] | RecordValue, type_name: str
+) -> Expr:
+    try:
+        constant = _value_expression(value, type_name)
+    except (TypeError, ValueError) as error:
+        raise TypeError(
+            f"counterexample binding {name!r} has mismatched value: {error}"
+        ) from error
     return Expr.binary(
         "==",
         Expr.variable(name, type_name),

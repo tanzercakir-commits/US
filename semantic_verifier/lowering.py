@@ -11,6 +11,7 @@ from .array_types import array_type, is_array_type, parse_source_array_type
 from .contracts import contracts_before, invariants_before
 from .frontend import FrontendUnit
 from .integer_types import integer_type, is_fixed_integer_type
+from .record_types import RecordField, RecordType, is_record_type, record_type
 from .model import (
     Expr,
     FunctionIR,
@@ -279,6 +280,8 @@ class SemanticLowerer:
         self._symbol_name_counts: dict[str, int] = {}
         self._function_links: dict[str, str] = {}
         self._function_return_types: dict[str, str] = {}
+        self._record_types: dict[str, RecordType] = {}
+        self._record_order: list[RecordType] = []
         self._consumed_contract_lines: set[int] = set()
 
     def lower(self) -> ModuleIR:
@@ -310,6 +313,14 @@ class SemanticLowerer:
             ):
                 source_nodes.append(child)
         source_nodes.sort(key=lambda child: int(node_offset(child) or 0))
+        unsupported.extend(
+            self._index_record_types(
+                child
+                for child in source_nodes
+                if child.get("kind") in {"RecordDecl", "CXXRecordDecl"}
+                and child.get("completeDefinition")
+            )
+        )
         self._index_function_links(
             child for child in source_nodes if child.get("kind") == "FunctionDecl"
         )
@@ -319,7 +330,7 @@ class SemanticLowerer:
                 lowered = self._lower_function(child)
                 if lowered is not None:
                     functions.append(lowered)
-            else:
+            elif kind not in {"RecordDecl", "CXXRecordDecl"}:
                 unsupported.append(
                     self._module_issue(
                         self._location(child),
@@ -344,8 +355,110 @@ class SemanticLowerer:
             source=self.unit.display_path.replace("\\", "/"),
             functions=tuple(functions),
             unsupported=tuple(unsupported),
+            records=tuple(self._record_order),
         )
 
+    def _index_record_types(
+        self, record_nodes: Iterable[Mapping[str, Any]]
+    ) -> list[IRNode]:
+        issues: list[IRNode] = []
+        for node in record_nodes:
+            name = str(node.get("name", ""))
+            try:
+                if not name:
+                    raise UnsupportedNode(node, "anonymous records are unsupported")
+                if name in self._record_types:
+                    raise UnsupportedNode(
+                        node, f"duplicate record definition {name!r} is unsupported"
+                    )
+                profile = self._lower_record_type(node)
+                self._record_types[name] = profile
+                self._record_order.append(profile)
+            except UnsupportedNode as error:
+                issues.append(
+                    self._module_issue(
+                        self._location(error.node), error.reason
+                    )
+                )
+        return issues
+
+    def _lower_record_type(self, node: Mapping[str, Any]) -> RecordType:
+        name = str(node.get("name", ""))
+        if node.get("tagUsed") != "struct":
+            raise UnsupportedNode(node, "only named struct records are supported")
+        if node.get("bases"):
+            raise UnsupportedNode(node, "record inheritance is unsupported")
+        fields: list[RecordField] = []
+        for child in node.get("inner", []):
+            if not isinstance(child, dict):
+                continue
+            kind = child.get("kind")
+            if kind == "FieldDecl":
+                field_name = str(child.get("name", ""))
+                raw_type = _qual_type(child)
+                source_type = _normalize_value_type(raw_type)
+                type_name = self._resolve_source_type(source_type)
+                if not field_name:
+                    raise UnsupportedNode(child, "anonymous fields are unsupported")
+                if child.get("isBitfield"):
+                    raise UnsupportedNode(child, "bitfields are unsupported")
+                if child.get("access") not in {None, "public"}:
+                    raise UnsupportedNode(child, "non-public fields are unsupported")
+                if re.search(r"\bvolatile\b", raw_type):
+                    raise UnsupportedNode(child, "volatile fields are unsupported")
+                if child.get("inner"):
+                    raise UnsupportedNode(
+                        child, "default member initializers are unsupported"
+                    )
+                if not self._supported_field_type(type_name):
+                    raise UnsupportedNode(
+                        child, f"field type {source_type!r} is unsupported"
+                    )
+                fields.append(RecordField(field_name, type_name))
+                continue
+            if kind == "FullComment" or child.get("isImplicit"):
+                continue
+            raise UnsupportedNode(
+                child, f"record member kind {kind or '<unknown>'} is unsupported"
+            )
+        try:
+            return RecordType(name, tuple(fields))
+        except ValueError as error:
+            raise UnsupportedNode(node, str(error)) from error
+
+    def _resolve_source_type(self, source_type: str) -> str:
+        if source_type in SOURCE_TYPE_MAP:
+            return SOURCE_TYPE_MAP[source_type]
+        record = self._record_types.get(source_type)
+        if record is not None:
+            return record.name
+        if "[" in source_type or "]" in source_type:
+            try:
+                array = parse_source_array_type(source_type, SOURCE_TYPE_MAP)
+            except ValueError:
+                return source_type
+            if array is not None:
+                return array.name
+        return source_type
+
+    @staticmethod
+    def _supported_value_type(type_name: str) -> bool:
+        return (
+            type_name == "bool"
+            or is_fixed_integer_type(type_name)
+            or is_record_type(type_name)
+        )
+
+    @staticmethod
+    def _supported_call_result_type(type_name: str) -> bool:
+        return is_fixed_integer_type(type_name) or is_record_type(type_name)
+
+    @staticmethod
+    def _supported_field_type(type_name: str) -> bool:
+        return (
+            SemanticLowerer._supported_value_type(type_name)
+            or is_array_type(type_name)
+        )
     def _index_function_links(
         self, function_nodes: Iterable[Mapping[str, Any]]
     ) -> None:
@@ -372,8 +485,8 @@ class SemanticLowerer:
             else:
                 link_name = f"{name}({','.join(signature)})" if overloaded else name
             source_return_type = _function_return_type(node)
-            self._function_return_types[link_name] = SOURCE_TYPE_MAP.get(
-                source_return_type, source_return_type
+            self._function_return_types[link_name] = self._resolve_source_type(
+                source_return_type
             )
             declaration_id = node.get("id")
             if declaration_id is not None:
@@ -418,7 +531,7 @@ class SemanticLowerer:
             None,
         )
         source_return_type = _function_return_type(node)
-        return_type = SOURCE_TYPE_MAP.get(source_return_type, source_return_type)
+        return_type = self._resolve_source_type(source_return_type)
         if link_name == BUILTIN_ASSERT_LINK:
             return None
 
@@ -440,7 +553,7 @@ class SemanticLowerer:
         initial_error: UnsupportedNode | None = None
         if node_is_macro_expansion(node):
             initial_error = UnsupportedNode(node, "macro-generated function is unsupported")
-        if source_return_type not in SUPPORTED_TYPES:
+        if not self._supported_value_type(return_type):
             initial_error = UnsupportedNode(
                 node, f"return type {source_return_type or '<unknown>'!r} is unsupported"
             )
@@ -451,9 +564,7 @@ class SemanticLowerer:
             parameter_name = str(parameter_node.get("name", ""))
             raw_parameter_type = _qual_type(parameter_node)
             source_parameter_type = _normalize_value_type(raw_parameter_type)
-            parameter_type = SOURCE_TYPE_MAP.get(
-                source_parameter_type, source_parameter_type
-            )
+            parameter_type = self._resolve_source_type(source_parameter_type)
             if not parameter_name:
                 initial_error = UnsupportedNode(
                     parameter_node, "unnamed parameters are unsupported"
@@ -468,7 +579,7 @@ class SemanticLowerer:
                 initial_error = UnsupportedNode(
                     parameter_node, "volatile parameters are unsupported"
                 )
-            if source_parameter_type not in SUPPORTED_TYPES:
+            if not self._supported_value_type(parameter_type):
                 initial_error = UnsupportedNode(
                     parameter_node,
                     f"parameter type {source_parameter_type or '<unknown>'!r} is unsupported",
@@ -631,62 +742,41 @@ class SemanticLowerer:
 
         if kind == "BinaryOperator" and node.get("opcode") == "=":
             inner = self._inner(node, 2)
-            lhs = self._strip_expr(inner[0])
-            if lhs.get("kind") == "ArraySubscriptExpr":
-                array_node, index_node = self._inner(lhs, 2)
-                name = self._array_base_name(array_node)
-                if name not in current:
-                    raise UnsupportedNode(node, f"assignment to unknown array {name!r}")
-                ir_name = self._version_base(current[name])
-                type_name = self._types[ir_name]
-                if not is_array_type(type_name):
-                    raise UnsupportedNode(node, "subscript assignment requires an array")
-                index = self._expression(index_node, current)
-                value = self._expression(inner[1], current)
-                if value.type != array_type(type_name).element_type:
-                    raise UnsupportedNode(
-                        node, "array assignment changes the element type"
-                    )
-                expression = Expr.store(
-                    Expr.variable(current[name], type_name), index, value
-                )
-                target = self._next_version(ir_name)
-                current[name] = target
-                return [
-                    self._node(
-                        "assign",
-                        self._location(node),
-                        target=target,
-                        expression=expression,
-                    )
-                ], current, True
-            if lhs.get("kind") != "DeclRefExpr":
-                raise UnsupportedNode(node, "assignment target must be a local variable")
-            name = self._decl_name(lhs)
+            name, steps = self._lvalue_path(inner[0], current)
             if name not in current:
                 raise UnsupportedNode(node, f"assignment to unknown variable {name!r}")
             ir_name = self._version_base(current[name])
+            root_type = self._types[ir_name]
+            root = Expr.variable(current[name], root_type)
+            destination = self._path_expression(root, steps, node)
             call_node = self._direct_call_expression(inner[1])
             if call_node is not None:
-                if not is_fixed_integer_type(self._types[ir_name]):
+                if steps:
                     raise UnsupportedNode(
-                        node, "only int call results may be assigned"
+                        node, "call results may only replace a whole local value"
+                    )
+                if not self._supported_call_result_type(root_type):
+                    raise UnsupportedNode(
+                        node, "only integer or value-record call results may be assigned"
                     )
                 target = self._next_version(ir_name)
                 produced = self._call_result(call_node, current, target)
                 current[name] = target
                 return [produced], current, True
             value = self._expression(inner[1], current)
-            if value.type != self._types[ir_name]:
-                raise UnsupportedNode(node, "assignment changes the variable type")
+            if value.type != destination.type:
+                raise UnsupportedNode(node, "assignment changes the value type")
+            expression = self._replace_path(root, steps, value, node)
             target = self._next_version(ir_name)
             current[name] = target
             return [
                 self._node(
-                    "assign", self._location(node), target=target, expression=value
+                    "assign",
+                    self._location(node),
+                    target=target,
+                    expression=expression,
                 )
             ], current, True
-
         if kind == "IfStmt":
             return self._lower_if(node, current)
 
@@ -755,7 +845,7 @@ class SemanticLowerer:
         type_name = (
             array_profile.name
             if array_profile is not None
-            else SOURCE_TYPE_MAP.get(source_type_name, source_type_name)
+            else self._resolve_source_type(source_type_name)
         )
         if not name:
             raise UnsupportedNode(node, "unnamed local variable is unsupported")
@@ -767,7 +857,7 @@ class SemanticLowerer:
             raise UnsupportedNode(
                 node, "static and thread_local local variables are unsupported"
             )
-        if source_type_name not in SUPPORTED_TYPES and array_profile is None:
+        if not self._supported_field_type(type_name):
             raise UnsupportedNode(node, f"local type {source_type_name!r} is unsupported")
         initializer_nodes = [
             child for child in node.get("inner", []) if isinstance(child, dict)
@@ -790,9 +880,9 @@ class SemanticLowerer:
         )
         call_node = self._direct_call_expression(initializer_nodes[-1])
         if call_node is not None:
-            if not is_fixed_integer_type(type_name):
+            if not self._supported_call_result_type(type_name):
                 raise UnsupportedNode(
-                    node, "only int call results may initialize locals"
+                    node, "only integer or value-record call results may initialize locals"
                 )
             return [self._call_result(call_node, environment, target)], current
         value = self._expression(initializer_nodes[-1], environment)
@@ -972,16 +1062,10 @@ class SemanticLowerer:
                 child for child in node.get("inner", []) if isinstance(child, dict)
             ]
             if inner:
-                lhs = self._strip_expr(inner[0])
-                if lhs.get("kind") == "DeclRefExpr":
-                    assigned.add(self._decl_name(lhs))
-                elif lhs.get("kind") == "ArraySubscriptExpr":
-                    try:
-                        assigned.add(
-                            self._array_base_name(self._inner(lhs, 2)[0])
-                        )
-                    except UnsupportedNode:
-                        pass
+                try:
+                    assigned.add(self._lvalue_root_name(inner[0]))
+                except UnsupportedNode:
+                    pass
         for child in node.get("inner", []):
             if isinstance(child, dict):
                 assigned.update(self._assigned_names(child))
@@ -1001,7 +1085,7 @@ class SemanticLowerer:
             if cast_kind in {"LValueToRValue", "NoOp"}:
                 return value
             destination_source = _normalize_value_type(_qual_type(node))
-            destination = SOURCE_TYPE_MAP.get(destination_source, destination_source)
+            destination = self._resolve_source_type(destination_source)
             if cast_kind == "IntegralToBoolean" and is_fixed_integer_type(value.type):
                 return Expr.binary(
                     "!=", value, Expr.integer(0, value.type), "bool"
@@ -1026,17 +1110,33 @@ class SemanticLowerer:
         if kind == "CXXBoolLiteralExpr":
             return Expr.boolean(bool(node.get("value")))
         if kind == "InitListExpr":
-            try:
-                profile = parse_source_array_type(
-                    _normalize_value_type(_qual_type(node)), SOURCE_TYPE_MAP
+            source_type = _normalize_value_type(_qual_type(node))
+            record_profile = self._record_types.get(source_type)
+            children = [
+                child for child in node.get("inner", []) if isinstance(child, dict)
+            ]
+            if record_profile is not None:
+                if len(children) != len(record_profile.fields) or any(
+                    child.get("kind") == "ImplicitValueInitExpr"
+                    for child in children
+                ):
+                    raise UnsupportedNode(
+                        node,
+                        "record initializer must explicitly initialize every field",
+                    )
+                values = tuple(
+                    self._expression(child, environment) for child in children
                 )
+                try:
+                    return Expr.record(values, record_profile.name)
+                except ValueError as error:
+                    raise UnsupportedNode(node, str(error)) from error
+            try:
+                profile = parse_source_array_type(source_type, SOURCE_TYPE_MAP)
             except ValueError as error:
                 raise UnsupportedNode(node, str(error)) from error
             if profile is None:
                 raise UnsupportedNode(node, "initializer list type is unsupported")
-            children = [
-                child for child in node.get("inner", []) if isinstance(child, dict)
-            ]
             if len(children) != profile.length or any(
                 child.get("kind") == "ImplicitValueInitExpr" for child in children
             ):
@@ -1051,19 +1151,32 @@ class SemanticLowerer:
                     node, "array initializer element type is inconsistent"
                 )
             return Expr.array(values, profile.element_type)
-        if kind == "ArraySubscriptExpr":
-            array_node, index_node = self._inner(node, 2)
-            name = self._array_base_name(array_node)
-            if name not in environment:
-                raise UnsupportedNode(node, f"reference to non-local array {name!r}")
-            versioned = environment[name]
-            type_name = self._types[self._version_base(versioned)]
-            if not is_array_type(type_name):
-                raise UnsupportedNode(node, "subscript base is not an owned array")
-            return Expr.select(
-                Expr.variable(versioned, type_name),
-                self._expression(index_node, environment),
+        if kind == "CXXConstructExpr":
+            destination = self._resolve_source_type(
+                _normalize_value_type(_qual_type(node))
             )
+            children = [
+                child for child in node.get("inner", []) if isinstance(child, dict)
+            ]
+            if not is_record_type(destination) or len(children) != 1:
+                raise UnsupportedNode(
+                    node, "only exact value-record copy construction is supported"
+                )
+            value = self._expression(children[0], environment)
+            if value.type != destination:
+                raise UnsupportedNode(node, "record copy changes the value type")
+            return value
+        if kind in {"ArraySubscriptExpr", "MemberExpr"}:
+            name, steps = self._lvalue_path(node, environment)
+            if name not in environment:
+                raise UnsupportedNode(
+                    node, f"reference to non-local aggregate {name!r}"
+                )
+            versioned = environment[name]
+            root = Expr.variable(
+                versioned, self._types[self._version_base(versioned)]
+            )
+            return self._path_expression(root, steps, node)
         if kind == "DeclRefExpr":
             name = self._decl_name(node)
             if name not in environment:
@@ -1183,7 +1296,7 @@ class SemanticLowerer:
         target_type = self._types[self._version_base(target)]
         if (
             return_type is None
-            or not is_fixed_integer_type(return_type)
+            or not self._supported_call_result_type(return_type)
             or target_type != return_type
         ):
             shown = return_type or "unknown"
@@ -1226,19 +1339,104 @@ class SemanticLowerer:
             current = self._inner(current, 1)[0]
         return current
 
-    def _array_base_name(self, node: Mapping[str, Any]) -> str:
+    def _lvalue_path(
+        self,
+        node: Mapping[str, Any],
+        environment: Mapping[str, str],
+    ) -> tuple[str, tuple[str | Expr, ...]]:
         current = node
         while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS:
             current = self._inner(current, 1)[0]
-        if (
-            current.get("kind") == "ImplicitCastExpr"
-            and current.get("castKind") == "ArrayToPointerDecay"
-        ):
+        if current.get("kind") == "ImplicitCastExpr":
+            if current.get("castKind") not in {"ArrayToPointerDecay", "NoOp"}:
+                raise UnsupportedNode(
+                    current,
+                    f"lvalue cast {current.get('castKind')!r} is unsupported",
+                )
+            return self._lvalue_path(self._inner(current, 1)[0], environment)
+        kind = current.get("kind")
+        if kind == "DeclRefExpr":
+            return self._decl_name(current), ()
+        if kind == "MemberExpr":
+            if current.get("isArrow"):
+                raise UnsupportedNode(current, "pointer member access is unsupported")
+            base = self._inner(current, 1)[0]
+            name, steps = self._lvalue_path(base, environment)
+            field_name = str(current.get("name", ""))
+            if not field_name:
+                raise UnsupportedNode(current, "unnamed member access is unsupported")
+            return name, steps + (field_name,)
+        if kind == "ArraySubscriptExpr":
+            base, index_node = self._inner(current, 2)
+            name, steps = self._lvalue_path(base, environment)
+            index = self._expression(index_node, environment)
+            return name, steps + (index,)
+        raise UnsupportedNode(
+            current, "assignment target must be a direct owned-value path"
+        )
+
+    def _lvalue_root_name(self, node: Mapping[str, Any]) -> str:
+        current = node
+        while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS:
             current = self._inner(current, 1)[0]
-        current = self._strip_expr(current)
-        if current.get("kind") != "DeclRefExpr":
-            raise UnsupportedNode(node, "array base must be a direct local array")
-        return self._decl_name(current)
+        if current.get("kind") == "ImplicitCastExpr":
+            if current.get("castKind") not in {"ArrayToPointerDecay", "NoOp"}:
+                raise UnsupportedNode(current, "unsupported lvalue cast")
+            return self._lvalue_root_name(self._inner(current, 1)[0])
+        if current.get("kind") == "DeclRefExpr":
+            return self._decl_name(current)
+        if current.get("kind") == "MemberExpr":
+            if current.get("isArrow"):
+                raise UnsupportedNode(current, "pointer member access is unsupported")
+            return self._lvalue_root_name(self._inner(current, 1)[0])
+        if current.get("kind") == "ArraySubscriptExpr":
+            return self._lvalue_root_name(self._inner(current, 2)[0])
+        raise UnsupportedNode(
+            current, "assignment target must be a direct owned-value path"
+        )
+
+    @staticmethod
+    def _path_expression(
+        root: Expr,
+        steps: tuple[str | Expr, ...],
+        node: Mapping[str, Any],
+    ) -> Expr:
+        result = root
+        try:
+            for step in steps:
+                result = (
+                    Expr.project(result, step)
+                    if isinstance(step, str)
+                    else Expr.select(result, step)
+                )
+        except ValueError as error:
+            raise UnsupportedNode(node, str(error)) from error
+        return result
+
+    @staticmethod
+    def _replace_path(
+        root: Expr,
+        steps: tuple[str | Expr, ...],
+        replacement: Expr,
+        node: Mapping[str, Any],
+    ) -> Expr:
+        if not steps:
+            return replacement
+        step = steps[0]
+        try:
+            if isinstance(step, str):
+                child = Expr.project(root, step)
+                updated = SemanticLowerer._replace_path(
+                    child, steps[1:], replacement, node
+                )
+                return Expr.update(root, step, updated)
+            if len(steps) != 1:
+                raise ValueError(
+                    "arrays of aggregate elements are outside the reviewed subset"
+                )
+            return Expr.store(root, step, replacement)
+        except ValueError as error:
+            raise UnsupportedNode(node, str(error)) from error
 
     @staticmethod
     def _decl_name(node: Mapping[str, Any]) -> str:

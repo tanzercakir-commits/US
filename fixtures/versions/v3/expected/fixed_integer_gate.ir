@@ -1,0 +1,107 @@
+module fixtures/cases/fixed_integer_gate.cpp
+function signed_add_safe(x#0:i64, y#0:i64) -> i64
+  requires (x#0 == 2)
+  requires (y#0 == 3)
+  ensures (result == 5)
+  n00001 assume (x#0 == 2)
+  n00002 assume (y#0 == 3)
+  n00003 return (x#0 + y#0)
+function signed_add_overflow(x#0:i64) -> i64
+  n00004 return (x#0 + ((i64) 1))
+function signed_subtract_safe(x#0:i64, y#0:i64) -> i64
+  requires (x#0 == 5)
+  requires (y#0 == 3)
+  ensures (result == 2)
+  n00005 assume (x#0 == 5)
+  n00006 assume (y#0 == 3)
+  n00007 return (x#0 - y#0)
+function signed_subtract_overflow(x#0:i64) -> i64
+  n00008 return (x#0 - ((i64) 1))
+function signed_multiply_safe(x#0:i64) -> i64
+  requires (x#0 == 2)
+  ensures (result == 6)
+  n00009 assume (x#0 == 2)
+  n00010 return (x#0 * 3)
+function signed_multiply_overflow(x#0:i64) -> i64
+  n00011 return (x#0 * 2)
+function unsigned_wrap() -> u32
+  ensures (result == 0)
+  n00012 return (4294967295 + 1)
+function unsigned_wrap_wrong() -> u32
+  ensures (((i64) result) == 4294967295)
+  n00013 return (4294967295 + 1)
+function unsigned_subtract_wrap() -> u32
+  ensures (((i64) result) == 4294967295)
+  n00014 return (0 - 1)
+function unsigned_multiply_wrap() -> u32
+  ensures (((i64) result) == 4294967294)
+  n00015 return (4294967295 * 2)
+function signed_negation_safe(x#0:i32) -> i32
+  requires (x#0 == 1)
+  ensures (result == (-1))
+  n00016 assume (x#0 == 1)
+  n00017 return (-x#0)
+function signed_negation_minimum(x#0:i32) -> i32
+  n00018 return (-x#0)
+function unsigned_negation() -> u32
+  ensures (((i64) result) == 4294967295)
+  n00019 return (-1)
+function division_safe(a#0:i32) -> i32
+  requires (a#0 == 7)
+  ensures (result == 2)
+  n00020 assume (a#0 == 7)
+  n00021 return (a#0 / 3)
+function remainder_safe(a#0:i32) -> i32
+  requires (a#0 == 7)
+  ensures (result == 1)
+  n00022 assume (a#0 == 7)
+  n00023 return (a#0 % 3)
+function division_zero(a#0:i32, b#0:i32) -> i32
+  n00024 return (a#0 / b#0)
+function division_overflow(a#0:i32, b#0:i32) -> i32
+  requires (a#0 == -2147483648)
+  requires (b#0 == (-1))
+  n00025 assume (a#0 == -2147483648)
+  n00026 assume (b#0 == (-1))
+  n00027 return (a#0 / b#0)
+function signed_comparison() -> bool
+  ensures (result == true)
+  n00028 return ((-1) < 0)
+function mixed_comparison() -> bool
+  ensures (result == false)
+  n00029 return (((u32) (-1)) < 0)
+function mixed_comparison_wrong() -> bool
+  ensures (result == true)
+  n00030 return (((u32) (-1)) < 0)
+function de_morgan(x#0:u32, y#0:u32) -> bool
+  ensures (result == true)
+  n00031 return ((~(x#0 & y#0)) == ((~x#0) | (~y#0)))
+function bitwise_wrong() -> u32
+  ensures (result == 1)
+  n00032 return (240 & 15)
+function xor_identity(x#0:u32) -> u32
+  ensures (result == 0)
+  n00033 return (x#0 ^ x#0)
+function signed_left_boundary() -> i32
+  ensures (result == -2147483648)
+  n00034 return (1 << 31)
+function left_count_invalid(x#0:u32) -> u32
+  n00035 return (x#0 << 32)
+function signed_left_value_invalid() -> i32
+  n00036 return (2 << 31)
+function arithmetic_right() -> i32
+  ensures (result == (-2))
+  n00037 return ((-8) >> 2)
+function logical_right() -> u32
+  ensures (result == 1)
+  n00038 return (2147483648 >> 31)
+function right_count_invalid(x#0:i32) -> i32
+  n00039 return (x#0 >> (-1))
+function assignment_to_unsigned(x#0:i32) -> u32
+  requires (x#0 == (-1))
+  ensures (((i64) result) == 4294967295)
+  n00040 assume (x#0 == (-1))
+  n00041 return ((u32) x#0)
+function bool_promotion() -> i32
+  ensures (result == 1)
+  n00042 return ((~((i32) true)) + 3)

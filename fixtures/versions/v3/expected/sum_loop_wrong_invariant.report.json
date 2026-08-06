@@ -1,0 +1,2408 @@
+{
+  "non_goals": [
+    {
+      "description": "termination is not checked; verified loop obligations establish partial correctness only",
+      "kind": "loop_termination",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 7
+      }
+    }
+  ],
+  "obligations": [
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                }
+              ],
+              "kind": "binary",
+              "op": "<=",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "sum_zero_to_n",
+      "id": "ob00001",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 1
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                }
+              ],
+              "kind": "binary",
+              "op": "<=",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "0"
+                  }
+                ],
+                "kind": "binary",
+                "op": ">=",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#0"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "n#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "<=",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "total#0"
+              },
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              }
+            ],
+            "kind": "binary",
+            "op": "==",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "loop invariant must hold on entry: invariant i >= 0 && i <= n && total == i",
+      "function": "sum_zero_to_n",
+      "id": "ob00002",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 6
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                }
+              ],
+              "kind": "binary",
+              "op": "<=",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#1"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#1"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i32",
+      "function": "sum_zero_to_n",
+      "id": "ob00003",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 8
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                }
+              ],
+              "kind": "binary",
+              "op": "<=",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "total#1"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#2"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "total#1"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#2"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i32",
+      "function": "sum_zero_to_n",
+      "id": "ob00004",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 9
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                }
+              ],
+              "kind": "binary",
+              "op": "<=",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#2"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#2"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#2"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#2"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "0"
+                  }
+                ],
+                "kind": "binary",
+                "op": ">=",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#2"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "n#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "<=",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "total#2"
+              },
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#2"
+              }
+            ],
+            "kind": "binary",
+            "op": "==",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "loop body must preserve invariant: invariant i >= 0 && i <= n && total == i",
+      "function": "sum_zero_to_n",
+      "id": "ob00005",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 6
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                }
+              ],
+              "kind": "binary",
+              "op": "<=",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#3"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#3"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "total#3"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#3"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "total#3"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "total#3"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "100"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 2: ensures result >= 0 && result <= 100",
+      "function": "sum_zero_to_n",
+      "id": "ob00006",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 11
+      },
+      "mode": "validity"
+    }
+  ],
+  "results": [
+    {
+      "function": "sum_zero_to_n",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 1
+      },
+      "message": "backend cross-check completed: verified: Z3 found a satisfying model",
+      "obligation": "ob00001",
+      "status": "verified"
+    },
+    {
+      "function": "sum_zero_to_n",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 6
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00002",
+      "status": "verified"
+    },
+    {
+      "function": "sum_zero_to_n",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 8
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00003",
+      "status": "verified"
+    },
+    {
+      "function": "sum_zero_to_n",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 9
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00004",
+      "status": "verified"
+    },
+    {
+      "counterexample": {
+        "total#2": "3"
+      },
+      "function": "sum_zero_to_n",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 6
+      },
+      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully; minimized from 7 to 1 bindings",
+      "obligation": "ob00005",
+      "status": "violated"
+    },
+    {
+      "function": "sum_zero_to_n",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+        "line": 11
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00006",
+      "status": "verified"
+    }
+  ],
+  "schema": "codeskeptic.semantic-verification/v3",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "10"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "id": "n00001",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 1
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            "id": "n00002",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 4
+            },
+            "target": "i#0"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            "id": "n00003",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 5
+            },
+            "target": "total#0"
+          },
+          {
+            "body": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                },
+                "id": "n00005",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+                  "line": 8
+                },
+                "target": "i#2"
+              },
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "total#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#2"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                },
+                "id": "n00006",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+                  "line": 9
+                },
+                "target": "total#2"
+              }
+            ],
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00004",
+            "invariants": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "kind": "variable",
+                              "type": "i32",
+                              "value": "i#1"
+                            },
+                            {
+                              "kind": "constant",
+                              "type": "i32",
+                              "value": "0"
+                            }
+                          ],
+                          "kind": "binary",
+                          "op": ">=",
+                          "type": "bool"
+                        },
+                        {
+                          "args": [
+                            {
+                              "kind": "variable",
+                              "type": "i32",
+                              "value": "i#1"
+                            },
+                            {
+                              "kind": "variable",
+                              "type": "i32",
+                              "value": "n#0"
+                            }
+                          ],
+                          "kind": "binary",
+                          "op": "<=",
+                          "type": "bool"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "&&",
+                      "type": "bool"
+                    },
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "total#1"
+                        },
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "i#1"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "==",
+                      "type": "bool"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "&&",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+                  "line": 6
+                },
+                "machine_proposed": false,
+                "text": "invariant i >= 0 && i <= n && total == i"
+              }
+            ],
+            "kind": "loop",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 7
+            },
+            "loop_variables": [
+              {
+                "back_edge": "i#2",
+                "entry": "i#0",
+                "exit": "i#3",
+                "head": "i#1",
+                "name": "i",
+                "type": "i32"
+              },
+              {
+                "back_edge": "total#2",
+                "entry": "total#0",
+                "exit": "total#3",
+                "head": "total#1",
+                "name": "total",
+                "type": "i32"
+              }
+            ],
+            "termination": "non_goal"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#3"
+            },
+            "id": "n00007",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 11
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "10"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 1
+            },
+            "machine_proposed": false,
+            "text": "requires n >= 0 && n <= 10"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "result"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "result"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "100"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 2
+            },
+            "machine_proposed": false,
+            "text": "ensures result >= 0 && result <= 100"
+          }
+        ],
+        "has_body": true,
+        "id": "f0001",
+        "locals": [
+          {
+            "id": "f0001.s0002",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 4
+            },
+            "name": "i",
+            "type": "i32",
+            "versioned_name": "i#0"
+          },
+          {
+            "id": "f0001.s0003",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 5
+            },
+            "name": "total",
+            "type": "i32",
+            "versioned_name": "total#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+          "line": 3
+        },
+        "name": "sum_zero_to_n",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+              "line": 3
+            },
+            "name": "n",
+            "type": "i32",
+            "versioned_name": "n#0"
+          }
+        ],
+        "return_type": "i32"
+      }
+    ],
+    "schema": "codeskeptic.semantic-verification/v3",
+    "source": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+  "summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 5,
+    "violated": 1
+  }
+}

@@ -7,12 +7,19 @@ started.
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 
 from .array_types import array_type, is_array_type
 from .integer_types import integer_type, is_fixed_integer_type
 from .model import Expr, Obligation
 from .query_fragment import QueryFragment, classify_expressions
+from .record_types import (
+    is_record_type,
+    record_constructor_symbol,
+    record_selector_symbol,
+    record_sort_symbol,
+    record_type,
+)
 
 
 class SmtLibEmissionError(ValueError):
@@ -156,8 +163,10 @@ def emit_smtlib(obligation: Obligation) -> str:
     fragment = classify_expressions(expressions)
     if fragment == QueryFragment.QF_BV:
         return _emit_bv_query(obligation, expressions)
-    if fragment == QueryFragment.QF_ARRAY and _array_requires_bv(expressions):
+    if fragment == QueryFragment.QF_ARRAY and _aggregate_requires_bv(expressions):
         return _emit_bv_query(obligation, expressions, logic="QF_ABV")
+    if fragment == QueryFragment.QF_RECORD and _aggregate_requires_bv(expressions):
+        return _emit_bv_query(obligation, expressions, logic="ALL")
     variable_types = _collect_variable_types(expressions)
 
     for assumption in obligation.assumptions:
@@ -177,8 +186,11 @@ def emit_smtlib(obligation: Obligation) -> str:
     if len(set(encoded_names)) != len(encoded_names):
         raise SmtLibEmissionError("variable names collide after SMT encoding")
 
-    logic = "QF_ALIA" if fragment == QueryFragment.QF_ARRAY else "QF_LIA"
+    logic = "ALL" if fragment == QueryFragment.QF_RECORD else (
+        "QF_ALIA" if fragment == QueryFragment.QF_ARRAY else "QF_LIA"
+    )
     lines = [f"(set-logic {logic})"]
+    lines.extend(_record_declarations(expressions, _emit_sort))
     for encoded, type_name, _ in declarations:
         lines.append(f"(declare-fun {encoded} () {_emit_sort(type_name)})")
 
@@ -197,17 +209,12 @@ def emit_smtlib(obligation: Obligation) -> str:
     return "\n".join(lines) + "\n"
 
 
-def _array_requires_bv(expressions: Iterable[Expr]) -> bool:
+def _aggregate_requires_bv(expressions: Iterable[Expr]) -> bool:
     pending = list(expressions)
     while pending:
         expression = pending.pop()
         type_name = expression.type
-        if is_array_type(type_name):
-            type_name = array_type(type_name).element_type
-        if (
-            is_fixed_integer_type(type_name)
-            and not integer_type(type_name).signed
-        ) or expression.op in {
+        if _type_requires_bv(type_name) or expression.op in {
             "~",
             "&",
             "|",
@@ -219,6 +226,61 @@ def _array_requires_bv(expressions: Iterable[Expr]) -> bool:
             return True
         pending.extend(expression.args)
     return False
+
+
+def _type_requires_bv(type_name: str) -> bool:
+    if is_array_type(type_name):
+        return _type_requires_bv(array_type(type_name).element_type)
+    if is_record_type(type_name):
+        return any(
+            _type_requires_bv(field.type)
+            for field in record_type(type_name).fields
+        )
+    return (
+        is_fixed_integer_type(type_name)
+        and not integer_type(type_name).signed
+    )
+
+
+def _record_declarations(
+    expressions: Iterable[Expr], sort_emitter: Callable[[str], str]
+) -> list[str]:
+    records: dict[str, object] = {}
+
+    def collect_type(type_name: str) -> None:
+        if is_array_type(type_name):
+            collect_type(array_type(type_name).element_type)
+        elif is_record_type(type_name):
+            profile = record_type(type_name)
+            if type_name in records:
+                return
+            records[type_name] = profile
+            for field in profile.fields:
+                collect_type(field.type)
+
+    for expression in expressions:
+        for item in _walk_expression(expression):
+            collect_type(item.type)
+    emitter = sort_emitter
+    lines: list[str] = []
+    for type_name in sorted(records, key=lambda name: (record_type(name).depth, name)):
+        profile = record_type(type_name)
+        fields = " ".join(
+            f"({record_selector_symbol(type_name, field.name)} "
+            f"{emitter(field.type)})"
+            for field in profile.fields
+        )
+        lines.append(
+            f"(declare-datatypes (({record_sort_symbol(type_name)} 0)) "
+            f"((({record_constructor_symbol(type_name)} {fields}))))"
+        )
+    return lines
+
+
+def _walk_expression(expression: Expr) -> Iterable[Expr]:
+    yield expression
+    for argument in expression.args:
+        yield from _walk_expression(argument)
 
 
 def _collect_variable_types(expressions: Iterable[Expr]) -> dict[str, str]:
@@ -247,6 +309,8 @@ def _emit_sort(type_name: str) -> str:
         return "Int"
     if type_name == "bool":
         return "Bool"
+    if is_record_type(type_name):
+        return record_sort_symbol(type_name)
     if is_array_type(type_name):
         profile = array_type(type_name)
         if profile.element_type not in {"i32", "i64"}:
@@ -275,6 +339,41 @@ def _emit_expr(expression: Expr) -> str:
             raise SmtLibEmissionError("variable value must be a string name")
         return encode_symbol(expression.value)
 
+    if expression.kind == "record":
+        profile = record_type(expression.type)
+        if len(expression.args) != len(profile.fields) or any(
+            argument.type != field.type
+            for argument, field in zip(expression.args, profile.fields)
+        ):
+            raise SmtLibEmissionError("malformed record initializer expression")
+        arguments = " ".join(_emit_expr(argument) for argument in expression.args)
+        return f"({record_constructor_symbol(expression.type)} {arguments})"
+
+    if expression.kind == "project":
+        if len(expression.args) != 1 or not isinstance(expression.value, str):
+            raise SmtLibEmissionError("malformed record projection expression")
+        value = expression.args[0]
+        field = record_type(value.type).field(expression.value)
+        if expression.type != field.type:
+            raise SmtLibEmissionError("record projection types are inconsistent")
+        return f"({record_selector_symbol(value.type, field.name)} {_emit_expr(value)})"
+
+    if expression.kind == "update":
+        if len(expression.args) != 2 or not isinstance(expression.value, str):
+            raise SmtLibEmissionError("malformed record update expression")
+        value, replacement = expression.args
+        profile = record_type(value.type)
+        field = profile.field(expression.value)
+        if expression.type != value.type or replacement.type != field.type:
+            raise SmtLibEmissionError("record update types are inconsistent")
+        emitted_value = _emit_expr(value)
+        arguments = " ".join(
+            _emit_expr(replacement)
+            if item.name == field.name
+            else f"({record_selector_symbol(value.type, item.name)} {emitted_value})"
+            for item in profile.fields
+        )
+        return f"({record_constructor_symbol(value.type)} {arguments})"
     if expression.kind == "array":
         profile = array_type(expression.type)
         if (
@@ -364,6 +463,7 @@ def _emit_expr(expression: Expr) -> str:
             (
                 left.type not in {"i32", "i64", "bool"}
                 and not is_array_type(left.type)
+                and not is_record_type(left.type)
             )
             or left.type != right.type
         ):
@@ -497,6 +597,7 @@ def _emit_bv_query(
         raise SmtLibEmissionError("variable names collide after SMT encoding")
 
     lines = [f"(set-logic {logic})"]
+    lines.extend(_record_declarations(expressions, _emit_bv_sort))
     for encoded, type_name, _ in declarations:
         lines.append(f"(declare-fun {encoded} () {_emit_bv_sort(type_name)})")
     if obligation.assumptions:
@@ -518,6 +619,8 @@ def _emit_bv_sort(type_name: str) -> str:
         return "Bool"
     if is_fixed_integer_type(type_name):
         return f"(_ BitVec {integer_type(type_name).width})"
+    if is_record_type(type_name):
+        return record_sort_symbol(type_name)
     if is_array_type(type_name):
         profile = array_type(type_name)
         element_sort = _emit_bv_sort(profile.element_type)
@@ -547,6 +650,46 @@ def _emit_bv_expr(expression: Expr) -> str:
         _emit_bv_sort(expression.type)
         return encode_symbol(expression.value)
 
+    if expression.kind == "record":
+        profile = record_type(expression.type)
+        if len(expression.args) != len(profile.fields) or any(
+            argument.type != field.type
+            for argument, field in zip(expression.args, profile.fields)
+        ):
+            raise SmtLibEmissionError("malformed record initializer expression")
+        arguments = " ".join(
+            _emit_bv_expr(argument) for argument in expression.args
+        )
+        return f"({record_constructor_symbol(expression.type)} {arguments})"
+
+    if expression.kind == "project":
+        if len(expression.args) != 1 or not isinstance(expression.value, str):
+            raise SmtLibEmissionError("malformed record projection expression")
+        value = expression.args[0]
+        field = record_type(value.type).field(expression.value)
+        if expression.type != field.type:
+            raise SmtLibEmissionError("record projection types are inconsistent")
+        return (
+            f"({record_selector_symbol(value.type, field.name)} "
+            f"{_emit_bv_expr(value)})"
+        )
+
+    if expression.kind == "update":
+        if len(expression.args) != 2 or not isinstance(expression.value, str):
+            raise SmtLibEmissionError("malformed record update expression")
+        value, replacement = expression.args
+        profile = record_type(value.type)
+        field = profile.field(expression.value)
+        if expression.type != value.type or replacement.type != field.type:
+            raise SmtLibEmissionError("record update types are inconsistent")
+        emitted_value = _emit_bv_expr(value)
+        arguments = " ".join(
+            _emit_bv_expr(replacement)
+            if item.name == field.name
+            else f"({record_selector_symbol(value.type, item.name)} {emitted_value})"
+            for item in profile.fields
+        )
+        return f"({record_constructor_symbol(value.type)} {arguments})"
     if expression.kind == "array":
         profile = array_type(expression.type)
         if (
@@ -693,6 +836,7 @@ def _emit_bv_expr(expression: Expr) -> str:
             left.type == "bool"
             or is_fixed_integer_type(left.type)
             or is_array_type(left.type)
+            or is_record_type(left.type)
         ):
             raise SmtLibEmissionError(
                 f"operator {op!r} requires matching fixed-width or bool operands"

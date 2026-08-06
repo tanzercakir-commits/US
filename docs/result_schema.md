@@ -2,23 +2,23 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v3`. It
+The current schema identifier is `codeskeptic.semantic-verification/v4`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation. The deterministic
 fixed-width acceptance evidence uses the separate
-`codeskeptic.fixed-integer-phase-gate/v1` schema documented in
+`codeskeptic.fixed-integer-phase-gate/v2` schema documented in
 [the integer operations runbook](integer_operations.md); it is not a report.
 
 F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
-v1 for minimized public counterexample cores. A6.8 moves to v2 for explicit
+v1 for minimized public counterexample cores. A6.8 moved to v2 for explicit
 fixed-width type identities and canonical decimal-string integer evidence.
-A6.2 moves to v3 for exact owned-array type/value semantics, access obligations,
-and array-valued evidence. Consumers must check `schema`, ignore unknown object
-fields only within that known major, and fail closed on unknown
-status/mode/kind values. The complete [version and migration
-policy](schema_versioning.md) defines compatibility and preserves the v0, v1,
-and v2 corpora.
-
+A6.2 moved to v3 for exact owned-array type/value semantics, access obligations,
+and array-valued evidence. A6.3 moves to v4 for value-record types, field
+projection/update, by-value call flow, and record-valued evidence. Consumers
+must check `schema`, ignore unknown object fields only within that known major,
+and fail closed on unknown status/mode/kind values. The complete
+[version and migration policy](schema_versioning.md) defines compatibility and
+preserves the v0, v1, v2, and v3 corpora.
 ## Report envelope
 
 JSON output has this shape:
@@ -28,7 +28,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v3",
+  "schema": "codeskeptic.semantic-verification/v4",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -81,13 +81,13 @@ Non-goals do not change the exit code.
 ## Persistent obligation-result cache
 
 `--cache PATH` enables an opt-in local JSON cache with schema
-`codeskeptic.obligation-result-cache/v1`. Cache files are optimization state,
+`codeskeptic.obligation-result-cache/v2`. Cache files are optimization state,
 not part of the report envelope; cold and warm runs emit byte-identical reports.
 The cache contains a sorted `entries` object keyed by lowercase SHA-256 digest.
 
 The canonical key payload binds:
 
-- `codeskeptic.obligation-semantic-key/v1` and the current report/IR schema;
+- `codeskeptic.obligation-semantic-key/v2` and the current report/IR schema;
 - backend identity, implementation policy, nested cross-check identities, and
   result-relevant configuration such as the Z3 executable and timeout;
 - obligation mode, conclusion or explicit null, and unsupported reason;
@@ -149,7 +149,7 @@ file budget.
 | `status` | status string | yes | One of the five taxonomy values. |
 | `location` | location | yes | Primary source location. |
 | `message` | string | yes | Deterministic human-readable backend explanation. |
-| `counterexample` | object | no | Sorted bindings: fixed-width integers are canonical decimal strings; booleans are JSON booleans. |
+| `counterexample` | object | no | Sorted bindings: integers are canonical decimal strings, booleans are JSON booleans, arrays are decimal-string arrays, and records are field-name objects. |
 | `trace` | trace-step array | no | Source-ordered branch decisions leading to a violated obligation. |
 
 For a violated validity obligation, the backend first replays a complete model
@@ -166,8 +166,10 @@ interpret it together with the referenced obligation's `assumptions`.
 Every fixed-width integer counterexample value is serialized as a canonical
 base-10 string (`0` or an optional leading `-` followed by nonzero digits).
 This avoids JSON-number precision loss for u64. Boolean bindings remain JSON
-booleans. Cache entries use the same evidence encoding; internal referee values
-remain Python integers and booleans.
+booleans. Owned arrays serialize as source-ordered decimal-string arrays; value
+records serialize as field-name objects recursively. Cache v2 tags records with
+`$record` plus `fields` so record objects cannot be confused with cache metadata.
+Internal referee values remain typed integers, booleans, tuples, and records.
 
 Counterexample keys use IR variable names. A unique `name#0` is displayed as
 `name`; later SSA versions retain `#N`. If shortening would collide, the full
@@ -273,9 +275,11 @@ is never lowered under a different target.
 
 ### Expression
 
-Every expression has `kind` and `type`. v3 type identities are `bool`, `i32`,
-`u32`, `i64`, `u64`, and `array<E,N>` where `E` is a fixed-width
-integer identity and `1 <= N <= 64`.
+Every expression has `kind` and `type`. v4 type identities are `bool`, `i32`,
+`u32`, `i64`, `u64`, `array<E,N>`, and canonical
+`record<Name>{field:type,...}` identities. Arrays contain 1 to 64 fixed-width
+integers; records contain 1 to 16 scalar, array, or nested record fields and
+have maximum nesting depth 8.
 
 | Kind | Additional fields | Contract |
 | --- | --- | --- |
@@ -288,6 +292,9 @@ integer identity and `1 <= N <= 64`.
 | `array` | `args` | Exactly `N` source-ordered element expressions for `array<E,N>`. |
 | `select` | two-element `args` | Owned array and fixed-width index; result is the element type. |
 | `store` | three-element `args` | Owned array, fixed-width index, and matching element; result is a new array value. |
+| `record` | `args` | Source-declaration-ordered field values matching the canonical record type. |
+| `project` | `value`, one-element `args` | Named field selection from a record value. |
+| `update` | `value`, two-element `args` | Functional field replacement; all other fields remain exact. |
 
 The representable operators are `+`, `-`, `*`, `/`, `%`, `~`, `&`, `|`, `^`,
 `<<`, `>>`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`, `||`, and unary `!`/`-`.
@@ -316,6 +323,14 @@ width-matching bitvector elements. Z3 countermodels are materialized to exactly
 `N` source-level values before replay. Public array bindings, when retained in a
 minimized core, serialize as arrays of canonical decimal strings.
 
+Value records use deterministic SMT datatypes under `QF_RECORD` classification
+and `(set-logic ALL)`. Signed-only record leaves use `Int`; any unsigned or
+bitwise-tainted leaf selects the homogeneous bitvector lane. Nested datatype
+declarations are dependency-first. Whole-record SSA, functional `update`, and
+`project` preserve copy isolation; all signed integer leaves receive source-type
+bounds, including nested arrays. Every candidate record model is decoded to its
+canonical type and replayed before a violation is returned.
+
 ## Semantic IR
 
 ### Module
@@ -325,7 +340,16 @@ minimized core, serialize as arrays of canonical decimal strings.
 | `schema` | string | yes | Same schema identifier as the report. |
 | `source` | string | yes | Caller-visible source path. |
 | `functions` | function array | yes | Source traversal order. |
+| `records` | record-type array | yes | Source declaration order; empty for modules without records. |
 | `unsupported` | node array | yes | Module/frontend issues in deterministic order. |
+
+### Record type
+
+Each module `records` entry has source `name`, canonical `type`, and a required
+source-ordered `fields` array. Each field contains `name` and canonical `type`.
+Methods, inheritance, unions, bitfields, layout/padding claims, references,
+pointers, default member initialization, partial initialization, and escaping
+addresses are outside v4 and must fail closed.
 
 ### Function
 
@@ -334,7 +358,7 @@ minimized core, serialize as arrays of canonical decimal strings.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | v3 type identity; function returns remain scalar in A6.2. |
+| `return_type` | string | yes | v4 scalar or value-record type identity. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
@@ -349,7 +373,7 @@ minimized core, serialize as arrays of canonical decimal strings.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | v3 scalar or owned-array type identity. |
+| `type` | string | yes | v4 scalar, owned-array, or value-record type identity. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
 
@@ -386,7 +410,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | v3 scalar or owned-array type identity. |
+| `type` | string | v4 scalar, owned-array, or value-record type identity. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

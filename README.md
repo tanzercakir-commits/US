@@ -8,16 +8,17 @@ CodeSkeptic repository.
 The prototype deliberately supports C++17 `int`/`unsigned int` and `long
 long`/`unsigned long long` (owned IR types `i32`/`u32`/`i64`/`u64`), `bool`,
 local scalar state, fully initialized one-dimensional fixed-size integer
-arrays with exact select/store/bounds, fixed-width bitwise/shift expressions,
+arrays with exact select/store/bounds, aggregate-by-value structs with exact
+field/copy semantics, fixed-width bitwise/shift expressions,
 `if`/`else`,
-direct contracted calls with matching fixed-width results, invariant-annotated
+direct contracted calls with matching fixed-width or value-record results, invariant-annotated
 `while`, `assert`, and `return`. Unsupported C++ is reported explicitly. It
 uses a real Clang AST and has no Python package dependencies. The affine
 checker is dependency-free; the default cross-check backend also invokes a
 separately installed Z3 executable through SMT-LIB2. Unsigned, mixed,
-bitwise, shift, or array obligations require explicit `--backend z3` because
+bitwise, shift, array, or record obligations require explicit `--backend z3` because
 they use
-homogeneous QF_BV/QF_ALIA/QF_ABV and the affine referee fails closed.
+homogeneous QF_BV/QF_ALIA/QF_ABV/QF_RECORD and the affine referee fails closed.
 
 Run the vertical slice (the CLI defaults to affine/Z3 cross-check mode):
 
@@ -52,7 +53,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 244 deterministic tests. The separately cloned,
+The current suite contains 260 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -94,6 +95,8 @@ usual conversions, unsigned comparison/division, calls, and loops. The
 32/64-bit shifts, arithmetic/logical right shift, and signed-left-shift safety.
 The [array example](examples/array_slice.cpp) covers constant/symbolic reads,
 whole-array SSA stores, isolation, signed bounds, and unsigned QF_ABV.
+The [value-struct example](examples/struct_slice.cpp) covers construction, nested
+field/array updates, copy isolation, by-value calls, and record contracts.
 The [combined integer gate](examples/fixed_integer_gate.cpp) carries positive
 and negative evidence for the complete operator table; run all BV examples with
 `--backend z3`. The [integer operations runbook](docs/integer_operations.md)

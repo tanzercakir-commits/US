@@ -24,6 +24,13 @@ from .model import (
     VerificationResult,
     VerificationStatus,
 )
+from .record_types import (
+    RecordValue,
+    is_record_type,
+    record_constructor_symbol,
+    record_sort_symbol,
+    record_type,
+)
 from .smtlib import SmtLibEmissionError, decode_symbol, emit_smtlib
 
 
@@ -131,7 +138,7 @@ class Z3ProcessRunner:
         except Z3DiscoveryError:
             executable = self._configured_z3
         return {
-            "command_policy": "homogeneous-qf-lia-qf-bv-qf-array-deterministic-seeds/v2",
+            "command_policy": "homogeneous-qf-lia-qf-bv-qf-array-qf-record-deterministic-seeds/v3",
             "executable": executable,
             "timeout_seconds": self.timeout_seconds,
         }
@@ -284,7 +291,7 @@ class Z3ModelError(ValueError):
     """Raised when solver model output is malformed or incomplete."""
 
 
-EvidenceValue = int | bool | tuple[int, ...]
+EvidenceValue = int | bool | tuple[int, ...] | RecordValue
 
 
 def parse_z3_model(
@@ -318,12 +325,12 @@ def parse_z3_model(
             raise Z3ModelError(f"invalid model symbol {form[1]!r}: {error}") from error
         if source_name in bindings:
             raise Z3ModelError(f"duplicate model binding for {source_name!r}")
-        sort = _normalize_model_sort(form[3])
         expected_type = (
             expected_types.get(source_name)
             if expected_types is not None
             else None
         )
+        sort = _normalize_model_sort(form[3], expected_type)
         bindings[source_name] = _parse_model_value(
             form[4], sort, expected_type
         )
@@ -366,6 +373,8 @@ def parse_z3_model(
                 }
                 if element.signed:
                     expected_sorts.add("Array[Int,Int]")
+            elif is_record_type(type_name):
+                expected_sorts = {f"Record[{type_name}]"}
             else:
                 expected_sorts = set()
             if actual_sort not in expected_sorts:
@@ -561,7 +570,15 @@ def _tokenize_s_expressions(text: str) -> list[str]:
     return tokens
 
 
-def _normalize_model_sort(value: object) -> str:
+def _normalize_model_sort(
+    value: object, expected_type: str | None = None
+) -> str:
+    if (
+        expected_type is not None
+        and is_record_type(expected_type)
+        and value == record_sort_symbol(expected_type)
+    ):
+        return f"Record[{expected_type}]"
     if isinstance(value, str) and value in {"Bool", "Int"}:
         return str(value)
     if (
@@ -594,6 +611,12 @@ def _parse_model_value(
     sort: str,
     expected_type: str | None = None,
 ) -> EvidenceValue:
+    if sort.startswith("Record["):
+        if expected_type is None or not is_record_type(expected_type):
+            raise Z3ModelError("record model parsing requires an expected record type")
+        if sort != f"Record[{expected_type}]":
+            raise Z3ModelError("record model sort does not match its expected type")
+        return _parse_record_value(value, expected_type)
     if sort.startswith("Array["):
         if expected_type is None or not is_array_type(expected_type):
             raise Z3ModelError("array model parsing requires an expected array type")
@@ -649,6 +672,82 @@ def _parse_model_value(
     ):
         return -int(value[1])
     raise Z3ModelError(f"unsupported Int model value {value!r}")
+
+
+def _parse_record_value(value: object, type_name: str) -> RecordValue:
+    profile = record_type(type_name)
+    if (
+        not isinstance(value, list)
+        or len(value) != len(profile.fields) + 1
+        or value[0] != record_constructor_symbol(type_name)
+    ):
+        raise Z3ModelError(f"unsupported record model value {value!r}")
+    return RecordValue(
+        type_name,
+        tuple(
+            _parse_expected_value(raw, field.type)
+            for raw, field in zip(value[1:], profile.fields)
+        ),
+    )
+
+
+def _parse_expected_value(value: object, type_name: str) -> EvidenceValue:
+    if type_name == "bool":
+        return _parse_model_value(value, "Bool", type_name)
+    if is_fixed_integer_type(type_name):
+        profile = integer_type(type_name)
+        is_bv = (
+            isinstance(value, str) and value.startswith(("#x", "#b"))
+        ) or (
+            isinstance(value, list)
+            and len(value) == 3
+            and value[0] == "_"
+            and isinstance(value[1], str)
+            and value[1].startswith("bv")
+        )
+        if is_bv:
+            parsed = _parse_model_value(value, f"BitVec{profile.width}", type_name)
+            return convert_integer(int(parsed), type_name)
+        if not profile.signed:
+            raise Z3ModelError("unsigned record field requires a BitVec model value")
+        return _parse_model_value(value, "Int", type_name)
+    if is_array_type(type_name):
+        sort = _array_value_sort(value)
+        profile = array_type(type_name)
+        _, element_sort = _array_sort_parts(sort)
+        default, updates = _parse_array_value(
+            value, sort, *_array_sort_parts(sort)
+        )
+        materialized = tuple(
+            int(updates.get(index, default))
+            for index in range(profile.length)
+        )
+        if element_sort.startswith("BitVec"):
+            return tuple(
+                convert_integer(item, profile.element_type)
+                for item in materialized
+            )
+        if not integer_type(profile.element_type).signed:
+            raise Z3ModelError("unsigned array field requires BitVec elements")
+        return materialized
+    if is_record_type(type_name):
+        return _parse_record_value(value, type_name)
+    raise Z3ModelError(f"unsupported expected model type {type_name!r}")
+
+
+def _array_value_sort(value: object) -> str:
+    current = value
+    while isinstance(current, list) and len(current) == 4 and current[0] == "store":
+        current = current[1]
+    if (
+        isinstance(current, list)
+        and len(current) == 2
+        and isinstance(current[0], list)
+        and len(current[0]) == 3
+        and current[0][:2] == ["as", "const"]
+    ):
+        return _normalize_model_sort(current[0][2])
+    raise Z3ModelError("owned array model is missing its const-array sort")
 
 
 def _array_sort_parts(sort: str) -> tuple[str, str]:

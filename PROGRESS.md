@@ -758,3 +758,28 @@ deterministic; OOB candidates -> replayed and minimized; explicit-Z3 example ->
 gate v1 -> green; v2 archive -> 28/28 hashes; full suite -> 244/244; fixture
 check -> 20/20 current; non-archive diff check -> clean; commit: this commit.
 Next: A6.3 (restricted value structs).
+## 2026-08-06 - A6.3: restricted value structs (QF_RECORD) - DONE
++ Added canonical named value-record types with 1-16 public scalar, owned-array,
+  or earlier-record fields, maximum depth 8, and full aggregate initialization.
++ Added exact `record`/`project`/`update` IR, whole-record and field-sensitive SSA,
+  nested field/array paths, copy isolation, branch/loop merges, and field contracts.
++ Added direct record parameters, returns, locals, and contracted calls by value;
+  every signed integer leaf, including array fields and call/loop havoc, is bounded.
++ Added deterministic QF_RECORD datatype emission with dependency-first nested
+  declarations, signed Int and unsigned/bitvector sublanes, typed model decoding,
+  mandatory recursive replay, minimization, public evidence, and cache v2 tags.
++ Kept methods, non-implicit constructors, inheritance, unions, bitfields, layout
+  claims, classes/private state, pointers/references, partial/default/uninitialized
+  values, excessive width/depth, and escaping addresses fail-closed.
++ Advanced report/Semantic IR to v4, cache/key schemas to v2, and the fixed-
+  integer gate to v2; archived all 31 v3 fixture hashes and proved ten-case
+  v3-to-v4, nine-case v2-to-v4, and five-case v1-to-v4 status equivalence.
++ Added 16 focused/migration tests and the fully verified 9-obligation struct
+  fixture; advanced the test ratchet from 244 to 260 and corpus to 22 artifacts.
+- None.
+Evidence: struct tests -> 15/15; signed/unsigned/nested-array datatype lanes ->
+deterministic and replayed; explicit-Z3 example -> 9 verified, zero non-verified;
+integer phase gate v2 -> green; v3 archive -> 31/31 hashes; full suite ->
+260/260; fixture check -> 22/22 current on two runs; diff check -> clean; commit:
+this commit.
+Next: A6.4 (restricted references with proved alias discipline).

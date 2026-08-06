@@ -1,0 +1,26 @@
+module fixtures/cases/struct_slice.cpp
+record Pair { x:i32, y:i32 }
+record Box { pair:record<Pair>{x:i32,y:i32}, values:array<i32,2> }
+function make_pair(x#0:i32, y#0:i32) -> record<Pair>{x:i32,y:i32}
+  ensures ((result.x == x#0) && (result.y == y#0))
+  n00001 result#0 := Pair{x=x#0, y=y#0}
+  n00002 return result#0
+function copy_isolation(input#0:record<Pair>{x:i32,y:i32}) -> i32
+  requires (input#0.x < 2147483647)
+  ensures (result == input#0.x)
+  n00003 assume (input#0.x < 2147483647)
+  n00004 original#0 := input#0.x
+  n00005 copy#0 := input#0
+  n00006 copy#1 := update(copy#0, x, (copy#0.x + 1))
+  n00007 return input#0.x
+function nested_update(input#0:record<Box>{pair:record<Pair>{x:i32,y:i32},values:array<i32,2>}, i#0:i32, replacement#0:i32) -> i32
+  requires ((i#0 >= 0) && (i#0 < 2))
+  ensures (result == replacement#0)
+  n00008 assume ((i#0 >= 0) && (i#0 < 2))
+  n00009 input#1 := update(input#0, pair, update(input#0.pair, x, replacement#0))
+  n00010 input#2 := update(input#1, values, store(input#1.values, i#0, input#1.pair.x))
+  n00011 return input#2.values[i#0]
+function copy_call(input#0:record<Pair>{x:i32,y:i32}) -> record<Pair>{x:i32,y:i32}
+  ensures ((result.x == input#0.x) && (result.y == input#0.y))
+  n00012 call make_pair(input#0.x, input#0.y)
+  n00013 return result#0

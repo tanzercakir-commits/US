@@ -1962,7 +1962,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v3",
+  "schema": "codeskeptic.semantic-verification/v4",
   "semantic_ir": {
     "functions": [
       {
@@ -2393,7 +2393,8 @@
         "return_type": "i32"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v3",
+    "records": [],
+    "schema": "codeskeptic.semantic-verification/v4",
     "source": "fixtures/cases/sum_loop_wrong_invariant.cpp",
     "unsupported": []
   },

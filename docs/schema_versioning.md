@@ -8,17 +8,18 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v3`. F4.1 froze the
+The current value is `codeskeptic.semantic-verification/v4`. F4.1 froze the
 report and Semantic IR contract as v0; A4.1 advanced to v1 for minimized public
 counterexample evidence; A6.8 advances to v2 for explicit fixed-width types and
-canonical integer evidence. A producer emits exactly one major version; there
+canonical integer evidence, A6.2 advances to v3 for owned arrays, and A6.3
+advances to v4 for value records. A producer emits exactly one major version; there
 is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
-schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 advances
-that independent evidence schema to v1 so it also pins the v2 archive and both
-v1-to-v3 and v2-to-v3 migration checks. Changing its frozen profile, conversion
+schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 advanced
+that evidence schema to v1. A6.3 advances it to v2 so it also pins the v3
+archive plus v1-to-v4, v2-to-v4, and v3-to-v4 migration checks. Changing its frozen profile, conversion
 table, operator rows, backend matrix, or migration checks requires an
 intentional gate version review, not a report-schema reinterpretation.
 
@@ -111,6 +112,37 @@ fully initialized, and limited to 64 fixed-width integer elements. Raw-array
 parameters/returns, pointer decay outside direct subscripting, aliases, dynamic
 allocation, multidimensional arrays, partial initialization, and unmodeled
 libraries remain unsupported.
+
+## v4 decision: aggregate-by-value records
+
+A6.3 introduces canonical `record<Name>{field:type,...}` identities, module
+record declarations, and `record`, `project`, and `update` expressions. Record
+parameters, returns, locals, branch merges, and direct contracted calls are
+whole values with field-sensitive functional SSA. Signed integer leaves,
+including elements of array fields, retain their source-type bounds.
+
+Record formulas are classified as `QF_RECORD` and emitted as deterministic SMT
+datatypes under `(set-logic ALL)`. Nested declarations are dependency-first;
+signed-only leaves use `Int`, while unsigned or bitwise taint selects the
+homogeneous bitvector lane. Candidate datatype models decode to canonical typed
+records and replay before a violation can be returned. Public record evidence is
+a recursive field-name object; cache v2 uses an explicit `$record` tag.
+
+Keeping this under v3 was rejected. A v3 consumer cannot safely interpret the
+new type identity, functional field update, module `records` table, or
+record-valued counterexample. The complete ten-case v3 corpus is immutable under
+`fixtures/versions/v3/` with 31 checked SHA-256 entries. Current fixtures are v4
+and add the record slice; status equivalence is checked for all ten legacy v3,
+nine v2, and five v1 reports. `require_current_schema` rejects v0 through v3,
+unknown, and mixed-major payloads.
+
+The reviewed source subset is named public `struct` values with 1 to 16 fields
+and maximum nesting depth 8. Fields may be bool, fixed-width integer, owned
+array, or an earlier value-record type. Aggregate initialization must be full.
+Methods, constructors beyond implicit copy, inheritance, unions, bitfields,
+layout/padding claims, class/private state, pointers, references, default member
+initializers, partial/uninitialized values, and escaping addresses remain
+unsupported.
 
 ## Consumer rules
 
@@ -210,23 +242,21 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A6.2:
+As of A6.3:
 
-- current producer: `codeskeptic.semantic-verification/v3`;
-- frozen previous baselines: complete v0, v1, and v2 corpora under
-  `fixtures/versions/v0/`, `fixtures/versions/v1/`, and
-  `fixtures/versions/v2/`;
-- compatible readers: v3 readers that require the exact schema, understand
-  fixed-width and owned-array types, exact select/store/bounds semantics,
-  canonical decimal scalar/array evidence, and minimized cores;
+- current producer: `codeskeptic.semantic-verification/v4`;
+- frozen previous baselines: complete v0, v1, v2, and v3 corpora under their
+  matching `fixtures/versions/vN/` directories;
+- compatible readers: v4 readers that require the exact schema and implement
+  fixed-width scalars, owned arrays, value records, exact projection/update and
+  bounds semantics, canonical recursive evidence, and minimized cores;
   `semantic_verifier.schema` supplies the reference fail-closed gate;
-- v0, v1, and v2 readers are intentionally incompatible with current
+- v0 through v3 readers are intentionally incompatible with current
   type/evidence semantics;
 - no legacy report reader or conversion tool exists in this producer-only
   reference repository, so none is deleted by this migration;
 - the Unreleased changelog period is the migration window; archived fixture
   bytes remain available and are not scheduled for deletion.
-
-This policy does not promise that every future source feature stays in v3. It
+This policy does not promise that every future source feature stays in v4. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,
 and impossible to confuse silently with the previous proof contract.

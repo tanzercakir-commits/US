@@ -22,6 +22,14 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.3 adds named aggregate-by-value structs with canonical record/field IR,
+  full aggregate initialization, nested field and owned-array paths,
+  field-sensitive functional SSA, copy isolation, branch merges, contracts, and
+  direct parameters/returns/calls by value. Deterministic QF_RECORD datatype
+  emission selects signed Int or bitvector leaves, and typed record models are
+  replayed and minimized. Methods, inheritance, unions, bitfields, layout
+  claims, classes/private state, pointers, references, default/partial
+  initialization, and escaping addresses remain fail-closed.
 - A6.2 adds exact owned one-dimensional fixed-size arrays with canonical
   `array<element,length>` types, `array`/`select`/`store` expressions,
   whole-array SSA updates, per-access replayable bounds obligations, contract
@@ -75,6 +83,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Changed
 
+- A6.3 moves the producer to `codeskeptic.semantic-verification/v4` because
+  value-record identities, module record declarations, projection/update,
+  by-value result flow, and record evidence are proof-bearing wire semantics.
+  Cache/key schemas advance to v2, the fixed-integer phase gate advances to v2,
+  and the fixture corpus grows to 22 artifacts.
 - A6.2 moves the producer to `codeskeptic.semantic-verification/v3` because
   array type identities, expression kinds, bounds obligations, and array-valued
   evidence are new proof-bearing wire semantics. Cache/key schemas advance to
@@ -102,6 +115,13 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- v4 consumers must implement canonical value-record declarations and types,
+  `record`/`project`/`update`, functional copy semantics, QF_RECORD datatypes,
+  recursive field evidence, and source bounds for integer leaves, or reject
+  those objects fail-closed. The complete ten-case v3 corpus is immutable under
+  `fixtures/versions/v3/` with 31 SHA-256 entries; v3-to-v4 statuses are
+  equivalent for all ten legacy cases. v0 through v3, unknown, and mixed-major
+  payloads are rejected by the current compatibility gate.
 - v3 consumers must implement exact owned-array values, `select`/`store`,
   `[0, length)` access obligations, QF_ALIA/QF_ABV sorts, and arrays of
   canonical decimal strings in counterexample evidence, or reject those

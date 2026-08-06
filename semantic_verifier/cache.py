@@ -21,9 +21,11 @@ from .model import (
     serialize_evidence_value,
 )
 
+from .record_types import RecordValue, record_type
 
-CACHE_SCHEMA = "codeskeptic.obligation-result-cache/v1"
-KEY_SCHEMA = "codeskeptic.obligation-semantic-key/v1"
+
+CACHE_SCHEMA = "codeskeptic.obligation-result-cache/v2"
+KEY_SCHEMA = "codeskeptic.obligation-semantic-key/v2"
 
 
 def obligation_semantic_payload(
@@ -221,7 +223,7 @@ def _encode_entry(
     }
     if result.counterexample is not None:
         encoded_result["counterexample"] = {
-            key: serialize_evidence_value(result.counterexample[key])
+            key: _encode_cache_value(result.counterexample[key])
             for key in sorted(result.counterexample)
         }
     return {
@@ -231,34 +233,80 @@ def _encode_entry(
     }
 
 
+def _encode_cache_value(
+    value: int | bool | tuple[int, ...] | RecordValue,
+) -> Any:
+    if isinstance(value, RecordValue):
+        profile = record_type(value.type)
+        return {
+            "$record": value.type,
+            "fields": {
+                field.name: _encode_cache_value(field_value)
+                for field, field_value in zip(profile.fields, value.fields)
+            },
+        }
+    return serialize_evidence_value(value)
+
+
 def _decode_counterexample(
     raw_result: Mapping[str, Any],
-) -> tuple[bool, Mapping[str, int | bool | tuple[int, ...]] | None]:
+) -> tuple[
+    bool,
+    Mapping[str, int | bool | tuple[int, ...] | RecordValue] | None,
+]:
     if "counterexample" not in raw_result:
         return True, None
     raw = raw_result["counterexample"]
     if not isinstance(raw, Mapping):
         return False, None
-    decoded: dict[str, int | bool | tuple[int, ...]] = {}
+    decoded: dict[str, int | bool | tuple[int, ...] | RecordValue] = {}
     for key, value in raw.items():
         if not isinstance(key, str):
             return False, None
-        if type(value) is bool:
-            decoded[key] = value
-            continue
-        if isinstance(value, list):
-            try:
-                decoded[key] = tuple(
-                    parse_canonical_decimal(item) for item in value
-                )
-            except ValueError:
-                return False, None
-            continue
+        valid, item = _decode_cache_value(value)
+        if not valid or item is None:
+            return False, None
+        decoded[key] = item
+    return True, {key: decoded[key] for key in sorted(decoded)}
+
+
+def _decode_cache_value(
+    value: object,
+) -> tuple[bool, int | bool | tuple[int, ...] | RecordValue | None]:
+    if type(value) is bool:
+        return True, value
+    if isinstance(value, list):
         try:
-            decoded[key] = parse_canonical_decimal(value)
+            return True, tuple(parse_canonical_decimal(item) for item in value)
         except ValueError:
             return False, None
-    return True, {key: decoded[key] for key in sorted(decoded)}
+    if isinstance(value, Mapping):
+        if set(value) != {"$record", "fields"}:
+            return False, None
+        type_name = value.get("$record")
+        fields = value.get("fields")
+        if not isinstance(type_name, str) or not isinstance(fields, Mapping):
+            return False, None
+        try:
+            profile = record_type(type_name)
+        except ValueError:
+            return False, None
+        if set(fields) != {field.name for field in profile.fields}:
+            return False, None
+        decoded_fields: list[object] = []
+        for field in profile.fields:
+            valid, item = _decode_cache_value(fields[field.name])
+            if not valid or item is None:
+                return False, None
+            decoded_fields.append(item)
+        try:
+            return True, RecordValue(type_name, tuple(decoded_fields))
+        except ValueError:
+            return False, None
+    try:
+        return True, parse_canonical_decimal(value)
+    except ValueError:
+        return False, None
 
 
 def _trace_signature(templates: tuple[TraceTemplate, ...]) -> list[dict[str, Any]]:
