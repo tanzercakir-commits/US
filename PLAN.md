@@ -411,7 +411,10 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: `docs/integer_semantics_decision.md`; operator/type/conversion truth
   tables; backend and default cross-check capability policy; schema-major and
   fixture migration impact; appended implementation stages after A6.7 with
-  declared file sets and dependencies.
+  declared file sets and dependencies; `tests/test_integer_semantics_decision.py`.
+  Stage file set also includes `PLAN.md`, `PROGRESS.md`, `TODO.md`, `README.md`,
+  `docs/semantic_verification_prototype.md`, and `guardrails/test_baseline.txt`
+  for decision navigation, ledger, active-set, and documentation-test ratchet.
 - DoD: examples cover signed overflow, unsigned wrap, mixed signedness,
   narrowing/widening, negative/oversized shifts, and bitwise results; every
   operator maps to exact IR/SMT semantics or explicit unsupported; the affine
@@ -502,6 +505,74 @@ may append implementation stages after A6.7 without renumbering existing IDs.
   inferred candidates are independently proved or rejected; full suite and
   fixture check are green.
 - Depends: A6.1–A6.6 and any implementation stages appended by A6.1.
+
+#### A6.8 — Fixed-width type profile and schema v2
+- Goal: introduce owned signedness/width type identities under a pinned C++17
+  target profile before accepting new source types. Existing `int` semantics
+  become explicit `i32`; bool remains distinct.
+- Output/file set: integer type/profile value objects; model/frontend/lowering/
+  contract/checker/cache/serializer updates; `i32`/`u32`/`i64`/`u64` type
+  spellings and canonical decimal-string integer evidence;
+  `codeskeptic.semantic-verification/v2`; immutable archived v1 fixtures;
+  `tests/test_integer_types.py`; schema/result/adoption/prototype/changelog,
+  fixture, README, PLAN/PROGRESS/TODO, and ratchet updates.
+- DoD: the frontend validates the pinned 32/64-bit, two's-complement, arithmetic
+  right-shift target assumptions or fails closed; v1 corpus bytes stay immutable;
+  current int32 reports migrate deterministically to v2 without proof-status
+  changes; mixed report/IR majors are rejected; full suite and fixtures pass.
+- Depends: A6.1.
+
+#### A6.9 — Signed int64 QF_LIA lane
+- Goal: add `long long`/`i64` arithmetic and exact i32/i64 promotions while
+  retaining mathematical integers plus explicit C++17 definedness obligations.
+- Output/file set: frontend/literal/lowering/VC/affine/SMT-LIB/replay support;
+  width-parameterized range/overflow/division checks; `tests/test_int64.py`;
+  examples, result/adoption/prototype/changelog, fixtures, PROGRESS/TODO/ratchet.
+- DoD: i64 boundaries, widening, narrowing under the pinned profile, unary
+  negation, add/sub/mul/div/rem, calls/contracts/loops, violation replay, and
+  deterministic serialization pass; overflow and min/-1 never verify; `long`,
+  extended integers, and unsupported literal types fail closed; full suite and
+  fixtures pass.
+- Depends: A6.8.
+
+#### A6.10 — Unsigned integers and homogeneous QF_BV lane
+- Goal: support u32/u64 arithmetic, assignments, and usual arithmetic
+  conversions with exact modulo behavior; classify any unsigned/mixed query as
+  pure QF_BV rather than mixing Int and BitVec sorts.
+- Output/file set: query-fragment classifier; deterministic QF_BV emitter;
+  signed/zero extension and truncation; BV model parse/replay/minimization;
+  cache/backend logic identity; `tests/test_unsigned.py` and
+  `tests/test_smtlib_bv.py`; docs/examples/fixtures/changelog/ledger/ratchet.
+- DoD: unsigned wrap, mixed i32/u32/i64/u64 conversion table, comparisons,
+  arithmetic, division/remainder definedness, calls/contracts/loops, replay,
+  and cache separation pass; no query mixes Int and BitVec; affine and default
+  cross-check return explicit unsupported for BV-required obligations while
+  `--backend z3` decides them; full suite and fixtures pass.
+- Depends: A6.9.
+
+#### A6.11 — C++17 bitwise and shift operators
+- Goal: add `~`, `&`, `|`, `^`, `<<`, and `>>` under integral promotions,
+  usual conversions, and the pinned C++17 target profile.
+- Output/file set: contract/frontend/lowering/IR/VC QF_BV operators; shift-count
+  and signed-left-shift definedness obligations; arithmetic/logical right-shift
+  selection; `tests/test_bitwise.py`; docs/examples/fixtures/changelog/ledger.
+- DoD: positive/negative bit patterns, mixed signedness, De Morgan, masks, and
+  32/64-bit shifts replay exactly; negative or width-exceeding counts and
+  invalid signed left shifts never verify; negative signed right shift follows
+  the pinned arithmetic-shift profile; unsupported compound/rotate/library
+  operations fail closed; deterministic SMT/reports, full suite, fixtures pass.
+- Depends: A6.10.
+
+#### A6.12 — Fixed-width integer phase gate
+- Goal: freeze the selected target profile, LIA/BV classifier, backend support
+  matrix, migration, and proof equivalence for legacy int32 obligations.
+- Output/file set: combined integer example/fixtures, deterministic phase-gate
+  tool, operations/capability docs, schema migration evidence, PROGRESS/TODO.
+- DoD: every A6.1 truth-table row has positive/negative evidence; legacy v1 is
+  immutable and migrated v2 status-equivalent; LIA queries remain cross-checked;
+  BV queries are replayed by explicit Z3 mode and fail closed in affine/both;
+  repeated gate/fixture bytes match; full suite and fixture check pass.
+- Depends: A6.8–A6.11.
 
 ---
 

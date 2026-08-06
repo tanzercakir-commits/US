@@ -8,12 +8,15 @@
 
 ## Now (active stage)
 
-- [ ] **A6.1 - fixed-width integer-semantics decision point**
+- [ ] **A6.8 - fixed-width type profile and schema v2**
 
 ## Next
 
+- [ ] **A6.9 - signed int64 QF_LIA lane**
+- [ ] **A6.10 - unsigned integers and homogeneous QF_BV lane**
+- [ ] **A6.11 - C++17 bitwise and shift operators**
+- [ ] **A6.12 - fixed-width integer phase gate**
 - [ ] **A6.2 - restricted arrays**
-- [ ] **A6.3 - value-type structs**
 
 ## Blockers / open questions
 
@@ -22,6 +25,6 @@
 
 ## Last updated
 
-2026-08-06 - A6.0 expanded A6.1-A6.7 with exact trust, schema, backend,
-unsupported, and phase-gate contracts. Next is the fixed-width integer-semantics
-decision and its implementation-stage insertion.
+2026-08-06 - A6.1 selected homogeneous per-obligation QF_LIA/QF_BV lowering,
+a pinned C++17 fixed-width profile, and schema v2. Added A6.8-A6.12; next is the
+type/profile and schema foundation.

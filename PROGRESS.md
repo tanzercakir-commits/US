@@ -601,3 +601,25 @@ Evidence: plan extended: A6.1-A6.7; stage contract review -> 7/7 complete;
 full suite -> 175/175; fixture check -> 10/10 current; diff check -> clean;
 commit: this commit.
 Next: A6.1 (fixed-width integer-semantics decision point).
+
+## 2026-08-06 - A6.1: fixed-width integer-semantics decision - DONE
++ Selected typed per-obligation homogeneous lowering: signed arithmetic stays
+  QF_LIA when eligible; unsigned, mixed-to-unsigned, bitwise, and shifts use
+  pure QF_BV; no SMT query mixes Int and BitVec sorts.
++ Pinned a C++17 i32/u32/i64/u64 two's-complement target profile with arithmetic
+  signed right shift and mandatory Clang-side validation before source support.
++ Froze promotions/usual conversions, assignment conversions, literal policy,
+  signed UB, unsigned modulo behavior, bitwise operations, and shift rules.
++ Chose schema v2 type IDs plus canonical decimal-string integer evidence to
+  preserve all i64/u64 values; v1 fixtures must be archived unchanged.
++ Kept the fail-closed backend policy: affine rejects BV-required obligations,
+  default both remains unsupported, and explicit Z3 mode is required.
++ Rejected pure-Int bit emulation, all-BV legacy migration, mixed-sort queries,
+  signed-wrap approximation, and target-ambiguous implementation behavior.
++ Added primary C++17/SMT-LIB/Z3 references, three documentation guardrails, and
+  implementation stages A6.8-A6.12 without renumbering existing stages.
+- None.
+Evidence: plan extended: A6.8-A6.12; decision tests -> 3/3; full suite ->
+178/178; fixture check -> 10/10 current; diff check -> clean; commit: this
+commit.
+Next: A6.8 (fixed-width type profile and schema v2).

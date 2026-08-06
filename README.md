@@ -46,7 +46,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 175 deterministic tests. The separately cloned,
+The current suite contains 178 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -75,7 +75,9 @@ records the measured exponential baseline and chosen exact merge architecture.
 The [scaling operations runbook](docs/scaling_operations.md) defines the frozen
 A5 phase gate and failure handling. The
 [semantic extensions roadmap](docs/semantic_extensions_roadmap.md) fixes A6
-ordering, trust boundaries, and per-stage acceptance requirements.
+ordering, trust boundaries, and per-stage acceptance requirements. The
+[fixed-width integer decision](docs/integer_semantics_decision.md) selects the
+homogeneous QF_LIA/QF_BV strategy and pinned C++17 target profile.
 
 ## Development workflow
 

@@ -34,7 +34,7 @@ Implemented:
   per-process solver timeouts, with exhaustion remaining explicit `unknown`;
 - a committed scaling slice and hash/count-based phase gate covering exact join
   compaction, uncached/warm cache identity, and repeated budget identity;
-- 175 deterministic tests, including independent soundness regressions.
+- 178 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -48,11 +48,13 @@ Partially implemented:
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete, while Z3 is
   complete only for the emitted QF_LIA fragment;
-- v0 now freezes the fixture-backed A2/A3 report and IR shape; future semantic
-  breaks follow the explicit v1 migration policy.
+- v0 is archived and v1 is the current counterexample-core schema; the selected
+  fixed-width integer implementation will require an explicit v2 migration.
 
 Proposed, not implemented:
 
+- the selected per-obligation homogeneous QF_LIA/QF_BV fixed-width integer
+  profile, schema v2 migration, signed i64, unsigned, bitwise, and shift stages;
 - a native clang::ASTContext adapter inside CodeSkeptic;
 - reuse of CodeSkeptic .csk sidecars;
 - production diagnostic/SARIF/MCP adapters for proof results and models;
