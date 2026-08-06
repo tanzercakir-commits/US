@@ -560,3 +560,25 @@ cross-check guards -> green; repeated CLI budget reports -> byte-identical,
 exit 2, 10 unknown; full suite -> 173/173; fixture check -> 10/10 current; diff
 check -> clean; commit: this commit.
 Next: A5.4 (scaling phase gate).
+
+## 2026-08-06 - A5.4: scaling phase gate - DONE
++ Added a committed four-diamond assignment scaling slice with contracts,
+  arithmetic safety, assertion, and postcondition coverage; both backends verify
+  all 11 generated obligations.
++ Added a deterministic sorted-JSON executable gate over uncached/cache-fill/warm
+  reports, repeated file budgets, and the independent 1/2/4/8 path probe.
++ Froze identical default cross-check report SHA-256
+  13f7aaf4d2b780cef3affb0b4aeeb22b326d86d36bab3883d6bd55e818226939
+  with 11 uncached/fill calls and zero warm calls.
++ Froze identical max_checks=5 report SHA-256
+  1ea0e0f93fdd4b915bf9f73dec88dbf581947f9c5c1f41a167bd5e7050570ee6
+  with five verified, six unknown, and five backend calls on both runs.
++ Reconfirmed the merge target at 1/1/1/1 obligations while representing
+  2/4/16/256 paths, with no timing or temporary-path evidence.
++ Added the scaling operations/failure runbook and deterministic gate tests;
+  expanded the stage file set before ratchet updates from 173 to 175.
+- None.
+Evidence: scaling-gate tests -> 2/2; two default cross-check gate renders ->
+byte-identical, exit 0; full suite -> 175/175; fixture check -> 10/10 current;
+path probe -> 1/1/1/1 target; diff check -> clean; commit: this commit.
+Next: A6.0 (semantic-extensions expansion stage).

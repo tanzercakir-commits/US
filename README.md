@@ -46,12 +46,18 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 173 deterministic tests. The separately cloned,
+The current suite contains 175 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
 ```powershell
 python tools/regenerate_fixtures.py --check
+```
+
+Run the deterministic scaling/cache/budget phase gate:
+
+```powershell
+python tools/scaling_phase_gate.py --backend both
 ```
 
 See [the design document](docs/semantic_verification_prototype.md) for the
@@ -66,6 +72,8 @@ codebase. The
 packaging, timeouts, determinism, failure handling, model replay, and minimized
 evidence cores. The [path-scaling decision](docs/path_scaling_decision.md)
 records the measured exponential baseline and chosen exact merge architecture.
+The [scaling operations runbook](docs/scaling_operations.md) defines the frozen
+A5 phase gate and failure handling.
 
 ## Development workflow
 

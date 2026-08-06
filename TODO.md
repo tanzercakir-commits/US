@@ -8,11 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **A5.4 - scaling phase gate**
+- [ ] **A6.0 - semantic-extensions expansion stage**
 
 ## Next
 
-- None queued after the active phase gate.
+- [ ] **A6.1 - integer-semantics decision point**
+- [ ] **A6.2 - restricted arrays**
 
 ## Blockers / open questions
 
@@ -21,7 +22,6 @@
 
 ## Last updated
 
-2026-08-06 - A5.3 added deterministic per-process solver timeouts and
-source-ordered per-file supported-check budgets. Exhaustion is explicit unknown,
-cache cannot bypass the limit, and cross-check cannot hide timeout as verified.
-Next is the A5.4 scaling phase gate.
+2026-08-06 - A5.4 froze the scaling slice and executable phase gate: 11/11
+cross-check obligations verify, warm cache makes zero backend calls, budgeted
+reports repeat exactly, and the merge probe remains 1/1/1/1. Next is A6.0.

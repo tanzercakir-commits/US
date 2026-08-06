@@ -22,6 +22,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A5.4 adds the committed assignment-diamond scaling slice and
+  `codeskeptic.scaling-phase-gate/v0` executable gate. It freezes cold/fill/warm
+  report identity, zero warm backend calls, repeated budget identity, and the
+  1/1/1/1 merge target using deterministic counts and SHA-256 evidence rather
+  than timing.
 - A5.3 adds validated solver-timeout and per-file check-budget value objects plus
   `--max-checks N`. Supported obligations beyond the source-ordered limit are
   explicit `unknown` results without backend work; zero and unlimited are

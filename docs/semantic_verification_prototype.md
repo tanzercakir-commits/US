@@ -32,7 +32,9 @@ Implemented:
   identity/configuration, solver policy, and canonical obligation semantics;
 - deterministic source-ordered per-file check budgets plus positive finite
   per-process solver timeouts, with exhaustion remaining explicit `unknown`;
-- 173 deterministic tests, including independent soundness regressions.
+- a committed scaling slice and hash/count-based phase gate covering exact join
+  compaction, uncached/warm cache identity, and repeated budget identity;
+- 175 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 

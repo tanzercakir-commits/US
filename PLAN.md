@@ -371,7 +371,12 @@ produce `verified`.
 - Goal: freeze A5 operational behavior and demonstrate that scaling changes
   work performed, not proof meaning.
 - Output: `examples/scaling_slice.cpp`, updated scaling decision/operations
-  documentation, deterministic evidence in `PROGRESS.md`.
+  documentation, deterministic evidence in `PROGRESS.md`. Stage file set also
+  includes `tools/scaling_phase_gate.py`, `tests/test_scaling_gate.py`,
+  `docs/path_scaling_decision.md`, `docs/scaling_operations.md`, `CHANGELOG.md`,
+  `README.md`, `docs/semantic_verification_prototype.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and `guardrails/test_baseline.txt` for the executable
+  gate, consumer surface, ledger, active-set, and test-ratchet updates.
 - DoD: uncached and warm-cache reports for the scaling slice are byte-identical;
   the warm run records zero backend calls; two budgeted runs are byte-identical;
   the path-growth probe and any A5.1 implementation benchmark meet their

@@ -129,3 +129,25 @@ assumptions before its ordinary proof rules. This preserves prior affine proofs;
 finite search remains a witness mechanism and is never promoted to proof.
 Unresolvable trace templates turn a candidate Z3 violation into `solver_error`
 before any public counterexample is emitted.
+
+## A5.4 frozen phase-gate evidence
+
+`examples/scaling_slice.cpp` uses four assignment-bearing structured diamonds,
+contracts, 32-bit addition safety, an assertion, and a postcondition. The
+production-default `both` backend emits 11 obligations and verifies all 11.
+
+`python tools/scaling_phase_gate.py --backend both` freezes these operational
+facts under `codeskeptic.scaling-phase-gate/v0`:
+
+- uncached, cache-fill, and warm reports share SHA-256
+  `13f7aaf4d2b780cef3affb0b4aeeb22b326d86d36bab3883d6bd55e818226939`;
+- uncached/cache-fill invoke 11 wrapped backend checks and warm invokes zero;
+- two `max_checks=5` reports share SHA-256
+  `1ea0e0f93fdd4b915bf9f73dec88dbf581947f9c5c1f41a167bd5e7050570ee6`;
+- each budgeted run starts five checks and returns five verified plus six
+  explicit unknown results;
+- the independent 1/2/4/8 probe remains 1/1/1/1 obligations for
+  2/4/16/256 represented paths.
+
+The gate records counts and hashes, never timing. Cache and budget change work
+performed while the unlimited cold/warm proof report remains byte-identical.
