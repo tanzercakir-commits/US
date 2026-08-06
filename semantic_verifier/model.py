@@ -155,6 +155,7 @@ class IRNode:
     kind: str
     location: SourceLocation
     target: str | None = None
+    result_type: str | None = None
     expression: Expr | None = None
     origin: str | None = None
     callee: str | None = None
@@ -174,6 +175,7 @@ class IRNode:
         }
         for key, value in {
             "target": self.target,
+            "result_type": self.result_type,
             "origin": self.origin,
             "callee": self.callee,
             "reason": self.reason,

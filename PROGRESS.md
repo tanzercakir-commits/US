@@ -172,3 +172,15 @@ text` → 10 verified, 2 violated, 0 unknown/unsupported/solver_error, exit 1
 (expected for real violations); repeated Z3/cross-check outputs byte-identical;
 commit: this commit.
 Next: A2.1 (IR call-with-result node).
+
+## 2026-08-06 — A2.1: call-with-result IR — DONE
++ Extended call IR with an explicit result type and versioned target.
++ Lowered only `int q = f(x);` and `q = f(x);` into result-bearing call nodes;
+  assignment advances the target SSA version.
++ Added three tests covering both forms and the fail-closed boundary for calls
+  nested in return/arithmetic/arguments plus non-int result assignment.
+- None.
+Evidence: `python -m unittest tests.test_lowering` → 8/8; full suite →
+112/112; `python -m compileall -q semantic_verifier tests` → success; ratchet
+advanced from 109 to 112; commit: this commit.
+Next: A2.2 (VC havoc + assumed ensures).

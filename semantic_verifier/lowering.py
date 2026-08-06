@@ -261,6 +261,7 @@ class SemanticLowerer:
         self._locals: list[Symbol] = []
         self._symbol_name_counts: dict[str, int] = {}
         self._function_links: dict[str, str] = {}
+        self._function_return_types: dict[str, str] = {}
         self._consumed_contract_lines: set[int] = set()
 
     def lower(self) -> ModuleIR:
@@ -352,6 +353,7 @@ class SemanticLowerer:
                 link_name = BUILTIN_ASSERT_LINK
             else:
                 link_name = f"{name}({','.join(signature)})" if overloaded else name
+            self._function_return_types[link_name] = _function_return_type(node)
             declaration_id = node.get("id")
             if declaration_id is not None:
                 self._function_links[str(declaration_id)] = link_name
@@ -611,6 +613,16 @@ class SemanticLowerer:
             if name not in current:
                 raise UnsupportedNode(node, f"assignment to unknown variable {name!r}")
             ir_name = self._version_base(current[name])
+            call_node = self._direct_call_expression(inner[1])
+            if call_node is not None:
+                if self._types[ir_name] != "int":
+                    raise UnsupportedNode(
+                        node, "only int call results may be assigned"
+                    )
+                target = self._next_version(ir_name)
+                produced = self._call_result(call_node, current, target)
+                current[name] = target
+                return [produced], current, True
             value = self._expression(inner[1], current)
             if value.type != self._types[ir_name]:
                 raise UnsupportedNode(node, "assignment changes the variable type")
@@ -712,6 +724,13 @@ class SemanticLowerer:
                 source_name=name,
             )
         )
+        call_node = self._direct_call_expression(initializer_nodes[-1])
+        if call_node is not None:
+            if type_name != "int":
+                raise UnsupportedNode(
+                    node, "only int call results may initialize locals"
+                )
+            return [self._call_result(call_node, environment, target)], current
         value = self._expression(initializer_nodes[-1], environment)
         if value.type != type_name:
             raise UnsupportedNode(node, "initializer type does not match local type")
@@ -858,6 +877,42 @@ class SemanticLowerer:
         if kind == "CallExpr":
             raise UnsupportedNode(node, "calls nested inside expressions are unsupported")
         raise UnsupportedNode(node, f"expression kind {kind or '<unknown>'} is unsupported")
+
+    def _direct_call_expression(
+        self, node: Mapping[str, Any]
+    ) -> Mapping[str, Any] | None:
+        current = node
+        while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS:
+            current = self._inner(current, 1)[0]
+        if (
+            current.get("kind") == "ImplicitCastExpr"
+            and current.get("castKind") == "NoOp"
+        ):
+            current = self._inner(current, 1)[0]
+        return current if current.get("kind") == "CallExpr" else None
+
+    def _call_result(
+        self,
+        node: Mapping[str, Any],
+        environment: Mapping[str, str],
+        target: str,
+    ) -> IRNode:
+        callee, arguments = self._call(node, environment)
+        return_type = self._function_return_types.get(callee)
+        if return_type != "int":
+            shown = return_type or "unknown"
+            raise UnsupportedNode(
+                node,
+                f"assigned call must have int return type, got {shown!r}",
+            )
+        return self._node(
+            "call",
+            self._location(node),
+            target=target,
+            result_type="int",
+            callee=callee,
+            arguments=tuple(arguments),
+        )
 
     def _call(
         self, node: Mapping[str, Any], environment: Mapping[str, str]

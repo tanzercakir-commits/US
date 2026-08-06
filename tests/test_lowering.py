@@ -47,3 +47,81 @@ class LoweringTests(unittest.TestCase):
             "if (flag) out = true; return out; }\n"
         )
         self.assertFalse(any(r.status.value == "unsupported" for r in report.results))
+
+    def test_int_call_initializer_lowers_to_call_with_result(self):
+        report = verify_source(
+            "int callee(int x) { return x; } "
+            "int caller(int x) { int q = callee(x); return q; }\n"
+        )
+        caller = next(
+            function
+            for function in report.module.functions
+            if function.name == "caller"
+        )
+        call, returned = caller.body
+
+        self.assertEqual(call.kind, "call")
+        self.assertEqual(call.target, "q#0")
+        self.assertEqual(call.result_type, "int")
+        self.assertEqual(call.callee, "callee")
+        self.assertEqual([argument.value for argument in call.arguments], ["x#0"])
+        self.assertEqual(returned.expression.value, "q#0")
+        self.assertEqual(
+            {key: call.to_dict()[key] for key in ("kind", "target", "result_type")},
+            {"kind": "call", "target": "q#0", "result_type": "int"},
+        )
+
+    def test_int_call_assignment_creates_next_target_version(self):
+        report = verify_source(
+            "int callee(int x) { return x; } "
+            "int caller(int x) { int q = 0; q = callee(x); return q; }\n"
+        )
+        caller = next(
+            function
+            for function in report.module.functions
+            if function.name == "caller"
+        )
+
+        self.assertEqual(
+            [(node.kind, node.target) for node in caller.body[:-1]],
+            [("assign", "q#0"), ("call", "q#1")],
+        )
+        self.assertEqual(caller.body[1].result_type, "int")
+        self.assertEqual(caller.body[-1].expression.value, "q#1")
+
+    def test_other_nested_call_positions_remain_fail_closed(self):
+        cases = {
+            "initializer expression": (
+                "int f(int x) { return x; } "
+                "int g(int x) { int q = f(x) + 1; return q; }",
+                "calls nested inside expressions",
+            ),
+            "assignment expression": (
+                "int f(int x) { return x; } "
+                "int g(int x) { int q = 0; q = f(x) + 1; return q; }",
+                "calls nested inside expressions",
+            ),
+            "return expression": (
+                "int f(int x) { return x; } int g(int x) { return f(x); }",
+                "calls nested inside expressions",
+            ),
+            "nested argument": (
+                "int f(int x) { return x; } "
+                "int g(int x) { int q = f(f(x)); return q; }",
+                "calls nested inside expressions",
+            ),
+            "bool result initializer": (
+                "bool f(bool x) { return x; } "
+                "bool g(bool x) { bool q = f(x); return q; }",
+                "only int call results",
+            ),
+        }
+        for label, (source, reason) in cases.items():
+            with self.subTest(label=label):
+                report = verify_source(source + "\n")
+                unsupported = next(
+                    result
+                    for result in report.results
+                    if result.status.value == "unsupported"
+                )
+                self.assertIn(reason, unsupported.message)

@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A2.1 — IR: call-with-result node** (`semantic_verifier/model.py` +
-  `semantic_verifier/lowering.py` + tests; DoD in the plan)
+- [ ] **A2.2 — VC: havoc + assumed ensures** (`semantic_verifier/vc.py` +
+  tests + chain example; DoD in the plan)
 
 ## Next
 
-- [ ] A2.2 — VC: havoc + assumed ensures
 - [ ] A2.3 — Recursion policy
+- [ ] A2.4 — Phase gate
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A1 phase gate passed: 109 tests; vertical slice has zero
-unknown/unsupported/solver_error in default cross-check mode. Next is A2.1.
+2026-08-06 — A2.1 completed: controlled int call-result init/assign
+lowering with fail-closed nested-call boundaries. Next is A2.2.
