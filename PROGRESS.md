@@ -1182,3 +1182,28 @@ verified=2, violated=1, unknown=0, unsupported=0, solver_error=0; full
 CodeSkeptic suite -> 869/869; reference suite -> 314/314; production commit ->
 `75411c4`; commit: this reference-ledger commit.
 Next: B3.2 (first value-semantic standard-library mini-models).
+
+## 2026-08-06 - B3.2: integer standard-library mini-models - DONE
++ Added a deterministic offline registry with ten exact C++17 integer models:
+  signed i32/i64 `std::abs` and homogeneous i32/u32/i64/u64 `std::min/max`.
++ Required system-header declarations, qualified canonical signatures, exact
+  source argument types, and signature-unique semantic names, so user
+  lookalikes and mixed calls cannot inherit a model.
++ Synthesized only referenced models as bodyless value-semantic functions with
+  stable `codeskeptic://stdlib/cxx17/integer-v1` provenance.
++ Excluded the signed minimum from `abs`; copied `min/max` results retain exact
+  value/order postconditions without making alias, heap, or reference claims.
++ Added fail-closed coverage for floating, mixed, comparator, initializer-list,
+  pointer/reference-alias, unsigned `abs`, and user-lookalike forms.
++ Live native Z3 verified the three positive examples and replayed both the
+  signed-min precondition and deliberately false `min` postcondition.
++ Repeated MCP verification output was byte-identical; production grew from
+  869 to 874 tests and every test is green.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and serial
+  linking; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: focused native model tests -> 5/5; live native-Z3 positives ->
+verified with zero unsupported; live negatives -> replayed precondition and
+postcondition violations; repeated MCP bytes -> identical; full CodeSkeptic
+suite -> 874/874; reference suite -> 314/314; production commit -> `8c62aad`;
+commit: this reference-ledger commit.
+Next: B3.3 (versioned contract packages and offline distribution).

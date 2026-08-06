@@ -962,13 +962,18 @@ infrastructure. Reference: prototype fixtures = the specification.
   signature; referenced external-declaration synthesis in lowering; sound
   `abs` minimum-value preconditions and homogeneous `min`/`max` postconditions;
   positive/negative examples and focused tests.
-- Planned file set (confirm before edits): CodeSkeptic
+- Exact file set: CodeSkeptic
   `src/contracts/{StdlibModels.h,StdlibModels.cpp}`;
   `src/semantic/SemanticLowerer.cpp`;
   `src/verification/VerificationConditionGenerator.cpp`; `src/CMakeLists.txt`;
   `tests/{CMakeLists.txt,StdlibModelsTest.cpp,SemanticLowererTest.cpp,
   VerificationConditionTest.cpp}`; `examples/stdlib_models.cpp`;
   `CONTRACTS.md`, `README.md`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Wiring decision: source-header `FunctionDecl` identities are matched before
+  lowering against an offline registry, then synthesized as bodyless,
+  signature-unique value-semantic functions. Calls and models share that
+  collision-proof semantic name; unsupported declarations keep their ordinary
+  name and the existing fail-closed external-call path.
 - Boundaries: exact qualified signatures only; `abs` covers signed i32/i64 with
   the minimum value excluded, and `min`/`max` cover homogeneous i32/u32/i64/u64
   value observations. Unsupported overloads remain explicit; user functions

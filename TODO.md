@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **B3.2 - first value-semantic standard-library models**
+- [ ] **B3.3 - contract package versioning and distribution**
 
 ## Next
 
-- [ ] **B3.3 - contract package versioning and distribution**
 - [ ] **B4.0 - CI and adoption path expansion**
 - [ ] **B4.1 - CI semantic-verification gate mode**
+- [ ] **B4.2 - editor and SARIF consumer integration**
 
 ## Blockers / open questions
 
@@ -23,7 +23,7 @@
 
 ## Last updated
 
-2026-08-06 - B3.1 wired adjacent `.csk` contracts into native verification
-with source provenance and targeted callee trust obligations. CodeSkeptic is
-green at 869/869 and the reference suite at 314/314. Next is the first bounded
-standard-library mini-model set.
+2026-08-06 - B3.2 added exact offline integer models for system-header
+`std::abs`, `std::min`, and `std::max`, with value-only semantics and explicit
+fail-closed boundaries. CodeSkeptic is green at 874/874 and the reference suite
+at 314/314. Next is versioned offline contract packaging.
