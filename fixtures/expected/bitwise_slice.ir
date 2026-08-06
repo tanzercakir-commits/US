@@ -32,5 +32,5 @@ function mask(x#0:u32) -> u32
   n00011 return (x#0 & ((u32) 255))
 function mask_caller(x#0:u32) -> u32
   ensures (result == (x#0 & 255))
-  n00012 call mask(x#0)
+  n00012 y#0 := call mask(x#0)
   n00013 return y#0

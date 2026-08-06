@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **A6.5 - modular calls and frame summaries**
+- [ ] **A6.6 - optional invariant-inference research**
 
 ## Next
 
-- [ ] **A6.6 - optional invariant-inference research**
 - [ ] **A6.7 - semantic-extensions phase gate**
 
 ## Blockers / open questions
@@ -22,7 +21,7 @@
 
 ## Last updated
 
-2026-08-06 - A6.4 added exact proved local references with live-target reads and
-writes, lexical lifetime and alias metadata, schema v5 migration, the immutable
-v4 archive, and a fully verified reference fixture; next is `modifies` contracts
-and frame conditions.
+2026-08-06 - A6.5 added exact modular `modifies` frames, post-state reference
+summaries, preservation of unlisted caller locations, schema v6 migration, the
+immutable v5 archive, and a fully verified frame fixture; next is the isolated
+CHC/Spacer invariant-inference research spike.

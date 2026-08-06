@@ -3,6 +3,7 @@ import unittest
 from semantic_verifier.contracts import (
     ContractExpressionParser,
     ContractSyntaxError,
+    contracts_before,
     invariants_before,
 )
 from semantic_verifier.locations import LineMap
@@ -32,6 +33,46 @@ class ContractParserTests(unittest.TestCase):
         with self.assertRaisesRegex(ContractSyntaxError, "requires fixed-width integers"):
             ContractExpressionParser("flag + 1 > 0", {"flag": "bool"}).parse()
 
+    def test_parses_empty_and_nested_modifies_contracts(self):
+        inner = "record<Inner>{value:i32,spare:i32}"
+        outer = f"record<Outer>{{inner:{inner},tag:i32}}"
+        source = "// cs: modifies outer.inner.value\nvoid update(Outer &outer);\n"
+        contracts, frame, issues = contracts_before(
+            source,
+            source.index("void"),
+            LineMap(source, "frame.cpp"),
+            {"outer": outer},
+            "void",
+            {"outer": "mutable_reference"},
+        )
+        self.assertEqual(contracts, ())
+        self.assertEqual(issues, ())
+        self.assertEqual([step.value for step in frame.targets[0].path], ["inner", "value"])
+        empty_source = "// cs: modifies\nvoid inspect(const int &value);\n"
+        _, empty, empty_issues = contracts_before(
+            empty_source,
+            empty_source.index("void"),
+            LineMap(empty_source, "frame.cpp"),
+            {"value": "i32"},
+            "void",
+            {"value": "const_reference"},
+        )
+        self.assertEqual(empty_issues, ())
+        self.assertEqual(empty.targets, ())
+
+    def test_rejects_overlapping_modifies_targets(self):
+        pair = "record<Pair>{x:i32,y:i32}"
+        source = "// cs: modifies pair, pair.x\nvoid update(Pair &pair);\n"
+        _, frame, issues = contracts_before(
+            source,
+            source.index("void"),
+            LineMap(source, "frame.cpp"),
+            {"pair": pair},
+            "void",
+            {"pair": "mutable_reference"},
+        )
+        self.assertIsNone(frame)
+        self.assertIn("duplicate or overlapping", issues[0].reason)
     def test_parses_contiguous_invariant_block_before_while(self):
         source = (
             "// cs: invariant i >= 0\n"

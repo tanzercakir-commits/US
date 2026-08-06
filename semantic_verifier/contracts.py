@@ -7,7 +7,7 @@ import re
 from typing import Mapping
 
 from .array_types import is_array_type
-from .record_types import is_record_type
+from .record_types import is_record_type, record_type
 from .integer_types import (
     I32,
     I64,
@@ -17,7 +17,14 @@ from .integer_types import (
     usual_arithmetic_type,
 )
 from .locations import LineMap
-from .model import Contract, Expr, SourceLocation
+from .model import (
+    Contract,
+    Expr,
+    FrameContract,
+    FrameLocation,
+    ReferencePathStep,
+    SourceLocation,
+)
 
 
 class ContractSyntaxError(ValueError):
@@ -342,6 +349,11 @@ _CONTRACT_LINE = re.compile(
     r"(?P<kind>requires|ensures)\s+(?P<expr>.*?)\s*$"
 )
 
+_MODIFIES_LINE = re.compile(
+    r"^\s*//\s*cs:\s*(?P<ai>ai\s+)?modifies(?:\s+(?P<targets>.*?))?\s*$"
+)
+_FRAME_IDENTIFIER = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\Z")
+
 _INVARIANT_LINE = re.compile(
     r"^\s*//\s*cs:\s*(?P<ai>ai\s+)?"
     r"invariant\s+(?P<expr>.*?)\s*$"
@@ -366,17 +378,52 @@ def _comment_block_before(
     return candidates
 
 
+def _parse_frame_target(
+    text: str,
+    parameter_types: Mapping[str, str],
+    parameter_modes: Mapping[str, str],
+) -> FrameLocation:
+    pieces = [piece.strip() for piece in text.split(".")]
+    if not pieces or any(_FRAME_IDENTIFIER.fullmatch(piece) is None for piece in pieces):
+        raise ContractSyntaxError(f"invalid modifies target {text!r}")
+    root = pieces[0]
+    if root not in parameter_types:
+        raise ContractSyntaxError(f"inaccessible modifies root {root!r}")
+    if parameter_modes.get(root, "value") != "mutable_reference":
+        raise ContractSyntaxError(
+            f"modifies root {root!r} must be a mutable reference parameter"
+        )
+    current_type = parameter_types[root]
+    path: list[ReferencePathStep] = []
+    for field_name in pieces[1:]:
+        if not is_record_type(current_type):
+            raise ContractSyntaxError(
+                f"modifies path {text!r} projects through non-record type {current_type!r}"
+            )
+        try:
+            field = record_type(current_type).field(field_name)
+        except ValueError as error:
+            raise ContractSyntaxError(str(error)) from error
+        path.append(ReferencePathStep("field", field_name))
+        current_type = field.type
+    return FrameLocation(root, tuple(path), current_type)
+
+
 def contracts_before(
     source: str,
     function_offset: int,
     line_map: LineMap,
     parameter_types: Mapping[str, str],
     return_type: str,
-) -> tuple[tuple[Contract, ...], tuple[ContractIssue, ...]]:
-    """Attach the contiguous line-comment block before a declaration."""
+    parameter_modes: Mapping[str, str] | None = None,
+) -> tuple[tuple[Contract, ...], FrameContract | None, tuple[ContractIssue, ...]]:
+    """Attach the contiguous line-comment contract block before a declaration."""
 
+    del source  # Kept parallel with invariants_before for lowering callers.
     contracts: list[Contract] = []
+    frame: FrameContract | None = None
     issues: list[ContractIssue] = []
+    modes = parameter_modes or {}
     for line_index, text in _comment_block_before(function_offset, line_map):
         if "cs:" not in text:
             continue
@@ -385,6 +432,47 @@ def contracts_before(
         location = SourceLocation(
             line_map.display_path, line_index + 1, max(1, column)
         )
+        modifies_match = _MODIFIES_LINE.match(candidate)
+        if modifies_match:
+            if frame is not None:
+                issues.append(ContractIssue(location, "duplicate cs: modifies contract"))
+                continue
+            raw_targets = (modifies_match.group("targets") or "").strip()
+            target_texts = (
+                [piece.strip() for piece in raw_targets.split(",")]
+                if raw_targets
+                else []
+            )
+            if any(not piece for piece in target_texts):
+                issues.append(ContractIssue(location, "empty modifies target"))
+                continue
+            try:
+                targets = tuple(
+                    _parse_frame_target(piece, parameter_types, modes)
+                    for piece in target_texts
+                )
+                for index, target in enumerate(targets):
+                    for existing in targets[:index]:
+                        if target.root != existing.root:
+                            continue
+                        target_path = tuple(step.value for step in target.path)
+                        existing_path = tuple(step.value for step in existing.path)
+                        common = min(len(target_path), len(existing_path))
+                        if target_path[:common] == existing_path[:common]:
+                            raise ContractSyntaxError(
+                                "duplicate or overlapping modifies targets are unsupported"
+                            )
+            except ContractSyntaxError as error:
+                issues.append(ContractIssue(location, str(error)))
+                continue
+            canonical = ", ".join(target_texts)
+            frame = FrameContract(
+                targets=targets,
+                location=location,
+                text=f"modifies {canonical}".rstrip(),
+                machine_proposed=bool(modifies_match.group("ai")),
+            )
+            continue
         match = _CONTRACT_LINE.match(candidate)
         if not match:
             issues.append(
@@ -393,7 +481,7 @@ def contracts_before(
             continue
         kind = match.group("kind")
         symbols = dict(parameter_types)
-        if kind == "ensures":
+        if kind == "ensures" and return_type != "void":
             symbols["result"] = return_type
         expression_text = match.group("expr")
         try:
@@ -412,8 +500,7 @@ def contracts_before(
                 machine_proposed=bool(match.group("ai")),
             )
         )
-    return tuple(contracts), tuple(issues)
-
+    return tuple(contracts), frame, tuple(issues)
 
 def invariants_before(
     source: str,

@@ -2007,7 +2007,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -2094,6 +2094,7 @@
             "text": "ensures result == (~x & 255)"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [],
@@ -2112,6 +2113,7 @@
               "line": 4
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -2222,6 +2224,7 @@
             "text": "ensures result == true"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0002",
         "locals": [],
@@ -2240,6 +2243,7 @@
               "line": 9
             },
             "name": "x",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "x#0"
           },
@@ -2251,6 +2255,7 @@
               "line": 9
             },
             "name": "y",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "y#0"
           }
@@ -2342,6 +2347,7 @@
             "text": "ensures result == (x ^ y)"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0003",
         "locals": [],
@@ -2360,6 +2366,7 @@
               "line": 14
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           },
@@ -2371,6 +2378,7 @@
               "line": 14
             },
             "name": "y",
+            "passing": "value",
             "type": "u64",
             "versioned_name": "y#0"
           }
@@ -2436,6 +2444,7 @@
             "text": "ensures result == 1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0004",
         "locals": [],
@@ -2521,6 +2530,7 @@
             "text": "ensures result == -2"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0005",
         "locals": [],
@@ -2592,6 +2602,7 @@
             "text": "ensures result == 9223372036854775808"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0006",
         "locals": [],
@@ -2663,6 +2674,7 @@
             "text": "ensures result == -2147483648"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0007",
         "locals": [],
@@ -2842,6 +2854,7 @@
             "text": "ensures result == -2147483648"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0008",
         "locals": [],
@@ -2860,6 +2873,7 @@
               "line": 41
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           },
@@ -2871,6 +2885,7 @@
               "line": 41
             },
             "name": "n",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "n#0"
           }
@@ -2955,6 +2970,7 @@
             "text": "ensures result == (x & 255)"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0009",
         "locals": [],
@@ -2973,6 +2989,7 @@
               "line": 46
             },
             "name": "x",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "x#0"
           }
@@ -3057,6 +3074,7 @@
             "text": "ensures result == (x & 255)"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0010",
         "locals": [
@@ -3087,6 +3105,7 @@
               "line": 51
             },
             "name": "x",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "x#0"
           }
@@ -3096,7 +3115,7 @@
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/bitwise_slice.cpp",
     "unsupported": []
   },

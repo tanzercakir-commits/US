@@ -507,7 +507,17 @@ may append implementation stages after A6.7 without renumbering existing IDs.
   modeled location is unchanged.
 - Output: strict `cs: modifies` parser/attachment; normalized lvalue-path IR;
   call summaries and frame VCs; schema fields/migration; diagnostics;
-  `tests/test_frame_conditions.py`; result/adoption/prototype/changelog docs.
+  `tests/test_frame_conditions.py`; result/adoption/prototype/changelog docs.- Expanded exact file set: `semantic_verifier/{contracts,model,lowering,vc,
+  dump,schema}.py`; `tests/{test_frame_conditions,test_contracts,
+  test_integer_types,test_fixtures,test_integer_phase_gate,test_changelog,
+  test_counterexample_quality,test_determinism,test_frontend_failures}.py`;
+  `examples/frame_conditions.cpp`; current fixture manifest/case/expected
+  artifacts, immutable `fixtures/versions/v5/**`, and
+  `tools/{regenerate_fixtures,integer_phase_gate}.py`;
+  `docs/{result_schema,schema_versioning,adoption_guide,
+  semantic_verification_prototype,integer_operations,
+  integer_semantics_decision}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: empty/single/multiple/nested modifies sets work; permitted updates are
   havoced and constrained by ensures while unlisted locations retain equality;
   invalid, duplicate, inaccessible, aliased, or missing required frame specs

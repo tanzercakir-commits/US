@@ -40,6 +40,12 @@ def _dump_function(function: FunctionIR) -> list[str]:
             f"  reference {binding.name}:{binding.type} -> "
             f"{binding.target}{path} ({access}, {binding.lifetime})"
         )
+    if function.frame is not None:
+        targets = ", ".join(
+            target.root + "".join(f".{step.value}" for step in target.path)
+            for target in function.frame.targets
+        )
+        lines.append(f"  modifies {targets}".rstrip())
     for contract in function.contracts:
         lines.append(f"  {contract.kind} {contract.expression.text()}")
     lines.extend(_dump_nodes(function.body, 1))
@@ -57,7 +63,18 @@ def _dump_nodes(nodes: tuple[IRNode, ...], depth: int) -> list[str]:
             lines.append(f"{prefix}{node.target} := {node.expression.text()}")
         elif node.kind == "call":
             arguments = ", ".join(argument.text() for argument in node.arguments)
-            lines.append(f"{prefix}call {node.callee}({arguments})")
+            target = f"{node.target} := " if node.target is not None else ""
+            lines.append(f"{prefix}{target}call {node.callee}({arguments})")
+            for effect in node.frame_effects:
+                paths = ", ".join(
+                    location.root
+                    + "".join(f".{step.value}" for step in location.path)
+                    for location in effect.modified
+                )
+                lines.append(
+                    f"{indent}  frame {effect.before} -> {effect.after} "
+                    f"modifies {paths}"
+                )
         elif node.kind == "unsupported":
             lines.append(f"{prefix}unsupported {node.reason}")
         elif node.kind == "loop":

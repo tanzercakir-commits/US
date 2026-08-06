@@ -137,6 +137,18 @@
       },
       "name": "reference_slice",
       "source": "cases/reference_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 10,
+        "violated": 0
+      },
+      "name": "frame_conditions",
+      "source": "cases/frame_conditions.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

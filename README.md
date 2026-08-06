@@ -10,7 +10,8 @@ long`/`unsigned long long` (owned IR types `i32`/`u32`/`i64`/`u64`), `bool`,
 local scalar state, fully initialized one-dimensional fixed-size integer
 arrays with exact select/store/bounds, aggregate-by-value structs with exact
 field/copy semantics, proved local lvalue references with exact live-target
-reads and writes, fixed-width bitwise/shift expressions,
+reads and writes, declaration-only reference parameters with exact `modifies`
+frames, fixed-width bitwise/shift expressions,
 `if`/`else`,
 direct contracted calls with matching fixed-width or value-record results, invariant-annotated
 `while`, `assert`, and `return`. Unsupported C++ is reported explicitly. It
@@ -54,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 271 deterministic tests. The separately cloned,
+The current suite contains 288 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -100,7 +101,9 @@ The [value-struct example](examples/struct_slice.cpp) covers construction, neste
 field/array updates, copy isolation, by-value calls, and record contracts.
 The [reference example](examples/reference_slice.cpp) covers scalar and whole-
 record aliases, disjoint field references, writes, and branch-disjoint
-lifetimes.
+lifetimes.The [frame-condition example](examples/frame_conditions.cpp) covers empty,
+scalar, multiple, and nested record-field `modifies` summaries with exact
+post-state constraints and preservation of unlisted fields.
 The [combined integer gate](examples/fixed_integer_gate.cpp) carries positive
 and negative evidence for the complete operator table; run all BV examples with
 `--backend z3`. The [integer operations runbook](docs/integer_operations.md)

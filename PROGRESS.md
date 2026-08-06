@@ -811,3 +811,31 @@ example -> 6 verified, zero non-verified; integer phase gate v3 -> green; v4
 archive -> 34/34 hashes; full suite -> 271/271; fixture check -> 24/24 current;
 diff check -> clean; commit: this commit.
 Next: A6.5 (`modifies` contracts and frame conditions).
+
+## 2026-08-06 - A6.5: modifies contracts and frame conditions - DONE
++ Added strict `cs: modifies` parsing for explicit empty, single, multiple, and
+  nested value-record field frames rooted at mutable reference parameters.
++ Added declaration-only const/mutable reference parameters, positional frame
+  reuse across renamed redeclarations, and conflict detection across summaries.
++ Normalized modified actuals to caller-owned lvalue paths, rejected overlapping
+  actuals, havoced each affected root once, and retained recursive type bounds.
++ Added exact functional preservation equalities for every unlisted reachable
+  field and post-call reference arguments for `ensures`; `requires` retain
+  pre-call values and result assignment receives a later SSA version.
++ Kept reference-parameter definitions, missing/conflicting frames, conditional
+  or overlapping actuals, array-element frames, inaccessible/value/const roots,
+  and duplicate/overlapping targets fail-closed.
++ Advanced report/Semantic IR to v6 and the fixed-integer gate to v4; archived
+  all 37 v5 fixture hashes and proved 12 v5-to-v6, 11 v4-to-v6, 10 v3-to-v6,
+  nine v2-to-v6, and five v1-to-v6 status-equivalent migrations.
++ Added 17 parser/frame/migration tests and the fully verified ten-obligation
+  frame fixture; advanced the test ratchet from 271 to 288 and the corpus from
+  24 to 26 artifacts.
++ Expanded the A6.5 exact file set in PLAN before schema, fixture, migration,
+  gate, and documentation edits.
+- None.
+Evidence: frame tests -> 14/14; focused stage tests -> 64/64; explicit-Z3
+example -> 10 verified, zero non-verified; integer phase gate v4 -> green; v5
+archive -> 37/37 hashes; full suite -> 288/288; fixture check -> 26/26 current;
+diff check -> clean; commit: this commit.
+Next: A6.6 (CHC/Spacer invariant-inference research spike).

@@ -93,6 +93,41 @@ def _value_type_bounds(value: Expr) -> Iterable[Expr]:
         for field in record_type(value.type).fields:
             yield from _value_type_bounds(Expr.project(value, field.name))
 
+def _frame_path_value(root: Expr, path: tuple) -> Expr:
+    value = root
+    for step in path:
+        if step.kind != "field":
+            raise ValueError("only field frame paths are supported")
+        value = Expr.project(value, step.value)
+    return value
+
+
+def _frame_path_update(root: Expr, path: tuple, replacement: Expr) -> Expr:
+    if not path:
+        return replacement
+    step = path[0]
+    if step.kind != "field":
+        raise ValueError("only field frame paths are supported")
+    child = Expr.project(root, step.value)
+    updated = _frame_path_update(child, path[1:], replacement)
+    return Expr.update(root, step.value, updated)
+
+
+def _frame_preservation(effect) -> Expr | None:
+    if any(not location.path for location in effect.modified):
+        return None
+    before = Expr.variable(effect.before, effect.type)
+    after = Expr.variable(effect.after, effect.type)
+    reconstructed = before
+    for location in effect.modified:
+        reconstructed = _frame_path_update(
+            reconstructed,
+            location.path,
+            _frame_path_value(after, location.path),
+        )
+    return Expr.binary("==", after, reconstructed, "bool")
+
+
 def _contains_nonlinear_multiplication(expr: Expr) -> bool:
     if expr.kind == "binary" and expr.op == "*":
         left, right = expr.args
@@ -379,45 +414,68 @@ class VerificationConditionGenerator:
                     function.name, argument, defined, node
                 )
             self._call_preconditions(function, node, defined)
-            if node.target is None:
-                return [defined]
-            if (
-                node.result_type is None
-                or not (
-                    is_fixed_integer_type(node.result_type)
-                    or is_record_type(node.result_type)
-                )
-                or self._symbol_type(function, node.target) != node.result_type
-            ):
-                self._add(
-                    function.name,
-                    "unsupported_construct",
-                    defined.assumptions,
-                    None,
-                    node.location,
-                    "call-result target must have an explicit matching value type",
-                    unsupported_reason="malformed call-result IR",
-                    trace_templates=defined.trace_templates,
-                )
-                return [defined]
-            target = Expr.variable(node.target, node.result_type)
             after_call = defined
-            if is_signed_integer_type(node.result_type):
-                profile = integer_type(node.result_type)
-                after_call = after_call.add(
-                    _binary(
-                        ">=",
-                        target,
-                        Expr.integer(profile.minimum, node.result_type),
+            for effect in node.frame_effects:
+                if (
+                    effect.before.rsplit("#", 1)[0] != effect.root
+                    or effect.after.rsplit("#", 1)[0] != effect.root
+                    or self._symbol_type(function, effect.after) != effect.type
+                    or self._symbol_type(function, effect.before) != effect.type
+                ):
+                    self._add(
+                        function.name,
+                        "unsupported_construct",
+                        defined.assumptions,
+                        None,
+                        node.location,
+                        "call frame effect has inconsistent root/type metadata",
+                        unsupported_reason="malformed call frame IR",
+                        trace_templates=defined.trace_templates,
                     )
-                )
-                after_call = after_call.add(
-                    _binary(
-                        "<=",
-                        target,
-                        Expr.integer(profile.maximum, node.result_type),
+                    return [defined]
+                after_value = Expr.variable(effect.after, effect.type)
+                for bound in _value_type_bounds(after_value):
+                    after_call = after_call.add(bound)
+                try:
+                    preservation = _frame_preservation(effect)
+                except ValueError:
+                    preservation = None
+                    self._add(
+                        function.name,
+                        "unsupported_construct",
+                        defined.assumptions,
+                        None,
+                        node.location,
+                        "call frame effect contains an unsupported path",
+                        unsupported_reason="malformed call frame IR",
+                        trace_templates=defined.trace_templates,
                     )
-                )
+                    return [defined]
+                if preservation is not None:
+                    after_call = after_call.add(preservation)
+            if node.target is not None:
+                if (
+                    node.result_type is None
+                    or not (
+                        is_fixed_integer_type(node.result_type)
+                        or is_record_type(node.result_type)
+                    )
+                    or self._symbol_type(function, node.target) != node.result_type
+                ):
+                    self._add(
+                        function.name,
+                        "unsupported_construct",
+                        defined.assumptions,
+                        None,
+                        node.location,
+                        "call-result target must have an explicit matching value type",
+                        unsupported_reason="malformed call-result IR",
+                        trace_templates=defined.trace_templates,
+                    )
+                    return [defined]
+                target = Expr.variable(node.target, node.result_type)
+                for bound in _value_type_bounds(target):
+                    after_call = after_call.add(bound)
             return [self._assume_call_postconditions(node, after_call)]
         if node.kind == "loop":
             assert node.expression is not None
@@ -873,7 +931,10 @@ class VerificationConditionGenerator:
             )
             return
         has_body = any(candidate.has_body for candidate in candidates)
-        has_contract = any(candidate.contracts for candidate in candidates)
+        has_contract = any(
+            candidate.contracts or candidate.frame is not None
+            for candidate in candidates
+        )
         requires: list[tuple[FunctionIR, Contract]] = []
         for candidate in candidates:
             requires.extend(
@@ -918,21 +979,26 @@ class VerificationConditionGenerator:
         node: IRNode,
         state: _PathState,
     ) -> _PathState:
-        assert node.target is not None and node.result_type is not None
         key = (node.callee or "", len(node.arguments))
-        result = Expr.variable(node.target, node.result_type)
+        result = (
+            Expr.variable(node.target, node.result_type)
+            if node.target is not None and node.result_type is not None
+            else None
+        )
         current = state
-        for bound in _value_type_bounds(result):
-            current = current.add(bound)
+        post_arguments = node.post_arguments or node.arguments
         seen: set[Expr] = set()
         for owner in self._by_key.get(key, []):
             replacements = {
                 parameter.versioned_name: argument
-                for parameter, argument in zip(owner.parameters, node.arguments)
+                for parameter, argument in zip(owner.parameters, post_arguments)
             }
-            replacements["result"] = result
+            if result is not None:
+                replacements["result"] = result
             for contract in owner.contracts:
                 if contract.kind != "ensures":
+                    continue
+                if result is None and "result" in contract.expression.variables():
                     continue
                 assumption = contract.expression.substitute(replacements)
                 if assumption in seen:
@@ -940,7 +1006,6 @@ class VerificationConditionGenerator:
                 seen.add(assumption)
                 current = current.add(assumption)
         return current
-
     def _contracts_for(self, function: FunctionIR) -> tuple[Contract, ...]:
         contracts: list[Contract] = []
         seen: set[tuple[str, Expr]] = set()

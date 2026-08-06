@@ -16,7 +16,7 @@ from .record_types import RecordType, RecordValue, record_type
 from .integer_types import I32, canonical_decimal, is_fixed_integer_type
 
 
-SCHEMA = "codeskeptic.semantic-verification/v5"
+SCHEMA = "codeskeptic.semantic-verification/v6"
 INT_MIN = I32.minimum
 INT_MAX = I32.maximum
 
@@ -247,6 +247,66 @@ class ReferencePathStep:
 
 
 @dataclass(frozen=True, slots=True)
+class FrameLocation:
+    root: str
+    path: tuple[ReferencePathStep, ...]
+    type: str
+
+    def __post_init__(self) -> None:
+        if not self.root or not self.type:
+            raise ValueError("frame location root and type must be non-empty")
+        if any(step.kind != "field" for step in self.path):
+            raise ValueError("only field frame paths are supported")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "path": [step.to_dict() for step in self.path],
+            "root": self.root,
+            "type": self.type,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class FrameContract:
+    targets: tuple[FrameLocation, ...]
+    location: SourceLocation
+    text: str
+    machine_proposed: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "location": self.location.to_dict(),
+            "machine_proposed": self.machine_proposed,
+            "targets": [target.to_dict() for target in self.targets],
+            "text": self.text,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class CallFrameEffect:
+    root: str
+    type: str
+    before: str
+    after: str
+    modified: tuple[FrameLocation, ...]
+
+    def __post_init__(self) -> None:
+        if not self.modified:
+            raise ValueError("call frame effect must modify at least one location")
+        if any(location.root != self.root for location in self.modified):
+            raise ValueError("call frame effect locations must share one root")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "after": self.after,
+            "before": self.before,
+            "modified": [location.to_dict() for location in self.modified],
+            "root": self.root,
+            "type": self.type,
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class ReferenceBinding:
     id: str
     name: str
@@ -284,6 +344,11 @@ class Symbol:
     versioned_name: str
     location: SourceLocation
     source_name: str | None = None
+    passing: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.passing not in {None, "value", "const_reference", "mutable_reference"}:
+            raise ValueError("symbol passing mode is unsupported")
 
     def to_dict(self) -> dict[str, Any]:
         result = {
@@ -295,6 +360,8 @@ class Symbol:
         }
         if self.source_name is not None and self.source_name != self.name:
             result["ir_name"] = self.name
+        if self.passing is not None:
+            result["passing"] = self.passing
         return result
 
 
@@ -331,6 +398,8 @@ class IRNode:
     origin: str | None = None
     callee: str | None = None
     arguments: tuple[Expr, ...] = ()
+    post_arguments: tuple[Expr, ...] = ()
+    frame_effects: tuple[CallFrameEffect, ...] = ()
     invariants: tuple[Contract, ...] = ()
     loop_variables: tuple[LoopVariable, ...] = ()
     body: tuple["IRNode", ...] = ()
@@ -362,6 +431,10 @@ class IRNode:
             result["expression"] = self.expression.to_dict()
         if self.arguments:
             result["arguments"] = [arg.to_dict() for arg in self.arguments]
+        if self.post_arguments:
+            result["post_arguments"] = [arg.to_dict() for arg in self.post_arguments]
+        if self.frame_effects:
+            result["frame_effects"] = [effect.to_dict() for effect in self.frame_effects]
         if self.kind == "loop":
             result["body"] = [node.to_dict() for node in self.body]
             result["invariants"] = [
@@ -394,6 +467,7 @@ class FunctionIR:
     contracts: tuple[Contract, ...]
     body: tuple[IRNode, ...]
     references: tuple[ReferenceBinding, ...] = ()
+    frame: FrameContract | None = None
     has_body: bool = True
     link_name: str | None = None
 
@@ -405,6 +479,7 @@ class FunctionIR:
         result = {
             "body": [node.to_dict() for node in self.body],
             "contracts": [contract.to_dict() for contract in self.contracts],
+            "frame": self.frame.to_dict() if self.frame is not None else None,
             "has_body": self.has_body,
             "id": self.id,
             "locals": [symbol.to_dict() for symbol in self.locals],

@@ -88,6 +88,16 @@ reject overlapping live target/path prefixes. Conditional, temporary, rvalue,
 pointer, array-element, in-loop, parameter, return, field, and escaping
 references remain outside the pilot.
 
+For modular mutation, admit only declaration-only const/mutable lvalue reference
+parameters with an explicit `cs: modifies` clause. Empty frames promise no
+caller-visible mutation. Non-empty targets must be unique, non-overlapping
+whole-referent or value-record field paths rooted at mutable reference
+parameters. At each call, normalize targets to owned caller roots, reject
+conditional or overlapping actuals, havoc each affected root once, preserve all
+unlisted reachable fields, and substitute `ensures` against post-call reference
+values. Keep reference-parameter definitions and array-element frames outside
+the pilot.
+
 Pin representative inputs and outputs as fixtures. Regenerate twice and compare
 bytes before accepting a schema or lowering change.
 
@@ -276,7 +286,7 @@ counterexample core; apply the same artifact access policy to both fields.
   do not reinterpret it on a target with different widths or signed behavior.
 - Treat shift-count and signed-left-shift violations as undefined-behavior
   findings; never use a wrapped solver result after either guard fails.
-- Require `codeskeptic.semantic-verification/v5` before consuming fields and
+- Require `codeskeptic.semantic-verification/v6` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.

@@ -3344,7 +3344,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -3457,6 +3457,7 @@
             "text": "ensures return.x == x && return.y == y"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [
@@ -3487,6 +3488,7 @@
               "line": 14
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           },
@@ -3498,6 +3500,7 @@
               "line": 14
             },
             "name": "y",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "y#0"
           }
@@ -3716,6 +3719,7 @@
             "text": "ensures return == input.x"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0002",
         "locals": [
@@ -3757,6 +3761,7 @@
               "line": 21
             },
             "name": "input",
+            "passing": "value",
             "type": "record<Pair>{x:i32,y:i32}",
             "versioned_name": "input#0"
           }
@@ -4040,6 +4045,7 @@
             "text": "ensures return == replacement"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0003",
         "locals": [],
@@ -4058,6 +4064,7 @@
               "line": 30
             },
             "name": "input",
+            "passing": "value",
             "type": "record<Box>{pair:record<Pair>{x:i32,y:i32},values:array<i32,2>}",
             "versioned_name": "input#0"
           },
@@ -4069,6 +4076,7 @@
               "line": 30
             },
             "name": "i",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "i#0"
           },
@@ -4080,6 +4088,7 @@
               "line": 30
             },
             "name": "replacement",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "replacement#0"
           }
@@ -4223,6 +4232,7 @@
             "text": "ensures return.x == input.x && return.y == input.y"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0004",
         "locals": [
@@ -4253,6 +4263,7 @@
               "line": 37
             },
             "name": "input",
+            "passing": "value",
             "type": "record<Pair>{x:i32,y:i32}",
             "versioned_name": "input#0"
           }
@@ -4291,7 +4302,7 @@
         "type": "record<Box>{pair:record<Pair>{x:i32,y:i32},values:array<i32,2>}"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/struct_slice.cpp",
     "unsupported": []
   },

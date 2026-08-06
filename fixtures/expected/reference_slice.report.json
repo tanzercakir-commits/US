@@ -1300,7 +1300,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -1364,6 +1364,7 @@
             "text": "ensures return == 7"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [],
@@ -1382,6 +1383,7 @@
               "line": 9
             },
             "name": "value",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "value#0"
           }
@@ -1522,6 +1524,7 @@
             "text": "ensures return.x == 4 && return.y == input.y"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0002",
         "locals": [],
@@ -1540,6 +1543,7 @@
               "line": 16
             },
             "name": "input",
+            "passing": "value",
             "type": "record<Pair>{x:i32,y:i32}",
             "versioned_name": "input#0"
           }
@@ -1748,6 +1752,7 @@
             "text": "ensures return == input.x + 5"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0003",
         "locals": [],
@@ -1766,6 +1771,7 @@
               "line": 24
             },
             "name": "input",
+            "passing": "value",
             "type": "record<Pair>{x:i32,y:i32}",
             "versioned_name": "input#0"
           }
@@ -1983,6 +1989,7 @@
             "text": "ensures (choose && return == 1) || (!choose && return == 2)"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0004",
         "locals": [],
@@ -2001,6 +2008,7 @@
               "line": 32
             },
             "name": "value",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "value#0"
           },
@@ -2012,6 +2020,7 @@
               "line": 32
             },
             "name": "choose",
+            "passing": "value",
             "type": "bool",
             "versioned_name": "choose#0"
           }
@@ -2065,7 +2074,7 @@
         "type": "record<Pair>{x:i32,y:i32}"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/reference_slice.cpp",
     "unsupported": []
   },

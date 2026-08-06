@@ -2175,7 +2175,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -2594,6 +2594,7 @@
             "text": "ensures result >= 0 && result <= 100"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [
@@ -2635,6 +2636,7 @@
               "line": 3
             },
             "name": "n",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "n#0"
           }
@@ -2644,7 +2646,7 @@
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/sum_loop.cpp",
     "unsupported": []
   },

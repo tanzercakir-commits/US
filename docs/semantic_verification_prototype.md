@@ -14,7 +14,7 @@ Implemented:
 - real Clang C++ parsing through the JSON AST interface;
 - an owned, deterministic, versioned Semantic IR for branches, modular calls,
   invariant-annotated while loops, exact owned fixed-size arrays, value records,
-  and proved local-reference bindings;
+  proved local-reference bindings, and modular call frame summaries;
 - strict inline cs: preconditions, postconditions, and loop invariants;
 - path-specific VCs for contracts, signed i32/i64 definedness, unsigned
   u32/u64 modulo arithmetic, conversions, bitwise/shift definedness, modular
@@ -43,8 +43,8 @@ Implemented:
   compaction, uncached/warm cache identity, and repeated budget identity;
 - a fixed-width integer phase gate freezing the target profile, conversion and
   operator tables, homogeneous classifier, backend matrix, replay evidence, and
-  v1-to-v5, v2-to-v5, v3-to-v5, and v4-to-v5 migration equivalence;
-- 271 deterministic tests, including independent soundness regressions.
+  v1-to-v6, v2-to-v6, v3-to-v6, v4-to-v6, and v5-to-v6 migration equivalence;
+- 288 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -60,7 +60,7 @@ Partially implemented:
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete and rejects
   QF_BV, QF_ARRAY, and QF_RECORD; Z3 is complete for every emitted homogeneous fragment;
-- v0 through v4 are archived and v5 is current; owned C++17 fixed-width types lower
+- v0 through v5 are archived and v6 is current; owned C++17 fixed-width types lower
   to `i32`/`u32`/`i64`/`u64`, integer wire evidence is canonical decimal text,
   and Clang must pass the pinned target-profile probe before lowering.
 
@@ -238,13 +238,14 @@ The implemented node kinds are:
 - loop with invariants, a body, loop-variable havoc metadata, and the explicit
   termination=non_goal record;
 - function-level reference target/path, mutability, and lexical-lifetime metadata;
+- parameter passing modes, explicit function frames, pre/post call arguments, and normalized caller-root frame effects;
 - unsupported.
 
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, boolean connectives, owned `array`/`select`/`store`
 expressions, `record`/`project`/`update` expressions, and the exact
 `signed_no_overflow` safety predicate. The JSON schema identifier is
-`codeskeptic.semantic-verification/v5`. Serialization uses sorted JSON object
+`codeskeptic.semantic-verification/v6`. Serialization uses sorted JSON object
 keys and source-ordered arrays. Compatibility and major-version triggers are
 defined in the [schema version policy](schema_versioning.md).
 Heap allocate/release and pointer-based load/store remain proposed. Adding them without
@@ -257,6 +258,7 @@ style:
 
     // cs: requires b != 0
     // cs: ensures result > x
+    // cs: modifies state.field
 
 The prototype also accepts return as an alias for result in contract
 expressions. Supported contract expression syntax is:
@@ -272,7 +274,9 @@ expressions. Supported contract expression syntax is:
 - parentheses.
 
 Only the contiguous line-comment block immediately before a function is
-attached for requires/ensures. A contiguous cs: invariant block attaches only
+attached for requires/ensures/modifies. `modifies` is either empty or a strict,
+comma-separated list of unique non-overlapping mutable-reference parameter
+field paths. A contiguous cs: invariant block attaches only
 to the immediately following while statement and can reference variables in
 scope there. result/return is available only to ensures. Malformed clauses,
 wrong attachment, and orphan cs: comments produce explicit unsupported results.
@@ -292,9 +296,12 @@ edges add the condition or its negation and retain guarded branch source
 provenance. A structured join factors common assumptions and represents the
 exact union of residual path conjunctions as one disjunction; merge equalities
 remain inside the edge that selected them. A result-bearing call havocs its
-fresh target, adds signed destination-width bounds, proves substituted requires,
-and assumes substituted ensures. Recursive
-call components fail closed.
+fresh target, adds recursive destination bounds, proves substituted requires,
+and assumes substituted ensures. A framed reference call also havocs each
+listed caller root once, preserves every unlisted reachable field by functional
+update equality, and substitutes reference parameters with post-call values for
+`ensures`. Empty frames preserve all caller state. Recursive call components
+fail closed.
 
 A loop proves each invariant at the concrete entry state, checks one arbitrary
 bounded head state under I and the condition, and proves I again at the back
@@ -416,7 +423,8 @@ phase-gate commands are in [the integer operations runbook](integer_operations.m
 - named public value structs with 1 to 16 supported fields, depth at most 8,
   full aggregate initialization, field reads/writes, copy, and by-value flow;
 - local const/mutable lvalue references with one proved live scalar or
-  value-record root/field target and no overlapping live alias;
+  value-record root/field target and no overlapping live alias;- declaration-only const/mutable lvalue reference parameters with explicit
+  empty or whole/nested-record-field `cs: modifies` frames;
 - initialized local fixed-width integer and `bool` variables;
 - assignment to locals;
 - unary plus, unary minus, boolean not, and bitwise complement;
@@ -436,7 +444,7 @@ phase-gate commands are in [the integer operations runbook](integer_operations.m
 - assert represented only by a declaration-only void assert(bool) sentinel;
 - return;
 - implicit return 0 when main falls through;
-- inline requires and ensures contracts;
+- inline requires, ensures, and modifies contracts;
 - while loops with a contiguous inline invariant block.
 
 ## Intentionally unsupported subset
@@ -457,9 +465,12 @@ The frontend explicitly rejects:
 - shadowing;
 - compound assignment, increment/decrement, comma, ternary, and assignment
   expressions;
-- conditional/multiple reference targets, temporaries, rvalue/pointer/array-element
-  references, references declared inside loops, overlapping live aliases,
-  reference parameters/returns/fields, and address escape;
+- conditional/multiple local reference targets, temporaries, rvalue/pointer/
+  array-element references, references declared inside loops, and overlapping
+  live aliases;
+- reference-parameter definitions, reference returns/fields, missing/conflicting
+  frames, array-element frames, conditional/overlapping reference actuals, and
+  address escape;
 - indirect/member calls, mismatched assigned results, and calls nested in return,
   arithmetic, or argument expressions;
 - calls with neither a visible body nor a contract;
@@ -527,8 +538,8 @@ The complete runnable input is examples/vertical_slice.cpp. Under the default
 affine/Z3 cross-check it produces 10 verified obligations, two replayed
 violations, and zero unknown/unsupported/solver_error results. The affine-only
 backend deliberately remains unable to prove the transitive postcondition.
-Modular-call and loop gates are in examples/modular_calls.cpp and
-examples/sum_loop*.cpp.
+Modular-call, frame-condition, and loop gates are in examples/modular_calls.cpp,
+examples/frame_conditions.cpp, and examples/sum_loop*.cpp.
 
 ## Build and test
 

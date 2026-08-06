@@ -234,7 +234,7 @@ class SchemaMigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(SchemaCompatibilityError, "unsupported"):
                 require_current_schema(archived)
 
-        self.assertEqual(SCHEMA, "codeskeptic.semantic-verification/v5")
+        self.assertEqual(SCHEMA, "codeskeptic.semantic-verification/v6")
 
 
 if __name__ == "__main__":

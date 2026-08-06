@@ -6321,7 +6321,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -6490,6 +6490,7 @@
             "text": "ensures result == 5"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [],
@@ -6508,6 +6509,7 @@
               "line": 6
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           },
@@ -6519,6 +6521,7 @@
               "line": 6
             },
             "name": "y",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "y#0"
           }
@@ -6563,6 +6566,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0002",
         "locals": [],
@@ -6581,6 +6585,7 @@
               "line": 10
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -6754,6 +6759,7 @@
             "text": "ensures result == 2"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0003",
         "locals": [],
@@ -6772,6 +6778,7 @@
               "line": 17
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           },
@@ -6783,6 +6790,7 @@
               "line": 17
             },
             "name": "y",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "y#0"
           }
@@ -6827,6 +6835,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0004",
         "locals": [],
@@ -6845,6 +6854,7 @@
               "line": 21
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -6964,6 +6974,7 @@
             "text": "ensures result == 6"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0005",
         "locals": [],
@@ -6982,6 +6993,7 @@
               "line": 27
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -7019,6 +7031,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0006",
         "locals": [],
@@ -7037,6 +7050,7 @@
               "line": 31
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -7102,6 +7116,7 @@
             "text": "ensures result == 0"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0007",
         "locals": [],
@@ -7180,6 +7195,7 @@
             "text": "ensures result == 4294967295"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0008",
         "locals": [],
@@ -7258,6 +7274,7 @@
             "text": "ensures result == 4294967295"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0009",
         "locals": [],
@@ -7336,6 +7353,7 @@
             "text": "ensures result == 4294967294"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0010",
         "locals": [],
@@ -7463,6 +7481,7 @@
             "text": "ensures result == -1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0011",
         "locals": [],
@@ -7481,6 +7500,7 @@
               "line": 57
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -7513,6 +7533,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0012",
         "locals": [],
@@ -7531,6 +7552,7 @@
               "line": 61
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -7598,6 +7620,7 @@
             "text": "ensures result == 4294967295"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0013",
         "locals": [],
@@ -7723,6 +7746,7 @@
             "text": "ensures result == 2"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0014",
         "locals": [],
@@ -7741,6 +7765,7 @@
               "line": 72
             },
             "name": "a",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "a#0"
           }
@@ -7860,6 +7885,7 @@
             "text": "ensures result == 1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0015",
         "locals": [],
@@ -7878,6 +7904,7 @@
               "line": 78
             },
             "name": "a",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "a#0"
           }
@@ -7915,6 +7942,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0016",
         "locals": [],
@@ -7933,6 +7961,7 @@
               "line": 82
             },
             "name": "a",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "a#0"
           },
@@ -7944,6 +7973,7 @@
               "line": 82
             },
             "name": "b",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "b#0"
           }
@@ -8104,6 +8134,7 @@
             "text": "requires b == -1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0017",
         "locals": [],
@@ -8122,6 +8153,7 @@
               "line": 88
             },
             "name": "a",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "a#0"
           },
@@ -8133,6 +8165,7 @@
               "line": 88
             },
             "name": "b",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "b#0"
           }
@@ -8205,6 +8238,7 @@
             "text": "ensures result == true"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0018",
         "locals": [],
@@ -8290,6 +8324,7 @@
             "text": "ensures result == false"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0019",
         "locals": [],
@@ -8375,6 +8410,7 @@
             "text": "ensures result == true"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0020",
         "locals": [],
@@ -8491,6 +8527,7 @@
             "text": "ensures result == true"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0021",
         "locals": [],
@@ -8509,6 +8546,7 @@
               "line": 108
             },
             "name": "x",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "x#0"
           },
@@ -8520,6 +8558,7 @@
               "line": 108
             },
             "name": "y",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "y#0"
           }
@@ -8585,6 +8624,7 @@
             "text": "ensures result == 1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0022",
         "locals": [],
@@ -8656,6 +8696,7 @@
             "text": "ensures result == 0"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0023",
         "locals": [],
@@ -8674,6 +8715,7 @@
               "line": 118
             },
             "name": "x",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "x#0"
           }
@@ -8739,6 +8781,7 @@
             "text": "ensures result == -2147483648"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0024",
         "locals": [],
@@ -8782,6 +8825,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0025",
         "locals": [],
@@ -8800,6 +8844,7 @@
               "line": 127
             },
             "name": "x",
+            "passing": "value",
             "type": "u32",
             "versioned_name": "x#0"
           }
@@ -8837,6 +8882,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0026",
         "locals": [],
@@ -8922,6 +8968,7 @@
             "text": "ensures result == -2"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0027",
         "locals": [],
@@ -8993,6 +9040,7 @@
             "text": "ensures result == 1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0028",
         "locals": [],
@@ -9043,6 +9091,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0029",
         "locals": [],
@@ -9061,6 +9110,7 @@
               "line": 145
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -9196,6 +9246,7 @@
             "text": "ensures result == 4294967295"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0030",
         "locals": [],
@@ -9214,6 +9265,7 @@
               "line": 151
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -9293,6 +9345,7 @@
             "text": "ensures result == 1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0031",
         "locals": [],
@@ -9308,7 +9361,7 @@
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/fixed_integer_gate.cpp",
     "unsupported": []
   },

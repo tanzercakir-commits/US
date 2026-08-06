@@ -2,22 +2,25 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v5`. It
+The current schema identifier is `codeskeptic.semantic-verification/v6`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation. The deterministic
 fixed-width acceptance evidence uses the separate
-`codeskeptic.fixed-integer-phase-gate/v3` schema documented in
+`codeskeptic.fixed-integer-phase-gate/v4` schema documented in
 [the integer operations runbook](integer_operations.md); it is not a report.
 
 F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
 v1 for minimized public counterexample cores. A6.8 moved to v2 for explicit
 fixed-width type identities and canonical decimal-string integer evidence.
 A6.2 moved to v3 for exact owned-array semantics; A6.3 moved to v4 for value
-records. A6.4 moves to v5 for proof-bearing local-reference target, mutability,
-and lifetime metadata. Consumers must check `schema`, ignore unknown object
+records. A6.4 moved to v5 for proof-bearing local-reference target, mutability,
+and lifetime metadata. A6.5 moves to v6 for parameter passing modes, explicit
+`modifies` frames, normalized modified paths, and call frame effects. Consumers
+must check `schema`, ignore unknown object
 fields only within that known major, and fail closed on unknown status/mode/kind
 values. The complete [version and migration policy](schema_versioning.md)
-defines compatibility and preserves the v0 through v4 corpora.
+defines compatibility and preserves the v0 through v5 corpora.
+
 ## Report envelope
 
 JSON output has this shape:
@@ -27,7 +30,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -274,7 +277,7 @@ is never lowered under a different target.
 
 ### Expression
 
-Every expression has `kind` and `type`. v5 type identities are `bool`, `i32`,
+Every expression has `kind` and `type`. v6 type identities are `bool`, `i32`,
 `u32`, `i64`, `u64`, `array<E,N>`, and canonical
 `record<Name>{field:type,...}` identities. Arrays contain 1 to 64 fixed-width
 integers; records contain 1 to 16 scalar, array, or nested record fields and
@@ -346,9 +349,10 @@ canonical type and replayed before a violation is returned.
 
 Each module `records` entry has source `name`, canonical `type`, and a required
 source-ordered `fields` array. Each field contains `name` and canonical `type`.
-Methods, inheritance, unions, bitfields, layout/padding claims, reference
-fields/parameters/returns, pointers, default member initialization, partial
-initialization, and escaping addresses are outside v5 and must fail closed.
+Methods, inheritance, unions, bitfields, layout/padding claims, unrestricted
+reference parameters, reference fields/returns, pointers, default member
+initialization, partial
+initialization, and escaping addresses are outside v6 and must fail closed.
 
 ### Function
 
@@ -357,11 +361,12 @@ initialization, and escaping addresses are outside v5 and must fail closed.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | v5 scalar or value-record type identity. |
+| `return_type` | string | yes | v6 scalar, value-record, or restricted external `void` identity. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
 | `contracts` | contract array | yes | Attached declaration order. |
+| `frame` | frame contract or null | yes | Explicit `cs: modifies` summary, including an empty frame; null means none was declared. |
 | `references` | reference-binding array | yes | Source declaration order; empty when no reviewed local references exist. |
 | `body` | node array | yes | Semantic execution order. |
 | `has_body` | boolean | yes | Distinguishes definitions from contracted declarations. |
@@ -373,9 +378,10 @@ initialization, and escaping addresses are outside v5 and must fail closed.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | v5 scalar, owned-array, or value-record type identity. |
+| `type` | string | yes | v6 scalar, owned-array, or value-record type identity. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
+| `passing` | string | no | Present on parameters: `value`, `const_reference`, or `mutable_reference`; omitted on locals. |
 
 ### Reference binding
 
@@ -395,18 +401,49 @@ not an independent storage value.
 | `location` | location | Reference declaration location. |
 
 A field path step has `kind: "field"` and `value` equal to the source field
-name. Index steps are reserved but not emitted in v5; array-element references
+name. Index steps are reserved but not emitted in v6; array-element references
 remain unsupported. Reads re-resolve the current SSA version of `target`, so a
 reference is never a snapshot. Writes rebuild the same aggregate path used by
 direct field assignment. Live bindings with overlapping root/path prefixes are
 rejected; bindings in disjoint branch or sequential lexical scopes may target
 the same location because their lifetimes do not overlap.
 
-Only local lvalue references to live owned scalar or value-record roots/fields
-are admitted. Const local reads, mutable writes, outer references used in loops,
-and by-value call arguments are exact. Conditional/multiple targets, temporary,
-rvalue, pointer, array-element, in-loop declarations, overlapping live aliases,
-reference parameters/returns/fields, and address escape fail closed.
+Local lvalue references to live owned scalar or value-record roots/fields remain
+exact. A6.5 additionally admits const/mutable lvalue reference parameters only
+on contracted declarations with an explicit frame; definitions with reference
+parameters remain unsupported. Conditional/multiple local targets, temporary,
+rvalue, pointer, array-element and in-loop references, overlapping live aliases,
+reference returns/fields, and address escape fail closed.
+
+### Frame contract and call effects
+
+A function `frame` is null when no `cs: modifies` clause was attached. An
+explicit `// cs: modifies` emits a non-null frame with an empty `targets` array
+and promises that no caller-visible modeled location changes. Non-empty targets
+are comma-separated parameter-relative field paths.
+
+| Frame field | Type | Contract |
+| --- | --- | --- |
+| `targets` | frame-location array | Source clause order; paths must be unique and non-overlapping. |
+| `location` | location | `cs: modifies` comment location. |
+| `text` | string | Canonical `modifies` clause text. |
+| `machine_proposed` | boolean | True only for `cs: ai modifies`. |
+
+A frame location has `root`, `path`, and `type`. In a function frame, `root` is
+the stable symbol ID of a mutable reference parameter and `path` is relative to
+its referent. At a call, each `frame_effects` entry has stable owned `root` and
+`type`, pre/post SSA names `before` and `after`, and a non-empty `modified`
+frame-location array normalized to the caller's root. Whole-root modification
+uses an empty path.
+
+For a partial frame the VC assumes exactly:
+`after == update(before, path1, after.path1, ...)`; this permits listed leaves
+to vary while preserving every unlisted reachable field. A whole-root frame
+adds no equality, only recursive type bounds. `post_arguments` records reference
+actuals re-resolved against post-call SSA state so callee `ensures` clauses use
+post-state reference values; ordinary `arguments` always record pre-call values.
+Overlapping actual reference paths, invalid/inaccessible/duplicate targets, and
+missing frames fail closed.
 
 ### Contract
 
@@ -427,7 +464,7 @@ they do not apply.
 | --- | --- |
 | `assume`, `assert`, `return` | `expression`; `origin` may identify generated assumptions/returns. |
 | `assign` | `target`, `expression`. |
-| `call` | `callee`, optional `arguments`; result-bearing calls also have `target` and `result_type`. |
+| `call` | `callee`, optional pre-state `arguments`, reference `post_arguments`, and `frame_effects`; result-bearing calls also have `target` and `result_type`. |
 | `branch` | `expression`, optional `then`, `else`, and `merges` arrays. |
 | `merge` | `target`, `incoming_true`, `incoming_false`. |
 | `loop` | `expression`, `body`, `invariants`, `loop_variables`, `termination`. |
@@ -441,7 +478,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | v5 scalar, owned-array, or value-record type identity. |
+| `type` | string | v6 scalar, owned-array, or value-record type identity. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

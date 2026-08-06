@@ -147,9 +147,9 @@ class IntegerTypeTests(unittest.TestCase):
         _PROFILE_VALIDATION.pop(key, None)
 
 
-class V5MigrationTests(unittest.TestCase):
+class V6MigrationTests(unittest.TestCase):
     def test_legacy_and_mixed_payloads_are_rejected(self):
-        for version in ("v1", "v2", "v3", "v4"):
+        for version in ("v1", "v2", "v3", "v4", "v5"):
             with self.subTest(version=version), self.assertRaisesRegex(
                 SchemaCompatibilityError, "unsupported"
             ):
@@ -166,8 +166,8 @@ class V5MigrationTests(unittest.TestCase):
                 }
             )
 
-    def test_archived_v1_through_v4_hash_manifests_are_exact(self):
-        for version in ("v1", "v2", "v3", "v4"):
+    def test_archived_v1_through_v5_hash_manifests_are_exact(self):
+        for version in ("v1", "v2", "v3", "v4", "v5"):
             archive = ROOT / "fixtures" / "versions" / version
             for line in (
                 archive / "SHA256SUMS"
@@ -193,17 +193,19 @@ class V5MigrationTests(unittest.TestCase):
                 [tuple(item[field] for field in fields) for item in old["results"]],
             )
 
-    def test_v1_to_v5_preserves_result_statuses(self):
+    def test_v1_to_v6_preserves_result_statuses(self):
         self._assert_status_equivalence("v1")
 
-    def test_v2_to_v5_preserves_result_statuses(self):
+    def test_v2_to_v6_preserves_result_statuses(self):
         self._assert_status_equivalence("v2")
 
-    def test_v3_to_v5_preserves_result_statuses(self):
+    def test_v3_to_v6_preserves_result_statuses(self):
         self._assert_status_equivalence("v3")
 
-    def test_v4_to_v5_preserves_result_statuses(self):
+    def test_v4_to_v6_preserves_result_statuses(self):
         self._assert_status_equivalence("v4")
+    def test_v5_to_v6_preserves_result_statuses(self):
+        self._assert_status_equivalence("v5")
 
 if __name__ == "__main__":
     unittest.main()

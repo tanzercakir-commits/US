@@ -40,7 +40,7 @@ function identity64u(x#0:u64) -> u64
   n00016 return x#0
 function call64u(x#0:u64) -> u64
   ensures (result == x#0)
-  n00017 call identity64u(x#0)
+  n00017 value#0 := call identity64u(x#0)
   n00018 return value#0
 function count32(n#0:u32) -> u32
   ensures (result == n#0)

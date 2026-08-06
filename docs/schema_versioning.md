@@ -8,19 +8,21 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v5`. F4.1 froze the
+The current value is `codeskeptic.semantic-verification/v6`. F4.1 froze the
 report and Semantic IR contract as v0; A4.1 advanced to v1 for minimized public
 counterexample evidence; A6.8 advances to v2 for explicit fixed-width types and
 canonical integer evidence, A6.2 advances to v3 for owned arrays, and A6.3
-advances to v4 for value records, and A6.4 advances to v5 for proved local
-reference bindings. A producer emits exactly one major version; there
+advances to v4 for value records, A6.4 advances to v5 for proved local
+reference bindings, and A6.5 advances to v6 for modular frame summaries. A
+producer emits exactly one major version; there
 is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
 schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 through
-A6.4 advanced that independent evidence schema through v3. Gate v3 pins the v4
-archive plus v1-to-v5, v2-to-v5, v3-to-v5, and v4-to-v5 migration checks.
+A6.5 advanced that independent evidence schema through v4. Gate v4 pins the v5
+archive plus v1-to-v6, v2-to-v6, v3-to-v6, v4-to-v6, and v5-to-v6 migration
+checks.
 Changing its frozen profile, conversion table, operator rows, backend matrix, or
 migration checks requires an intentional gate version review, not a
 report-schema reinterpretation.
@@ -157,8 +159,8 @@ reference from being approximated as a declaration-time snapshot.
 Keeping this under v4 was rejected. A v4 consumer that ignores reference target
 metadata could misread the source-to-IR correspondence and cannot audit the
 proved alias/lifetime discipline. The complete eleven-case v4 corpus is
-immutable under `fixtures/versions/v4/` with 34 checked SHA-256 entries. Current
-fixtures are v5 and add the reference slice; statuses remain equivalent for all
+immutable under `fixtures/versions/v4/` with 34 checked SHA-256 entries. The v5
+fixtures add the reference slice; statuses remain equivalent for all
 11 v4, 10 v3, nine v2, and five v1 legacy reports. `require_current_schema`
 rejects v0 through v4, unknown, and mixed-major payloads.
 
@@ -170,6 +172,33 @@ temporaries, rvalue/pointer/array-element references, declarations inside loops,
 overlapping live target prefixes, reference parameters/returns/fields, and
 address escape remain fail-closed. No general points-to or alias analysis is
 inferred.
+
+## v6 decision: modular call frame summaries
+
+A6.5 adds parameter `passing` modes, a required nullable function `frame`, and
+call-level `post_arguments` and `frame_effects`. An explicit empty `modifies`
+frame proves no caller-visible modeled state changes. Non-empty frames normalize
+mutable-reference parameter paths to caller-owned roots, havoc each affected
+root once, retain recursive type bounds, and add a functional equality that
+preserves every unlisted reachable field. Callee `ensures` clauses substitute
+post-state reference actuals; `requires` clauses retain pre-state actuals.
+
+Keeping this under v5 was rejected. A v5 reader would treat reference parameters
+as unsupported and cannot audit whether a modular call changed a root, preserved
+an unlisted field, or substituted an `ensures` clause against pre- or post-state.
+The complete twelve-case v5 corpus is immutable under `fixtures/versions/v5/`
+with 37 checked SHA-256 entries. Current fixtures are v6 and add the frame
+conditions slice; statuses remain equivalent for all 12 v5, 11 v4, 10 v3, nine
+v2, and five v1 legacy reports. `require_current_schema` rejects v0 through v5,
+unknown, and mixed-major payloads.
+
+The admitted boundary is declaration-only const/mutable lvalue reference
+parameters with an explicit `cs: modifies` clause. Targets may name a whole
+mutable referent or nested value-record fields. Empty, single, multiple, nested,
+and disjoint caller paths are exact. Reference-parameter definitions, reference
+returns/fields, array-element frames, conditional actuals, overlapping actuals,
+conflicting redeclaration frames, missing frames, and inaccessible/duplicate/
+overlapping targets remain fail-closed.
 
 ## Consumer rules
 
@@ -269,21 +298,22 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A6.4:
+As of A6.5:
 
-- current producer: `codeskeptic.semantic-verification/v5`;
-- frozen previous baselines: complete v0 through v4 corpora under their matching
+- current producer: `codeskeptic.semantic-verification/v6`;
+- frozen previous baselines: complete v0 through v5 corpora under their matching
   `fixtures/versions/vN/` directories;
-- compatible readers: v5 readers that require the exact schema and implement
+- compatible readers: v6 readers that require the exact schema and implement
   fixed-width scalars, owned arrays, value records, proved local-reference
-  metadata, canonical recursive evidence, and minimized cores;
+  metadata, modular frame effects, canonical recursive evidence, and minimized
+  cores;
   `semantic_verifier.schema` supplies the reference fail-closed gate;
-- v0 through v4 readers are intentionally incompatible with current semantics;
+- v0 through v5 readers are intentionally incompatible with current semantics;
 - no legacy report reader or conversion tool exists in this producer-only
   reference repository, so none is deleted by this migration;
 - the Unreleased changelog period is the migration window; archived fixture
   bytes remain available and are not scheduled for deletion.
 
-This policy does not promise that every future source feature stays in v5. It
+This policy does not promise that every future source feature stays in v6. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,
 and impossible to confuse silently with the previous proof contract.

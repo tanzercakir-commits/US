@@ -23,7 +23,7 @@ function remainder64(x#0:i64) -> i64
   n00008 return (x#0 % 3)
 function call64(x#0:i64) -> i64
   ensures (result == x#0)
-  n00009 call identity64(x#0)
+  n00009 value#0 := call identity64(x#0)
   n00010 return value#0
 function count64(n#0:i64) -> i64
   requires (n#0 >= 0)

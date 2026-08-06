@@ -1750,7 +1750,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -1968,6 +1968,7 @@
             "text": "requires !(a == -2147483648 && b == -1)"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [],
@@ -1986,6 +1987,7 @@
               "line": 5
             },
             "name": "a",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "a#0"
           },
@@ -1997,6 +1999,7 @@
               "line": 5
             },
             "name": "b",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "b#0"
           }
@@ -2044,6 +2047,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0002",
         "locals": [],
@@ -2062,6 +2066,7 @@
               "line": 9
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -2109,6 +2114,7 @@
           }
         ],
         "contracts": [],
+        "frame": null,
         "has_body": true,
         "id": "f0003",
         "locals": [],
@@ -2127,6 +2133,7 @@
               "line": 14
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           },
@@ -2138,6 +2145,7 @@
               "line": 14
             },
             "name": "input",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "input#0"
           }
@@ -2257,6 +2265,7 @@
             "text": "ensures result > x"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0004",
         "locals": [],
@@ -2275,6 +2284,7 @@
               "line": 21
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -2436,6 +2446,7 @@
             "text": "ensures result >= z"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0005",
         "locals": [],
@@ -2454,6 +2465,7 @@
               "line": 29
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           },
@@ -2465,6 +2477,7 @@
               "line": 29
             },
             "name": "y",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "y#0"
           },
@@ -2476,6 +2489,7 @@
               "line": 29
             },
             "name": "z",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "z#0"
           }
@@ -2485,7 +2499,7 @@
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/vertical_slice.cpp",
     "unsupported": []
   },

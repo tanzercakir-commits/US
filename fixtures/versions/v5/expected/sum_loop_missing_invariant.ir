@@ -1,0 +1,19 @@
+module fixtures/cases/sum_loop_missing_invariant.cpp
+function sum_zero_to_n(n#0:i32) -> i32
+  requires ((n#0 >= 0) && (n#0 <= 10))
+  ensures ((result >= 0) && (result <= 100))
+  n00001 assume ((n#0 >= 0) && (n#0 <= 10))
+  n00002 i#0 := 0
+  n00003 total#0 := 0
+  n00004 loop (i#1 < n#0)
+    termination non_goal (partial correctness only)
+    havoc head i#1:i32 (entry i#0)
+    havoc head total#1:i32 (entry total#0)
+    body:
+      n00005 i#2 := (i#1 + 1)
+      n00006 total#2 := (total#1 + i#2)
+    back-edge i := i#2
+    havoc exit i#3:i32
+    back-edge total := total#2
+    havoc exit total#3:i32
+  n00007 return total#3

@@ -22,6 +22,13 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.5 adds strict empty/single/multiple/nested `cs: modifies` contracts for
+  declaration-only const/mutable lvalue reference parameters. Calls normalize
+  permitted targets to caller-owned paths, havoc each affected root once,
+  constrain post-state reference values with `ensures`, and preserve every
+  unlisted reachable field by exact functional equality. Invalid, duplicate,
+  inaccessible, overlapping, conditional, conflicting, or missing frames fail
+  closed; reference-parameter definitions remain unsupported.
 - A6.4 adds proof-bearing local const/mutable lvalue references with a unique
   live owned scalar, value-record, or record-field target. Reads follow the
   target's current SSA value and permitted writes update the same aggregate
@@ -89,6 +96,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Changed
 
+- A6.5 moves the producer to `codeskeptic.semantic-verification/v6` because
+  parameter passing modes, nullable function frames, reference post-arguments,
+  and normalized call frame effects are proof-bearing wire semantics. The
+  fixed-integer phase gate advances to v4 and the fixture corpus grows to 26
+  artifacts.
 - A6.4 moves the producer to `codeskeptic.semantic-verification/v5` because
   function-level reference target, path, mutability, and lexical-lifetime
   metadata are proof-bearing wire semantics. The fixed-integer phase gate
@@ -125,6 +137,13 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- v6 consumers must implement parameter passing modes, explicit empty/non-empty
+  function frames, post-state reference arguments, and functional preservation
+  of every unlisted caller location, or reject framed calls fail-closed. The
+  complete twelve-case v5 corpus is immutable under `fixtures/versions/v5/`
+  with 37 SHA-256 entries; all twelve v5-to-v6 statuses are equivalent. v0
+  through v5, unknown, and mixed-major payloads are rejected by the current
+  compatibility gate.
 - v5 consumers must implement the required function `references` array and
   exact live-target resolution, or reject reference-bearing objects fail-
   closed. The complete eleven-case v4 corpus is immutable under

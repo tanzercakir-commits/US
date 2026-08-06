@@ -37,7 +37,7 @@ class IntegerPhaseGateTests(unittest.TestCase):
         self.assertEqual(combined["violations_replayed"], 13)
         self.assertEqual(
             combined["report_sha256"],
-            "b57635a13cad67a7a5ad43f5e67b259246b546b00ba7c67a4a298805b42d024d",
+            "a5cfa8f7dcfaf526f9a4c4d157675e52fe7ec851e746068c344ff3932cc1ed69",
         )
         self.assertEqual(
             combined["source_sha256"],
@@ -121,14 +121,22 @@ class IntegerPhaseGateTests(unittest.TestCase):
             "daff2c939c7a236e92908b0e6681b13d7ff33a1c5c213fe79e41fadf45c4d241",
         )
         self.assertTrue(migration["archive_v4"]["valid"])
-        self.assertEqual(migration["v1_to_v5"]["count"], 5)
-        self.assertTrue(migration["v1_to_v5"]["status_equivalent"])
-        self.assertEqual(migration["v2_to_v5"]["count"], 9)
-        self.assertTrue(migration["v2_to_v5"]["status_equivalent"])
-        self.assertEqual(migration["v3_to_v5"]["count"], 10)
-        self.assertTrue(migration["v3_to_v5"]["status_equivalent"])
-        self.assertEqual(migration["v4_to_v5"]["count"], 11)
-        self.assertTrue(migration["v4_to_v5"]["status_equivalent"])
+        self.assertEqual(migration["archive_v5"]["entries"], 37)
+        self.assertEqual(
+            migration["archive_v5"]["manifest_sha256"],
+            "1cdc6657d321a874217d56fb725afc54c76321db5e8782280b14acc76eb6f4e3",
+        )
+        self.assertTrue(migration["archive_v5"]["valid"])
+        self.assertEqual(migration["v1_to_v6"]["count"], 5)
+        self.assertTrue(migration["v1_to_v6"]["status_equivalent"])
+        self.assertEqual(migration["v2_to_v6"]["count"], 9)
+        self.assertTrue(migration["v2_to_v6"]["status_equivalent"])
+        self.assertEqual(migration["v3_to_v6"]["count"], 10)
+        self.assertTrue(migration["v3_to_v6"]["status_equivalent"])
+        self.assertEqual(migration["v4_to_v6"]["count"], 11)
+        self.assertTrue(migration["v4_to_v6"]["status_equivalent"])
+        self.assertEqual(migration["v5_to_v6"]["count"], 12)
+        self.assertTrue(migration["v5_to_v6"]["status_equivalent"])
 
         operations = (ROOT / "docs" / "integer_operations.md").read_text(
             encoding="utf-8"
@@ -139,7 +147,7 @@ class IntegerPhaseGateTests(unittest.TestCase):
             "QF_LIA",
             "QF_BV",
             "signed_left_shift",
-            "codeskeptic.fixed-integer-phase-gate/v3",
+            "codeskeptic.fixed-integer-phase-gate/v4",
         ):
             self.assertIn(required, operations)
 

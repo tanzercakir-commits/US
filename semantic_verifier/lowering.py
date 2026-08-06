@@ -13,7 +13,10 @@ from .frontend import FrontendUnit
 from .integer_types import integer_type, is_fixed_integer_type
 from .record_types import RecordField, RecordType, is_record_type, record_type
 from .model import (
+    CallFrameEffect,
     Expr,
+    FrameContract,
+    FrameLocation,
     FunctionIR,
     IRNode,
     LoopVariable,
@@ -47,6 +50,29 @@ _REFERENCE_SENTINEL = "$reference:"
 @dataclass(frozen=True, slots=True)
 class _ReferenceTarget:
     id: str
+    root: str
+    path: tuple[str, ...]
+    type: str
+    mutable: bool
+
+
+@dataclass(frozen=True, slots=True)
+class _ParameterProfile:
+    name: str
+    type: str
+    passing: str
+
+
+@dataclass(frozen=True, slots=True)
+class _FunctionProfile:
+    node: Mapping[str, Any]
+    link_name: str
+    parameters: tuple[_ParameterProfile, ...]
+    frame: FrameContract | None
+
+
+@dataclass(frozen=True, slots=True)
+class _ReferenceArgument:
     root: str
     path: tuple[str, ...]
     type: str
@@ -298,6 +324,8 @@ class SemanticLowerer:
         self._symbol_name_counts: dict[str, int] = {}
         self._function_links: dict[str, str] = {}
         self._function_return_types: dict[str, str] = {}
+        self._function_profiles: dict[str, list[_FunctionProfile]] = {}
+        self._function_profile_ids: dict[str, _FunctionProfile] = {}
         self._record_types: dict[str, RecordType] = {}
         self._record_order: list[RecordType] = []
         self._consumed_contract_lines: set[int] = set()
@@ -477,39 +505,129 @@ class SemanticLowerer:
             SemanticLowerer._supported_value_type(type_name)
             or is_array_type(type_name)
         )
+    def _parameter_profile(self, node: Mapping[str, Any]) -> _ParameterProfile:
+        name = str(node.get("name", ""))
+        raw_type = _qual_type(node)
+        normalized = _normalize_value_type(raw_type)
+        if "&" not in normalized:
+            return _ParameterProfile(
+                name,
+                self._resolve_source_type(normalized),
+                "value",
+            )
+        referent_source = _normalize_value_type(normalized.rsplit("&", 1)[0])
+        passing = (
+            "const_reference"
+            if re.search(r"\bconst\b", raw_type)
+            else "mutable_reference"
+        )
+        if "&&" in raw_type or normalized.count("&") != 1:
+            passing = "unsupported_reference"
+        return _ParameterProfile(
+            name,
+            self._resolve_source_type(referent_source),
+            passing,
+        )
+
     def _index_function_links(
         self, function_nodes: Iterable[Mapping[str, Any]]
     ) -> None:
-        records: list[tuple[Mapping[str, Any], str, tuple[str, ...]]] = []
+        records: list[
+            tuple[Mapping[str, Any], str, tuple[str, ...], tuple[_ParameterProfile, ...]]
+        ] = []
         signatures_by_name_arity: dict[
             tuple[str, int], set[tuple[str, ...]]
         ] = {}
         for node in function_nodes:
             name = str(node.get("name", ""))
-            signature = tuple(
-                _normalize_value_type(_qual_type(child))
+            parameter_nodes = tuple(
+                child
                 for child in node.get("inner", [])
                 if isinstance(child, dict) and child.get("kind") == "ParmVarDecl"
             )
-            records.append((node, name, signature))
+            signature = tuple(_normalize_value_type(_qual_type(child)) for child in parameter_nodes)
+            parameters = tuple(self._parameter_profile(child) for child in parameter_nodes)
+            records.append((node, name, signature, parameters))
             signatures_by_name_arity.setdefault((name, len(signature)), set()).add(
                 signature
             )
 
-        for node, name, signature in records:
+        for node, name, signature, parameters in records:
             overloaded = len(signatures_by_name_arity[(name, len(signature))]) > 1
             if self._is_builtin_assert_declaration(node):
                 link_name = BUILTIN_ASSERT_LINK
             else:
                 link_name = f"{name}({','.join(signature)})" if overloaded else name
             source_return_type = _function_return_type(node)
-            self._function_return_types[link_name] = self._resolve_source_type(
-                source_return_type
-            )
+            return_type = self._resolve_source_type(source_return_type)
+            self._function_return_types[link_name] = return_type
             declaration_id = node.get("id")
             if declaration_id is not None:
                 self._function_links[str(declaration_id)] = link_name
+            begin_byte_offset = declaration_begin_offset(node) or 0
+            begin_offset = self.unit.line_map.char_offset_from_byte_offset(
+                begin_byte_offset
+            )
+            _, frame, _ = contracts_before(
+                self.unit.source,
+                begin_offset,
+                self.unit.line_map,
+                {parameter.name: parameter.type for parameter in parameters},
+                return_type,
+                {parameter.name: parameter.passing for parameter in parameters},
+            )
+            profile = _FunctionProfile(node, link_name, parameters, frame)
+            self._function_profiles.setdefault(link_name, []).append(profile)
+            if declaration_id is not None:
+                self._function_profile_ids[str(declaration_id)] = profile
 
+    @staticmethod
+    def _frame_key(
+        profile: _FunctionProfile,
+        frame: FrameContract,
+    ) -> tuple[tuple[int, tuple[str, ...], str], ...]:
+        parameter_indices = {
+            parameter.name: index for index, parameter in enumerate(profile.parameters)
+        }
+        return tuple(
+            (
+                parameter_indices[target.root],
+                tuple(step.value for step in target.path),
+                target.type,
+            )
+            for target in frame.targets
+        )
+
+    def _effective_frame(self, profile: _FunctionProfile) -> FrameContract | None:
+        framed = [
+            (candidate, candidate.frame)
+            for candidate in self._function_profiles.get(profile.link_name, ())
+            if candidate.frame is not None
+            and len(candidate.parameters) == len(profile.parameters)
+        ]
+        if not framed:
+            return None
+        keys = {self._frame_key(candidate, frame) for candidate, frame in framed}
+        if len(keys) != 1:
+            raise UnsupportedNode(
+                profile.node,
+                "conflicting modifies contracts across declarations are unsupported",
+            )
+        source_profile, source_frame = framed[0]
+        source_indices = {
+            parameter.name: index
+            for index, parameter in enumerate(source_profile.parameters)
+        }
+        return replace(
+            source_frame,
+            targets=tuple(
+                replace(
+                    target,
+                    root=profile.parameters[source_indices[target.root]].name,
+                )
+                for target in source_frame.targets
+            ),
+        )
     def _function_link(self, node: Mapping[str, Any]) -> str:
         declaration_id = node.get("id")
         if declaration_id is not None:
@@ -579,18 +697,38 @@ class SemanticLowerer:
             initial_error = UnsupportedNode(
                 node, "reference returns are unsupported because the target lifetime escapes"
             )
+        elif return_type == "void":
+            if body_node is not None:
+                initial_error = UnsupportedNode(
+                    node, "void function definitions are outside the reviewed subset"
+                )
         elif not self._supported_value_type(return_type):
             initial_error = UnsupportedNode(
                 node, f"return type {source_return_type or '<unknown>'!r} is unsupported"
             )
 
+        declaration_id = node.get("id")
+        profile = (
+            self._function_profile_ids.get(str(declaration_id))
+            if declaration_id is not None
+            else None
+        )
+        if profile is None:
+            profile = _FunctionProfile(
+                node,
+                link_name,
+                tuple(self._parameter_profile(item) for item in parameter_nodes),
+                None,
+            )
+
         parameters: list[Symbol] = []
         environment: dict[str, str] = {}
-        for parameter_node in parameter_nodes:
+        for parameter_node, parameter_profile in zip(parameter_nodes, profile.parameters):
             parameter_name = str(parameter_node.get("name", ""))
             raw_parameter_type = _qual_type(parameter_node)
             source_parameter_type = _normalize_value_type(raw_parameter_type)
-            parameter_type = self._resolve_source_type(source_parameter_type)
+            parameter_type = parameter_profile.type
+            passing = parameter_profile.passing
             if not parameter_name:
                 initial_error = UnsupportedNode(
                     parameter_node, "unnamed parameters are unsupported"
@@ -605,10 +743,9 @@ class SemanticLowerer:
                 initial_error = UnsupportedNode(
                     parameter_node, "volatile parameters are unsupported"
                 )
-            if "&" in source_parameter_type:
+            if passing == "unsupported_reference":
                 initial_error = UnsupportedNode(
-                    parameter_node,
-                    "reference parameters are unsupported because caller aliases may escape",
+                    parameter_node, "only lvalue reference parameters are supported"
                 )
             elif not self._supported_value_type(parameter_type):
                 initial_error = UnsupportedNode(
@@ -631,6 +768,7 @@ class SemanticLowerer:
                     versioned,
                     self._location(parameter_node),
                     source_name=parameter_name,
+                    passing=passing,
                 )
             )
 
@@ -639,19 +777,67 @@ class SemanticLowerer:
                 function_try_node, "function try blocks are unsupported"
             )
 
-        contracts, contract_issues = contracts_before(
+        parameter_types = {
+            (symbol.source_name or symbol.name): symbol.type for symbol in parameters
+        }
+        parameter_modes = {
+            (symbol.source_name or symbol.name): symbol.passing or "value"
+            for symbol in parameters
+        }
+        contracts, declared_frame, contract_issues = contracts_before(
             self.unit.source,
             begin_offset,
             self.unit.line_map,
-            {(symbol.source_name or symbol.name): symbol.type for symbol in parameters},
+            parameter_types,
             return_type,
+            parameter_modes,
         )
         self._consumed_contract_lines.update(
             contract.location.line for contract in contracts
         )
+        if declared_frame is not None:
+            self._consumed_contract_lines.add(declared_frame.location.line)
         self._consumed_contract_lines.update(
             issue.location.line for issue in contract_issues
         )
+        if contract_issues and initial_error is None:
+            issue = contract_issues[0]
+            initial_error = UnsupportedNode(
+                node, f"contract at {issue.location.line}:{issue.location.column}: {issue.reason}"
+            )
+        effective_frame: FrameContract | None = None
+        try:
+            effective_frame = self._effective_frame(profile)
+        except UnsupportedNode as error:
+            if initial_error is None:
+                initial_error = error
+        reference_parameters = tuple(
+            symbol for symbol in parameters if symbol.passing != "value"
+        )
+        if reference_parameters and effective_frame is None and initial_error is None:
+            initial_error = UnsupportedNode(
+                node, "reference parameters require an explicit cs: modifies contract"
+            )
+        if reference_parameters and body_node is not None and (
+            initial_error is None
+            or initial_error.reason == "void function definitions are outside the reviewed subset"
+        ):
+            initial_error = UnsupportedNode(
+                node,
+                "reference-parameter definitions are unsupported; use a contracted declaration",
+            )
+        symbols_by_source = {
+            symbol.source_name or symbol.name: symbol for symbol in parameters
+        }
+        lowered_frame = None
+        if effective_frame is not None:
+            lowered_frame = replace(
+                effective_frame,
+                targets=tuple(
+                    replace(target, root=symbols_by_source[target.root].id)
+                    for target in effective_frame.targets
+                ),
+            )
         replacements = {
             (symbol.source_name or symbol.name): Expr.variable(
                 symbol.versioned_name, symbol.type
@@ -667,7 +853,6 @@ class SemanticLowerer:
             initial_error = UnsupportedNode(
                 node, f"contract at {issue.location.line}:{issue.location.column}: {issue.reason}"
             )
-
         body: tuple[IRNode, ...]
         if initial_error is not None:
             body = (self._unsupported(initial_error.node, initial_error.reason),)
@@ -711,6 +896,7 @@ class SemanticLowerer:
             contracts=lowered_contracts,
             body=body,
             references=tuple(self._references),
+            frame=lowered_frame,
             has_body=body_node is not None or function_try_node is not None,
             link_name=link_name,
         )
@@ -801,8 +987,10 @@ class SemanticLowerer:
                     raise UnsupportedNode(
                         node, "only integer or value-record call results may be assigned"
                     )
-                target = self._next_version(ir_name)
-                produced = self._call_result(call_node, current, target)
+                produced, current, target = self._lower_call(
+                    call_node, current, result_root=ir_name
+                )
+                assert target is not None
                 current[name] = target
                 return [produced], current, True
             value = self._expression(inner[1], current)
@@ -840,23 +1028,16 @@ class SemanticLowerer:
             ], current, False
 
         if kind == "CallExpr":
-            callee, arguments = self._call(node, current)
-            if callee == BUILTIN_ASSERT_LINK:
-                if len(arguments) != 1 or arguments[0].type != "bool":
+            call, current, _ = self._lower_call(node, current, result_root=None)
+            if call.callee == BUILTIN_ASSERT_LINK:
+                if len(call.arguments) != 1 or call.arguments[0].type != "bool":
                     raise UnsupportedNode(node, "assert requires one boolean argument")
                 return [
                     self._node(
-                        "assert", self._location(node), expression=arguments[0]
+                        "assert", self._location(node), expression=call.arguments[0]
                     )
                 ], current, True
-            return [
-                self._node(
-                    "call",
-                    self._location(node),
-                    callee=callee,
-                    arguments=tuple(arguments),
-                )
-            ], current, True
+            return [call], current, True
 
         if kind == "NullStmt":
             return [], current, True
@@ -911,6 +1092,27 @@ class SemanticLowerer:
         ir_name = self._new_symbol_name(name)
         self._types[ir_name] = type_name
         self._versions[ir_name] = -1
+        call_node = self._direct_call_expression(initializer_nodes[-1])
+        if call_node is not None:
+            if not self._supported_call_result_type(type_name):
+                raise UnsupportedNode(
+                    node, "only integer or value-record call results may initialize locals"
+                )
+            call, current, target = self._lower_call(
+                call_node, environment, result_root=ir_name
+            )
+            assert target is not None
+            current[name] = target
+            self._locals.append(
+                self._new_symbol(
+                    ir_name,
+                    type_name,
+                    target,
+                    self._location(node),
+                    source_name=name,
+                )
+            )
+            return [call], current
         target = self._next_version(ir_name)
         current[name] = target
         self._locals.append(
@@ -922,13 +1124,6 @@ class SemanticLowerer:
                 source_name=name,
             )
         )
-        call_node = self._direct_call_expression(initializer_nodes[-1])
-        if call_node is not None:
-            if not self._supported_call_result_type(type_name):
-                raise UnsupportedNode(
-                    node, "only integer or value-record call results may initialize locals"
-                )
-            return [self._call_result(call_node, environment, target)], current
         value = self._expression(initializer_nodes[-1], environment)
         if value.type != type_name:
             raise UnsupportedNode(node, "initializer type does not match local type")
@@ -1455,37 +1650,9 @@ class SemanticLowerer:
             current = self._inner(current, 1)[0]
         return current if current.get("kind") == "CallExpr" else None
 
-    def _call_result(
-        self,
-        node: Mapping[str, Any],
-        environment: Mapping[str, str],
-        target: str,
-    ) -> IRNode:
-        callee, arguments = self._call(node, environment)
-        return_type = self._function_return_types.get(callee)
-        target_type = self._types[self._version_base(target)]
-        if (
-            return_type is None
-            or not self._supported_call_result_type(return_type)
-            or target_type != return_type
-        ):
-            shown = return_type or "unknown"
-            raise UnsupportedNode(
-                node,
-                f"assigned call result type {shown!r} does not match {target_type!r}",
-            )
-        return self._node(
-            "call",
-            self._location(node),
-            target=target,
-            result_type=return_type,
-            callee=callee,
-            arguments=tuple(arguments),
-        )
-
-    def _call(
-        self, node: Mapping[str, Any], environment: Mapping[str, str]
-    ) -> tuple[str, list[Expr]]:
+    def _resolve_call(
+        self, node: Mapping[str, Any]
+    ) -> tuple[str, _FunctionProfile | None, list[Mapping[str, Any]]]:
         inner = [child for child in node.get("inner", []) if isinstance(child, dict)]
         if not inner:
             raise UnsupportedNode(node, "call has no callee")
@@ -1493,14 +1660,210 @@ class SemanticLowerer:
         if callee_node.get("kind") != "DeclRefExpr":
             raise UnsupportedNode(node, "indirect and member calls are unsupported")
         callee = self._decl_name(callee_node)
+        profile = None
         referenced = callee_node.get("referencedDecl")
         if isinstance(referenced, dict):
             declaration_id = referenced.get("id")
             if declaration_id is not None:
-                callee = self._function_links.get(str(declaration_id), callee)
-        arguments = [self._expression(argument, environment) for argument in inner[1:]]
-        return callee, arguments
+                key = str(declaration_id)
+                callee = self._function_links.get(key, callee)
+                profile = self._function_profile_ids.get(key)
+        if profile is None:
+            profile = next(
+                (
+                    candidate
+                    for candidate in self._function_profiles.get(callee, ())
+                    if len(candidate.parameters) == len(inner) - 1
+                ),
+                None,
+            )
+        return callee, profile, inner[1:]
 
+    @staticmethod
+    def _paths_overlap(left: tuple[str, ...], right: tuple[str, ...]) -> bool:
+        common = min(len(left), len(right))
+        return left[:common] == right[:common]
+
+    def _lower_call(
+        self,
+        node: Mapping[str, Any],
+        environment: Mapping[str, str],
+        *,
+        result_root: str | None,
+    ) -> tuple[IRNode, dict[str, str], str | None]:
+        callee, profile, argument_nodes = self._resolve_call(node)
+        current = dict(environment)
+        if profile is None:
+            arguments = tuple(
+                self._expression(argument, environment) for argument in argument_nodes
+            )
+            parameter_profiles = tuple(
+                _ParameterProfile("", argument.type, "value") for argument in arguments
+            )
+            frame = None
+        else:
+            if len(profile.parameters) != len(argument_nodes):
+                raise UnsupportedNode(node, "call argument count does not match declaration")
+            parameter_profiles = profile.parameters
+            try:
+                frame = self._effective_frame(profile)
+            except UnsupportedNode as error:
+                raise UnsupportedNode(node, error.reason) from error
+            lowered_arguments: list[Expr] = []
+            reference_arguments: list[_ReferenceArgument | None] = []
+            for parameter, argument_node in zip(parameter_profiles, argument_nodes):
+                if parameter.passing == "value":
+                    lowered_arguments.append(self._expression(argument_node, environment))
+                    reference_arguments.append(None)
+                    continue
+                if parameter.passing not in {"const_reference", "mutable_reference"}:
+                    raise UnsupportedNode(node, "unsupported reference parameter mode")
+                root, raw_path, writable = self._lvalue_path(argument_node, environment)
+                if root not in environment or self._is_reference_value(environment[root]):
+                    raise UnsupportedNode(
+                        argument_node, "reference argument must target a live owned local"
+                    )
+                if any(not isinstance(step, str) for step in raw_path):
+                    raise UnsupportedNode(
+                        argument_node, "array-element reference arguments are unsupported"
+                    )
+                path = tuple(str(step) for step in raw_path)
+                root_value = Expr.variable(
+                    environment[root],
+                    self._types[self._version_base(environment[root])],
+                )
+                value = self._path_expression(root_value, path, argument_node)
+                if value.type != parameter.type:
+                    raise UnsupportedNode(node, "reference argument type does not match")
+                if parameter.passing == "mutable_reference" and not writable:
+                    raise UnsupportedNode(node, "mutable reference argument is const")
+                lowered_arguments.append(value)
+                reference_arguments.append(
+                    _ReferenceArgument(root, path, value.type, writable)
+                )
+            arguments = tuple(lowered_arguments)
+            live_references = [
+                reference for reference in reference_arguments if reference is not None
+            ]
+            for index, reference in enumerate(live_references):
+                for existing in live_references[:index]:
+                    if reference.root == existing.root and self._paths_overlap(
+                        reference.path, existing.path
+                    ):
+                        raise UnsupportedNode(
+                            node, "overlapping reference arguments are unsupported"
+                        )
+            if live_references and frame is None:
+                raise UnsupportedNode(
+                    node, "reference call requires an explicit cs: modifies contract"
+                )
+
+        reference_by_name = {
+            parameter.name: reference
+            for parameter, reference in zip(
+                parameter_profiles,
+                reference_arguments if profile is not None else (),
+            )
+            if reference is not None
+        }
+        modified_by_root: dict[str, list[FrameLocation]] = {}
+        root_sources: dict[str, str] = {}
+        if frame is not None:
+            for target in frame.targets:
+                reference = reference_by_name.get(target.root)
+                if reference is None:
+                    raise UnsupportedNode(
+                        node, "modifies target does not name a mutable reference argument"
+                    )
+                combined_path = reference.path + tuple(
+                    step.value for step in target.path
+                )
+                root_value = Expr.variable(
+                    environment[reference.root],
+                    self._types[self._version_base(environment[reference.root])],
+                )
+                actual = self._path_expression(root_value, combined_path, node)
+                if actual.type != target.type:
+                    raise UnsupportedNode(node, "modifies target type does not match actual")
+                root_ir = self._version_base(environment[reference.root])
+                location = FrameLocation(
+                    root_ir,
+                    tuple(ReferencePathStep("field", step) for step in combined_path),
+                    target.type,
+                )
+                modified_by_root.setdefault(root_ir, []).append(location)
+                root_sources[root_ir] = reference.root
+        effects: list[CallFrameEffect] = []
+        for root_ir, locations in modified_by_root.items():
+            for index, location in enumerate(locations):
+                path = tuple(step.value for step in location.path)
+                for existing in locations[:index]:
+                    existing_path = tuple(step.value for step in existing.path)
+                    if self._paths_overlap(path, existing_path):
+                        raise UnsupportedNode(
+                            node, "aliased modifies locations are unsupported"
+                        )
+            source_root = root_sources[root_ir]
+            before = current[source_root]
+            after = self._next_version(root_ir)
+            current[source_root] = after
+            effects.append(
+                CallFrameEffect(
+                    root_ir,
+                    self._types[root_ir],
+                    before,
+                    after,
+                    tuple(locations),
+                )
+            )
+
+        post_arguments: list[Expr] = []
+        if profile is not None and any(
+            parameter.passing != "value" for parameter in parameter_profiles
+        ):
+            for parameter, before, reference in zip(
+                parameter_profiles, arguments, reference_arguments
+            ):
+                if reference is None:
+                    post_arguments.append(before)
+                    continue
+                root_value = Expr.variable(
+                    current[reference.root],
+                    self._types[self._version_base(current[reference.root])],
+                )
+                post_arguments.append(
+                    self._path_expression(root_value, reference.path, node)
+                )
+
+        target = None
+        return_type = self._function_return_types.get(callee)
+        if result_root is not None:
+            target_type = self._types[result_root]
+            if (
+                return_type is None
+                or not self._supported_call_result_type(return_type)
+                or target_type != return_type
+            ):
+                shown = return_type or "unknown"
+                raise UnsupportedNode(
+                    node,
+                    f"assigned call result type {shown!r} does not match {target_type!r}",
+                )
+            target = self._next_version(result_root)
+        return (
+            self._node(
+                "call",
+                self._location(node),
+                target=target,
+                result_type=return_type if target is not None else None,
+                callee=callee,
+                arguments=arguments,
+                post_arguments=tuple(post_arguments),
+                frame_effects=tuple(effects),
+            ),
+            current,
+            target,
+        )
     def _strip_expr(self, node: Mapping[str, Any]) -> Mapping[str, Any]:
         current = node
         while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS | {
@@ -1648,6 +2011,7 @@ class SemanticLowerer:
         versioned: str,
         location: SourceLocation,
         source_name: str | None = None,
+        passing: str | None = None,
     ) -> Symbol:
         self._symbol_index += 1
         return Symbol(
@@ -1657,6 +2021,7 @@ class SemanticLowerer:
             versioned_name=versioned,
             location=location,
             source_name=source_name,
+            passing=passing,
         )
 
     def _next_version(self, name: str) -> str:

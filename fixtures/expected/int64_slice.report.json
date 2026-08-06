@@ -3154,7 +3154,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v5",
+  "schema": "codeskeptic.semantic-verification/v6",
   "semantic_ir": {
     "functions": [
       {
@@ -3203,6 +3203,7 @@
             "text": "ensures result == x"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0001",
         "locals": [],
@@ -3221,6 +3222,7 @@
               "line": 2
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -3312,6 +3314,7 @@
             "text": "ensures result == x + 1"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0002",
         "locals": [],
@@ -3330,6 +3333,7 @@
               "line": 5
             },
             "name": "x",
+            "passing": "value",
             "type": "i32",
             "versioned_name": "x#0"
           }
@@ -3444,6 +3448,7 @@
             "text": "ensures result == 0"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0003",
         "locals": [],
@@ -3462,6 +3467,7 @@
               "line": 9
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -3581,6 +3587,7 @@
             "text": "ensures result > x"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0004",
         "locals": [],
@@ -3599,6 +3606,7 @@
               "line": 13
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -3676,6 +3684,7 @@
             "text": "ensures result == x / 3"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0005",
         "locals": [],
@@ -3694,6 +3703,7 @@
               "line": 16
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -3771,6 +3781,7 @@
             "text": "ensures result == x % 3"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0006",
         "locals": [],
@@ -3789,6 +3800,7 @@
               "line": 19
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -3861,6 +3873,7 @@
             "text": "ensures result == x"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0007",
         "locals": [
@@ -3891,6 +3904,7 @@
               "line": 22
             },
             "name": "x",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "x#0"
           }
@@ -4135,6 +4149,7 @@
             "text": "ensures result == n"
           }
         ],
+        "frame": null,
         "has_body": true,
         "id": "f0008",
         "locals": [
@@ -4165,6 +4180,7 @@
               "line": 29
             },
             "name": "n",
+            "passing": "value",
             "type": "i64",
             "versioned_name": "n#0"
           }
@@ -4174,7 +4190,7 @@
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v5",
+    "schema": "codeskeptic.semantic-verification/v6",
     "source": "fixtures/cases/int64_slice.cpp",
     "unsupported": []
   },
