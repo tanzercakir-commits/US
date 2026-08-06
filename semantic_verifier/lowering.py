@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
+from dataclasses import dataclass, replace
 import os
 import re
 from typing import Any, Iterable, Mapping
@@ -18,6 +18,8 @@ from .model import (
     IRNode,
     LoopVariable,
     ModuleIR,
+    ReferenceBinding,
+    ReferencePathStep,
     SourceLocation,
     Symbol,
 )
@@ -38,6 +40,18 @@ TRANSPARENT_EXPR_KINDS = {
     "ConstantExpr",
 }
 BUILTIN_ASSERT_LINK = "<builtin-assert:void(bool)>"
+
+_REFERENCE_SENTINEL = "$reference:"
+
+
+@dataclass(frozen=True, slots=True)
+class _ReferenceTarget:
+    id: str
+    root: str
+    path: tuple[str, ...]
+    type: str
+    mutable: bool
+
 
 
 def _raw_string_end(source: str, offset: int) -> int | None:
@@ -277,6 +291,10 @@ class SemanticLowerer:
         self._types: dict[str, str] = {}
         self._versions: dict[str, int] = {}
         self._locals: list[Symbol] = []
+        self._references: list[ReferenceBinding] = []
+        self._reference_targets: dict[str, _ReferenceTarget] = {}
+        self._reference_index = 0
+        self._loop_depth = 0
         self._symbol_name_counts: dict[str, int] = {}
         self._function_links: dict[str, str] = {}
         self._function_return_types: dict[str, str] = {}
@@ -543,6 +561,10 @@ class SemanticLowerer:
         self._types = {}
         self._versions = {}
         self._locals = []
+        self._references = []
+        self._reference_targets = {}
+        self._reference_index = 0
+        self._loop_depth = 0
         self._symbol_name_counts = {}
 
         function_location = self._location(node)
@@ -553,7 +575,11 @@ class SemanticLowerer:
         initial_error: UnsupportedNode | None = None
         if node_is_macro_expansion(node):
             initial_error = UnsupportedNode(node, "macro-generated function is unsupported")
-        if not self._supported_value_type(return_type):
+        if "&" in source_return_type:
+            initial_error = UnsupportedNode(
+                node, "reference returns are unsupported because the target lifetime escapes"
+            )
+        elif not self._supported_value_type(return_type):
             initial_error = UnsupportedNode(
                 node, f"return type {source_return_type or '<unknown>'!r} is unsupported"
             )
@@ -579,7 +605,12 @@ class SemanticLowerer:
                 initial_error = UnsupportedNode(
                     parameter_node, "volatile parameters are unsupported"
                 )
-            if not self._supported_value_type(parameter_type):
+            if "&" in source_parameter_type:
+                initial_error = UnsupportedNode(
+                    parameter_node,
+                    "reference parameters are unsupported because caller aliases may escape",
+                )
+            elif not self._supported_value_type(parameter_type):
                 initial_error = UnsupportedNode(
                     parameter_node,
                     f"parameter type {source_parameter_type or '<unknown>'!r} is unsupported",
@@ -679,6 +710,7 @@ class SemanticLowerer:
             locals=tuple(self._locals),
             contracts=lowered_contracts,
             body=body,
+            references=tuple(self._references),
             has_body=body_node is not None or function_try_node is not None,
             link_name=link_name,
         )
@@ -707,6 +739,10 @@ class SemanticLowerer:
         saved_types = dict(self._types)
         saved_versions = dict(self._versions)
         saved_locals = list(self._locals)
+        saved_references = list(self._references)
+        saved_reference_targets = dict(self._reference_targets)
+        saved_reference_index = self._reference_index
+        saved_loop_depth = self._loop_depth
         saved_name_counts = dict(self._symbol_name_counts)
         saved_node_index = self._node_index
         try:
@@ -715,6 +751,10 @@ class SemanticLowerer:
             self._types = saved_types
             self._versions = saved_versions
             self._locals = saved_locals
+            self._references = saved_references
+            self._reference_targets = saved_reference_targets
+            self._reference_index = saved_reference_index
+            self._loop_depth = saved_loop_depth
             self._symbol_name_counts = saved_name_counts
             self._node_index = saved_node_index
 
@@ -742,7 +782,9 @@ class SemanticLowerer:
 
         if kind == "BinaryOperator" and node.get("opcode") == "=":
             inner = self._inner(node, 2)
-            name, steps = self._lvalue_path(inner[0], current)
+            name, steps, writable = self._lvalue_path(inner[0], current)
+            if not writable:
+                raise UnsupportedNode(node, "assignment through a const reference is unsupported")
             if name not in current:
                 raise UnsupportedNode(node, f"assignment to unknown variable {name!r}")
             ir_name = self._version_base(current[name])
@@ -838,6 +880,8 @@ class SemanticLowerer:
         name = str(node.get("name", ""))
         raw_type_name = _qual_type(node)
         source_type_name = _normalize_value_type(raw_type_name)
+        if "&" in source_type_name:
+            return self._lower_reference(node, environment, name, raw_type_name)
         try:
             array_profile = parse_source_array_type(source_type_name, SOURCE_TYPE_MAP)
         except ValueError as error:
@@ -891,6 +935,103 @@ class SemanticLowerer:
         return [
             self._node("assign", self._location(node), target=target, expression=value)
         ], current
+
+    def _lower_reference(
+        self,
+        node: Mapping[str, Any],
+        environment: Mapping[str, str],
+        name: str,
+        raw_type_name: str,
+    ) -> tuple[list[IRNode], dict[str, str]]:
+        current = dict(environment)
+        if self._loop_depth:
+            raise UnsupportedNode(node, "references declared inside loops are unsupported")
+        if not name:
+            raise UnsupportedNode(node, "unnamed local reference is unsupported")
+        if name == "result":
+            raise UnsupportedNode(node, "reference name 'result' is reserved")
+        if name in current:
+            raise UnsupportedNode(node, f"shadowing variable {name!r} is unsupported")
+        if re.search(r"\bvolatile\b", raw_type_name):
+            raise UnsupportedNode(node, "volatile references are unsupported")
+        if node.get("storageClass") == "static" or node.get("tls") is not None:
+            raise UnsupportedNode(node, "static and thread_local references are unsupported")
+        if "&&" in raw_type_name or raw_type_name.count("&") != 1:
+            raise UnsupportedNode(node, "only local lvalue references are supported")
+        referent_source = _normalize_value_type(raw_type_name.rsplit("&", 1)[0])
+        if "*" in referent_source or "[" in referent_source:
+            raise UnsupportedNode(node, "pointer and array references are unsupported")
+        type_name = self._resolve_source_type(referent_source)
+        if not self._supported_value_type(type_name):
+            raise UnsupportedNode(
+                node, f"reference target type {referent_source!r} is unsupported"
+            )
+        initializer_nodes = [
+            child for child in node.get("inner", []) if isinstance(child, dict)
+        ]
+        if len(initializer_nodes) != 1:
+            raise UnsupportedNode(node, "reference must have exactly one initializer")
+        root, steps, target_mutable = self._lvalue_path(
+            initializer_nodes[0], current
+        )
+        if root not in current or self._is_reference_value(current[root]):
+            raise UnsupportedNode(node, "reference target must be a live owned local")
+        if any(not isinstance(step, str) for step in steps):
+            raise UnsupportedNode(
+                node, "array-element reference targets are outside the reviewed subset"
+            )
+        target_root = Expr.variable(
+            current[root], self._types[self._version_base(current[root])]
+        )
+        target_expression = self._path_expression(target_root, steps, node)
+        if target_expression.type != type_name:
+            raise UnsupportedNode(node, "reference initializer type does not match")
+        mutable = re.search(r"\bconst\b", raw_type_name) is None
+        if mutable and not target_mutable:
+            raise UnsupportedNode(node, "mutable reference cannot target const access")
+        target_ir = self._version_base(current[root])
+        field_path = tuple(str(step) for step in steps)
+        for value in current.values():
+            if not self._is_reference_value(value):
+                continue
+            existing = self._reference_targets[value.removeprefix(_REFERENCE_SENTINEL)]
+            if existing.root != root:
+                continue
+            common = min(len(existing.path), len(field_path))
+            if existing.path[:common] == field_path[:common]:
+                raise UnsupportedNode(
+                    node, "reference target overlaps an existing live reference"
+                )
+        self._reference_index += 1
+        reference_id = f"{self._current_function}.r{self._reference_index:04d}"
+        target = _ReferenceTarget(
+            reference_id,
+            root,
+            field_path,
+            type_name,
+            mutable and target_mutable,
+        )
+        self._reference_targets[reference_id] = target
+        current[name] = _REFERENCE_SENTINEL + reference_id
+        self._references.append(
+            ReferenceBinding(
+                id=reference_id,
+                name=name,
+                type=type_name,
+                target=target_ir,
+                path=tuple(
+                    ReferencePathStep("field", field_name)
+                    for field_name in field_path
+                ),
+                mutable=target.mutable,
+                location=self._location(node),
+            )
+        )
+        return [], current
+
+    @staticmethod
+    def _is_reference_value(value: str) -> bool:
+        return value.startswith(_REFERENCE_SENTINEL)
 
     def _lower_if(
         self, node: Mapping[str, Any], environment: Mapping[str, str]
@@ -967,7 +1108,7 @@ class SemanticLowerer:
         if len(inner) != 2:
             raise UnsupportedNode(node, "unsupported Clang while-statement shape")
 
-        assigned = self._assigned_names(inner[1])
+        assigned = self._assigned_names(inner[1], environment)
         modified_names = sorted(name for name in assigned if name in environment)
         head_environment = dict(environment)
         for name in modified_names:
@@ -985,8 +1126,8 @@ class SemanticLowerer:
             statement_offset,
             self.unit.line_map,
             {
-                name: self._types[self._version_base(versioned)]
-                for name, versioned in environment.items()
+                name: self._environment_type(name, environment)
+                for name in environment
             },
             "WhileStmt",
         )
@@ -1005,10 +1146,7 @@ class SemanticLowerer:
             )
 
         replacements = {
-            name: Expr.variable(
-                head_environment[name],
-                self._types[self._version_base(head_environment[name])],
-            )
+            name: self._environment_expression(name, head_environment)
             for name in head_environment
         }
         lowered_invariants = tuple(
@@ -1023,9 +1161,13 @@ class SemanticLowerer:
             raise UnsupportedNode(node, "while condition must be boolean")
 
         loop_id = self._new_node_id()
-        body_nodes, body_environment, _ = self._lower_statement(
-            inner[1], head_environment
-        )
+        self._loop_depth += 1
+        try:
+            body_nodes, body_environment, _ = self._lower_statement(
+                inner[1], head_environment
+            )
+        finally:
+            self._loop_depth -= 1
         output = dict(environment)
         loop_variables: list[LoopVariable] = []
         for name in modified_names:
@@ -1055,7 +1197,36 @@ class SemanticLowerer:
         )
         return [loop], output, True
 
-    def _assigned_names(self, node: Mapping[str, Any]) -> set[str]:
+    def _environment_type(
+        self, name: str, environment: Mapping[str, str]
+    ) -> str:
+        value = environment[name]
+        if self._is_reference_value(value):
+            return self._reference_targets[
+                value.removeprefix(_REFERENCE_SENTINEL)
+            ].type
+        return self._types[self._version_base(value)]
+
+    def _environment_expression(
+        self, name: str, environment: Mapping[str, str]
+    ) -> Expr:
+        value = environment[name]
+        if not self._is_reference_value(value):
+            return Expr.variable(value, self._types[self._version_base(value)])
+        target = self._reference_targets[value.removeprefix(_REFERENCE_SENTINEL)]
+        root_value = environment.get(target.root)
+        if root_value is None or self._is_reference_value(root_value):
+            raise RuntimeError("reference target is outside its lexical lifetime")
+        result = Expr.variable(
+            root_value, self._types[self._version_base(root_value)]
+        )
+        for field_name in target.path:
+            result = Expr.project(result, field_name)
+        return result
+
+    def _assigned_names(
+        self, node: Mapping[str, Any], environment: Mapping[str, str]
+    ) -> set[str]:
         assigned: set[str] = set()
         if node.get("kind") == "BinaryOperator" and node.get("opcode") == "=":
             inner = [
@@ -1063,12 +1234,12 @@ class SemanticLowerer:
             ]
             if inner:
                 try:
-                    assigned.add(self._lvalue_root_name(inner[0]))
+                    assigned.add(self._lvalue_root_name(inner[0], environment))
                 except UnsupportedNode:
                     pass
         for child in node.get("inner", []):
             if isinstance(child, dict):
-                assigned.update(self._assigned_names(child))
+                assigned.update(self._assigned_names(child, environment))
         return assigned
 
     def _expression(
@@ -1167,7 +1338,7 @@ class SemanticLowerer:
                 raise UnsupportedNode(node, "record copy changes the value type")
             return value
         if kind in {"ArraySubscriptExpr", "MemberExpr"}:
-            name, steps = self._lvalue_path(node, environment)
+            name, steps, _ = self._lvalue_path(node, environment)
             if name not in environment:
                 raise UnsupportedNode(
                     node, f"reference to non-local aggregate {name!r}"
@@ -1181,8 +1352,7 @@ class SemanticLowerer:
             name = self._decl_name(node)
             if name not in environment:
                 raise UnsupportedNode(node, f"reference to non-local name {name!r}")
-            versioned = environment[name]
-            return Expr.variable(versioned, self._types[self._version_base(versioned)])
+            return self._environment_expression(name, environment)
         if kind == "UnaryOperator":
             operator = str(node.get("opcode", ""))
             value = self._expression(self._inner(node, 1)[0], environment)
@@ -1343,7 +1513,7 @@ class SemanticLowerer:
         self,
         node: Mapping[str, Any],
         environment: Mapping[str, str],
-    ) -> tuple[str, tuple[str | Expr, ...]]:
+    ) -> tuple[str, tuple[str | Expr, ...], bool]:
         current = node
         while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS:
             current = self._inner(current, 1)[0]
@@ -1356,44 +1526,36 @@ class SemanticLowerer:
             return self._lvalue_path(self._inner(current, 1)[0], environment)
         kind = current.get("kind")
         if kind == "DeclRefExpr":
-            return self._decl_name(current), ()
+            name = self._decl_name(current)
+            value = environment.get(name)
+            if value is not None and self._is_reference_value(value):
+                target = self._reference_targets[
+                    value.removeprefix(_REFERENCE_SENTINEL)
+                ]
+                return target.root, tuple(target.path), target.mutable
+            return name, (), True
         if kind == "MemberExpr":
             if current.get("isArrow"):
                 raise UnsupportedNode(current, "pointer member access is unsupported")
             base = self._inner(current, 1)[0]
-            name, steps = self._lvalue_path(base, environment)
+            name, steps, writable = self._lvalue_path(base, environment)
             field_name = str(current.get("name", ""))
             if not field_name:
                 raise UnsupportedNode(current, "unnamed member access is unsupported")
-            return name, steps + (field_name,)
+            return name, steps + (field_name,), writable
         if kind == "ArraySubscriptExpr":
             base, index_node = self._inner(current, 2)
-            name, steps = self._lvalue_path(base, environment)
+            name, steps, writable = self._lvalue_path(base, environment)
             index = self._expression(index_node, environment)
-            return name, steps + (index,)
+            return name, steps + (index,), writable
         raise UnsupportedNode(
             current, "assignment target must be a direct owned-value path"
         )
 
-    def _lvalue_root_name(self, node: Mapping[str, Any]) -> str:
-        current = node
-        while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS:
-            current = self._inner(current, 1)[0]
-        if current.get("kind") == "ImplicitCastExpr":
-            if current.get("castKind") not in {"ArrayToPointerDecay", "NoOp"}:
-                raise UnsupportedNode(current, "unsupported lvalue cast")
-            return self._lvalue_root_name(self._inner(current, 1)[0])
-        if current.get("kind") == "DeclRefExpr":
-            return self._decl_name(current)
-        if current.get("kind") == "MemberExpr":
-            if current.get("isArrow"):
-                raise UnsupportedNode(current, "pointer member access is unsupported")
-            return self._lvalue_root_name(self._inner(current, 1)[0])
-        if current.get("kind") == "ArraySubscriptExpr":
-            return self._lvalue_root_name(self._inner(current, 2)[0])
-        raise UnsupportedNode(
-            current, "assignment target must be a direct owned-value path"
-        )
+    def _lvalue_root_name(
+        self, node: Mapping[str, Any], environment: Mapping[str, str]
+    ) -> str:
+        return self._lvalue_path(node, environment)[0]
 
     @staticmethod
     def _path_expression(

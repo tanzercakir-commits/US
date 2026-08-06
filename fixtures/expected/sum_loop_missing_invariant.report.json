@@ -40,7 +40,7 @@
       "status": "unsupported"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -392,11 +392,12 @@
             "versioned_name": "n#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/sum_loop_missing_invariant.cpp",
     "unsupported": []
   },

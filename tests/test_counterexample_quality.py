@@ -215,9 +215,9 @@ class SchemaMigrationTests(unittest.TestCase):
                 }
             )
 
-    def test_archived_fixture_bytes_remain_v0_through_v3(self):
+    def test_archived_fixture_bytes_remain_v0_through_v4(self):
         root = Path(__file__).resolve().parents[1]
-        for version in ("v0", "v1", "v2", "v3"):
+        for version in ("v0", "v1", "v2", "v3", "v4"):
             archived = json.loads(
                 (
                     root
@@ -234,7 +234,7 @@ class SchemaMigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(SchemaCompatibilityError, "unsupported"):
                 require_current_schema(archived)
 
-        self.assertEqual(SCHEMA, "codeskeptic.semantic-verification/v4")
+        self.assertEqual(SCHEMA, "codeskeptic.semantic-verification/v5")
 
 
 if __name__ == "__main__":

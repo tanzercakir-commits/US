@@ -1723,7 +1723,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -1794,6 +1794,7 @@
         },
         "name": "wrap32",
         "parameters": [],
+        "references": [],
         "return_type": "u32"
       },
       {
@@ -1864,6 +1865,7 @@
         },
         "name": "wrap64",
         "parameters": [],
+        "references": [],
         "return_type": "u64"
       },
       {
@@ -2050,6 +2052,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "u32"
       },
       {
@@ -2272,6 +2275,7 @@
             "versioned_name": "y#0"
           }
         ],
+        "references": [],
         "return_type": "bool"
       },
       {
@@ -2480,6 +2484,7 @@
             "versioned_name": "y#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -2639,6 +2644,7 @@
             "versioned_name": "b#0"
           }
         ],
+        "references": [],
         "return_type": "u64"
       },
       {
@@ -2798,6 +2804,7 @@
             "versioned_name": "b#0"
           }
         ],
+        "references": [],
         "return_type": "u64"
       },
       {
@@ -2868,6 +2875,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "u64"
       },
       {
@@ -2969,6 +2977,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "u64"
       },
       {
@@ -3161,11 +3170,12 @@
             "versioned_name": "n#0"
           }
         ],
+        "references": [],
         "return_type": "u32"
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/unsigned_slice.cpp",
     "unsupported": []
   },

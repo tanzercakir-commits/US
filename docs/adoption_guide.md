@@ -66,7 +66,7 @@ process exit code.
 
 Create an allow-list of functions/files that already stay inside the supported
 boundary. Unsupported code must remain visible rather than being silently
-dropped. Keep pointers, references, globals, macros, indirect
+dropped. Keep pointers, unreviewed references, globals, macros, indirect
 calls, unsupported loops, and other excluded constructs outside the pilot.
 
 Owned arrays admitted to a pilot must be local, one-dimensional, fully
@@ -76,9 +76,17 @@ Decay, aliasing, dynamic allocation, and multidimensional arrays remain outside.
 Value records admitted to a pilot must be named public `struct` values with 1 to
 16 fully initialized fields and nesting depth at most 8. Fields may use only
 supported scalars, owned arrays, or earlier value records. Methods, inheritance,
-unions, bitfields, layout claims, classes/private fields, pointers, references,
-default member initialization, partial values, and escaping addresses remain
-outside.
+unions, bitfields, layout claims, classes/private fields, pointers, reference
+fields, default member initialization, partial values, and escaping addresses
+remain outside.
+
+Reviewed references must be local lvalue bindings with one statically known live
+owned target. Treat the function `references` table as proof-bearing alias and
+lifetime metadata. Reads follow the target's current SSA value; never snapshot a
+reference at declaration. Permit mutable writes only when `mutable` is true and
+reject overlapping live target/path prefixes. Conditional, temporary, rvalue,
+pointer, array-element, in-loop, parameter, return, field, and escaping
+references remain outside the pilot.
 
 Pin representative inputs and outputs as fixtures. Regenerate twice and compare
 bytes before accepting a schema or lowering change.
@@ -268,7 +276,7 @@ counterexample core; apply the same artifact access policy to both fields.
   do not reinterpret it on a target with different widths or signed behavior.
 - Treat shift-count and signed-left-shift violations as undefined-behavior
   findings; never use a wrapped solver result after either guard fails.
-- Require `codeskeptic.semantic-verification/v4` before consuming fields and
+- Require `codeskeptic.semantic-verification/v5` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.

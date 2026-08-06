@@ -3452,7 +3452,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -3565,6 +3565,7 @@
         },
         "name": "constant_read",
         "parameters": [],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -3791,6 +3792,7 @@
             "versioned_name": "i#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -3934,6 +3936,7 @@
         },
         "name": "store_isolation",
         "parameters": [],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -4252,6 +4255,7 @@
             "versioned_name": "i#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -4451,11 +4455,12 @@
             "versioned_name": "i#0"
           }
         ],
+        "references": [],
         "return_type": "u32"
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/array_slice.cpp",
     "unsupported": []
   },

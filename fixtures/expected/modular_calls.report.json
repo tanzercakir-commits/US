@@ -1091,7 +1091,7 @@
       "status": "violated"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -1216,6 +1216,7 @@
             "versioned_name": "candidate#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -1474,6 +1475,7 @@
             "versioned_name": "amount#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -1547,11 +1549,12 @@
             "versioned_name": "candidate#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/modular_calls.cpp",
     "unsupported": []
   },

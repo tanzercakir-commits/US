@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.4 adds proof-bearing local const/mutable lvalue references with a unique
+  live owned scalar, value-record, or record-field target. Reads follow the
+  target's current SSA value and permitted writes update the same aggregate
+  path. Disjoint field aliases and branch/sequential lifetimes are exact;
+  conditional, temporary, pointer, array-element, overlapping live, in-loop,
+  parameter, return, field, and escaping references remain fail-closed.
 - A6.3 adds named aggregate-by-value structs with canonical record/field IR,
   full aggregate initialization, nested field and owned-array paths,
   field-sensitive functional SSA, copy isolation, branch merges, contracts, and
@@ -83,6 +89,10 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Changed
 
+- A6.4 moves the producer to `codeskeptic.semantic-verification/v5` because
+  function-level reference target, path, mutability, and lexical-lifetime
+  metadata are proof-bearing wire semantics. The fixed-integer phase gate
+  advances to v3 and the fixture corpus grows to 24 artifacts.
 - A6.3 moves the producer to `codeskeptic.semantic-verification/v4` because
   value-record identities, module record declarations, projection/update,
   by-value result flow, and record evidence are proof-bearing wire semantics.
@@ -115,6 +125,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- v5 consumers must implement the required function `references` array and
+  exact live-target resolution, or reject reference-bearing objects fail-
+  closed. The complete eleven-case v4 corpus is immutable under
+  `fixtures/versions/v4/` with 34 SHA-256 entries; all eleven v4-to-v5 statuses
+  are equivalent. v0 through v4, unknown, and mixed-major payloads are rejected
+  by the current compatibility gate.
 - v4 consumers must implement canonical value-record declarations and types,
   `record`/`project`/`update`, functional copy semantics, QF_RECORD datatypes,
   recursive field evidence, and source bounds for integer leaves, or reject

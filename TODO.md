@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **A6.4 - restricted proved references**
+- [ ] **A6.5 - modular calls and frame summaries**
 
 ## Next
 
-- [ ] **A6.5 - modular calls and frame summaries**
 - [ ] **A6.6 - optional invariant-inference research**
 - [ ] **A6.7 - semantic-extensions phase gate**
 
@@ -23,7 +22,7 @@
 
 ## Last updated
 
-2026-08-06 - A6.3 added exact value structs, field-sensitive SSA, QF_RECORD
-datatypes, typed replay/cache evidence, schema v4 migration, the immutable v3
-archive, and a fully verified struct fixture; next is restricted proved
-references.
+2026-08-06 - A6.4 added exact proved local references with live-target reads and
+writes, lexical lifetime and alias metadata, schema v5 migration, the immutable
+v4 archive, and a fully verified reference fixture; next is `modifies` contracts
+and frame conditions.

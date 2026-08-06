@@ -13,7 +13,8 @@ Implemented:
 
 - real Clang C++ parsing through the JSON AST interface;
 - an owned, deterministic, versioned Semantic IR for branches, modular calls,
-  invariant-annotated while loops, exact owned fixed-size arrays, and value records;
+  invariant-annotated while loops, exact owned fixed-size arrays, value records,
+  and proved local-reference bindings;
 - strict inline cs: preconditions, postconditions, and loop invariants;
 - path-specific VCs for contracts, signed i32/i64 definedness, unsigned
   u32/u64 modulo arithmetic, conversions, bitwise/shift definedness, modular
@@ -42,8 +43,8 @@ Implemented:
   compaction, uncached/warm cache identity, and repeated budget identity;
 - a fixed-width integer phase gate freezing the target profile, conversion and
   operator tables, homogeneous classifier, backend matrix, replay evidence, and
-  v1-to-v4, v2-to-v4, and v3-to-v4 migration equivalence;
-- 260 deterministic tests, including independent soundness regressions.
+  v1-to-v5, v2-to-v5, v3-to-v5, and v4-to-v5 migration equivalence;
+- 271 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -59,7 +60,7 @@ Partially implemented:
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete and rejects
   QF_BV, QF_ARRAY, and QF_RECORD; Z3 is complete for every emitted homogeneous fragment;
-- v0 through v3 are archived and v4 is current; owned C++17 fixed-width types lower
+- v0 through v4 are archived and v5 is current; owned C++17 fixed-width types lower
   to `i32`/`u32`/`i64`/`u64`, integer wire evidence is canonical decimal text,
   and Clang must pass the pinned target-profile probe before lowering.
 
@@ -236,13 +237,14 @@ The implemented node kinds are:
 - direct call, optionally with a fixed-width or value-record result target and type;
 - loop with invariants, a body, loop-variable havoc metadata, and the explicit
   termination=non_goal record;
+- function-level reference target/path, mutability, and lexical-lifetime metadata;
 - unsupported.
 
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, boolean connectives, owned `array`/`select`/`store`
 expressions, `record`/`project`/`update` expressions, and the exact
 `signed_no_overflow` safety predicate. The JSON schema identifier is
-`codeskeptic.semantic-verification/v4`. Serialization uses sorted JSON object
+`codeskeptic.semantic-verification/v5`. Serialization uses sorted JSON object
 keys and source-ordered arrays. Compatibility and major-version triggers are
 defined in the [schema version policy](schema_versioning.md).
 Heap allocate/release and pointer-based load/store remain proposed. Adding them without
@@ -413,6 +415,8 @@ phase-gate commands are in [the integer operations runbook](integer_operations.m
 - named fixed-width integer and `bool` parameters;
 - named public value structs with 1 to 16 supported fields, depth at most 8,
   full aggregate initialization, field reads/writes, copy, and by-value flow;
+- local const/mutable lvalue references with one proved live scalar or
+  value-record root/field target and no overlapping live alias;
 - initialized local fixed-width integer and `bool` variables;
 - assignment to locals;
 - unary plus, unary minus, boolean not, and bitwise complement;
@@ -444,7 +448,7 @@ The frontend explicitly rejects:
 - templates and namespaces;
 - all preprocessor directives and macros as semantic nodes;
 - exceptions and throw;
-- pointers, references, classes/private state, record methods/constructors,
+- pointers, unreviewed references, classes/private state, record methods/constructors,
   inheritance, unions, bitfields, layout claims, and virtual calls;
 - array decay/aliases, dynamic or multidimensional arrays, partial array
   initialization, allocation/release, pointer load/store, and heap semantics;
@@ -453,6 +457,9 @@ The frontend explicitly rejects:
 - shadowing;
 - compound assignment, increment/decrement, comma, ternary, and assignment
   expressions;
+- conditional/multiple reference targets, temporaries, rvalue/pointer/array-element
+  references, references declared inside loops, overlapping live aliases,
+  reference parameters/returns/fields, and address escape;
 - indirect/member calls, mismatched assigned results, and calls nested in return,
   arithmetic, or argument expressions;
 - calls with neither a visible body nor a contract;

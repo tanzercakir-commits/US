@@ -16,7 +16,7 @@ from .record_types import RecordType, RecordValue, record_type
 from .integer_types import I32, canonical_decimal, is_fixed_integer_type
 
 
-SCHEMA = "codeskeptic.semantic-verification/v4"
+SCHEMA = "codeskeptic.semantic-verification/v5"
 INT_MIN = I32.minimum
 INT_MAX = I32.maximum
 
@@ -226,6 +226,55 @@ class Contract:
 
 
 @dataclass(frozen=True, slots=True)
+class ReferencePathStep:
+    kind: str
+    value: str
+    type: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.kind not in {"field", "index"}:
+            raise ValueError("reference path step kind is unsupported")
+        if not self.value:
+            raise ValueError("reference path step value must be non-empty")
+        if (self.kind == "index") != (self.type is not None):
+            raise ValueError("only reference index steps carry a type")
+
+    def to_dict(self) -> dict[str, str]:
+        result = {"kind": self.kind, "value": self.value}
+        if self.type is not None:
+            result["type"] = self.type
+        return result
+
+
+@dataclass(frozen=True, slots=True)
+class ReferenceBinding:
+    id: str
+    name: str
+    type: str
+    target: str
+    path: tuple[ReferencePathStep, ...]
+    mutable: bool
+    location: SourceLocation
+    lifetime: str = "enclosing_lexical_scope"
+
+    def __post_init__(self) -> None:
+        if self.lifetime != "enclosing_lexical_scope":
+            raise ValueError("reference lifetime policy is unsupported")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "lifetime": self.lifetime,
+            "location": self.location.to_dict(),
+            "mutable": self.mutable,
+            "name": self.name,
+            "path": [step.to_dict() for step in self.path],
+            "target": self.target,
+            "type": self.type,
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class Symbol:
     id: str
     # Stable verifier identity; may differ from the source spelling when a
@@ -344,6 +393,7 @@ class FunctionIR:
     locals: tuple[Symbol, ...]
     contracts: tuple[Contract, ...]
     body: tuple[IRNode, ...]
+    references: tuple[ReferenceBinding, ...] = ()
     has_body: bool = True
     link_name: str | None = None
 
@@ -361,6 +411,7 @@ class FunctionIR:
             "location": self.location.to_dict(),
             "name": self.name,
             "parameters": [symbol.to_dict() for symbol in self.parameters],
+            "references": [binding.to_dict() for binding in self.references],
             "return_type": self.return_type,
         }
         if self.link_name is not None and self.link_name != self.name:

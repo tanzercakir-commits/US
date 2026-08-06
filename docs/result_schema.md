@@ -2,23 +2,22 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v4`. It
+The current schema identifier is `codeskeptic.semantic-verification/v5`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation. The deterministic
 fixed-width acceptance evidence uses the separate
-`codeskeptic.fixed-integer-phase-gate/v2` schema documented in
+`codeskeptic.fixed-integer-phase-gate/v3` schema documented in
 [the integer operations runbook](integer_operations.md); it is not a report.
 
 F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
 v1 for minimized public counterexample cores. A6.8 moved to v2 for explicit
 fixed-width type identities and canonical decimal-string integer evidence.
-A6.2 moved to v3 for exact owned-array type/value semantics, access obligations,
-and array-valued evidence. A6.3 moves to v4 for value-record types, field
-projection/update, by-value call flow, and record-valued evidence. Consumers
-must check `schema`, ignore unknown object fields only within that known major,
-and fail closed on unknown status/mode/kind values. The complete
-[version and migration policy](schema_versioning.md) defines compatibility and
-preserves the v0, v1, v2, and v3 corpora.
+A6.2 moved to v3 for exact owned-array semantics; A6.3 moved to v4 for value
+records. A6.4 moves to v5 for proof-bearing local-reference target, mutability,
+and lifetime metadata. Consumers must check `schema`, ignore unknown object
+fields only within that known major, and fail closed on unknown status/mode/kind
+values. The complete [version and migration policy](schema_versioning.md)
+defines compatibility and preserves the v0 through v4 corpora.
 ## Report envelope
 
 JSON output has this shape:
@@ -28,7 +27,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -275,7 +274,7 @@ is never lowered under a different target.
 
 ### Expression
 
-Every expression has `kind` and `type`. v4 type identities are `bool`, `i32`,
+Every expression has `kind` and `type`. v5 type identities are `bool`, `i32`,
 `u32`, `i64`, `u64`, `array<E,N>`, and canonical
 `record<Name>{field:type,...}` identities. Arrays contain 1 to 64 fixed-width
 integers; records contain 1 to 16 scalar, array, or nested record fields and
@@ -347,9 +346,9 @@ canonical type and replayed before a violation is returned.
 
 Each module `records` entry has source `name`, canonical `type`, and a required
 source-ordered `fields` array. Each field contains `name` and canonical `type`.
-Methods, inheritance, unions, bitfields, layout/padding claims, references,
-pointers, default member initialization, partial initialization, and escaping
-addresses are outside v4 and must fail closed.
+Methods, inheritance, unions, bitfields, layout/padding claims, reference
+fields/parameters/returns, pointers, default member initialization, partial
+initialization, and escaping addresses are outside v5 and must fail closed.
 
 ### Function
 
@@ -358,11 +357,12 @@ addresses are outside v4 and must fail closed.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | v4 scalar or value-record type identity. |
+| `return_type` | string | yes | v5 scalar or value-record type identity. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
 | `contracts` | contract array | yes | Attached declaration order. |
+| `references` | reference-binding array | yes | Source declaration order; empty when no reviewed local references exist. |
 | `body` | node array | yes | Semantic execution order. |
 | `has_body` | boolean | yes | Distinguishes definitions from contracted declarations. |
 
@@ -373,9 +373,40 @@ addresses are outside v4 and must fail closed.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | v4 scalar, owned-array, or value-record type identity. |
+| `type` | string | yes | v5 scalar, owned-array, or value-record type identity. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
+
+### Reference binding
+
+A function `references` entry records a local lvalue reference that is erased to
+its unique owned target during lowering. It is metadata for an exact alias fact,
+not an independent storage value.
+
+| Field | Type | Contract |
+| --- | --- | --- |
+| `id` | string | Deterministic function-local `fNNNN.rNNNN` identity. |
+| `name` | string | Source reference name. |
+| `type` | string | Referent value type; references are not IR value types. |
+| `target` | string | Stable owned root IR name. |
+| `path` | path-step array | Source-ordered field path from the root; empty means the whole root. |
+| `mutable` | boolean | Whether writes through this binding are permitted. |
+| `lifetime` | string | Exactly `enclosing_lexical_scope`. |
+| `location` | location | Reference declaration location. |
+
+A field path step has `kind: "field"` and `value` equal to the source field
+name. Index steps are reserved but not emitted in v5; array-element references
+remain unsupported. Reads re-resolve the current SSA version of `target`, so a
+reference is never a snapshot. Writes rebuild the same aggregate path used by
+direct field assignment. Live bindings with overlapping root/path prefixes are
+rejected; bindings in disjoint branch or sequential lexical scopes may target
+the same location because their lifetimes do not overlap.
+
+Only local lvalue references to live owned scalar or value-record roots/fields
+are admitted. Const local reads, mutable writes, outer references used in loops,
+and by-value call arguments are exact. Conditional/multiple targets, temporary,
+rvalue, pointer, array-element, in-loop declarations, overlapping live aliases,
+reference parameters/returns/fields, and address escape fail closed.
 
 ### Contract
 
@@ -410,7 +441,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | v4 scalar, owned-array, or value-record type identity. |
+| `type` | string | v5 scalar, owned-array, or value-record type identity. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

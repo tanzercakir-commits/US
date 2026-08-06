@@ -125,6 +125,18 @@
       },
       "name": "struct_slice",
       "source": "cases/struct_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 0
+      },
+      "name": "reference_slice",
+      "source": "cases/reference_slice.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

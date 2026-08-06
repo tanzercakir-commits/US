@@ -483,6 +483,17 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: reference target/lifetime IR; frontend escape and mutation checks;
   exact lowering/VC rules; explicit unsupported diagnostics;
   `tests/test_references.py`; result/adoption/prototype/changelog documentation.
+- Expanded exact file set: `semantic_verifier/{model,lowering,dump,schema}.py`;
+  `tests/{test_references,test_integer_types,test_fixtures,
+  test_integer_phase_gate,test_changelog,test_counterexample_quality,
+  test_determinism,test_frontend_failures}.py`; `examples/reference_slice.cpp`;
+  current fixture manifest/case/expected artifacts, immutable
+  `fixtures/versions/v4/**`, and
+  `tools/{regenerate_fixtures,integer_phase_gate}.py`;
+  `docs/{result_schema,schema_versioning,adoption_guide,
+  semantic_verification_prototype,integer_operations,
+  integer_semantics_decision}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: unique local bindings, const reads, permitted writes, aggregate-field
   targets, and branch lifetimes match direct-target behavior; multiple possible
   targets, rebinding patterns, temporary/dangling, parameter/return escape, and

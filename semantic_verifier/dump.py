@@ -30,6 +30,16 @@ def _dump_function(function: FunctionIR) -> list[str]:
     lines = [
         f"function {function.name}({parameters}) -> {function.return_type}{suffix}"
     ]
+    for binding in function.references:
+        path = "".join(
+            f".{step.value}" if step.kind == "field" else f"[{step.value}]"
+            for step in binding.path
+        )
+        access = "mutable" if binding.mutable else "const"
+        lines.append(
+            f"  reference {binding.name}:{binding.type} -> "
+            f"{binding.target}{path} ({access}, {binding.lifetime})"
+        )
     for contract in function.contracts:
         lines.append(f"  {contract.kind} {contract.expression.text()}")
     lines.extend(_dump_nodes(function.body, 1))

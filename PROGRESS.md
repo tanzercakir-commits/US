@@ -783,3 +783,31 @@ integer phase gate v2 -> green; v3 archive -> 31/31 hashes; full suite ->
 260/260; fixture check -> 22/22 current on two runs; diff check -> clean; commit:
 this commit.
 Next: A6.4 (restricted references with proved alias discipline).
+
+## 2026-08-06 - A6.4: restricted references with proved alias discipline - DONE
++ Added local const/mutable lvalue references whose unique live owned scalar,
+  value-record, or record-field target is established before lowering.
++ Lowered every reference read to the target's current SSA version and every
+  permitted write to the shared aggregate update path; no declaration-time
+  snapshot or independent reference storage exists.
++ Added proof-bearing target/path, referent type, mutability, declaration
+  location, and enclosing-lexical-scope lifetime metadata to FunctionIR.
++ Supported scalar and whole-record aliases, disjoint record-field aliases,
+  branch/sequential lifetimes, outer bindings in loops, and by-value calls.
++ Kept conditional/multiple targets, temporaries, rvalue/pointer/array-element
+  references, in-loop declarations, overlapping live aliases, parameters,
+  returns, fields, and address escape fail-closed.
++ Advanced report/Semantic IR to v5 and the fixed-integer gate to v3; archived
+  all 34 v4 fixture hashes and proved 11 v4-to-v5, 10 v3-to-v5, nine v2-to-v5,
+  and five v1-to-v5 status-equivalent migrations.
++ Added ten focused reference tests and the fully verified six-obligation
+  reference fixture; advanced the test ratchet from 260 to 271 and the corpus
+  from 22 to 24 artifacts.
++ Expanded the A6.4 exact file set in PLAN before schema, fixture, migration,
+  gate, and documentation edits.
+- None.
+Evidence: reference tests -> 10/10; focused stage tests -> 50/50; explicit-Z3
+example -> 6 verified, zero non-verified; integer phase gate v3 -> green; v4
+archive -> 34/34 hashes; full suite -> 271/271; fixture check -> 24/24 current;
+diff check -> clean; commit: this commit.
+Next: A6.5 (`modifies` contracts and frame conditions).

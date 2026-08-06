@@ -1750,7 +1750,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -2001,6 +2001,7 @@
             "versioned_name": "b#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -2065,6 +2066,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -2140,6 +2142,7 @@
             "versioned_name": "input#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -2276,6 +2279,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -2476,11 +2480,12 @@
             "versioned_name": "z#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/vertical_slice.cpp",
     "unsupported": []
   },

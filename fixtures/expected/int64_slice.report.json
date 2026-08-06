@@ -3154,7 +3154,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -3225,6 +3225,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -3333,6 +3334,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -3464,6 +3466,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -3600,6 +3603,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -3694,6 +3698,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -3788,6 +3793,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -3889,6 +3895,7 @@
             "versioned_name": "x#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       },
       {
@@ -4162,11 +4169,12 @@
             "versioned_name": "n#0"
           }
         ],
+        "references": [],
         "return_type": "i64"
       }
     ],
     "records": [],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/int64_slice.cpp",
     "unsupported": []
   },

@@ -37,7 +37,7 @@ class IntegerPhaseGateTests(unittest.TestCase):
         self.assertEqual(combined["violations_replayed"], 13)
         self.assertEqual(
             combined["report_sha256"],
-            "d28ea29237d0697c6a221571b4c2395174290fdca64f02feee8fea750cdbc523",
+            "b57635a13cad67a7a5ad43f5e67b259246b546b00ba7c67a4a298805b42d024d",
         )
         self.assertEqual(
             combined["source_sha256"],
@@ -115,12 +115,20 @@ class IntegerPhaseGateTests(unittest.TestCase):
             "e3f7cb1dcef1dfba4d36ec9cfac49bd0ab10c3a64abe38b2e6e44c7ee9ef6063",
         )
         self.assertTrue(migration["archive_v3"]["valid"])
-        self.assertEqual(migration["v1_to_v4"]["count"], 5)
-        self.assertTrue(migration["v1_to_v4"]["status_equivalent"])
-        self.assertEqual(migration["v2_to_v4"]["count"], 9)
-        self.assertTrue(migration["v2_to_v4"]["status_equivalent"])
-        self.assertEqual(migration["v3_to_v4"]["count"], 10)
-        self.assertTrue(migration["v3_to_v4"]["status_equivalent"])
+        self.assertEqual(migration["archive_v4"]["entries"], 34)
+        self.assertEqual(
+            migration["archive_v4"]["manifest_sha256"],
+            "daff2c939c7a236e92908b0e6681b13d7ff33a1c5c213fe79e41fadf45c4d241",
+        )
+        self.assertTrue(migration["archive_v4"]["valid"])
+        self.assertEqual(migration["v1_to_v5"]["count"], 5)
+        self.assertTrue(migration["v1_to_v5"]["status_equivalent"])
+        self.assertEqual(migration["v2_to_v5"]["count"], 9)
+        self.assertTrue(migration["v2_to_v5"]["status_equivalent"])
+        self.assertEqual(migration["v3_to_v5"]["count"], 10)
+        self.assertTrue(migration["v3_to_v5"]["status_equivalent"])
+        self.assertEqual(migration["v4_to_v5"]["count"], 11)
+        self.assertTrue(migration["v4_to_v5"]["status_equivalent"])
 
         operations = (ROOT / "docs" / "integer_operations.md").read_text(
             encoding="utf-8"
@@ -131,7 +139,7 @@ class IntegerPhaseGateTests(unittest.TestCase):
             "QF_LIA",
             "QF_BV",
             "signed_left_shift",
-            "codeskeptic.fixed-integer-phase-gate/v2",
+            "codeskeptic.fixed-integer-phase-gate/v3",
         ):
             self.assertIn(required, operations)
 

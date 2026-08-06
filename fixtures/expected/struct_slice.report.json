@@ -3344,7 +3344,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v4",
+  "schema": "codeskeptic.semantic-verification/v5",
   "semantic_ir": {
     "functions": [
       {
@@ -3502,6 +3502,7 @@
             "versioned_name": "y#0"
           }
         ],
+        "references": [],
         "return_type": "record<Pair>{x:i32,y:i32}"
       },
       {
@@ -3760,6 +3761,7 @@
             "versioned_name": "input#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -4082,6 +4084,7 @@
             "versioned_name": "replacement#0"
           }
         ],
+        "references": [],
         "return_type": "i32"
       },
       {
@@ -4254,6 +4257,7 @@
             "versioned_name": "input#0"
           }
         ],
+        "references": [],
         "return_type": "record<Pair>{x:i32,y:i32}"
       }
     ],
@@ -4287,7 +4291,7 @@
         "type": "record<Box>{pair:record<Pair>{x:i32,y:i32},values:array<i32,2>}"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v4",
+    "schema": "codeskeptic.semantic-verification/v5",
     "source": "fixtures/cases/struct_slice.cpp",
     "unsupported": []
   },

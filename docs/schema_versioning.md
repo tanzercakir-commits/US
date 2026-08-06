@@ -8,21 +8,22 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v4`. F4.1 froze the
+The current value is `codeskeptic.semantic-verification/v5`. F4.1 froze the
 report and Semantic IR contract as v0; A4.1 advanced to v1 for minimized public
 counterexample evidence; A6.8 advances to v2 for explicit fixed-width types and
 canonical integer evidence, A6.2 advances to v3 for owned arrays, and A6.3
-advances to v4 for value records. A producer emits exactly one major version; there
+advances to v4 for value records, and A6.4 advances to v5 for proved local
+reference bindings. A producer emits exactly one major version; there
 is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
-schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 advanced
-that evidence schema to v1. A6.3 advances it to v2 so it also pins the v3
-archive plus v1-to-v4, v2-to-v4, and v3-to-v4 migration checks. Changing its frozen profile, conversion
-table, operator rows, backend matrix, or migration checks requires an
-intentional gate version review, not a report-schema reinterpretation.
-
+schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 through
+A6.4 advanced that independent evidence schema through v3. Gate v3 pins the v4
+archive plus v1-to-v5, v2-to-v5, v3-to-v5, and v4-to-v5 migration checks.
+Changing its frozen profile, conversion table, operator rows, backend matrix, or
+migration checks requires an intentional gate version review, not a
+report-schema reinterpretation.
 ## Why v0 is not bumped retroactively
 
 A2.1 introduced result-bearing call fields (`target` and `result_type`), and A3
@@ -144,6 +145,32 @@ layout/padding claims, class/private state, pointers, references, default member
 initializers, partial/uninitialized values, and escaping addresses remain
 unsupported.
 
+## v5 decision: proved local references
+
+A6.4 adds required function-level `references` arrays whose entries freeze each
+admitted local lvalue reference's unique owned root, field path, referent type,
+mutability, declaration location, and `enclosing_lexical_scope` lifetime. The
+binding is not storage: reads resolve the target's current SSA version and writes
+use the same functional aggregate path as direct assignment. This prevents a
+reference from being approximated as a declaration-time snapshot.
+
+Keeping this under v4 was rejected. A v4 consumer that ignores reference target
+metadata could misread the source-to-IR correspondence and cannot audit the
+proved alias/lifetime discipline. The complete eleven-case v4 corpus is
+immutable under `fixtures/versions/v4/` with 34 checked SHA-256 entries. Current
+fixtures are v5 and add the reference slice; statuses remain equivalent for all
+11 v4, 10 v3, nine v2, and five v1 legacy reports. `require_current_schema`
+rejects v0 through v4, unknown, and mixed-major payloads.
+
+The admitted subset is a local lvalue reference to one live owned scalar,
+value-record root, or value-record field. Const reads, permitted writes,
+disjoint live fields, sequential/branch-disjoint lifetimes, outer bindings used
+inside loops, and by-value call arguments are exact. Conditional targets,
+temporaries, rvalue/pointer/array-element references, declarations inside loops,
+overlapping live target prefixes, reference parameters/returns/fields, and
+address escape remain fail-closed. No general points-to or alias analysis is
+inferred.
+
 ## Consumer rules
 
 Consumers must:
@@ -242,21 +269,21 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A6.3:
+As of A6.4:
 
-- current producer: `codeskeptic.semantic-verification/v4`;
-- frozen previous baselines: complete v0, v1, v2, and v3 corpora under their
-  matching `fixtures/versions/vN/` directories;
-- compatible readers: v4 readers that require the exact schema and implement
-  fixed-width scalars, owned arrays, value records, exact projection/update and
-  bounds semantics, canonical recursive evidence, and minimized cores;
+- current producer: `codeskeptic.semantic-verification/v5`;
+- frozen previous baselines: complete v0 through v4 corpora under their matching
+  `fixtures/versions/vN/` directories;
+- compatible readers: v5 readers that require the exact schema and implement
+  fixed-width scalars, owned arrays, value records, proved local-reference
+  metadata, canonical recursive evidence, and minimized cores;
   `semantic_verifier.schema` supplies the reference fail-closed gate;
-- v0 through v3 readers are intentionally incompatible with current
-  type/evidence semantics;
+- v0 through v4 readers are intentionally incompatible with current semantics;
 - no legacy report reader or conversion tool exists in this producer-only
   reference repository, so none is deleted by this migration;
 - the Unreleased changelog period is the migration window; archived fixture
   bytes remain available and are not scheduled for deletion.
-This policy does not promise that every future source feature stays in v4. It
+
+This policy does not promise that every future source feature stays in v5. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,
 and impossible to confuse silently with the previous proof contract.

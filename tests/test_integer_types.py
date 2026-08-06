@@ -147,9 +147,9 @@ class IntegerTypeTests(unittest.TestCase):
         _PROFILE_VALIDATION.pop(key, None)
 
 
-class V4MigrationTests(unittest.TestCase):
+class V5MigrationTests(unittest.TestCase):
     def test_legacy_and_mixed_payloads_are_rejected(self):
-        for version in ("v1", "v2", "v3"):
+        for version in ("v1", "v2", "v3", "v4"):
             with self.subTest(version=version), self.assertRaisesRegex(
                 SchemaCompatibilityError, "unsupported"
             ):
@@ -161,13 +161,13 @@ class V4MigrationTests(unittest.TestCase):
                 {
                     "schema": SCHEMA,
                     "semantic_ir": {
-                        "schema": "codeskeptic.semantic-verification/v3"
+                        "schema": "codeskeptic.semantic-verification/v4"
                     },
                 }
             )
 
-    def test_archived_v1_v2_and_v3_hash_manifests_are_exact(self):
-        for version in ("v1", "v2", "v3"):
+    def test_archived_v1_through_v4_hash_manifests_are_exact(self):
+        for version in ("v1", "v2", "v3", "v4"):
             archive = ROOT / "fixtures" / "versions" / version
             for line in (
                 archive / "SHA256SUMS"
@@ -193,14 +193,17 @@ class V4MigrationTests(unittest.TestCase):
                 [tuple(item[field] for field in fields) for item in old["results"]],
             )
 
-    def test_v1_to_v4_preserves_result_statuses(self):
+    def test_v1_to_v5_preserves_result_statuses(self):
         self._assert_status_equivalence("v1")
 
-    def test_v2_to_v4_preserves_result_statuses(self):
+    def test_v2_to_v5_preserves_result_statuses(self):
         self._assert_status_equivalence("v2")
 
-    def test_v3_to_v4_preserves_result_statuses(self):
+    def test_v3_to_v5_preserves_result_statuses(self):
         self._assert_status_equivalence("v3")
+
+    def test_v4_to_v5_preserves_result_statuses(self):
+        self._assert_status_equivalence("v4")
 
 if __name__ == "__main__":
     unittest.main()
