@@ -41,8 +41,8 @@ Partially implemented:
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete, while Z3 is
   complete only for the emitted QF_LIA fragment;
-- the schema still carries the v0 identifier despite additive A2/A3 IR fields;
-  its version policy is deferred to F4.
+- v0 now freezes the fixture-backed A2/A3 report and IR shape; future semantic
+  breaks follow the explicit v1 migration policy.
 
 Proposed, not implemented:
 
@@ -222,7 +222,8 @@ The implemented node kinds are:
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, and boolean connectives. The JSON schema identifier is
 codeskeptic.semantic-verification/v0. Serialization uses sorted JSON object keys
-and source-ordered arrays.
+and source-ordered arrays. Compatibility and v1 triggers are defined in the
+[schema version policy](schema_versioning.md).
 
 Allocate, release, load, and store remain proposed. Adding their names without
 an alias and memory model would create false confidence.

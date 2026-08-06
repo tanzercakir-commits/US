@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **F4.1 - schema version policy** (v0 to v1 triggers, compatibility,
-  migration, and fixture requirements)
+- [ ] **F4.2 - CHANGELOG discipline** (format, Unreleased workflow, schema and
+  migration visibility)
 
 ## Next
 
-- [ ] F4.2 - CHANGELOG discipline
+- None pulled until the next program phase is selected after F4 closes.
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-06 - F3 completed: current scope, schema, and staged adoption are
-documented and linked from README. Next is F4.1.
+2026-08-06 - F4.1 completed: v0 is frozen and future semantic breaks have an
+explicit v1 migration and fixture-preservation policy. Next is F4.2.

@@ -6,10 +6,11 @@ The current schema identifier is `codeskeptic.semantic-verification/v0`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation.
 
-`v0` is deterministic but provisional. Consumers must check `schema`, ignore
-unknown object fields, and treat missing optional fields as absent rather than
-`null`. The version-change policy is defined separately in F4.1; until then,
-fixtures are the executable compatibility contract.
+F4.1 freezes v0 as the first fixture-backed compatibility baseline. Consumers
+must check `schema`, ignore unknown object fields only within that known
+major, and fail closed on unknown status/mode/kind values. The complete
+[version and migration policy](schema_versioning.md) defines compatible
+additions, mandatory v1 triggers, and preservation of old fixture corpora.
 
 ## Report envelope
 
@@ -118,8 +119,9 @@ Current obligation kinds are:
 - `unsupported_construct` and `unsupported_logic`;
 - `frontend_initialization` for structured startup failures.
 
-New kinds require a schema/versioning decision if an existing consumer cannot
-safely treat the value as an unknown category.
+New kinds require review under the
+[schema version policy](schema_versioning.md). Existing consumers must treat an
+unknown category as fail-closed.
 
 ## Non-goal record
 

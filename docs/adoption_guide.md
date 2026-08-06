@@ -198,14 +198,15 @@ current models may contain more bindings than a human needs.
 - Check `schema` before consuming fields.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.
-- Ignore unknown object fields during v0 evolution, but never ignore an unknown
+- Ignore unknown object fields only within a known major; never ignore an unknown
   status as success.
 - Keep golden fixture bytes under review and forced to LF.
 - Use `python tools/regenerate_fixtures.py --check` in CI.
 
 See [the field reference](result_schema.md) for every report and Semantic IR
-field. Schema-breaking decisions and migration windows belong to the version
-policy, not an ad hoc consumer workaround.
+field. Schema-breaking decisions and migration windows follow the
+[schema version policy](schema_versioning.md), not an ad hoc consumer
+workaround.
 
 ## Native CodeSkeptic path
 

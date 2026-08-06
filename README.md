@@ -43,8 +43,10 @@ python tools/regenerate_fixtures.py --check
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The
 [result/schema reference](docs/result_schema.md) defines machine-readable
-fields and status semantics, and the [adoption guide](docs/adoption_guide.md)
-gives a staged path into another codebase. The
+fields and status semantics, the
+[schema version policy](docs/schema_versioning.md) defines compatibility and
+migration, and the [adoption guide](docs/adoption_guide.md) gives a staged path
+into another codebase. The
 [Z3 backend decision record](docs/solver_decision.md) documents licensing,
 packaging, timeouts, determinism, failure handling, and model replay.
 

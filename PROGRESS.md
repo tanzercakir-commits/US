@@ -357,3 +357,19 @@ Next: F3.3 (adoption guide).
 Evidence: documentation links and code fences -> valid; full suite -> 137/137;
 diff check -> clean; commit: this commit.
 Next: F4.1 (schema version policy).
+## 2026-08-06 - F4.1: schema version policy - DONE
++ Froze codeskeptic.semantic-verification/v0 as the first field-reference and
+  fixture-backed compatibility baseline.
++ Defined compatible additive changes and mandatory major triggers based on
+  semantic safety, not merely JSON field additivity.
++ Recorded why pre-freeze A2 result calls and A3 loop/non-goal fields remain in
+  v0 while equivalent post-freeze reinterpretations require v1.
++ Defined fail-closed consumer rules and a v0-to-v1 procedure that preserves old
+  fixture bytes under a versioned archive and regenerates the new corpus twice.
++ Linked the policy from README, schema reference, adoption guide, and prototype
+  architecture.
+- No v1 proposal exists yet, so no migration tool or schema bump was created.
+Evidence: all golden report/IR schema values -> matching v0; documentation links
+and code fences -> valid; full suite -> 137/137; diff check -> clean; commit:
+this commit.
+Next: F4.2 (CHANGELOG discipline).
