@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A1.1 — SMT-LIB2 emitter** (`semantic_verifier/smtlib.py` +
-  `tests/test_smtlib.py`; DoD in the plan)
+- [ ] **A1.2 — Z3 process runner** (`semantic_verifier/z3_backend.py` +
+  `tests/test_z3_backend.py`; DoD in the plan)
 
 ## Next
 
-- [ ] A1.2 — Z3 process runner
 - [ ] A1.3 — Model parser + replay
+- [ ] A1.4 — CheckerBackend interface and selection
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-02 — F0 committed; TODO staleness guard added to pre-commit; Z3 5.0.0
-installed. Next work item is A1.1.
+2026-08-06 — A1.1 completed with a deterministic, fail-closed SMT-LIB2
+emitter and 9 focused tests. Next work item is A1.2.

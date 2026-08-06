@@ -93,3 +93,15 @@ Next: A1.1 (SMT-LIB2 emitter) — tomorrow's big start.
 Evidence: `z3 --version` → "Z3 version 5.0.0 - 64 bit"; owner approved the
 install in-session.
 Next: A1.1 (SMT-LIB2 emitter).
+
+## 2026-08-06 — A1.1: SMT-LIB2 emitter — DONE
++ Deterministic QF_LIA emission covers validity and satisfiability queries,
+  sorted declarations, int/bool expressions, and constant multiplication.
++ Reversible collision-free symbol encoding preserves readable SSA names
+  (`y#0` → `y_v0`); malformed and unsupported formulas fail closed.
++ Added 9 focused tests; test-count guardrail advanced from 64 to 73.
+- None.
+Evidence: `python -m unittest tests.test_smtlib` → 9/9; full suite → 73/73;
+`python -m compileall -q semantic_verifier tests` → success; emitted smoke
+query on Z3 5.0.0 → `unsat`, exit 0; commit: this commit.
+Next: A1.2 (Z3 process runner).
