@@ -8,19 +8,19 @@
 
 ## Now (active stage)
 
-- [ ] **B1.1 - deterministic fixture export for the native adapter**
+- [ ] **B1.2 - standalone CodeSkeptic semantic module skeleton**
 
 ## Next
 
-- [ ] **B1.2 - standalone CodeSkeptic semantic module skeleton**
+- [ ] **B1.3 - native ASTContext to Semantic IR lowering**
 
 ## Blockers / open questions
 
-- B1.2 targets the separate CodeSkeptic production repository; its workspace
-  location and write scope must be available before that stage starts.
+- The production repository is at `C:\Projects\Runtime_CodeSkeptic`; B1.2
+  edits require approved write scope outside this reference workspace.
 
 ## Last updated
 
-2026-08-06 - A6.7 froze the combined semantic-extension feature/capability
-matrix, replay and migration evidence, negative boundary, inference referee,
-and 28-artifact corpus; next is B1.1 fixture export.
+2026-08-06 - B1.1 exported 14 cases as 29 canonical native-adapter IR,
+obligation, and manifest artifacts with complete hashes; next is the standalone
+production semantic module skeleton.

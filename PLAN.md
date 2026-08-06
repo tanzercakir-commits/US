@@ -686,8 +686,17 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 #### B1.1 — Fixture export: IR + obligation JSONs for a corpus from the
   prototype (`fixtures/` directory, generator script)
+- Goal: publish a self-describing, backend-independent native-adapter corpus
+  from the reference frontend/lowering/VC pipeline.
+- Output: canonical Semantic IR and obligation JSON envelopes for every
+  current fixture case, a hash-bearing export manifest, and check/write CLI.
+- Expanded exact file set: `tools/export_fixtures.py`;
+  `tests/test_fixture_export.py`; `fixtures/native_adapter/**`; `README.md`,
+  `CHANGELOG.md`, `PLAN.md`, `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: `python tools/export_fixtures.py` produces a deterministic corpus; two
-  runs byte-identical.
+  runs are byte-identical; `python tools/export_fixtures.py --check` matches
+  committed bytes; exported IR/obligations match the current report corpus;
+  full suite and fixture checks are green.
 #### B1.2 — Standalone semantic module skeleton in CodeSkeptic (NO reporter
   dependency; `src/semantic/` — without touching the Rule.h seam)
 #### B1.3 — ASTContext → Semantic IR lowering (v0 subset, exact)

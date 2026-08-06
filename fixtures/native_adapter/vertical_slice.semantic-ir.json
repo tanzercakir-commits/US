@@ -1,0 +1,757 @@
+{
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-semantic-ir/v0",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "id": "n00001",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 3
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "a#0"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "-2147483648"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "==",
+                      "type": "bool"
+                    },
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "b#0"
+                        },
+                        {
+                          "args": [
+                            {
+                              "kind": "constant",
+                              "type": "i32",
+                              "value": "1"
+                            }
+                          ],
+                          "kind": "unary",
+                          "op": "-",
+                          "type": "i32"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "==",
+                      "type": "bool"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "&&",
+                  "type": "bool"
+                }
+              ],
+              "kind": "unary",
+              "op": "!",
+              "type": "bool"
+            },
+            "id": "n00002",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 4
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "i32"
+            },
+            "id": "n00003",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 6
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 3
+            },
+            "machine_proposed": false,
+            "text": "requires b != 0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "a#0"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "-2147483648"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "==",
+                      "type": "bool"
+                    },
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "b#0"
+                        },
+                        {
+                          "args": [
+                            {
+                              "kind": "constant",
+                              "type": "i32",
+                              "value": "1"
+                            }
+                          ],
+                          "kind": "unary",
+                          "op": "-",
+                          "type": "i32"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "==",
+                      "type": "bool"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "&&",
+                  "type": "bool"
+                }
+              ],
+              "kind": "unary",
+              "op": "!",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 4
+            },
+            "machine_proposed": false,
+            "text": "requires !(a == -2147483648 && b == -1)"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/vertical_slice.cpp",
+          "line": 5
+        },
+        "name": "safe_divide",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 21,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 5
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "a#0"
+          },
+          {
+            "id": "f0001.s0002",
+            "location": {
+              "column": 28,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 5
+            },
+            "name": "b",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "b#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              }
+            ],
+            "callee": "safe_divide",
+            "id": "n00004",
+            "kind": "call",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 10
+            }
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            "id": "n00005",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 11
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0002",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/vertical_slice.cpp",
+          "line": 9
+        },
+        "name": "verified_call",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 9
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "x#0"
+              },
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "input#0"
+              }
+            ],
+            "callee": "safe_divide",
+            "id": "n00006",
+            "kind": "call",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 15
+            }
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            "id": "n00007",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 16
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0003",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/vertical_slice.cpp",
+          "line": 14
+        },
+        "name": "violating_call",
+        "parameters": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 24,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 14
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0003.s0002",
+            "location": {
+              "column": 31,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 14
+            },
+            "name": "input",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "input#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2147483647"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00008",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 19
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            "id": "n00009",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 22
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2147483647"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 19
+            },
+            "machine_proposed": false,
+            "text": "requires x < 2147483647"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 20
+            },
+            "machine_proposed": false,
+            "text": "ensures result > x"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0004",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/vertical_slice.cpp",
+          "line": 21
+        },
+        "name": "increment",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 19,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 21
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "id": "n00010",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 26
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "z#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "id": "n00011",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 27
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            "id": "n00012",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 30
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 26
+            },
+            "machine_proposed": false,
+            "text": "requires x >= y"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "z#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 27
+            },
+            "machine_proposed": false,
+            "text": "requires y >= z"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "z#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 28
+            },
+            "machine_proposed": false,
+            "text": "ensures result >= z"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0005",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/vertical_slice.cpp",
+          "line": 29
+        },
+        "name": "transitive_chain",
+        "parameters": [
+          {
+            "id": "f0005.s0001",
+            "location": {
+              "column": 26,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 29
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0005.s0002",
+            "location": {
+              "column": 33,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 29
+            },
+            "name": "y",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "y#0"
+          },
+          {
+            "id": "f0005.s0003",
+            "location": {
+              "column": 40,
+              "file": "fixtures/cases/vertical_slice.cpp",
+              "line": 29
+            },
+            "name": "z",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "z#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      }
+    ],
+    "records": [],
+    "schema": "codeskeptic.semantic-verification/v6",
+    "source": "fixtures/cases/vertical_slice.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/vertical_slice.cpp"
+}

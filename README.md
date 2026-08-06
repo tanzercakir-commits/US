@@ -55,13 +55,25 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 309 deterministic tests. The separately cloned,
+The current suite contains 314 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
-Committed fixtures are checked with:
+Committed verifier fixtures are checked with:
 
 ```powershell
 python tools/regenerate_fixtures.py --check
 ```
+
+Export or check the cross-language native-adapter Semantic IR and obligation
+JSON corpus:
+
+```powershell
+python tools/export_fixtures.py
+python tools/export_fixtures.py --check
+```
+
+The [native-adapter manifest](fixtures/native_adapter/manifest.json) pins the
+schema identity, source/IR/obligation paths, summaries, and SHA-256 hashes for
+all 14 cases.
 
 Run the deterministic scaling/cache/budget, fixed-width integer, and combined
 semantic-extension phase gates:

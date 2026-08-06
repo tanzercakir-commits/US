@@ -1,0 +1,1044 @@
+{
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-semantic-ir/v0",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            "id": "n00001",
+            "kind": "return",
+            "location": {
+              "column": 37,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 2
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 1
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 2
+        },
+        "name": "identity64",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 32,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 2
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "x#0"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00002",
+            "kind": "return",
+            "location": {
+              "column": 34,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 5
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "x#0"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "1"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "+",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 4
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x + 1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0002",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 5
+        },
+        "name": "widen_and_add",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 5
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967296"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00003",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 7
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "cast",
+              "op": "integral",
+              "type": "i32"
+            },
+            "id": "n00004",
+            "kind": "return",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 9
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967296"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 7
+            },
+            "machine_proposed": false,
+            "text": "requires x == 4294967296"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 8
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 0"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0003",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 9
+        },
+        "name": "narrow64",
+        "parameters": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 24,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 9
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "9223372036854775807"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00005",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 11
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00006",
+            "kind": "return",
+            "location": {
+              "column": 38,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 13
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "9223372036854775807"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 11
+            },
+            "machine_proposed": false,
+            "text": "requires x < 9223372036854775807"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 12
+            },
+            "machine_proposed": false,
+            "text": "ensures result > x"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0004",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 13
+        },
+        "name": "increment64",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 33,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 13
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "i64"
+            },
+            "id": "n00007",
+            "kind": "return",
+            "location": {
+              "column": 35,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 16
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "x#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "/",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 15
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x / 3"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0005",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 16
+        },
+        "name": "divide64",
+        "parameters": [
+          {
+            "id": "f0005.s0001",
+            "location": {
+              "column": 30,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 16
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "%",
+              "type": "i64"
+            },
+            "id": "n00008",
+            "kind": "return",
+            "location": {
+              "column": 38,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 19
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "x#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "%",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 18
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x % 3"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0006",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 19
+        },
+        "name": "remainder64",
+        "parameters": [
+          {
+            "id": "f0006.s0001",
+            "location": {
+              "column": 33,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 19
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              }
+            ],
+            "callee": "identity64",
+            "id": "n00009",
+            "kind": "call",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 23
+            },
+            "result_type": "i64",
+            "target": "value#0"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i64",
+              "value": "value#0"
+            },
+            "id": "n00010",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 24
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 21
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0007",
+        "locals": [
+          {
+            "id": "f0007.s0002",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 23
+            },
+            "name": "value",
+            "type": "i64",
+            "versioned_name": "value#0"
+          }
+        ],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 22
+        },
+        "name": "call64",
+        "parameters": [
+          {
+            "id": "f0007.s0001",
+            "location": {
+              "column": 28,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 22
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "id": "n00011",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 27
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            },
+            "id": "n00012",
+            "kind": "assign",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 30
+            },
+            "target": "i#0"
+          },
+          {
+            "body": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i64"
+                },
+                "id": "n00014",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/int64_slice.cpp",
+                  "line": 34
+                },
+                "target": "i#2"
+              }
+            ],
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00013",
+            "invariants": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/int64_slice.cpp",
+                  "line": 31
+                },
+                "machine_proposed": false,
+                "text": "invariant i >= 0"
+              },
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/int64_slice.cpp",
+                  "line": 32
+                },
+                "machine_proposed": false,
+                "text": "invariant i <= n"
+              }
+            ],
+            "kind": "loop",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 33
+            },
+            "loop_variables": [
+              {
+                "back_edge": "i#2",
+                "entry": "i#0",
+                "exit": "i#3",
+                "head": "i#1",
+                "name": "i",
+                "type": "i64"
+              }
+            ],
+            "termination": "non_goal"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#3"
+            },
+            "id": "n00015",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 36
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 27
+            },
+            "machine_proposed": false,
+            "text": "requires n >= 0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 28
+            },
+            "machine_proposed": false,
+            "text": "ensures result == n"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0008",
+        "locals": [
+          {
+            "id": "f0008.s0002",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 30
+            },
+            "name": "i",
+            "type": "i64",
+            "versioned_name": "i#0"
+          }
+        ],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 29
+        },
+        "name": "count64",
+        "parameters": [
+          {
+            "id": "f0008.s0001",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 29
+            },
+            "name": "n",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "n#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      }
+    ],
+    "records": [],
+    "schema": "codeskeptic.semantic-verification/v6",
+    "source": "fixtures/cases/int64_slice.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/int64_slice.cpp"
+}

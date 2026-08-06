@@ -892,3 +892,26 @@ tests -> 8/8; fixture infrastructure -> 3/3; inference artifact -> matched;
 integer gate -> green with 13 replayed violations; fixture checks -> 28/28 on
 two runs; full suite -> 309/309; diff check -> clean; commit: this commit.
 Next: B1.1 (deterministic fixture export for the native adapter).
+
+## 2026-08-06 - B1.1: deterministic native-adapter fixture export - DONE
++ Added canonical `codeskeptic.native-adapter-semantic-ir/v0` and
+  `codeskeptic.native-adapter-obligations/v0` envelopes for all 14 reference
+  fixture cases, independent of checker result serialization.
++ Added the sorted `codeskeptic.native-adapter-fixtures/v0` manifest with v6
+  report identity, backend/summary metadata, source/artifact paths, and SHA-256
+  hashes for every source, IR, and obligation payload.
++ Added `tools/export_fixtures.py` with deterministic in-memory generation,
+  write/check modes, safe relative paths, exact committed-file comparison, and
+  working-directory-independent defaults.
++ Proved every exported Semantic IR and obligation list equals the corresponding
+  current v6 report fields; two complete 29-artifact maps are byte-identical.
++ Added five export/integrity tests and advanced the ratchet from 309 to 314.
++ Expanded the sparse B1.1 plan contract with Goal/Output/exact file set/DoD
+  before implementation.
+- None.
+Evidence: native-adapter export tests -> 5/5; manifest SHA-256 ->
+`462d1be66df0a3ef4d6d9493a443270248289e2c91df9ccd18e825db244c8e82`;
+`python tools/export_fixtures.py --check` -> 29/29 current; ordinary fixture
+check -> 28/28 current; full suite -> 314/314; diff check -> clean; commit:
+this commit.
+Next: B1.2 (standalone CodeSkeptic semantic module skeleton).

@@ -22,6 +22,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- B1.1 adds a canonical cross-language native-adapter export containing
+  separate Semantic IR and obligation JSON envelopes for all 14 fixture cases.
+  A sorted manifest pins the v6 report identity, source/artifact paths,
+  expected summaries, and SHA-256 hashes; write/check modes are independent of
+  the caller's working directory.
 - A6.7 adds the deterministic combined semantic-extension phase gate, an
   eight-obligation all-feature slice/fixture, a frozen backend capability
   matrix, five explicit negative-boundary probes, current-corpus byte identity,
