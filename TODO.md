@@ -8,15 +8,15 @@
 
 ## Now (active stage)
 
-- [ ] **A3.1 — `cs: invariant` syntax** (`semantic_verifier/contracts.py` +
-  tests; DoD in the plan)
+- [ ] **A3.2 - while lowering + havoc** (DoD and declared file set in the
+  plan)
 
 ## Next
 
-- [ ] A3.2 — `while` lowering + havoc
-- [ ] A3.3 — invariant VC triple
-- [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
-  A1; prerequisite of B1.1)
+- [ ] A3.3 - invariant VC triple
+- [ ] A3.4 - termination explicit NON-GOAL
+- [ ] A3.5 - loop phase gate
+- [ ] F2.1 - fixtures layout + regeneration script
 
 ## Blockers / open questions
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A2 phase gate passed: modular chain verified and the
-negative caller returned a replayed counterexample. Next is A3.1.
+2026-08-06 - A3.1 completed: invariant blocks parse deterministically and
+bind only to while statements. Next is A3.2.

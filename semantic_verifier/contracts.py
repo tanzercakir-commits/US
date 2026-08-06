@@ -188,6 +188,29 @@ _CONTRACT_LINE = re.compile(
     r"(?P<kind>requires|ensures)\s+(?P<expr>.*?)\s*$"
 )
 
+_INVARIANT_LINE = re.compile(
+    r"^\s*//\s*cs:\s*(?P<ai>ai\s+)?"
+    r"invariant\s+(?P<expr>.*?)\s*$"
+)
+
+
+def _comment_block_before(
+    statement_offset: int, line_map: LineMap
+) -> list[tuple[int, str]]:
+    """Return the contiguous line-comment block before a source offset."""
+
+    line = line_map.line_index(statement_offset) - 1
+    candidates: list[tuple[int, str]] = []
+    while line >= 0:
+        text = line_map.line_text(line)
+        candidate = text.removeprefix("\ufeff") if line == 0 else text
+        if not candidate.strip().startswith("//"):
+            break
+        candidates.append((line, text))
+        line -= 1
+    candidates.reverse()
+    return candidates
+
 
 def contracts_before(
     source: str,
@@ -198,20 +221,9 @@ def contracts_before(
 ) -> tuple[tuple[Contract, ...], tuple[ContractIssue, ...]]:
     """Attach the contiguous line-comment block before a declaration."""
 
-    line = line_map.line_index(function_offset) - 1
-    candidates: list[tuple[int, str]] = []
-    while line >= 0:
-        text = line_map.line_text(line)
-        candidate = text.removeprefix("\ufeff") if line == 0 else text
-        if not candidate.strip().startswith("//"):
-            break
-        candidates.append((line, text))
-        line -= 1
-    candidates.reverse()
-
     contracts: list[Contract] = []
     issues: list[ContractIssue] = []
-    for line_index, text in candidates:
+    for line_index, text in _comment_block_before(function_offset, line_map):
         if "cs:" not in text:
             continue
         candidate = text.removeprefix("\ufeff") if line_index == 0 else text
@@ -247,3 +259,60 @@ def contracts_before(
             )
         )
     return tuple(contracts), tuple(issues)
+
+
+def invariants_before(
+    source: str,
+    statement_offset: int,
+    line_map: LineMap,
+    symbol_types: Mapping[str, str],
+    statement_kind: str,
+) -> tuple[tuple[Contract, ...], tuple[ContractIssue, ...]]:
+    """Parse a contiguous invariant block attached only to a WhileStmt."""
+
+    del source  # Kept parallel with contracts_before for lowering callers.
+    invariants: list[Contract] = []
+    issues: list[ContractIssue] = []
+    for line_index, text in _comment_block_before(statement_offset, line_map):
+        if "cs:" not in text:
+            continue
+        candidate = text.removeprefix("\ufeff") if line_index == 0 else text
+        column = text.find("cs:") + 1
+        location = SourceLocation(
+            line_map.display_path, line_index + 1, max(1, column)
+        )
+        match = _INVARIANT_LINE.match(candidate)
+        if not match:
+            issues.append(
+                ContractIssue(
+                    location,
+                    f"unsupported or malformed loop invariant: {text.strip()}",
+                )
+            )
+            continue
+        if statement_kind != "WhileStmt":
+            issues.append(
+                ContractIssue(
+                    location,
+                    "cs: invariant may only be attached to a while statement",
+                )
+            )
+            continue
+        expression_text = match.group("expr")
+        try:
+            expression = parse_contract_expression(expression_text, symbol_types)
+            if expression.type != "bool":
+                raise ContractSyntaxError("invariant expression must be boolean")
+        except ContractSyntaxError as error:
+            issues.append(ContractIssue(location, str(error)))
+            continue
+        invariants.append(
+            Contract(
+                kind="invariant",
+                expression=expression,
+                location=location,
+                text=f"invariant {expression_text}",
+                machine_proposed=bool(match.group("ai")),
+            )
+        )
+    return tuple(invariants), tuple(issues)

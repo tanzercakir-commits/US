@@ -223,3 +223,14 @@ Evidence: modular/recursion focused tests → 9/9; full suite → 121/121;
 6 verified, 1 violated (`candidate=-2147483648`), 0 unknown/unsupported/
 solver_error, exit 1; commit: this commit.
 Next: A3.1 (`cs: invariant` syntax).
+## 2026-08-06 - A3.1: loop-invariant syntax - DONE
++ Added strict parsing for contiguous cs: invariant blocks immediately before
+  Clang WhileStmt nodes, including machine-proposed invariant metadata.
++ Invariants use only caller-supplied in-scope symbols, require boolean
+  expressions, and cannot attach to non-while statements.
++ Refactored comment-block collection without changing function-contract
+  parsing; added four focused tests and advanced the ratchet from 121 to 125.
+- None.
+Evidence: python -m unittest tests.test_contracts -> 8/8; full suite ->
+125/125; git diff --check -> clean; commit: this commit.
+Next: A3.2 (while lowering and loop-modified-variable havoc).
