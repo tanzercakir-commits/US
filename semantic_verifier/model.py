@@ -191,6 +191,7 @@ class IRNode:
     incoming_true: Expr | None = None
     incoming_false: Expr | None = None
     reason: str | None = None
+    termination: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {
@@ -204,6 +205,7 @@ class IRNode:
             "origin": self.origin,
             "callee": self.callee,
             "reason": self.reason,
+            "termination": self.termination,
         }.items():
             if value is not None:
                 result[key] = value
@@ -356,6 +358,19 @@ class VerificationResult:
 
 
 @dataclass(frozen=True, slots=True)
+class NonGoalRecord:
+    kind: str
+    location: SourceLocation
+    description: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "description": self.description,
+            "kind": self.kind,
+            "location": self.location.to_dict(),
+        }
+
+@dataclass(frozen=True, slots=True)
 class VerificationReport:
     module: ModuleIR
     obligations: tuple[Obligation, ...]
@@ -367,8 +382,27 @@ class VerificationReport:
             counts[result.status.value] += 1
         return counts
 
+    def non_goals(self) -> tuple[NonGoalRecord, ...]:
+        records: list[NonGoalRecord] = []
+        for function in self.module.functions:
+            for node in nodes_in(function.body):
+                if node.kind != "loop" or node.termination != "non_goal":
+                    continue
+                records.append(
+                    NonGoalRecord(
+                        kind="loop_termination",
+                        location=node.location,
+                        description=(
+                            "termination is not checked; verified loop "
+                            "obligations establish partial correctness only"
+                        ),
+                    )
+                )
+        return tuple(records)
+
     def to_dict(self, include_ir: bool = True) -> dict[str, Any]:
         result: dict[str, Any] = {
+            "non_goals": [item.to_dict() for item in self.non_goals()],
             "obligations": [item.to_dict() for item in self.obligations],
             "results": [item.to_dict() for item in self.results],
             "schema": SCHEMA,
@@ -390,6 +424,14 @@ class VerificationReport:
             + "\n"
         )
 
+
+def nodes_in(nodes: Iterable[IRNode]) -> Iterable[IRNode]:
+    for node in nodes:
+        yield node
+        yield from nodes_in(node.body)
+        yield from nodes_in(node.then_body)
+        yield from nodes_in(node.else_body)
+        yield from nodes_in(node.merges)
 
 def expressions_in(nodes: Iterable[IRNode]) -> Iterable[Expr]:
     for node in nodes:

@@ -263,3 +263,15 @@ preservation, overflow, and postcondition obligations all verified under both
 backends; full suite -> 132/132; compileall and diff check -> clean; commit:
 this commit.
 Next: A3.4 (explicit termination NON-GOAL record).
+## 2026-08-06 - A3.4: termination NON-GOAL record - DONE
++ Every lowered loop now carries termination=non_goal in Semantic IR and JSON.
++ Verification reports retain a machine-readable loop_termination non-goal
+  record even when Semantic IR is omitted from JSON.
++ Text output explicitly states that termination is unchecked and verified loop
+  obligations establish partial correctness only.
++ Updated the prototype scope/limitations and added one all-output regression
+  test; ratchet advanced from 132 to 133.
+- Termination arguments and variants remain deliberately out of scope.
+Evidence: loop/determinism focused tests -> 11/11; full suite -> 133/133;
+compileall and diff check -> clean; commit: this commit.
+Next: A3.5 (loop phase gate).

@@ -1,6 +1,7 @@
 import unittest
 
 from semantic_verifier.backend import create_backend
+from semantic_verifier.dump import dump_module, dump_results
 from semantic_verifier.pipeline import VerificationPipeline
 from semantic_verifier.z3_backend import Z3DiscoveryError, discover_z3
 
@@ -107,3 +108,24 @@ class LoopInvariantTests(unittest.TestCase):
         )
         self.assertEqual(result.status.value, "violated")
         self.assertIsNotNone(result.counterexample)
+    def test_termination_is_an_explicit_non_goal_in_every_output(self):
+        report = VerificationPipeline().verify_source(
+            "int f(int x) {\n"
+            "  // cs: invariant true\n"
+            "  while (false) x = x + 1;\n"
+            "  return x;\n"
+            "}\n"
+        )
+        loop = report.module.functions[0].body[0]
+        records = report.non_goals()
+
+        self.assertEqual(loop.termination, "non_goal")
+        self.assertEqual(loop.to_dict()["termination"], "non_goal")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0].kind, "loop_termination")
+        self.assertIn(
+            "partial correctness only",
+            report.to_dict(include_ir=False)["non_goals"][0]["description"],
+        )
+        self.assertIn("termination non_goal", dump_module(report.module))
+        self.assertIn("non-goal: loop_termination", dump_results(report))

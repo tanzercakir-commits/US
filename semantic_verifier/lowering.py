@@ -908,6 +908,7 @@ class SemanticLowerer:
             invariants=lowered_invariants,
             loop_variables=tuple(loop_variables),
             body=tuple(body_nodes),
+            termination="non_goal",
         )
         return [loop], output, True
 

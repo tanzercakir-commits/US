@@ -8,12 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **A3.4 - termination explicit NON-GOAL** (record partial-correctness
-  boundary without weakening loop safety)
+- [ ] **A3.5 - loop phase gate** (verified sum loop, missing invariant
+  unsupported, wrong invariant violated with counterexample)
 
 ## Next
 
-- [ ] A3.5 - loop phase gate
 - [ ] F2.1 - fixtures layout + regeneration script
 ## Blockers / open questions
 
@@ -22,5 +21,5 @@
 
 ## Last updated
 
-2026-08-06 - A3.3 completed: entry, inductive preservation, and invariant-based
-exit knowledge are enforced. Next is A3.4.
+2026-08-06 - A3.4 completed: all output modes record loop termination as an
+explicit non-goal. Next is A3.5.

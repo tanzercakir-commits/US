@@ -63,7 +63,7 @@ The prototype does not attempt:
 - arbitrary pointer, heap, ownership, alias, or lifetime reasoning;
 - templates, exceptions, virtual dispatch, concurrency, volatile, inline
   assembly, or macro semantics;
-- loop verification;
+- loop termination; verified loop obligations establish partial correctness only;
 - external-library modeling without contracts;
 - automatic repair or AI authority over proof results;
 - production certification claims.
@@ -333,13 +333,15 @@ bindings when present.
 - assert represented only by a declaration-only void assert(bool) sentinel;
 - return;
 - implicit return 0 when main falls through;
-- inline requires and ensures contracts.
+- inline requires and ensures contracts;
+- while loops with a contiguous inline invariant block.
 
 ## Intentionally unsupported subset
 
 The frontend explicitly rejects:
 
-- while, do, for, range-for, switch, goto, and loop invariants;
+- while loops without a contiguous invariant block, invariant inference, do,
+  for, range-for, switch, and goto;
 - templates and top-level records/namespaces;
 - all preprocessor directives and macros as semantic nodes;
 - exceptions and throw;
@@ -469,8 +471,8 @@ fetch. CodeSkeptic's source worktree remained clean.
   obligations. It is intentionally incomplete.
 - Model search is finite. Found models are real; absence of a model is not
   evidence of validity or unsatisfiability.
-- Paths can grow exponentially because loops are rejected and acyclic branches
-  are enumerated directly.
+- Acyclic branches are enumerated directly and can grow exponentially. Loops
+  are summarized by user-written invariants; termination is not checked.
 - Function return values are not modeled at call sites. Calls are currently
   useful for precondition checking only.
 - Source columns identify the containing statement rather than the exact

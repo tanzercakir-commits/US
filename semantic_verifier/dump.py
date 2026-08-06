@@ -47,6 +47,10 @@ def _dump_nodes(nodes: tuple[IRNode, ...], depth: int) -> list[str]:
             lines.append(f"{prefix}unsupported {node.reason}")
         elif node.kind == "loop":
             lines.append(f"{prefix}loop {node.expression.text()}")
+            lines.append(
+                f"{indent}  termination {node.termination} "
+                "(partial correctness only)"
+            )
             for invariant in node.invariants:
                 lines.append(
                     f"{indent}  invariant {invariant.expression.text()}"
@@ -96,6 +100,12 @@ def dump_results(report: VerificationReport) -> str:
                 for name in sorted(result.counterexample)
             )
             lines.append(f"  counterexample: {model or '{}'}")
+    for record in report.non_goals():
+        lines.append(
+            f"non-goal: {record.kind} at {record.location.file}:"
+            f"{record.location.line}:{record.location.column}"
+        )
+        lines.append(f"  {record.description}")
     summary = report.summary()
     lines.append(
         "summary: "
