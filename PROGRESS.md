@@ -289,3 +289,19 @@ Evidence: correct CLI -> 6 verified, no alarms, exit 0; missing-invariant CLI ->
 counterexample (n=2, i#1=1, total#2=3), exit 1; loop tests -> 7/7; full suite
 -> 134/134; commit: this commit.
 Next: F2.1 (fixture layout and regeneration script).
+## 2026-08-06 - F2.1: fixture corpus and regeneration - DONE
++ Added a versioned fixture manifest with five self-contained C++ cases spanning
+  violations, modular calls, verified loops, missing invariants, and wrong
+  invariants.
++ Committed ten canonical artifacts: deterministic human-readable Semantic IR
+  and full sorted JSON reports for every case.
++ Added a stdlib-only regeneration tool with summary drift detection, safe
+  relative manifest paths, --check, --output-dir, and explicit Z3 selection.
++ Fixture inputs and goldens are forced to LF through .gitattributes so clean
+  Windows checkouts preserve the byte contract.
++ Added two infrastructure tests; ratchet advanced from 134 to 136.
+- None.
+Evidence: fixture regeneration -> 10 artifacts; regeneration --check from an
+unrelated working directory -> current; fixture tests -> 2/2; full suite ->
+136/136; compileall and diff check -> clean; commit: this commit.
+Next: F2.2 (determinism CI job).

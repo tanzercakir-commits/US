@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **F2.1 - fixtures layout + regeneration script** (declared outputs and
-  DoD in the plan)
+- [ ] **F2.2 - determinism CI job** (suite plus two independent fixture
+  generations with byte comparison)
 
 ## Next
 
-- None pulled until the F2 phase is read at stage start.
+- [ ] F3.1 - keep implemented/partial/proposed documentation current
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -21,6 +21,5 @@
 
 ## Last updated
 
-2026-08-06 - A3 phase gate passed: the sum loop verifies, the missing invariant
-is unsupported, and the wrong invariant yields a replayed counterexample. Next
-is F2.1.
+2026-08-06 - F2.1 completed: five fixture cases regenerate to ten canonical
+artifacts and pass --check from any working directory. Next is F2.2.
