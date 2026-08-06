@@ -14,6 +14,7 @@ from math import gcd
 from typing import Iterable, Mapping
 
 from .backend import CheckerBackend
+from .counterexample import minimize_counterexample
 from .model import (
     Expr,
     INT_MAX,
@@ -648,6 +649,17 @@ def _human_counterexample(
     return result
 
 
+def _proves_violation_core(
+    assumptions: tuple[Expr, ...],
+    conclusion: Expr,
+) -> bool:
+    prepared_assumptions, prepared_conclusion = prepare_formulas(
+        assumptions,
+        conclusion,
+    )
+    return prove(prepared_conclusion, prepared_assumptions) is True
+
+
 class AffineChecker(CheckerBackend):
     name = "affine-facts-plus-counterexample-search"
 
@@ -734,11 +746,20 @@ class AffineChecker(CheckerBackend):
                 obligation.assumptions, obligation.conclusion
             )
             if found:
+                minimized = minimize_counterexample(
+                    obligation,
+                    model,
+                    _proves_violation_core,
+                )
                 return self._result(
                     obligation,
                     VerificationStatus.VIOLATED,
-                    "violated: deterministic search found a concrete model",
-                    _human_counterexample(model),
+                    (
+                        "violated: deterministic search found and replayed a "
+                        f"concrete model; minimized from {len(model)} to "
+                        f"{len(minimized)} bindings"
+                    ),
+                    _human_counterexample(minimized),
                 )
             return self._result(
                 obligation,

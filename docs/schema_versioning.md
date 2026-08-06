@@ -8,10 +8,10 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v0`. F4.1 freezes the
-current report and Semantic IR contract as the v0 compatibility baseline. A
-producer emits exactly one major version; there is no implicit negotiation or
-fallback.
+The current value is `codeskeptic.semantic-verification/v1`. F4.1 froze the
+report and Semantic IR contract as the v0 compatibility baseline; A4.1 advances
+the producer to v1 for the counterexample-evidence change below. A producer
+emits exactly one major version; there is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
@@ -30,6 +30,26 @@ this freeze decision. They are therefore batched into the initial v0 baseline
 rather than causing a retrospective v1 with no preserved pre-change fixture
 contract. From this commit forward, the same changes require the review and
 migration process below.
+
+## v1 decision: minimized public counterexample evidence
+
+A4.1 changes the public `counterexample` from a complete replayable assignment
+to a deterministic minimized binding core. The referee still obtains and
+replays the complete concrete model internally. It then removes a binding only
+when exact reasoning proves that the original obligation assumptions plus the
+remaining equalities imply the negated conclusion.
+
+Keeping this meaning under v0 was rejected. An old v0 consumer can reasonably
+replay the public object as a complete assignment; a v1 core may be partial or
+empty and must instead be interpreted with the referenced obligation
+assumptions. Adding an optional diagnostic field or retaining both public forms
+would not make changing the existing `counterexample` meaning safe and would
+unnecessarily expose the noisy complete model.
+
+The five-case v0 corpus is preserved byte-for-byte under
+`fixtures/versions/v0/`. Current fixtures are regenerated as v1. The public
+`require_current_schema` gate is the reference compatibility check; it rejects
+unknown report majors and mixed report/Semantic IR schemas.
 
 ## Consumer rules
 
@@ -94,7 +114,7 @@ the current major only if old consumers are already required to fail closed on
 the unknown value and ignoring the entire new object cannot strengthen a proof
 claim.
 
-## v0 to v1 migration procedure
+## Major-version migration procedure
 
 Every major bump must be one intentional stage/commit and include:
 
@@ -129,14 +149,19 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of F4.1:
+As of A4.1:
 
-- current producer: `codeskeptic.semantic-verification/v0`;
-- frozen baseline: the committed five-case fixture corpus;
-- compatible readers: v0 readers that follow the fail-closed consumer rules;
-- v1 trigger already identified: any post-freeze semantic reinterpretation of
-  result-bearing calls, loop/non-goal handling, evidence, or unsupported forms;
-- migration tooling: not required until a concrete v1 proposal exists.
+- current producer: `codeskeptic.semantic-verification/v1`;
+- frozen previous baseline: the complete five-case v0 corpus under
+  `fixtures/versions/v0/`;
+- compatible readers: v1 readers that require the exact schema and apply the
+  minimized-core interpretation; `semantic_verifier.schema` supplies the
+  reference fail-closed gate;
+- v0 readers are intentionally incompatible with v1 evidence semantics;
+- no legacy report reader or conversion tool exists in this producer-only
+  reference repository, so none is deleted by this migration;
+- the Unreleased changelog period is the migration window; v0 fixture bytes
+  remain available throughout and are not scheduled for deletion.
 
 This policy does not promise that every future source feature stays in v0. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,

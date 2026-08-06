@@ -1086,12 +1086,12 @@
         "file": "fixtures/cases/modular_calls.cpp",
         "line": 17
       },
-      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully; minimized from 1 to 1 bindings",
+      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully",
       "obligation": "ob00007",
       "status": "violated"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v1",
+  "schema": "codeskeptic.semantic-verification/v0",
   "semantic_ir": {
     "functions": [
       {
@@ -1550,7 +1550,7 @@
         "return_type": "int"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v1",
+    "schema": "codeskeptic.semantic-verification/v0",
     "source": "fixtures/cases/modular_calls.cpp",
     "unsupported": []
   },

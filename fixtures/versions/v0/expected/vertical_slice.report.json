@@ -1695,7 +1695,8 @@
     },
     {
       "counterexample": {
-        "input": 0
+        "input": 0,
+        "x": -2147483648
       },
       "function": "violating_call",
       "kind": "precondition",
@@ -1704,7 +1705,7 @@
         "file": "fixtures/cases/vertical_slice.cpp",
         "line": 15
       },
-      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully; minimized from 2 to 1 bindings",
+      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully",
       "obligation": "ob00006",
       "status": "violated"
     },
@@ -1720,7 +1721,7 @@
         "file": "fixtures/cases/vertical_slice.cpp",
         "line": 15
       },
-      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully; minimized from 2 to 2 bindings",
+      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully",
       "obligation": "ob00007",
       "status": "violated"
     },
@@ -1785,7 +1786,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v1",
+  "schema": "codeskeptic.semantic-verification/v0",
   "semantic_ir": {
     "functions": [
       {
@@ -2528,7 +2529,7 @@
         "return_type": "int"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v1",
+    "schema": "codeskeptic.semantic-verification/v0",
     "source": "fixtures/cases/vertical_slice.cpp",
     "unsupported": []
   },

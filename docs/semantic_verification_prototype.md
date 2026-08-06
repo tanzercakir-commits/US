@@ -27,7 +27,7 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 139 deterministic tests, including independent soundness regressions.
+- 145 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -221,7 +221,7 @@ The implemented node kinds are:
 
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, and boolean connectives. The JSON schema identifier is
-codeskeptic.semantic-verification/v0. Serialization uses sorted JSON object keys
+codeskeptic.semantic-verification/v1. Serialization uses sorted JSON object keys
 and source-ordered arrays. Compatibility and v1 triggers are defined in the
 [schema version policy](schema_versioning.md).
 
@@ -327,8 +327,10 @@ kinds fail closed before the solver starts.
 The Z3 runner has deterministic discovery order, a configurable timeout,
 fixed solver options, structured stdout/stderr handling, and explicit mappings
 for sat/unsat/unknown/process failures. A sat validity result is only a candidate
-violation until the parsed model replays against the original obligation.
-Replay failure is a solver_error soundness alarm, never a violation.
+violation until the complete parsed model replays against the original
+obligation. Replay failure is a solver_error soundness alarm, never a violation.
+After replay, both backends greedily remove bindings in sorted order only when
+exact reasoning proves the remaining core still forces the negated conclusion.
 
 Cross-check mode accepts the stronger definitive answer when the other backend
 is unknown. Definitive disagreement, backend process failure, or replay failure
@@ -341,15 +343,17 @@ docs/solver_decision.md.
 
 - verified: validity was proved, or a satisfiability obligation has a concrete
   witness.
-- violated: a concrete assignment falsifies a validity obligation, or exact
-  reasoning proves a set of requirements infeasible.
+- violated: a complete internal assignment replayed and falsified a validity
+  obligation, or exact reasoning proves a set of requirements infeasible.
 - unknown: the supported validity/satisfiability question was not decided.
 - unsupported: the source construct or formula is outside the declared subset.
 - solver_error: the checker failed internally.
 
 Unknown and unsupported are never converted to verified. JSON results contain
-the obligation ID, function, kind, location, message, and sorted counterexample
-bindings when present. Non-goals are separate from statuses: every loop records
+the obligation ID, function, kind, location, message, and sorted minimized
+counterexample-core bindings when present. A public core may be empty and must
+be interpreted with the referenced obligation assumptions. Non-goals are
+separate from statuses: every loop records
 loop_termination with the statement location and the partial-correctness scope,
 including when Semantic IR is omitted from JSON.
 
@@ -497,7 +501,7 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 139-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 145-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent

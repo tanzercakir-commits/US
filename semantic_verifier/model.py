@@ -12,7 +12,7 @@ import json
 from typing import Any, Iterable, Mapping
 
 
-SCHEMA = "codeskeptic.semantic-verification/v0"
+SCHEMA = "codeskeptic.semantic-verification/v1"
 INT_MIN = -(2**31)
 INT_MAX = 2**31 - 1
 

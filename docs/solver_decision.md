@@ -134,7 +134,7 @@ model byte text and exact values are golden only for a pinned solver version.
 The portable serialization contract is sorted source-level binding keys, and
 every binding set must pass replay.
 
-## Model parsing, serialization, and replay
+## Model parsing, replay, and public minimization
 
 Models are requested in a second deterministic run only after the first run
 returns `sat`. This avoids asking Z3 for a model after `unsat`, which Z3 reports
@@ -157,10 +157,15 @@ through the existing evaluator against the original obligation:
 2. the conclusion must evaluate to false;
 3. evaluation must complete without missing names or partial-operation errors.
 
-Any mismatch becomes `solver_error`. Only then are bindings projected to the
-human-facing names and serialized in sorted-key order by
-`VerificationResult.to_dict()`. Raw solver stdout is retained only in the
-internal process result and is not trusted as the public counterexample.
+Any mismatch becomes `solver_error`. Only then does deterministic greedy
+minimization try bindings in sorted Semantic IR name order. A binding is removed
+only if a second exact validity query proves that the original assumptions plus
+the retained equalities imply the negated conclusion. Unknown/error results keep
+the binding. The retained core is projected to human-facing names and serialized
+in sorted-key order by `VerificationResult.to_dict()`; it may be empty and is
+not independently replayable without the obligation assumptions. Raw solver
+stdout and the complete replay model remain internal and are not trusted as the
+public counterexample.
 
 ## Operational verification
 

@@ -324,13 +324,18 @@ class Z3CountermodelReplayTests(unittest.TestCase):
                 VerificationStatus.VIOLATED,
                 "sat\n((define-fun x_v0 () Int (- 1)))\n",
             ),
+            process_result(
+                Z3Outcome.SAT,
+                VerificationStatus.VIOLATED,
+                "sat\n",
+            ),
         )
 
         result = check_obligation(item, runner)
 
         self.assertEqual(result.status.value, "violated")
         self.assertEqual(result.counterexample, {"x": -1})
-        self.assertEqual(runner.run.call_count, 2)
+        self.assertEqual(runner.run.call_count, 3)
         self.assertTrue(runner.run.call_args_list[1].args[0].endswith("(get-model)\n"))
 
     def test_corrupt_model_that_fails_replay_is_solver_error(self):

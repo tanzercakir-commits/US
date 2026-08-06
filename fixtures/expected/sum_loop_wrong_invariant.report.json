@@ -1936,12 +1936,6 @@
     },
     {
       "counterexample": {
-        "i": 0,
-        "i#1": 1,
-        "i#2": 2,
-        "n": 2,
-        "total": 0,
-        "total#1": 1,
         "total#2": 3
       },
       "function": "sum_zero_to_n",
@@ -1951,7 +1945,7 @@
         "file": "fixtures/cases/sum_loop_wrong_invariant.cpp",
         "line": 6
       },
-      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully",
+      "message": "backend cross-check completed: violated: Z3 countermodel replayed successfully; minimized from 7 to 1 bindings",
       "obligation": "ob00005",
       "status": "violated"
     },
@@ -1968,7 +1962,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v0",
+  "schema": "codeskeptic.semantic-verification/v1",
   "semantic_ir": {
     "functions": [
       {
@@ -2399,7 +2393,7 @@
         "return_type": "int"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v0",
+    "schema": "codeskeptic.semantic-verification/v1",
     "source": "fixtures/cases/sum_loop_wrong_invariant.cpp",
     "unsupported": []
   },

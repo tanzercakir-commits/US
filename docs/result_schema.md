@@ -2,15 +2,16 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v0`. It
+The current schema identifier is `codeskeptic.semantic-verification/v1`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation.
 
-F4.1 freezes v0 as the first fixture-backed compatibility baseline. Consumers
-must check `schema`, ignore unknown object fields only within that known
-major, and fail closed on unknown status/mode/kind values. The complete
-[version and migration policy](schema_versioning.md) defines compatible
-additions, mandatory v1 triggers, and preservation of old fixture corpora.
+F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moves to
+v1 because the public `counterexample` changed from a complete replay model to
+a minimized sufficient binding core. Consumers must check `schema`, ignore
+unknown object fields only within that known major, and fail closed on unknown
+status/mode/kind values. The complete [version and migration
+policy](schema_versioning.md) defines compatibility and preserves the v0 corpus.
 
 ## Report envelope
 
@@ -21,7 +22,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v0",
+  "schema": "codeskeptic.semantic-verification/v1",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -53,7 +54,7 @@ implementation preserves one-to-one order.
 | Status | Meaning | Evidence rule |
 | --- | --- | --- |
 | `verified` | The declared obligation was discharged. | Validity was proved, satisfiability has a concrete witness, or a well-formedness check accepted the expression. |
-| `violated` | The declared obligation is false. | A validity countermodel replayed successfully, or requirements were proved infeasible. |
+| `violated` | The declared obligation is false. | A complete validity countermodel replayed internally before a sufficient public binding core was minimized, or requirements were proved infeasible. |
 | `unknown` | The question is supported but undecided. | Affine incompleteness, solver `unknown`, or timeout; never treated as proof. |
 | `unsupported` | Source or logic is outside the declared subset. | Carries an explicit reason; no approximation is allowed. |
 | `solver_error` | The referee could not be trusted operationally. | Process/configuration failure, malformed output, replay failure, or definitive backend disagreement. |
@@ -81,12 +82,22 @@ Non-goals do not change the exit code.
 | `status` | status string | yes | One of the five taxonomy values. |
 | `location` | location | yes | Primary source location. |
 | `message` | string | yes | Deterministic human-readable backend explanation. |
-| `counterexample` | object | no | Sorted `int`/`bool` bindings for a replayed violation. |
+| `counterexample` | object | no | Sorted `int`/`bool` bindings forming a minimized violation core. |
+
+For a violated validity obligation, the backend first replays a complete model
+against the original assumptions and conclusion. It then tries bindings in
+sorted variable order. A binding is removed only when exact backend reasoning
+proves that the original assumptions plus the retained equalities imply the
+negated conclusion. Solver uncertainty or an emission failure keeps the binding.
+The public object can therefore be empty, and it is not a standalone replay
+model. Consumers must interpret it together with the referenced obligation's
+`assumptions`.
 
 Counterexample keys use IR variable names. A unique `name#0` is displayed as
 `name`; later SSA versions retain `#N`. If shortening would collide, the full
-versioned name is retained. Consumers must treat bindings as evidence for the
-specific obligation, not as a complete execution trace.
+versioned name is retained. Consumers must treat the minimized bindings as
+evidence for the specific obligation, not as a complete input or execution
+trace.
 
 ## Obligation
 
@@ -244,7 +255,7 @@ No equality between `entry`, `head`, or `exit` is implied by this metadata.
 
 - JSON uses UTF-8, two-space indentation, sorted object keys, unescaped Unicode,
   and exactly one trailing newline.
-- Arrays retain semantic/source order; counterexample object keys are sorted.
+- Arrays retain semantic/source order; minimized counterexample-core keys are sorted.
 - Stable IDs and SSA versions are assigned in deterministic traversal order.
 - Clang pointer identities, temporary parse paths, wall clock, and randomness
   never enter serialized logic artifacts.

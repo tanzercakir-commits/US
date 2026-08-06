@@ -84,7 +84,7 @@ class CheckerSoundnessTests(unittest.TestCase):
         self.assertEqual(overflow.status.value, "violated")
         self.assertEqual(postcondition.status.value, "verified")
 
-    def test_counterexample_contains_eliminated_input_bindings(self):
+    def test_counterexample_is_a_sufficient_minimized_binding_core(self):
         report = verify_source(
             "// cs: requires x == y\n"
             "// cs: ensures result > 0\n"
@@ -93,10 +93,8 @@ class CheckerSoundnessTests(unittest.TestCase):
 
         result = results_for(report, kind="postcondition")[0]
         self.assertEqual(result.status.value, "violated")
-        self.assertIn("x", result.counterexample)
-        self.assertIn("y", result.counterexample)
-        self.assertEqual(result.counterexample["x"], result.counterexample["y"])
-        self.assertLessEqual(result.counterexample["x"], 0)
+        self.assertEqual(set(result.counterexample), {"y"})
+        self.assertLessEqual(result.counterexample["y"], 0)
 
 
 if __name__ == "__main__":

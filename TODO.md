@@ -8,12 +8,14 @@
 
 ## Now (active stage)
 
-- [ ] **A4.1 - deterministic counterexample model minimization** (greedy
-  variable elimination while preserving the violation)
+- [ ] **A4.2 - counterexample relevance projection** (report only variables in
+  the obligation cone)
 
 ## Next
 
-- None pulled until the A4 phase is read at stage start.
+- [ ] **A4.3 - trace explanation** (path assumptions to source mapping,
+  machine-readable and human-readable)
+
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -21,5 +23,5 @@
 
 ## Last updated
 
-2026-08-06 - F4 completed: v0 compatibility and consumer-facing changelog
-discipline are frozen and guardrail-tested. Next is A4.1.
+2026-08-06 - A4.1 completed deterministic counterexample-core minimization and
+migrated public proof evidence from the archived v0 contract to schema v1.

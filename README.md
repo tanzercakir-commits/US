@@ -32,7 +32,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 139 deterministic tests. The separately cloned,
+The current suite contains 145 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -49,7 +49,7 @@ migration, the [changelog](CHANGELOG.md) records consumer-visible releases, and
 the [adoption guide](docs/adoption_guide.md) gives a staged path into another
 codebase. The
 [Z3 backend decision record](docs/solver_decision.md) documents licensing,
-packaging, timeouts, determinism, failure handling, and model replay.
+packaging, timeouts, determinism, failure handling, model replay, and minimized evidence cores.
 
 ## Development workflow
 

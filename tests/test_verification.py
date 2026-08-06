@@ -48,7 +48,7 @@ class VerificationTests(unittest.TestCase):
         result = results_for(report, kind="postcondition")[0]
         self.assertEqual(result.status.value, "verified")
 
-    def test_violated_postcondition(self):
+    def test_violated_postcondition_can_have_empty_sufficient_core(self):
         report = verify_source(
             "// cs: requires x > -2147483648\n"
             "// cs: ensures result >= x\n"
@@ -56,7 +56,7 @@ class VerificationTests(unittest.TestCase):
         )
         result = results_for(report, kind="postcondition")[0]
         self.assertEqual(result.status.value, "violated")
-        self.assertIn("x", result.counterexample)
+        self.assertEqual(result.counterexample, {})
 
     def test_unknown_is_never_promoted_to_verified(self):
         report = verify_source(

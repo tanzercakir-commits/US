@@ -20,7 +20,26 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ## [Unreleased]
 
-No consumer-visible changes yet.
+### Changed
+
+- A4.1 moves the producer to `codeskeptic.semantic-verification/v1` and changes
+  validity counterexamples from complete public replay models to deterministic
+  minimized binding cores. A complete model is still replayed internally, and
+  a binding is removed only when exact reasoning proves the remaining core,
+  together with the obligation assumptions, forces the violation.
+
+### Migration
+
+- v1 consumers must treat `counterexample` as a possibly empty partial core and
+  join it to the referenced obligation assumptions; they must not replay it as
+  a complete input assignment.
+- Consumers must reject v0/v1 report/Semantic IR mixtures and unknown majors.
+  The reference `require_current_schema` gate enforces both rules.
+- The complete v0 fixture corpus remains immutable under
+  `fixtures/versions/v0/`; current fixture paths now contain v1 bytes.
+- No compatible legacy reader or conversion tool exists in this producer-only
+  repository. The Unreleased period is the migration window, with no v0
+  fixture deletion planned.
 
 ## [0.1.0] - 2026-08-06
 

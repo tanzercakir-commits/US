@@ -13,6 +13,7 @@ import shutil
 import subprocess
 
 from .checker import evaluate
+from .counterexample import minimize_counterexample
 from .model import Expr, Obligation, VerificationResult, VerificationStatus
 from .smtlib import SmtLibEmissionError, decode_symbol, emit_smtlib
 
@@ -390,12 +391,45 @@ def check_obligation(
             VerificationStatus.SOLVER_ERROR,
             f"solver error: countermodel replay failed: {error}",
         )
+    minimized = minimize_counterexample(
+        obligation,
+        model,
+        lambda assumptions, conclusion: _proves_violation_core(
+            obligation,
+            assumptions,
+            conclusion,
+            runner,
+        ),
+    )
     return _obligation_result(
         obligation,
         VerificationStatus.VIOLATED,
-        "violated: Z3 countermodel replayed successfully",
-        _human_counterexample(model),
+        (
+            "violated: Z3 countermodel replayed successfully; "
+            f"minimized from {len(model)} to {len(minimized)} bindings"
+        ),
+        _human_counterexample(minimized),
     )
+
+
+def _proves_violation_core(
+    obligation: Obligation,
+    assumptions: tuple[Expr, ...],
+    conclusion: Expr,
+    runner: Z3ProcessRunner,
+) -> bool:
+    candidate = replace(
+        obligation,
+        assumptions=assumptions,
+        conclusion=conclusion,
+        mode="validity",
+        unsupported_reason=None,
+    )
+    try:
+        query = emit_smtlib(candidate)
+    except SmtLibEmissionError:
+        return False
+    return runner.run(query, "validity").outcome == Z3Outcome.UNSAT
 
 
 def _parse_s_expressions(text: str) -> list[str | list[object]]:

@@ -387,3 +387,27 @@ Next: F4.2 (CHANGELOG discipline).
 Evidence: changelog guardrail tests -> 2/2; documentation links/code fences ->
 valid; full suite -> 139/139; diff check -> clean; commit: this commit.
 Next: A4.1 (deterministic counterexample model minimization).
+## 2026-08-06 - A4.1: deterministic counterexample model minimization - DONE
++ Preserved mandatory complete-model replay before any public evidence
+  reduction in both the affine and Z3 backends.
++ Added deterministic greedy elimination in sorted Semantic IR variable order;
+  a binding is removed only when exact reasoning proves that the original
+  assumptions plus the retained core force the negated conclusion.
++ Kept minimization fail-safe: unsupported emission, solver uncertainty, or a
+  failed proof retains the candidate binding without weakening the violation.
++ Migrated the report/Semantic IR producer to
+  codeskeptic.semantic-verification/v1 because counterexample changed from a
+  complete replay model to a possibly empty sufficient binding core.
++ Preserved all 16 pre-migration corpus files byte-for-byte under
+  fixtures/versions/v0 and regenerated the 10 current v1 artifacts twice with
+  identical SHA-256 content.
++ Added a fail-closed schema compatibility gate plus tests rejecting unknown and
+  mixed report/IR majors; documented consumer migration, rejected v0-compatible
+  alternatives, the Unreleased migration window, and the absent legacy reader.
++ Added affine/Z3 quality regressions for the noisy call case: input=0 remains
+  while irrelevant x is eliminated; ratchet advanced from 139 to 145.
+- None.
+Evidence: focused A4.1/schema tests -> 20/20; v0 Git-blob comparison -> 16/16;
+independent current-corpus generation -> 10/10 byte-identical; fixture check ->
+10/10 current; full suite -> 145/145; diff check -> clean; commit: this commit.
+Next: A4.2 (counterexample relevance projection).
