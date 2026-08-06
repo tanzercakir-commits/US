@@ -136,8 +136,8 @@ class BackendIntegrationTests(unittest.TestCase):
         except Z3DiscoveryError:
             cls.z3 = None
 
-    def test_cli_parser_defaults_to_affine_and_accepts_all_backends(self):
-        self.assertEqual(build_parser().parse_args(["input.cpp"]).backend, "affine")
+    def test_cli_parser_defaults_to_both_and_accepts_all_backends(self):
+        self.assertEqual(build_parser().parse_args(["input.cpp"]).backend, "both")
         for name in ("affine", "z3", "both"):
             with self.subTest(name=name):
                 self.assertEqual(

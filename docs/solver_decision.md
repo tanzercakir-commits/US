@@ -5,16 +5,16 @@ Status: accepted for the Python reference implementation (A1, 2026-08-06).
 ## Decision
 
 Use Z3 as an optional external executable through deterministic SMT-LIB2
-stdin/stdout. Keep the dependency-free affine checker as the default and as a
-cross-checking implementation. Do not link a solver library and do not add a
-Python package dependency.
+stdin/stdout. Keep the dependency-free affine checker available and run it
+alongside Z3 by default in the CLI. Do not link a solver library and do not add
+a Python package dependency.
 
 The accepted backend modes are:
 
 - `affine`: dependency-free, exact where it decides, deliberately incomplete;
 - `z3`: complete for the emitted QF_LIA fragment;
-- `both`: run both and report a `solver_error` soundness alarm if their
-  definitive (`verified`/`violated`) answers disagree.
+- `both` (CLI default): run both and report a `solver_error` soundness
+  alarm if their definitive (`verified`/`violated`) answers disagree.
 
 Z3 is developed by Microsoft Research and distributed under the
 [MIT license](https://github.com/Z3Prover/z3/blob/master/LICENSE.txt). The

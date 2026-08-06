@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A1.6 — Phase gate: golden tests** (vertical slice, determinism,
-  suite target; DoD in the plan)
+- [ ] **A2.1 — IR: call-with-result node** (`semantic_verifier/model.py` +
+  `semantic_verifier/lowering.py` + tests; DoD in the plan)
 
 ## Next
 
-- [ ] A2.1 — IR: call-with-result node
 - [ ] A2.2 — VC: havoc + assumed ensures
+- [ ] A2.3 — Recursion policy
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A1.5 completed with the solver decision record and README
-link. Next work item is A1.6.
+2026-08-06 — A1 phase gate passed: 109 tests; vertical slice has zero
+unknown/unsupported/solver_error in default cross-check mode. Next is A2.1.

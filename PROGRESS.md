@@ -158,3 +158,17 @@ Evidence: document exists; README local link resolves; license/release and
 parameter claims checked against official Z3 project/guide sources; full suite
 → 106/106; commit: this commit.
 Next: A1.6 (phase gate: golden tests).
+
+## 2026-08-06 — A1.6: Z3 phase gate — DONE
++ Added three golden regressions: repeated Z3 JSON, repeated cross-check text,
+  and `transitive_chain` permanently `verified` under Z3.
++ Aligned the CLI default with the phase DoD: `both` is now the default;
+  dependency-free operation remains available through `--backend affine`.
++ A1 exceeded its ≥85 target with 109 tests; ratchet advanced from 106 to 109.
+- None.
+Evidence: `python -m unittest tests.test_determinism` → 5/5; full suite →
+109/109; `python -m semantic_verifier examples/vertical_slice.cpp --format
+text` → 10 verified, 2 violated, 0 unknown/unsupported/solver_error, exit 1
+(expected for real violations); repeated Z3/cross-check outputs byte-identical;
+commit: this commit.
+Next: A2.1 (IR call-with-result node).

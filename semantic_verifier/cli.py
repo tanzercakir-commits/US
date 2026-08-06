@@ -35,8 +35,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--backend",
         choices=("affine", "z3", "both"),
-        default="affine",
-        help="checker backend (default: affine)",
+        default="both",
+        help="checker backend (default: both)",
     )
     parser.add_argument(
         "--z3",
