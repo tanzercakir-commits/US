@@ -174,6 +174,26 @@ python -m semantic_verifier src/pilot.cpp --backend both --format json `
   --cache .ci/semantic-verifier-cache.json
 ```
 
+## Resource budgets in CI
+
+Keep the default positive per-process solver timeout or choose a reviewed
+`--solver-timeout SECONDS`. Set `--max-checks N` from deterministic obligation
+counts observed in the pilot, not from host timing. Omit it for unlimited work;
+zero is a deliberate observation mode in which supported obligations are not
+started and therefore return `unknown`.
+
+Budget exhaustion and solver timeout must remain exit `2`, never success. In
+cross-check mode a Z3 timeout remains `unknown` even if the affine backend found
+a definitive result. Unsupported obligations remain visible and do not consume
+the supported-check allowance. Cache restoration cannot bypass the current
+file budget.
+
+```powershell
+python -m semantic_verifier src/pilot.cpp --backend both --format json `
+  --solver-timeout 5 --max-checks 500 `
+  --cache .ci/semantic-verifier-cache.json
+```
+
 ## Result triage
 
 ### `verified`
@@ -263,7 +283,7 @@ DataflowEngine into the persistent Semantic IR.
 - [ ] Pilot source list is explicit and reviewed.
 - [ ] Unsupported constructs are visible and owned.
 - [ ] Contracts/invariants have source-code reviewers.
-- [ ] Status and exit-code policy is documented in CI.
+- [ ] Status, exit-code, timeout, and file-budget policy is documented in CI.
 - [ ] Non-goals are retained in reports and release evidence.
 - [ ] Counterexample artifacts follow data-retention policy.
 - [ ] Fixture/schema changes require compatibility review.

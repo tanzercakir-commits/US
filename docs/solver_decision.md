@@ -92,8 +92,9 @@ preferred cross-platform pin because their version and checksum are explicit.
 ## Timeout and failure taxonomy
 
 Default CLI timeout: 5 seconds per solver process, configurable with
-`--solver-timeout SECONDS`. The runner passes `timeout=<milliseconds>` to Z3
-and applies the same positive finite bound to the host subprocess. Z3's
+`--solver-timeout SECONDS`. A validated `SolverTimeout` requires a positive
+finite value. The runner passes `timeout=<milliseconds>` to Z3 and applies the
+same bound to the host subprocess. Z3's
 [parameter reference](https://microsoft.github.io/z3guide/programming/Parameters/)
 defines `timeout` in milliseconds.
 
@@ -109,7 +110,19 @@ Result mapping is exact:
 | missing/unlaunchable executable | `solver_error` | `solver_error` |
 
 No `unknown`, timeout, unsupported formula, parse failure, configuration
-failure, or crash can become `verified`.
+failure, or crash can become `verified`. A timeout while requesting the full
+countermodel is `unknown`, because no replayable violation evidence exists yet.
+A timeout in later greedy minimization keeps the already replayed definitive
+violation and the binding whose removal could not be proved. Cross-check mode
+propagates a timeout as resource-exhaustion `unknown` instead of selecting a
+peer `verified` result.
+
+The independent `--max-checks N` file budget counts supported top-level
+obligations in source order. It is not a wall-clock solver setting: zero starts
+none, omission is unlimited, and exhausted obligations are explicit `unknown`.
+Unsupported obligations do not consume a supported-check unit. The wrapper is
+outside the persistent cache and cross-check backend, so cache hits cannot evade
+the limit and checking both referees remains one top-level unit.
 
 ## Determinism policy
 

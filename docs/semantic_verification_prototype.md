@@ -30,7 +30,9 @@ Implemented:
   two-process byte-identity CI gate;
 - an opt-in persistent exact-result cache keyed by report/key schema, backend
   identity/configuration, solver policy, and canonical obligation semantics;
-- 162 deterministic tests, including independent soundness regressions.
+- deterministic source-ordered per-file check budgets plus positive finite
+  per-process solver timeouts, with exhaustion remaining explicit `unknown`;
+- 173 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -539,7 +541,8 @@ fetch. CodeSkeptic's source worktree remained clean.
   obligations; broader C++ semantics remain outside the claim.
 - Affine model search is finite. Found models are real, while exhaustion is
   unknown. Z3 is complete only for formulas accepted by the fail-closed emitter.
-- Acyclic branches are enumerated directly and can grow exponentially. Loops
+- Structured branch joins retain exact factored disjunctions, which bound the
+  measured diamond obligations but can still grow with formula complexity. Loops
   are summarized by user-written invariants; termination is not checked.
 - Modular calls are direct and contract-based. Only int results in a local
   initializer/assignment are modeled, and callee bodies are not inlined.
@@ -550,8 +553,9 @@ fetch. CodeSkeptic's source worktree remained clean.
   production integration should still use canonical Clang declaration identity
   and CodeSkeptic's existing attachment/sidecar machinery.
 - Includes and all header semantics are explicitly unsupported in v0.
-- The affine model-search cap is 100,000 deterministic evaluations. Z3 has a
-  configurable per-obligation timeout, but there is no whole-run budget yet.
+- The affine model-search cap is 100,000 deterministic evaluations. Each Z3
+  process has a configurable timeout. The per-file budget counts supported
+  top-level obligation checks, not internal affine evaluations or wall time.
 
 ## Technical assessment
 

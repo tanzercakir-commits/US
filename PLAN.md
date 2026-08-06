@@ -355,6 +355,12 @@ produce `verified`.
   unchanged.
 - Output: budget value objects plus pipeline/backend/CLI integration,
   `tests/test_budgets.py`, result-schema/adoption/changelog documentation.
+  Stage file set also includes `semantic_verifier/budget.py`,
+  `semantic_verifier/backend.py`, `semantic_verifier/pipeline.py`,
+  `semantic_verifier/cli.py`, `semantic_verifier/z3_backend.py`, `README.md`,
+  `docs/solver_decision.md`, `docs/semantic_verification_prototype.md`,
+  `PLAN.md`, `PROGRESS.md`, `TODO.md`, and `guardrails/test_baseline.txt` for the
+  required policy, consumer surface, ledger, active-set, and ratchet updates.
 - DoD: `python -m unittest tests.test_budgets` is green; injected solver timeout
   and file-budget exhaustion deterministically yield `unknown`, never
   `verified`; repeated budgeted JSON is byte-identical; zero/unlimited boundary

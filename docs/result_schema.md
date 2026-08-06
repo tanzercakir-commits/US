@@ -108,6 +108,31 @@ one from an untrusted source. Counterexample bindings in the cache have the same
 retention sensitivity as report artifacts. Delete the file to force a cold run;
 manual editing is unsupported.
 
+## Resource budgets
+
+External Z3 processes use a positive finite `SolverTimeout`; the CLI default is
+5 seconds and `--solver-timeout SECONDS` changes it. The same value is passed to
+Z3 in milliseconds and to the host process. A timeout before replayable evidence
+exists returns explicit `unknown`. In cross-check mode that resource result is
+not strengthened to `verified` by the other backend. A timeout during optional
+counterexample-core minimization keeps already replayed definitive evidence and
+only prevents removal of the affected binding.
+
+`--max-checks N` sets a deterministic `FileCheckBudget`; omission means
+unlimited and zero starts no supported checks. One unit is consumed when a
+supported top-level obligation is started, in serialized source order. The
+counter resets for each pipeline `check_all` file boundary. Unsupported
+obligations retain `unsupported` and do not consume a supported-check unit.
+Cross-checking both referees is one top-level unit. Internal solver calls and
+affine search evaluations are deliberately not additional file units.
+
+Every supported obligation beyond the limit receives `unknown` with a message
+that states the configured limit and that the obligation was not started.
+Results already produced remain unchanged, status/exit precedence is unchanged,
+and repeated budgeted reports are byte-identical. The budget wrapper is outside
+the persistent cache, so a warm definitive entry cannot bypass a lower current
+file budget.
+
 ## Verification result
 
 | Field | Type | Required | Contract |

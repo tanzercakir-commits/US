@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A5.3 adds validated solver-timeout and per-file check-budget value objects plus
+  `--max-checks N`. Supported obligations beyond the source-ordered limit are
+  explicit `unknown` results without backend work; zero and unlimited are
+  defined boundaries, unsupported obligations do not consume units, cache hits
+  cannot bypass the limit, and cross-check mode cannot hide Z3 timeout as
+  `verified`.
 - A5.2 adds the opt-in `--cache PATH` persistent obligation-result cache. Exact
   SHA-256 keys bind report/key schemas, backend identity and configuration,
   solver policy, and canonical logical query content; valid hits reconstruct

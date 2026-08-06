@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **A5.3 - deterministic resource budgets**
+- [ ] **A5.4 - scaling phase gate**
 
 ## Next
 
-- [ ] **A5.4 - scaling phase gate**
+- None queued after the active phase gate.
 
 ## Blockers / open questions
 
@@ -21,7 +21,7 @@
 
 ## Last updated
 
-2026-08-06 - A5.2 added an opt-in exact semantic-keyed persistent result
-cache. Warm and cold reports are byte-identical; stale/malformed/incompatible
-entries recompute, current source metadata is reconstructed, and solver errors
-are never reused. Next is A5.3.
+2026-08-06 - A5.3 added deterministic per-process solver timeouts and
+source-ordered per-file supported-check budgets. Exhaustion is explicit unknown,
+cache cannot bypass the limit, and cross-check cannot hide timeout as verified.
+Next is the A5.4 scaling phase gate.

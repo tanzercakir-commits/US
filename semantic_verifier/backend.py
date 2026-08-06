@@ -14,6 +14,7 @@ from .model import (
 )
 
 if TYPE_CHECKING:
+    from .budget import SolverTimeout
     from .z3_backend import Z3ProcessRunner
 
 
@@ -48,7 +49,7 @@ class Z3Checker(CheckerBackend):
     def __init__(
         self,
         z3: str | None = None,
-        timeout_seconds: float = 5.0,
+        timeout_seconds: float | SolverTimeout = 5.0,
         *,
         runner: Z3ProcessRunner | None = None,
     ) -> None:
@@ -136,6 +137,15 @@ class CrossCheckBackend(CheckerBackend):
                 "unsupported in backend cross-check: " + unsupported.message,
             )
 
+        resource_unknown = _resource_unknown(primary, secondary)
+        if resource_unknown is not None:
+            return _result(
+                obligation,
+                VerificationStatus.UNKNOWN,
+                "unknown: backend cross-check resource exhaustion: "
+                + resource_unknown.message.removeprefix("unknown: "),
+            )
+
         selected = _select_strong_result(primary, secondary)
         return _result(
             obligation,
@@ -158,7 +168,7 @@ def create_backend(
     name: str,
     *,
     z3: str | None = None,
-    timeout_seconds: float = 5.0,
+    timeout_seconds: float | SolverTimeout = 5.0,
 ) -> CheckerBackend:
     """Create a backend from the stable CLI selection names."""
 
@@ -174,6 +184,18 @@ def create_backend(
             Z3Checker(z3, timeout_seconds),
         )
     raise ValueError(f"unknown checker backend {name!r}")
+
+
+def _resource_unknown(
+    primary: VerificationResult,
+    secondary: VerificationResult,
+) -> VerificationResult | None:
+    for result in (primary, secondary):
+        if result.status == VerificationStatus.UNKNOWN and result.message.startswith(
+            ("unknown: Z3 timed out", "unknown: file check budget exhausted")
+        ):
+            return result
+    return None
 
 
 def _select_strong_result(

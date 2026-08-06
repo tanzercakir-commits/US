@@ -6,9 +6,20 @@ import argparse
 import sys
 
 from .backend import create_backend
+from .budget import FileCheckBudget, SolverTimeout
 from .dump import dump_module, dump_results
 from .model import VerificationStatus
 from .pipeline import VerificationPipeline
+
+
+def _non_negative_int(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("must be an integer") from error
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("must be non-negative")
+    return parsed
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -52,6 +63,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--cache",
         help="persistent exact obligation-result cache file",
     )
+    parser.add_argument(
+        "--max-checks",
+        type=_non_negative_int,
+        help="maximum supported obligation checks per file (default: unlimited)",
+    )
     return parser
 
 
@@ -61,12 +77,13 @@ def main(argv: list[str] | None = None) -> int:
         checker = create_backend(
             arguments.backend,
             z3=arguments.z3,
-            timeout_seconds=arguments.solver_timeout,
+            timeout_seconds=SolverTimeout(arguments.solver_timeout),
         )
         pipeline = VerificationPipeline(
             arguments.clang,
             checker=checker,
             cache_path=arguments.cache,
+            check_budget=FileCheckBudget(arguments.max_checks),
         )
         report = pipeline.verify_file(arguments.source)
     except Exception as error:

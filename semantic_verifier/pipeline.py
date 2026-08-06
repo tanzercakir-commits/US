@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .backend import CheckerBackend
+from .budget import BudgetedCheckerBackend, FileCheckBudget
 from .cache import CachedCheckerBackend
 from .checker import DeterministicChecker
 from .frontend import ClangJsonFrontend, FrontendError
@@ -29,6 +30,7 @@ class VerificationPipeline:
         *,
         checker: CheckerBackend | None = None,
         cache_path: str | Path | None = None,
+        check_budget: FileCheckBudget | None = None,
     ) -> None:
         self.frontend: ClangJsonFrontend | None = None
         self._frontend_initialization_error: str | None = None
@@ -40,11 +42,11 @@ class VerificationPipeline:
             # must never degrade to an unstructured stderr-only response.
             self._frontend_initialization_error = str(error)
         selected = checker or DeterministicChecker()
-        self.checker = (
-            CachedCheckerBackend(selected, cache_path)
-            if cache_path is not None
-            else selected
-        )
+        if cache_path is not None:
+            selected = CachedCheckerBackend(selected, cache_path)
+        if check_budget is not None:
+            selected = BudgetedCheckerBackend(selected, check_budget)
+        self.checker = selected
 
     def verify_file(self, path: str | Path) -> VerificationReport:
         shown = Path(path).as_posix()

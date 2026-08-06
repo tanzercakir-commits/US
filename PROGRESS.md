@@ -537,3 +537,26 @@ Evidence: cache tests -> 7/7; CLI cold/warm affine reports -> byte-identical wit
 matching exit 1; full suite -> 162/162; fixture check -> 10/10 current; diff
 check -> clean; commit: this commit.
 Next: A5.3 (deterministic resource budgets).
+
+## 2026-08-06 - A5.3: deterministic resource budgets - DONE
++ Added frozen validated SolverTimeout and FileCheckBudget values: solver bounds
+  are positive finite seconds; file bounds are non-negative checks or unlimited.
++ Counted one source-ordered unit for each started supported top-level obligation
+  and returned explicit unknown for every unstarted obligation after exhaustion.
++ Preserved unsupported results without consuming supported units, reset the
+  allowance at every file/check_all boundary, and kept earlier results intact.
++ Composed the file budget outside cache and cross-check layers, so warm entries
+  cannot bypass a lower limit and both referees consume one top-level unit.
++ Kept initial and countermodel-request Z3 timeouts unknown; cross-check resource
+  exhaustion cannot be strengthened to verified, while already replayed
+  violations survive inconclusive minimization work.
++ Added `--max-checks N`, centralized existing solver-timeout validation, and
+  documented zero/unlimited boundaries, unit accounting, exit behavior, and CI.
++ Expanded the declared stage file set before required count/ledger updates and
+  advanced the test ratchet from 162 to 173.
+- None.
+Evidence: budget tests -> 11/11; injected initial/model-request timeout and
+cross-check guards -> green; repeated CLI budget reports -> byte-identical,
+exit 2, 10 unknown; full suite -> 173/173; fixture check -> 10/10 current; diff
+check -> clean; commit: this commit.
+Next: A5.4 (scaling phase gate).

@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 
+from .budget import SolverTimeout
 from .checker import evaluate, resolve_trace
 from .counterexample import minimize_counterexample
 from .model import (
@@ -110,17 +111,15 @@ class Z3ProcessRunner:
     def __init__(
         self,
         z3: str | None = None,
-        timeout_seconds: float = 5.0,
+        timeout_seconds: float | SolverTimeout = 5.0,
     ) -> None:
-        if (
-            isinstance(timeout_seconds, bool)
-            or not isinstance(timeout_seconds, (int, float))
-            or not math.isfinite(timeout_seconds)
-            or timeout_seconds <= 0
-        ):
-            raise ValueError("timeout_seconds must be a finite positive number")
+        timeout = (
+            timeout_seconds
+            if isinstance(timeout_seconds, SolverTimeout)
+            else SolverTimeout(timeout_seconds)
+        )
         self._configured_z3 = z3
-        self.timeout_seconds = float(timeout_seconds)
+        self.timeout_seconds = timeout.seconds
 
     def cache_identity(self) -> Mapping[str, object]:
         """Describe every runner setting that can change a returned result."""
@@ -389,6 +388,12 @@ def check_obligation(
 
     model_query = query.rstrip() + "\n(get-model)\n"
     second = runner.run(model_query, obligation.mode)
+    if second.outcome == Z3Outcome.TIMEOUT:
+        return _obligation_result(
+            obligation,
+            VerificationStatus.UNKNOWN,
+            "unknown: Z3 timed out while requesting a replayable countermodel",
+        )
     if second.outcome != Z3Outcome.SAT:
         return _obligation_result(
             obligation,
