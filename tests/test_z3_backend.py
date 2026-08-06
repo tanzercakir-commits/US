@@ -3,13 +3,23 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
+from semantic_verifier.model import (
+    Expr,
+    Obligation,
+    SourceLocation,
+    VerificationStatus,
+)
 from semantic_verifier.z3_backend import (
     Z3DiscoveryError,
+    Z3ModelError,
     Z3Outcome,
     Z3ProcessRunner,
+    Z3RunResult,
+    check_obligation,
     discover_z3,
+    parse_z3_model,
 )
 
 
@@ -212,6 +222,191 @@ class Z3ProcessRunnerTests(unittest.TestCase):
         self.assertEqual(result.outcome, Z3Outcome.SAT)
         self.assertEqual(result.status.value, "verified")
         self.assertEqual(result.returncode, 0)
+
+
+MODEL_OUTPUT = """sat
+(
+  (define-fun x_v0 () Int
+    (- 4))
+  (define-fun ready_v0 () Bool
+    true)
+  (define-fun y_u000040x2_v0 () Int
+    7)
+)
+"""
+LOCATION = SourceLocation("model.cpp", 1, 1)
+
+
+def make_obligation(*, assumptions=(), conclusion=None, mode="validity"):
+    return Obligation(
+        id="ob-model",
+        function="f",
+        kind="postcondition",
+        assumptions=tuple(assumptions),
+        conclusion=conclusion,
+        location=LOCATION,
+        description="model replay test",
+        mode=mode,
+    )
+
+
+def process_result(outcome, status, stdout=""):
+    return Z3RunResult(
+        outcome=outcome,
+        status=status,
+        message=f"{status.value}: injected result",
+        stdout=stdout,
+        returncode=0,
+    )
+
+
+class Z3ModelParserTests(unittest.TestCase):
+    def test_parses_int_bool_negative_and_reversible_names(self):
+        self.assertEqual(
+            parse_z3_model(
+                MODEL_OUTPUT,
+                {"x#0": "int", "ready#0": "bool", "y@2#0": "int"},
+            ),
+            {"x#0": -4, "ready#0": True, "y@2#0": 7},
+        )
+
+    def test_accepts_model_wrapper_and_comments(self):
+        output = "sat\n(model ; comment\n (define-fun x_v0 () Int 0))\n"
+
+        self.assertEqual(parse_z3_model(output, {"x#0": "int"}), {"x#0": 0})
+
+    def test_rejects_malformed_or_unsupported_model_forms(self):
+        invalid_outputs = (
+            "unsat\n()\n",
+            "sat\n((define-fun x_v0 (Int) Int 0))\n",
+            "sat\n((define-fun x_v0 () Real 0))\n",
+            "sat\n((define-fun x_v0 () Int (+ 1 2)))\n",
+            "sat\n((define-fun |x| () Int 0))\n",
+            "sat\n((define-fun x_v0 () Int 0)\n",
+        )
+        for output in invalid_outputs:
+            with self.subTest(output=output):
+                with self.assertRaises(Z3ModelError):
+                    parse_z3_model(output)
+
+    def test_rejects_missing_unexpected_duplicate_and_wrong_sort_bindings(self):
+        with self.assertRaisesRegex(Z3ModelError, "missing"):
+            parse_z3_model(
+                "sat\n((define-fun x_v0 () Int 0))\n",
+                {"x#0": "int", "y#0": "int"},
+            )
+        with self.assertRaisesRegex(Z3ModelError, "unexpected"):
+            parse_z3_model(
+                "sat\n((define-fun x_v0 () Int 0))\n",
+                {},
+            )
+        with self.assertRaisesRegex(Z3ModelError, "duplicate"):
+            parse_z3_model(
+                "sat\n((define-fun x_v0 () Int 0) "
+                "(define-fun x_v0 () Int 1))\n"
+            )
+        with self.assertRaisesRegex(Z3ModelError, "sort mismatch"):
+            parse_z3_model(
+                "sat\n((define-fun x_v0 () Bool true))\n",
+                {"x#0": "int"},
+            )
+
+
+class Z3CountermodelReplayTests(unittest.TestCase):
+    def test_valid_countermodel_is_replayed_and_projected(self):
+        x = Expr.variable("x#0")
+        item = make_obligation(conclusion=Expr.binary(">=", x, Expr.integer(0)))
+        runner = Mock()
+        runner.run.side_effect = (
+            process_result(Z3Outcome.SAT, VerificationStatus.VIOLATED, "sat\n"),
+            process_result(
+                Z3Outcome.SAT,
+                VerificationStatus.VIOLATED,
+                "sat\n((define-fun x_v0 () Int (- 1)))\n",
+            ),
+        )
+
+        result = check_obligation(item, runner)
+
+        self.assertEqual(result.status.value, "violated")
+        self.assertEqual(result.counterexample, {"x": -1})
+        self.assertEqual(runner.run.call_count, 2)
+        self.assertTrue(runner.run.call_args_list[1].args[0].endswith("(get-model)\n"))
+
+    def test_corrupt_model_that_fails_replay_is_solver_error(self):
+        x = Expr.variable("x#0")
+        item = make_obligation(conclusion=Expr.binary(">=", x, Expr.integer(0)))
+        runner = Mock()
+        runner.run.side_effect = (
+            process_result(Z3Outcome.SAT, VerificationStatus.VIOLATED, "sat\n"),
+            process_result(
+                Z3Outcome.SAT,
+                VerificationStatus.VIOLATED,
+                "sat\n((define-fun x_v0 () Int 1))\n",
+            ),
+        )
+
+        result = check_obligation(item, runner)
+
+        self.assertEqual(result.status.value, "solver_error")
+        self.assertIn("does not falsify", result.message)
+        self.assertIsNone(result.counterexample)
+
+    def test_malformed_or_disagreeing_model_query_is_solver_error(self):
+        x = Expr.variable("x#0")
+        item = make_obligation(conclusion=Expr.binary(">=", x, Expr.integer(0)))
+        for second in (
+            process_result(Z3Outcome.SAT, VerificationStatus.VIOLATED, "sat\n()\n"),
+            process_result(Z3Outcome.UNKNOWN, VerificationStatus.UNKNOWN, "unknown\n"),
+        ):
+            with self.subTest(outcome=second.outcome):
+                runner = Mock()
+                runner.run.side_effect = (
+                    process_result(
+                        Z3Outcome.SAT, VerificationStatus.VIOLATED, "sat\n"
+                    ),
+                    second,
+                )
+                result = check_obligation(item, runner)
+                self.assertEqual(result.status.value, "solver_error")
+
+    def test_non_sat_result_does_not_request_model(self):
+        item = make_obligation(conclusion=Expr.boolean(True))
+        runner = Mock()
+        runner.run.return_value = process_result(
+            Z3Outcome.UNSAT, VerificationStatus.VERIFIED, "unsat\n"
+        )
+
+        result = check_obligation(item, runner)
+
+        self.assertEqual(result.status.value, "verified")
+        runner.run.assert_called_once()
+
+    def test_well_formed_mode_is_checked_without_solver_process(self):
+        item = make_obligation(
+            conclusion=Expr.binary("==", Expr.variable("x#0"), Expr.integer(0)),
+            mode="well_formed",
+        )
+        runner = Mock()
+
+        result = check_obligation(item, runner)
+
+        self.assertEqual(result.status.value, "verified")
+        runner.run.assert_not_called()
+
+    def test_real_violation_returns_replayed_bindings(self):
+        try:
+            executable = discover_z3()
+        except Z3DiscoveryError:
+            self.skipTest("Z3 is not installed")
+        x = Expr.variable("x#0")
+        item = make_obligation(conclusion=Expr.binary(">=", x, Expr.integer(0)))
+
+        result = check_obligation(item, Z3ProcessRunner(executable, 5))
+
+        self.assertEqual(result.status.value, "violated")
+        self.assertIn("x", result.counterexample)
+        self.assertLess(result.counterexample["x"], 0)
 
 
 if __name__ == "__main__":

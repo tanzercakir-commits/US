@@ -118,3 +118,17 @@ Evidence: `python -m unittest tests.test_z3_backend` → 13/13 (real Z3 process
 included); full suite → 86/86; `python -m compileall -q semantic_verifier
 tests` → success; commit: this commit.
 Next: A1.3 (model parser + replay).
+
+## 2026-08-06 — A1.3: model parser + replay — DONE
++ Added a strict S-expression parser for zero-arity Z3 int/bool models with
+  reversible source-name recovery and exact binding/sort validation.
++ Countermodels are obtained only after an initial `sat`, then replayed against
+  the original assumptions and conclusion before a violation is reported.
++ Corrupt, incomplete, malformed, or non-replaying models become
+  `solver_error`; added 10 tests and advanced the ratchet from 86 to 96.
+- None.
+Evidence: `python -m unittest tests.test_z3_backend` → 23/23; corrupt-model
+injection test → `solver_error`; real Z3 violation returned replayed bindings;
+full suite → 96/96; direct Z3 check of `vertical_slice.cpp` obligations →
+10 verified, 2 violated, 0 unknown/unsupported/solver_error; commit: this commit.
+Next: A1.4 (CheckerBackend interface and selection).

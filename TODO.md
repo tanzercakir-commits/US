@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A1.3 — Model parser + replay** (`semantic_verifier/z3_backend.py` +
-  `tests/test_z3_backend.py`; DoD in the plan)
+- [ ] **A1.4 — CheckerBackend interface and selection**
+  (`semantic_verifier/backend.py`, checker/CLI adaptations; DoD in the plan)
 
 ## Next
 
-- [ ] A1.4 — CheckerBackend interface and selection
 - [ ] A1.5 — Solver decision document
+- [ ] A1.6 — Phase gate: golden tests
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A1.2 completed with deterministic discovery, bounded Z3
-execution, and result-taxonomy mapping. Next work item is A1.3.
+2026-08-06 — A1.3 completed with fail-closed model parsing and mandatory
+countermodel replay. Next work item is A1.4.
