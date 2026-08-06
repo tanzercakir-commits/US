@@ -125,6 +125,10 @@ Decisions are not re-litigated; changing one requires a new entry.
   reads the final report and the +/- notes.
 - **D11 — Note convention:** in PROGRESS/TODO notes, positives are marked `+`,
   negatives/blockers `-`, for fast remote scanning.
+- **D12 — Native production referee:** CodeSkeptic ports VC generation,
+  deterministic SMT-LIB emission, solver orchestration, model replay, and
+  result routing to C++17. Python remains the lab/reference oracle, not a
+  production helper dependency. Z3 remains an unlinked subprocess per D4.
 
 ## 3. Constitution (invariants for every stage)
 
@@ -789,18 +793,108 @@ infrastructure. Reference: prototype fixtures = the specification.
   requires become source-ordered assume nodes; malformed or unadaptable
   clauses never disappear; focused/full production and reference suites pass.
 
-### Phase B2 — VC + referee on the production path (expand via B2.0)
+### Phase B2 — VC + referee on the production path
 
-- B2.0 — Expansion + decision: port VC generation to C++ or keep a Python
-  helper process (recommendation: VC is small → port; solver is subprocess
-  anyway)
-- B2.1 — VC generator (chosen route), fixture equality
-- B2.2 — Verification rule at the `Rule::check` seam; extend the Diagnostic
-  model to carry POSITIVE results/unknown/unsupported (current shape only
-  carries findings — Codex's observation)
-- B2.3 — SARIF output: obligations + results + counterexamples (M6a)
-- B2.4 — MCP surface: `verify_function` tool (AI agents get direct referee
-  access — the first end of SCI)
+#### B2.0 — Native VC/referee route decision
+- Goal: choose the production execution boundary before porting proof logic;
+  compare a native C++ VC generator with a Python helper without weakening D2,
+  D3, D4, packaging, determinism, or fail-closed behavior.
+- Output: `docs/semantic-verification-vc-decision.md` in CodeSkeptic with the
+  measured reference dependency surface, alternatives, trust boundaries,
+  selected route, rejected route, staged rollout, and reopen criteria; detailed
+  B2.1-B2.4 contracts below.
+- Decision: port VC generation and referee orchestration to C++17. Keep Z3 as
+  the only external logic process through deterministic SMT-LIB2 text; do not
+  add Python to the CodeSkeptic runtime or release package.
+- Exact file set: CodeSkeptic
+  `docs/semantic-verification-vc-decision.md`; reference `PLAN.md`,
+  `PROGRESS.md`, and `TODO.md`.
+- DoD: the record inventories the current native seams and the direct Python
+  helper dependency surface; scores both routes against soundness, packaging,
+  determinism, portability, schema drift, diagnostics, and testability; names
+  the chosen interfaces and stage ownership; introduces no runtime/code change;
+  full production and reference suites pass and both worktrees are clean.
+- Depends: B1.4.
+
+#### B2.1 — Native verification-condition generator and fixture equality
+- Goal: deterministically transform owned native Semantic IR into the same
+  obligations as the Python reference without invoking a checker.
+- Output: immutable native obligation/trace-template value objects; a pure
+  `VerificationConditionGenerator`; canonical obligation JSON; vendored B1.1
+  obligation payloads; and a full 14-case byte-equality harness.
+- Exact file set: CodeSkeptic
+  `src/verification/{VerificationIR,VerificationConditionGenerator,
+  VerificationJson}.{h,cpp}`; `src/CMakeLists.txt`;
+  `tests/{CMakeLists.txt,VerificationConditionTest.cpp,
+  NativeObligationFixtureTest.cpp}`;
+  `tests/fixtures/native_adapter/{manifest.json,*.obligations.json}`; reference
+  `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Boundaries: consume only validated owned IR; preserve source/order/IDs; emit
+  explicit unsupported obligations for unsupported modules, recursion,
+  unannotated loops, heterogeneous query fragments, and every omitted rule;
+  no Z3/process/Rule/Diagnostic dependency in this stage.
+- DoD: every vendored obligation hash matches B1.1; all 14 native obligation
+  payloads are byte-identical to Python; repeated generation is identical;
+  expression safety, contract consistency, calls, frames, branches, loops,
+  merges, trace templates, and negative boundaries have focused tests; full
+  production and reference suites pass.
+- Depends: B2.0.
+
+#### B2.2 — Native deterministic referee and verification rule
+- Goal: check native obligations at the `Rule::check` seam while preserving the
+  complete result taxonomy and constitution-level counterexample replay.
+- Output: `CheckerBackend` interface; deterministic SMT-LIB2 emitter; Z3 path,
+  timeout, subprocess, model parser, and replay components; a
+  `SemanticVerificationRule`; and a result carrier that represents
+  `verified`, `violated`, `unknown`, `unsupported`, and `solver_error` rather
+  than forcing positive/non-finding states into the legacy finding shape.
+- Planned file set (confirm before edits): CodeSkeptic
+  `src/verification/{CheckerBackend,SmtLib,Z3ProcessRunner,
+  CounterexampleReplay,SemanticVerificationRule,VerificationResult}.{h,cpp}`;
+  `src/core/{Diagnostic.h,Rule.h}`; `src/engine/{RuleEngine.h,RuleEngine.cpp}`;
+  `src/analyzer/{StaticAnalyzer.h,StaticAnalyzer.cpp}`; `src/CMakeLists.txt`;
+  corresponding focused tests and `tests/CMakeLists.txt`; reference
+  `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Boundaries: Z3 remains an unlinked subprocess (D4); fixed solver options and
+  sorted serialization only; every reported model is replayed against its
+  original obligation; missing/crashed solver is `solver_error`, timeout is
+  `unknown`, and unsupported is never promoted.
+- DoD: native referee results equal reference result fixtures for the selected
+  corpus; corrupt-model injection proves replay rejection; deterministic repeat,
+  missing-Z3, timeout, crash, unsupported, and backend-interface tests pass;
+  the verification rule coexists with legacy findings; full suites pass.
+- Depends: B2.1.
+
+#### B2.3 — SARIF semantic-verification output
+- Goal: expose obligations, statuses, counterexamples, and replay-safe traces in
+  standard report output without changing legacy finding semantics.
+- Output: versioned SARIF properties/result mapping for every verification
+  status plus deterministic serialization and compatibility fixtures.
+- Planned file set (confirm before edits): CodeSkeptic
+  `src/reporter/{SarifReporter.h,SarifReporter.cpp}` and verification result
+  adapters; `tests/SarifReporterTest.cpp`, semantic SARIF fixtures, and
+  `tests/CMakeLists.txt`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- DoD: positive, violation, unknown, unsupported, and solver-error records are
+  distinguishable; counterexamples/traces retain obligation IDs and locations;
+  old SARIF fixtures remain unchanged; repeated reports are byte-identical;
+  full suites pass.
+- Depends: B2.2.
+
+#### B2.4 — MCP `verify_function` referee surface
+- Goal: give agents a narrow production referee tool for one selected function,
+  using exactly the same native pipeline and status semantics as CLI analysis.
+- Output: `verify_function` MCP schema/handler, deterministic function
+  selection, structured obligations/results/counterexamples, and bounded error
+  responses.
+- Planned file set (confirm before edits): CodeSkeptic
+  `src/server/{McpServer.h,McpServer.cpp}` plus the minimal analyzer/
+  verification wiring; `tests/McpServerTest.cpp`, focused fixtures, and
+  `tests/CMakeLists.txt`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- DoD: tool discovery advertises the stable schema; exact/ambiguous/missing
+  function selection is tested; verified/violated/unknown/unsupported/
+  solver-error responses are structured and deterministic; no AI judgment
+  enters the referee path; full suites pass.
+- Depends: B2.3.
 
 ### Phase B3 — Sidecar contract database
 

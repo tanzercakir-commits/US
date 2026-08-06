@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **B2.0 - production VC/referee route expansion and decision**
+- [ ] **B2.1 - native VC generator and obligation fixture equality**
 
 ## Next
 
-- [ ] **B2.1 - VC generator on the chosen route; fixture equality**
-- [ ] **B2.2 - verification rule and positive/unknown result model**
+- [ ] **B2.2 - native deterministic referee and verification rule**
+- [ ] **B2.3 - SARIF semantic-verification output**
 
 ## Blockers / open questions
 
@@ -22,7 +22,6 @@
 
 ## Last updated
 
-2026-08-06 - B1.4 added the complete native semantic lowering and canonical
-serializer; all 14 reference fixtures match byte-for-byte. CodeSkeptic is green
-at 833/833 and the reference suite at 314/314. Next is the B2.0 VC/referee route
-decision.
+2026-08-06 - B2.0 selected the native C++17 VC/referee route, retained Z3 as
+an unlinked subprocess, and expanded B2.1-B2.4. CodeSkeptic is green at 833/833
+and the reference suite at 314/314. Next is obligation byte equality in B2.1.

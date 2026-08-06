@@ -1033,3 +1033,27 @@ complete native render determinism -> green; focused lowerer/adapter tests ->
 current; full reference suite -> 314/314; production commit -> `5acc51b`;
 commit: this reference-ledger commit.
 Next: B2.0 (production VC/referee route expansion and decision).
+
+## 2026-08-06 - B2.0: native VC/referee route decision - DONE
++ Chose a C++17 production port for VC generation, deterministic SMT-LIB2,
+  solver orchestration, model replay, and verification-result routing; Python
+  remains the lab/reference oracle and is not a production runtime dependency.
++ Measured the direct helper surface: `vc.py` is 1,113 lines and its direct
+  model/type/query dependencies bring the boundary to 2,345 lines; no general
+  validated Semantic IR JSON input parser exists in the reference package.
++ Recorded the alternative matrix across soundness, packaging, determinism,
+  portability, schema drift, diagnostics, testability, isolation, and long-term
+  maintenance, including explicit reopen criteria.
++ Added D12 and fixed the production trust seams: native pure VCG,
+  `CheckerBackend`, unlinked Z3 subprocess, mandatory counterexample replay,
+  and shared result adapters for Rule/SARIF/MCP.
++ Expanded B2.1-B2.4 with Goal/Output/file boundaries/DoD/dependencies before
+  implementation; B2.1 now requires 14-case obligation byte equality before a
+  checker is introduced.
++ Added the production decision record without changing runtime code or test
+  baselines.
+- None.
+Evidence: full CodeSkeptic suite -> 833/833; full reference suite -> 314/314;
+production diff check -> clean; production commit -> `84eebfd`; commit: this
+reference-ledger commit.
+Next: B2.1 (native VC generator and obligation fixture equality).
