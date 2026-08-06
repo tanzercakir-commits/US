@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 
+from .backend import create_backend
 from .dump import dump_module, dump_results
 from .model import VerificationStatus
 from .pipeline import VerificationPipeline
@@ -31,13 +32,35 @@ def build_parser() -> argparse.ArgumentParser:
         "--clang",
         help="path to clang (otherwise PATH/SEMANTIC_VERIFIER_CLANG is used)",
     )
+    parser.add_argument(
+        "--backend",
+        choices=("affine", "z3", "both"),
+        default="affine",
+        help="checker backend (default: affine)",
+    )
+    parser.add_argument(
+        "--z3",
+        help="path to Z3 (otherwise SEMANTIC_VERIFIER_Z3/PATH is used)",
+    )
+    parser.add_argument(
+        "--solver-timeout",
+        type=float,
+        default=5.0,
+        help="Z3 timeout in seconds (default: 5)",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     arguments = build_parser().parse_args(argv)
     try:
-        report = VerificationPipeline(arguments.clang).verify_file(arguments.source)
+        pipeline = VerificationPipeline(arguments.clang)
+        pipeline.checker = create_backend(
+            arguments.backend,
+            z3=arguments.z3,
+            timeout_seconds=arguments.solver_timeout,
+        )
+        report = pipeline.verify_file(arguments.source)
     except Exception as error:
         print(f"semantic-verify: {type(error).__name__}: {error}", file=sys.stderr)
         return 3

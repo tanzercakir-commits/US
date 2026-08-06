@@ -13,6 +13,7 @@ from itertools import product
 from math import gcd
 from typing import Iterable, Mapping
 
+from .backend import CheckerBackend
 from .model import (
     Expr,
     INT_MAX,
@@ -647,7 +648,7 @@ def _human_counterexample(
     return result
 
 
-class DeterministicChecker:
+class AffineChecker(CheckerBackend):
     name = "affine-facts-plus-counterexample-search"
 
     def check_all(
@@ -767,3 +768,7 @@ class DeterministicChecker:
             message=message,
             counterexample=counterexample,
         )
+
+
+# Backward-compatible name for the original public checker.
+DeterministicChecker = AffineChecker

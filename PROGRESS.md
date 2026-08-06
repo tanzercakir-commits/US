@@ -132,3 +132,17 @@ injection test → `solver_error`; real Z3 violation returned replayed bindings;
 full suite → 96/96; direct Z3 check of `vertical_slice.cpp` obligations →
 10 verified, 2 violated, 0 unknown/unsupported/solver_error; commit: this commit.
 Next: A1.4 (CheckerBackend interface and selection).
+
+## 2026-08-06 — A1.4: backend interface and selection — DONE
++ Added the `CheckerBackend` ABC, adapted the affine checker, and added Z3 and
+  deterministic affine/Z3 cross-check backends.
++ Definitive backend disagreement produces a `solver_error` soundness alarm;
+  unsupported and operational failures remain fail-closed.
++ Added CLI `--backend=affine|z3|both`, Z3 path/timeout options, and 10 tests;
+  advanced the ratchet from 96 to 106.
+- None.
+Evidence: `python -m unittest tests.test_backend` → 10/10; full suite →
+106/106; `python -m semantic_verifier examples/vertical_slice.cpp --backend
+both --format text` → 10 verified, 2 violated, 0 unknown/unsupported/
+solver_error, exit 1 as expected; commit: this commit.
+Next: A1.5 (solver decision document).
