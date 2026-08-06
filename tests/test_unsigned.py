@@ -264,7 +264,7 @@ class UnsignedIntegerTests(unittest.TestCase):
         )
         self.assertEqual(
             backend.cache_identity()["query_policy"],
-            "homogeneous-qf-lia-qf-bv/v0",
+            "homogeneous-qf-lia-qf-bv/v1",
         )
 
 

@@ -127,6 +127,10 @@ def simplify(expr: Expr) -> Expr:
                 return Expr.binary(inverse, value.args[0], value.args[1], "bool")
         if expr.op == "-" and value.kind == "constant":
             return _integer_constant(-int(value.value), expr.type)
+        if expr.op == "~" and value.kind == "constant":
+            return Expr.integer(
+                convert_integer(~int(value.value), expr.type), expr.type
+            )
         return Expr(expr.kind, expr.type, expr.value, expr.op, args)
 
     left, right = args
@@ -197,6 +201,19 @@ def _constant_binary(
             return _integer_constant(int(a) % int(b), type_name)
         quotient = _cxx_div(int(a), int(b))
         return _integer_constant(int(a) - int(b) * quotient, type_name)
+    if op in {"&", "|", "^"}:
+        value = {
+            "&": int(a) & int(b),
+            "|": int(a) | int(b),
+            "^": int(a) ^ int(b),
+        }[op]
+        return Expr.integer(convert_integer(value, type_name), type_name)
+    if op in {"<<", ">>"}:
+        count = int(b)
+        if count < 0 or count >= integer_type(left.type).width:
+            raise ValueError("shift count is outside the result width")
+        value = int(a) << count if op == "<<" else int(a) >> count
+        return Expr.integer(convert_integer(value, type_name), type_name)
     if op == "&&":
         return Expr.boolean(bool(a) and bool(b))
     if op == "||":
@@ -614,25 +631,51 @@ def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
             return int(bool(value))
         return convert_integer(int(value), expr.type)
     if expr.kind == "predicate":
-        if expr.op != "signed_no_overflow" or len(expr.args) != 1:
+        if len(expr.args) != 1:
             raise ValueError(f"unsupported predicate {expr.op}")
         operation = expr.args[0]
-        if (
-            operation.kind != "binary"
-            or operation.op not in {"+", "-", "*"}
-            or not is_signed_integer_type(operation.type)
-            or len(operation.args) != 2
-        ):
-            raise ValueError("malformed signed-overflow predicate")
-        return integer_type(operation.type).contains(
-            int(evaluate(operation, environment))
-        )
+        if expr.op == "signed_no_overflow":
+            if (
+                operation.kind != "binary"
+                or operation.op not in {"+", "-", "*"}
+                or not is_signed_integer_type(operation.type)
+                or len(operation.args) != 2
+                or any(
+                    argument.type != operation.type
+                    for argument in operation.args
+                )
+            ):
+                raise ValueError("malformed signed-overflow predicate")
+            return integer_type(operation.type).contains(
+                int(evaluate(operation, environment))
+            )
+        if expr.op == "signed_left_shift_defined":
+            if (
+                operation.kind != "binary"
+                or operation.op != "<<"
+                or not is_signed_integer_type(operation.type)
+                or len(operation.args) != 2
+                or operation.args[0].type != operation.type
+                or not is_fixed_integer_type(operation.args[1].type)
+            ):
+                raise ValueError("malformed signed-left-shift predicate")
+            left = int(evaluate(operation.args[0], environment))
+            count = int(evaluate(operation.args[1], environment))
+            profile = integer_type(operation.type)
+            return (
+                0 <= count < profile.width
+                and left >= 0
+                and left * (2**count) < 2**profile.width
+            )
+        raise ValueError(f"unsupported predicate {expr.op}")
     if expr.kind == "unary":
         value = evaluate(expr.args[0], environment)
         if expr.op == "!":
             return not bool(value)
         if expr.op == "-":
             return _integer_value(-int(value), expr.type)
+        if expr.op == "~":
+            return convert_integer(~int(value), expr.type)
         raise ValueError(f"unsupported unary operator {expr.op}")
     op = expr.op
     # Preserve C++ short-circuit evaluation so an unreachable partial RHS does
@@ -658,6 +701,18 @@ def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
             return int(left) % int(right)
         quotient = _cxx_div(int(left), int(right))
         return _integer_value(int(left) - int(right) * quotient, expr.type)
+    if op == "&":
+        return convert_integer(int(left) & int(right), expr.type)
+    if op == "|":
+        return convert_integer(int(left) | int(right), expr.type)
+    if op == "^":
+        return convert_integer(int(left) ^ int(right), expr.type)
+    if op in {"<<", ">>"}:
+        count = int(right)
+        if count < 0 or count >= integer_type(expr.type).width:
+            raise ValueError("shift count is outside the result width")
+        value = int(left) << count if op == "<<" else int(left) >> count
+        return convert_integer(value, expr.type)
     if op == "==":
         return left == right
     if op == "!=":

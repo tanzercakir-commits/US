@@ -7,14 +7,14 @@ CodeSkeptic repository.
 
 The prototype deliberately supports C++17 `int`/`unsigned int` and `long
 long`/`unsigned long long` (owned IR types `i32`/`u32`/`i64`/`u64`), `bool`,
-local state, assignment, side-effect-free expressions, `if`/`else`, direct
-contracted calls with matching fixed-width results, invariant-annotated
+local state, assignment, fixed-width bitwise/shift expressions, `if`/`else`,
+direct contracted calls with matching fixed-width results, invariant-annotated
 `while`, `assert`, and `return`. Unsupported C++ is reported explicitly. It
 uses a real Clang AST and has no Python package dependencies. The affine
 checker is dependency-free; the default cross-check backend also invokes a
-separately installed Z3 executable through SMT-LIB2. Unsigned or mixed
-obligations require explicit `--backend z3` because they use homogeneous
-QF_BV and the affine referee fails closed.
+separately installed Z3 executable through SMT-LIB2. Unsigned, mixed,
+bitwise, or shift obligations require explicit `--backend z3` because they use
+homogeneous QF_BV and the affine referee fails closed.
 
 Run the vertical slice (the CLI defaults to affine/Z3 cross-check mode):
 
@@ -49,7 +49,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 216 deterministic tests. The separately cloned,
+The current suite contains 226 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -85,8 +85,10 @@ validates that profile before any source is lowered; a mismatch fails closed.
 The [signed int64 example](examples/int64_slice.cpp) covers widening, pinned
 narrowing, arithmetic, modular calls, and loop invariants. The
 [unsigned example](examples/unsigned_slice.cpp) covers modulo arithmetic,
-usual conversions, unsigned comparison/division, calls, and loops; run it with
-`--backend z3`.
+usual conversions, unsigned comparison/division, calls, and loops. The
+[bitwise example](examples/bitwise_slice.cpp) covers masks, mixed conversions,
+32/64-bit shifts, arithmetic/logical right shift, and signed-left-shift safety;
+run both with `--backend z3`.
 
 ## Development workflow
 

@@ -43,19 +43,22 @@ The query classifier selects one homogeneous lane per obligation. Signed-only
 formulas emit QF_LIA with `i32`/`i64` as `Int`; widening, pinned narrowing,
 literal multiplication, and literal-divisor C++ quotient/remainder are exact.
 Variable multiplication or division/remainder in a signed-only logical formula
-fails closed. Any `u32`/`u64` taint selects QF_BV and emits every fixed-width
-term as `(_ BitVec 32|64)`. That lane supports modulo arithmetic, variable
-multiplication, signed/unsigned division/remainder and comparisons, sign/zero
+fails closed. Any `u32`/`u64` taint or bitwise/shift operator selects QF_BV and
+emits every fixed-width term as `(_ BitVec 32|64)`. That lane supports modulo
+arithmetic, variable multiplication, signed/unsigned division/remainder and
+comparisons, complement/and/or/xor, logical/arithmetic shifts, sign/zero
 extension, same-width reinterpretation, and truncation. It never declares an
 `Int`. Signed-result `+`, `-`, and `*` safety in this lane uses a widened
 `sign_extend` equality, not a tautological comparison of an already wrapped
-term. Source division/remainder receives exact nonzero VCs in both lanes and
-signed minimum/-1 VCs where applicable. Malformed types and unknown expression
-kinds fail closed before Z3 starts.
+term. Shift counts receive exact range VCs; signed left shift uses a
+zero-extended double-width representability equality, and signed right shift
+selects `bvashr` under the pinned profile. Source division/remainder receives
+exact nonzero VCs in both lanes and signed minimum/-1 VCs where applicable.
+Malformed types and unknown expression kinds fail closed before Z3 starts.
 
 The affine backend rejects every BV-required obligation. Default `both` also
 returns explicit `unsupported` under the cross-check policy; users must select
-`--backend z3` for unsigned or mixed formulas. The Z3/cache identity pins the
+`--backend z3` for unsigned, mixed, bitwise, or shift formulas. The Z3/cache identity pins the
 homogeneous lane policy so earlier referee results cannot alias it.
 
 For a validity obligation, assumptions are asserted together with the negated
@@ -205,6 +208,7 @@ Run the Z3 backend and cross-check mode with:
 python -m semantic_verifier examples/vertical_slice.cpp --backend z3
 python -m semantic_verifier examples/vertical_slice.cpp --backend both
 python -m semantic_verifier examples/unsigned_slice.cpp --backend z3
+python -m semantic_verifier examples/bitwise_slice.cpp --backend z3
 python -m unittest tests.test_z3_backend tests.test_backend tests.test_smtlib_bv
 ```
 

@@ -130,7 +130,7 @@ class Z3ProcessRunner:
         except Z3DiscoveryError:
             executable = self._configured_z3
         return {
-            "command_policy": "homogeneous-qf-lia-qf-bv-deterministic-seeds/v0",
+            "command_policy": "homogeneous-qf-lia-qf-bv-bitwise-deterministic-seeds/v1",
             "executable": executable,
             "timeout_seconds": self.timeout_seconds,
         }

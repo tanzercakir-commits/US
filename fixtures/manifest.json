@@ -77,6 +77,18 @@
       },
       "name": "unsigned_slice",
       "source": "cases/unsigned_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 19,
+        "violated": 0
+      },
+      "name": "bitwise_slice",
+      "source": "cases/bitwise_slice.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

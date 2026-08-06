@@ -73,8 +73,8 @@ class Z3Checker(CheckerBackend):
         )
         return {
             "configuration": configuration,
-            "implementation": "smtlib-replay/v2",
-            "query_policy": "homogeneous-qf-lia-qf-bv/v0",
+            "implementation": "smtlib-replay/v3",
+            "query_policy": "homogeneous-qf-lia-qf-bv/v1",
             "name": self.name,
         }
 

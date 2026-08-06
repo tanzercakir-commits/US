@@ -582,6 +582,14 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output/file set: contract/frontend/lowering/IR/VC QF_BV operators; shift-count
   and signed-left-shift definedness obligations; arithmetic/logical right-shift
   selection; `tests/test_bitwise.py`; docs/examples/fixtures/changelog/ledger.
+- Expanded exact file set: `semantic_verifier/{integer_types,frontend,lowering,
+  contracts,model,query_fragment,vc,checker,smtlib,z3_backend,backend}.py`;
+  `tests/{test_bitwise,test_contracts,test_integer_types,test_unsigned,test_fixtures}.py`;
+  `examples/bitwise_slice.cpp`; current fixture manifest/case/expected artifacts
+  and `tools/regenerate_fixtures.py`; `docs/{result_schema,adoption_guide,
+  semantic_verification_prototype,solver_decision,
+  integer_semantics_decision}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: positive/negative bit patterns, mixed signedness, De Morgan, masks, and
   32/64-bit shifts replay exactly; negative or width-exceeding counts and
   invalid signed left shifts never verify; negative signed right shift follows

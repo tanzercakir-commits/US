@@ -994,6 +994,12 @@ class SemanticLowerer:
                 return value
             if operator == "-" and is_fixed_integer_type(value.type):
                 return Expr.unary("-", value, value.type)
+            if operator == "~" and is_fixed_integer_type(value.type):
+                result_source = _normalize_value_type(_qual_type(node))
+                result_type = SOURCE_TYPE_MAP.get(result_source, result_source)
+                if result_type != value.type:
+                    raise UnsupportedNode(node, "bitwise complement type is inconsistent")
+                return Expr.unary("~", value, value.type)
             if operator == "!" and value.type == "bool":
                 return Expr.unary("!", value, "bool")
             raise UnsupportedNode(node, f"unary operator {operator!r} is unsupported")
@@ -1007,6 +1013,11 @@ class SemanticLowerer:
                 "*",
                 "/",
                 "%",
+                "&",
+                "|",
+                "^",
+                "<<",
+                ">>",
                 "==",
                 "!=",
                 "<",
@@ -1020,16 +1031,31 @@ class SemanticLowerer:
             left_node, right_node = self._inner(node, 2)
             left = self._expression(left_node, environment)
             right = self._expression(right_node, environment)
-            if operator in {"+", "-", "*", "/", "%"}:
+            if operator in {"+", "-", "*", "/", "%", "&", "|", "^"}:
                 if (
                     not is_fixed_integer_type(left.type)
                     or left.type != right.type
                 ):
-                    raise UnsupportedNode(node, f"{operator} requires matching fixed-width operands")
+                    raise UnsupportedNode(
+                        node, f"{operator} requires matching fixed-width operands"
+                    )
                 result_source = _normalize_value_type(_qual_type(node))
                 result_type = SOURCE_TYPE_MAP.get(result_source, result_source)
                 if result_type != left.type:
-                    raise UnsupportedNode(node, "arithmetic result type is inconsistent")
+                    raise UnsupportedNode(node, "integer result type is inconsistent")
+                return Expr.binary(operator, left, right, result_type)
+            if operator in {"<<", ">>"}:
+                if not (
+                    is_fixed_integer_type(left.type)
+                    and is_fixed_integer_type(right.type)
+                ):
+                    raise UnsupportedNode(
+                        node, f"{operator} requires promoted fixed-width operands"
+                    )
+                result_source = _normalize_value_type(_qual_type(node))
+                result_type = SOURCE_TYPE_MAP.get(result_source, result_source)
+                if result_type != left.type:
+                    raise UnsupportedNode(node, "shift result type is inconsistent")
                 return Expr.binary(operator, left, right, result_type)
             if operator in {"&&", "||"}:
                 if left.type != "bool" or right.type != "bool":
@@ -1040,7 +1066,9 @@ class SemanticLowerer:
                     not is_fixed_integer_type(left.type)
                     or left.type != right.type
                 ):
-                    raise UnsupportedNode(node, f"{operator} requires matching fixed-width operands")
+                    raise UnsupportedNode(
+                        node, f"{operator} requires matching fixed-width operands"
+                    )
             elif left.type != right.type:
                 raise UnsupportedNode(node, f"{operator} operands have different types")
             return Expr.binary(operator, left, right, "bool")

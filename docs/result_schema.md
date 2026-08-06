@@ -278,11 +278,12 @@ Every expression has `kind` and `type`. v2 type identities are `bool`, `i32`,
 | `unary` | `op`, one-element `args` | `!` or unary `-`. |
 | `cast` | `op`, one-element `args` | `integral`; bool-to-fixed-width or any owned fixed-width conversion under the pinned profile. |
 | `binary` | `op`, two-element `args` | Arithmetic, comparison, equality, or boolean connective. |
-| `predicate` | `op`, one-element `args` | `signed_no_overflow` over a signed `+`, `-`, or `*` operation in an unsigned-tainted obligation. |
+| `predicate` | `op`, one-element `args` | `signed_no_overflow` for mixed arithmetic or `signed_left_shift_defined` for C++17 left-shift safety. |
 
-The representable operators are `+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `<=`,
-`>`, `>=`, `&&`, `||`, and unary `!`/`-`. Any expression containing `u32` or
-`u64` selects homogeneous QF_BV: every fixed-width term in that obligation is
+The representable operators are `+`, `-`, `*`, `/`, `%`, `~`, `&`, `|`, `^`,
+`<<`, `>>`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`, `||`, and unary `!`/`-`.
+Any expression containing `u32`/`u64` or a bitwise/shift operator selects
+homogeneous QF_BV: every fixed-width term in that obligation is
 a width-matching bitvector, with signed/zero extension, truncation, modulo
 arithmetic, and signed/unsigned comparisons. Signed-only obligations remain
 QF_LIA, where exact division/remainder requires a literal divisor and
@@ -291,9 +292,12 @@ contracts follow the frozen usual-arithmetic-conversion table. Signed
 arithmetic retains width-specific overflow VCs; unsigned arithmetic wraps
 modulo `2^width`. In QF_BV, `signed_no_overflow` compares the signed operation
 at double width with the sign-extension of its wrapped result, so mixed
-signed-result arithmetic cannot turn undefined overflow into a proof. Both
-lanes require nonzero divisors, and signed division/remainder also excludes the
-type minimum with `-1`.
+signed-result arithmetic cannot turn undefined overflow into a proof. Shift
+counts require `0 <= count < promoted-left width`; signed left shift uses a
+zero-extended double-width equality plus a nonnegative left operand, while
+signed right shift is arithmetic under the pinned profile. Both lanes require
+nonzero divisors, and signed division/remainder also excludes the type minimum
+with `-1`.
 
 ## Semantic IR
 

@@ -16,7 +16,8 @@ Implemented:
   and invariant-annotated while loops;
 - strict inline cs: preconditions, postconditions, and loop invariants;
 - path-specific VCs for contracts, signed i32/i64 definedness, unsigned
-  u32/u64 modulo arithmetic, conversions, modular calls, and loop obligations;
+  u32/u64 modulo arithmetic, conversions, bitwise/shift definedness, modular
+  calls, and loop obligations;
 - a dependency-free affine checker plus a complete external Z3 backend for the
   emitted homogeneous QF_LIA/QF_BV fragments;
 - deterministic SMT-LIB2, solver timeouts, model parsing, mandatory replay,
@@ -34,7 +35,7 @@ Implemented:
   per-process solver timeouts, with exhaustion remaining explicit `unknown`;
 - a committed scaling slice and hash/count-based phase gate covering exact join
   compaction, uncached/warm cache identity, and repeated budget identity;
-- 216 deterministic tests, including independent soundness regressions.
+- 226 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -56,7 +57,6 @@ Partially implemented:
 
 Proposed, not implemented:
 
-- bitwise and shift operators under the selected fixed-width integer profile;
 - a native clang::ASTContext adapter inside CodeSkeptic;
 - reuse of CodeSkeptic .csk sidecars;
 - production diagnostic/SARIF/MCP adapters for proof results and models;
@@ -254,8 +254,9 @@ expressions. Supported contract expression syntax is:
 - integer and boolean literals;
 - parameter names and result/return;
 - addition and subtraction;
-- multiplication and division at parse time (the checker later enforces the
-  supported logic fragment);
+- multiplication, division, and remainder at parse time (the checker later
+  enforces the supported logic fragment);
+- bitwise complement/and/or/xor plus left/right shifts with C++ precedence;
 - six comparisons;
 - boolean and, or, and not;
 - parentheses.
@@ -301,6 +302,7 @@ Generated obligation kinds:
 - source assertion;
 - division by zero;
 - signed integer overflow;
+- shift-count range and signed-left-shift definedness;
 - reachable non-void fallthrough;
 - unsupported logic/construct.
 
@@ -309,7 +311,11 @@ modes. Every signed i32/i64 parameter receives implicit type-minimum/type-maximu
 bounds. Signed addition, subtraction, multiplication, and negation receive
 range-safety obligations. Unsigned arithmetic wraps without overflow VCs.
 Division/remainder always receives a divisor-nonzero obligation; signed forms
-also receive the type-minimum/-1 obligation.
+also receive the type-minimum/-1 obligation. Every shift count must be
+nonnegative and below the promoted left width. Signed left shift additionally
+requires a nonnegative left operand whose exact shifted value fits the
+corresponding unsigned type; negative signed right shift uses the pinned
+arithmetic profile.
 
 Expression safety follows C++ short-circuit behavior. Definedness guards are
 added to later path states, so a postcondition is not refuted by an execution
@@ -336,9 +342,10 @@ for witnesses or counterexamples. Found models are real; exhausting the fixed
 
 semantic_verifier/smtlib.py classifies each obligation before emission.
 Signed-only formulas use sorted QF_LIA declarations and mathematical `Int`;
-unsigned-tainted formulas use homogeneous QF_BV, with every fixed-width term
-encoded as a 32/64-bit vector. The BV lane implements modulo arithmetic,
-variable multiplication/division/remainder, signed/unsigned comparisons,
+unsigned-tainted formulas and every bitwise/shift formula use homogeneous
+QF_BV, with every fixed-width term encoded as a 32/64-bit vector. The BV lane
+implements modulo arithmetic, variable multiplication/division/remainder,
+signed/unsigned comparisons, complement/and/or/xor, logical/arithmetic shifts,
 sign/zero extension, and truncation. Signed-result addition, subtraction, and
 multiplication use an exact double-width overflow predicate before their wrapped
 results become path facts. QF_LIA retains its literal multiplier and
@@ -356,7 +363,7 @@ order only when exact reasoning proves the remaining core still forces the
 negated conclusion.
 
 Cross-check mode accepts the stronger definitive answer when the other backend
-is unknown. It does not override `unsupported`: unsigned/BV obligations require
+is unknown. It does not override `unsupported`: BV-required obligations require
 explicit `--backend z3`. Definitive disagreement, backend process failure, or
 replay failure becomes solver_error. No solver library or Python solver package
 is linked; z3 and both modes require the separately installed Z3 executable.
@@ -397,8 +404,9 @@ reference](result_schema.md).
 - named fixed-width integer and `bool` parameters;
 - initialized local fixed-width integer and `bool` variables;
 - assignment to locals;
-- unary plus, unary minus, and boolean not;
-- addition and subtraction;
+- unary plus, unary minus, boolean not, and bitwise complement;
+- addition, subtraction, bitwise and/or/xor, and left/right shifts after
+  integral promotions and usual conversions where applicable;
 - literal multiplication in signed-only QF_LIA and general multiplication in
   unsigned-tainted QF_BV;
 - signed/unsigned division and remainder safety; QF_LIA formulas require a

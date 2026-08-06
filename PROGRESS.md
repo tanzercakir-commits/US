@@ -685,3 +685,28 @@ Evidence: unsigned/BV tests -> 17/17; mixed signed-overflow negatives -> 3/3;
 explicit-Z3 example -> 20 verified, zero non-verified results; full suite ->
 216/216; fixture check -> 14/14 current; diff check -> clean; commit: this commit.
 Next: A6.11 (C++17 bitwise and shift operators).
+
+## 2026-08-06 - A6.11: C++17 bitwise and shift operators - DONE
++ Added C++17 `~`, `&`, `|`, `^`, `<<`, and `>>` lowering with exact contract
+  precedence, bool integral promotion, usual arithmetic conversions for bitwise
+  pairs, and promoted-left result typing for shifts.
++ Classified every bitwise/shift formula as homogeneous QF_BV and added exact
+  `bvnot`/`bvand`/`bvor`/`bvxor` plus width-normalized `bvshl`/`bvlshr`/`bvashr`
+  emission without mixed `Int`/`BitVec` declarations.
++ Added shift-count range obligations and exact signed-left-shift definedness:
+  nonnegative left operand plus zero-extended double-width representability in
+  the corresponding unsigned type; pinned negative signed right shift is
+  arithmetic.
++ Extended deterministic replay, simplification, constant evaluation,
+  counterexample minimization, backend/cache identities, schema references,
+  adoption guidance, and the supported/unsupported boundary.
++ Kept compound assignments, rotates, and builtin bit operations fail-closed.
++ Added ten focused tests and the 19-obligation bitwise fixture/example; advanced
+  the test-count ratchet from 216 to 226.
+- None.
+Evidence: bitwise tests -> 10/10; invalid shift-count cases -> 3/3 violated;
+invalid signed-left-shift values -> 2/2 violated; explicit-Z3 example -> 19
+verified, zero non-verified results and repeated JSON byte-identical; full suite
+-> 226/226; fixture check -> 16/16 current; diff check -> clean; commit: this
+commit.
+Next: A6.12 (fixed-width integer phase gate).

@@ -21,8 +21,8 @@ Before adoption, pin or document:
 - Python 3.11 or newer;
 - a Clang executable that supports JSON AST output;
 - Z3 for the default signed-only `both` backend and the explicit `z3` backend
-  required by unsigned/mixed QF_BV obligations, or an explicit decision to use
-  the weaker dependency-free `affine` backend;
+  required by unsigned/mixed/bitwise/shift QF_BV obligations, or an explicit
+  decision to use the weaker dependency-free `affine` backend;
 - the verifier commit and `schema` identifier;
 - the source paths/functions allowed into the initial subset;
 - the CI owner responsible for `unknown`, `unsupported`, and `solver_error`.
@@ -147,7 +147,7 @@ A minimal observation job can follow this shape:
 
 Preserve the verifier exit code if the job is intended to gate. Some pipelines
 lose the first command's status when output is piped; capture and restore it
-explicitly for that shell. A pilot containing unsigned or mixed arithmetic must
+explicitly for that shell. A pilot containing unsigned, mixed, bitwise, or shift expressions must
 use `--backend z3`; default `both` intentionally returns `unsupported` because
 the affine referee cannot check QF_BV.
 
@@ -252,6 +252,8 @@ counterexample core; apply the same artifact access policy to both fields.
 
 - Validate the pinned target profile before accepting i32/u32/i64/u64 evidence;
   do not reinterpret it on a target with different widths or signed behavior.
+- Treat shift-count and signed-left-shift violations as undefined-behavior
+  findings; never use a wrapped solver result after either guard fails.
 - Require `codeskeptic.semantic-verification/v2` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.

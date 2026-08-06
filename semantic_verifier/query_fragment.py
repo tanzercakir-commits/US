@@ -15,12 +15,20 @@ class QueryFragment(str, Enum):
 
 
 def classify_expressions(expressions: Iterable[Expr]) -> QueryFragment:
-    """Classify unsigned-tainted formulas as homogeneous bit-vector queries."""
+    """Classify unsigned-tainted or bitwise formulas as homogeneous BV."""
 
     pending = list(expressions)
     while pending:
         expression = pending.pop()
-        if is_unsigned_integer_type(expression.type):
+        if is_unsigned_integer_type(expression.type) or expression.op in {
+            "~",
+            "&",
+            "|",
+            "^",
+            "<<",
+            ">>",
+            "signed_left_shift_defined",
+        }:
             return QueryFragment.QF_BV
         pending.extend(expression.args)
     return QueryFragment.QF_LIA

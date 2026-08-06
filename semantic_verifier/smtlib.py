@@ -487,22 +487,49 @@ def _emit_bv_expr(expression: Expr) -> str:
         return f"((_ extract {target.width - 1} 0) {emitted})"
 
     if expression.kind == "predicate":
-        operation = _signed_no_overflow_operation(expression)
-        profile = integer_type(operation.type)
-        left, right = operation.args
-        extended_left = (
-            f"((_ sign_extend {profile.width}) {_emit_bv_expr(left)})"
+        if expression.op == "signed_no_overflow":
+            operation = _signed_no_overflow_operation(expression)
+            profile = integer_type(operation.type)
+            left, right = operation.args
+            extended_left = (
+                f"((_ sign_extend {profile.width}) {_emit_bv_expr(left)})"
+            )
+            extended_right = (
+                f"((_ sign_extend {profile.width}) {_emit_bv_expr(right)})"
+            )
+            wide_op = {"+": "bvadd", "-": "bvsub", "*": "bvmul"}[
+                operation.op
+            ]
+            wide_result = f"({wide_op} {extended_left} {extended_right})"
+            wrapped = _emit_bv_expr(operation)
+            extended_wrapped = (
+                f"((_ sign_extend {profile.width}) {wrapped})"
+            )
+            return f"(= {wide_result} {extended_wrapped})"
+        if expression.op == "signed_left_shift_defined":
+            operation = _signed_left_shift_operation(expression)
+            profile = integer_type(operation.type)
+            left, right = operation.args
+            extended_left = (
+                f"((_ zero_extend {profile.width}) {_emit_bv_expr(left)})"
+            )
+            extended_right = _emit_bv_shift_count(right, profile.width * 2)
+            wide_result = f"(bvshl {extended_left} {extended_right})"
+            wrapped = _emit_bv_expr(operation)
+            extended_wrapped = (
+                f"((_ zero_extend {profile.width}) {wrapped})"
+            )
+            count_defined = _emit_bv_shift_count_defined(right, profile.width)
+            nonnegative = (
+                f"(bvsge {_emit_bv_expr(left)} (_ bv0 {profile.width}))"
+            )
+            return (
+                f"(and {count_defined} {nonnegative} "
+                f"(= {wide_result} {extended_wrapped}))"
+            )
+        raise SmtLibEmissionError(
+            f"unsupported predicate {expression.op!r}"
         )
-        extended_right = (
-            f"((_ sign_extend {profile.width}) {_emit_bv_expr(right)})"
-        )
-        wide_op = {"+": "bvadd", "-": "bvsub", "*": "bvmul"}[operation.op]
-        wide_result = f"({wide_op} {extended_left} {extended_right})"
-        wrapped = _emit_bv_expr(operation)
-        extended_wrapped = (
-            f"((_ sign_extend {profile.width}) {wrapped})"
-        )
-        return f"(= {wide_result} {extended_wrapped})"
 
     if expression.kind == "unary":
         if len(expression.args) != 1:
@@ -514,6 +541,9 @@ def _emit_bv_expr(expression: Expr) -> str:
         if expression.op == "-" and is_fixed_integer_type(expression.type):
             _require_types(expression, expression.type, (operand, expression.type))
             return f"(bvneg {_emit_bv_expr(operand)})"
+        if expression.op == "~" and is_fixed_integer_type(expression.type):
+            _require_types(expression, expression.type, (operand, expression.type))
+            return f"(bvnot {_emit_bv_expr(operand)})"
         raise SmtLibEmissionError(f"unsupported unary operator {expression.op!r}")
 
     if expression.kind != "binary" or len(expression.args) != 2:
@@ -547,7 +577,7 @@ def _emit_bv_expr(expression: Expr) -> str:
             ">": "bvsgt" if signed else "bvugt",
             ">=": "bvsge" if signed else "bvuge",
         }[op]
-    elif op in {"+", "-", "*", "/", "%"}:
+    elif op in {"+", "-", "*", "/", "%", "&", "|", "^"}:
         if not is_fixed_integer_type(expression.type):
             raise SmtLibEmissionError(
                 f"operator {op!r} requires a fixed-width result"
@@ -568,7 +598,29 @@ def _emit_bv_expr(expression: Expr) -> str:
             "*": "bvmul",
             "/": "bvsdiv" if signed else "bvudiv",
             "%": "bvsrem" if signed else "bvurem",
+            "&": "bvand",
+            "|": "bvor",
+            "^": "bvxor",
         }[op]
+    elif op in {"<<", ">>"}:
+        if (
+            not is_fixed_integer_type(expression.type)
+            or left.type != expression.type
+            or not is_fixed_integer_type(right.type)
+        ):
+            raise SmtLibEmissionError(
+                f"operator {op!r} requires promoted fixed-width operands"
+            )
+        emitted_left = _emit_bv_expr(left)
+        emitted_right = _emit_bv_shift_count(
+            right, integer_type(expression.type).width
+        )
+        if op == "<<":
+            return f"(bvshl {emitted_left} {emitted_right})"
+        smt_op = (
+            "bvashr" if integer_type(expression.type).signed else "bvlshr"
+        )
+        return f"({smt_op} {emitted_left} {emitted_right})"
     else:
         raise SmtLibEmissionError(f"unsupported binary operator {op!r}")
     return f"({smt_op} {_emit_bv_expr(left)} {_emit_bv_expr(right)})"
@@ -594,6 +646,32 @@ def _fixed_literal_value(expression: Expr) -> int:
     raise SmtLibEmissionError("expression is not a fixed-width literal")
 
 
+def _emit_bv_shift_count(expression: Expr, target_width: int) -> str:
+    if not is_fixed_integer_type(expression.type):
+        raise SmtLibEmissionError("shift count must be fixed-width")
+    source = integer_type(expression.type)
+    emitted = _emit_bv_expr(expression)
+    if source.width == target_width:
+        return emitted
+    if source.width < target_width:
+        extension = "sign_extend" if source.signed else "zero_extend"
+        return f"((_ {extension} {target_width - source.width}) {emitted})"
+    return f"((_ extract {target_width - 1} 0) {emitted})"
+
+
+def _emit_bv_shift_count_defined(expression: Expr, left_width: int) -> str:
+    profile = integer_type(expression.type)
+    emitted = _emit_bv_expr(expression)
+    lower = (
+        f"(bvsge {emitted} (_ bv0 {profile.width}))"
+        if profile.signed
+        else "true"
+    )
+    upper_op = "bvslt" if profile.signed else "bvult"
+    upper = f"({upper_op} {emitted} (_ bv{left_width} {profile.width}))"
+    return f"(and {lower} {upper})"
+
+
 def _signed_no_overflow_operation(expression: Expr) -> Expr:
     if (
         expression.type != "bool"
@@ -611,5 +689,27 @@ def _signed_no_overflow_operation(expression: Expr) -> Expr:
     ):
         raise SmtLibEmissionError(
             "signed-overflow predicate requires a matching signed operation"
+        )
+    return operation
+
+
+def _signed_left_shift_operation(expression: Expr) -> Expr:
+    if (
+        expression.type != "bool"
+        or expression.op != "signed_left_shift_defined"
+        or len(expression.args) != 1
+    ):
+        raise SmtLibEmissionError("malformed signed-left-shift predicate")
+    operation = expression.args[0]
+    if (
+        operation.kind != "binary"
+        or operation.op != "<<"
+        or operation.type not in {"i32", "i64"}
+        or len(operation.args) != 2
+        or operation.args[0].type != operation.type
+        or not is_fixed_integer_type(operation.args[1].type)
+    ):
+        raise SmtLibEmissionError(
+            "signed-left-shift predicate requires promoted fixed-width operands"
         )
     return operation

@@ -124,7 +124,14 @@ result inside this lane retains C++ undefined-overflow checks through the
 `predicate/signed_no_overflow` IR form, encoded by comparing a double-width
 signed operation with the sign-extension of its wrapped result. Affine and
 default cross-check remain fail-closed; explicit Z3 mode decides this lane.
-Bitwise and shift admission remains A6.11.
+
+A6.11 implements `~`, `&`, `|`, `^`, `<<`, and `>>` with C++17 precedence,
+integral promotions, and the selected usual conversions. Their presence selects
+QF_BV even for signed-only operands. Shift counts generate `0 <= E2 < width`
+obligations. Signed left shift also proves a nonnegative left operand and exact
+representability in the corresponding unsigned type through a zero-extended
+double-width equality; signed negative right shift emits arithmetic `bvashr`.
+Compound assignments, rotates, and bit-library calls remain fail-closed.
 
 The C++17 shift rules, including undefined counts, conditional signed left
 shift, and implementation-defined negative signed right shift, are stated in

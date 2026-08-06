@@ -39,7 +39,7 @@ _TOKEN = re.compile(
     r"\s*(?:"
     r"(?P<int>[0-9]+)|"
     r"(?P<ident>[A-Za-z_][A-Za-z0-9_]*)|"
-    r"(?P<op>==|!=|<=|>=|&&|\|\||[()+\-*/%!<>])|"
+    r"(?P<op>==|!=|<=|>=|<<|>>|&&|\|\||[()+\-*/%!<>&|^~])|"
     r"(?P<bad>.)"
     r")"
 )
@@ -93,13 +93,40 @@ class ContractExpressionParser:
         return left
 
     def _and(self) -> Expr:
-        left = self._equality()
+        left = self._bitwise_or()
         while self._peek().text == "&&":
             self._take()
-            right = self._equality()
+            right = self._bitwise_or()
             self._require(left, "bool", "&&")
             self._require(right, "bool", "&&")
             left = Expr.binary("&&", left, right, "bool")
+        return left
+
+    def _bitwise_or(self) -> Expr:
+        left = self._bitwise_xor()
+        while self._peek().text == "|":
+            op = self._take().text
+            right = self._bitwise_xor()
+            left, right, type_name = self._bitwise_pair(left, right, op)
+            left = Expr.binary(op, left, right, type_name)
+        return left
+
+    def _bitwise_xor(self) -> Expr:
+        left = self._bitwise_and()
+        while self._peek().text == "^":
+            op = self._take().text
+            right = self._bitwise_and()
+            left, right, type_name = self._bitwise_pair(left, right, op)
+            left = Expr.binary(op, left, right, type_name)
+        return left
+
+    def _bitwise_and(self) -> Expr:
+        left = self._equality()
+        while self._peek().text == "&":
+            op = self._take().text
+            right = self._equality()
+            left, right, type_name = self._bitwise_pair(left, right, op)
+            left = Expr.binary(op, left, right, type_name)
         return left
 
     def _equality(self) -> Expr:
@@ -120,12 +147,21 @@ class ContractExpressionParser:
         return left
 
     def _relational(self) -> Expr:
-        left = self._additive()
+        left = self._shift()
         while self._peek().text in {"<", "<=", ">", ">="}:
             op = self._take().text
-            right = self._additive()
+            right = self._shift()
             left, right, _ = self._integer_pair(left, right, op)
             left = Expr.binary(op, left, right, "bool")
+        return left
+
+    def _shift(self) -> Expr:
+        left = self._additive()
+        while self._peek().text in {"<<", ">>"}:
+            op = self._take().text
+            right = self._additive()
+            left, right, type_name = self._shift_pair(left, right, op)
+            left = Expr.binary(op, left, right, type_name)
         return left
 
     def _additive(self) -> Expr:
@@ -166,6 +202,10 @@ class ContractExpressionParser:
             ):
                 return Expr.integer(I32.minimum, "i32")
             return Expr.unary("-", value, value.type)
+        if self._peek().text == "~":
+            self._take()
+            value = self._promote_integral(self._unary(), "~")
+            return Expr.unary("~", value, value.type)
         return self._primary()
 
     def _primary(self) -> Expr:
@@ -195,6 +235,34 @@ class ContractExpressionParser:
             return Expr.variable(name, self.symbols[name])
         raise ContractSyntaxError(
             f"expected expression at column {token.position + 1}"
+        )
+
+    @classmethod
+    def _bitwise_pair(
+        cls, left: Expr, right: Expr, operator: str
+    ) -> tuple[Expr, Expr, str]:
+        return cls._integer_pair(
+            cls._promote_integral(left, operator),
+            cls._promote_integral(right, operator),
+            operator,
+        )
+
+    @classmethod
+    def _shift_pair(
+        cls, left: Expr, right: Expr, operator: str
+    ) -> tuple[Expr, Expr, str]:
+        promoted_left = cls._promote_integral(left, operator)
+        promoted_right = cls._promote_integral(right, operator)
+        return promoted_left, promoted_right, promoted_left.type
+
+    @staticmethod
+    def _promote_integral(value: Expr, operator: str) -> Expr:
+        if value.type == "bool":
+            return Expr.cast(value, "i32")
+        if is_fixed_integer_type(value.type):
+            return value
+        raise ContractSyntaxError(
+            f"operator {operator!r} requires an integral operand, got {value.type}"
         )
 
     @staticmethod

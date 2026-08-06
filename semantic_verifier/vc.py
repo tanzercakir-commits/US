@@ -713,6 +713,42 @@ class VerificationConditionGenerator:
                 trace_templates=current.trace_templates,
             )
             return current.add(lower_bound).add(upper_bound)
+        if expr.op in {"<<", ">>"}:
+            _, count = expr.args
+            result_profile = integer_type(expr.type)
+            nonnegative = _binary(
+                ">=", count, Expr.integer(0, count.type)
+            )
+            below_width = _binary(
+                "<", count, Expr.integer(result_profile.width, count.type)
+            )
+            count_defined = _and(nonnegative, below_width)
+            self._add(
+                function,
+                "shift_count",
+                current.assumptions,
+                count_defined,
+                node.location,
+                f"shift count must be in [0, {result_profile.width})",
+                trace_templates=current.trace_templates,
+            )
+            shifted = current.add(nonnegative).add(below_width)
+            if expr.op == "<<" and is_signed_integer_type(expr.type):
+                value_defined = Expr.predicate(
+                    "signed_left_shift_defined", expr
+                )
+                self._add(
+                    function,
+                    "signed_left_shift",
+                    shifted.assumptions,
+                    value_defined,
+                    node.location,
+                    "signed left shift must be representable in "
+                    f"u{result_profile.width}",
+                    trace_templates=shifted.trace_templates,
+                )
+                return shifted.add(value_defined)
+            return shifted
         if expr.op in {"/", "%"}:
             numerator, denominator = expr.args
             nonzero = _binary("!=", denominator, Expr.integer(0, expr.type))

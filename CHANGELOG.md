@@ -22,6 +22,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.11 adds C++17 `~`, `&`, `|`, `^`, `<<`, and `>>` with exact promotions,
+  usual conversions, precedence, 32/64-bit QF_BV encoding, shift-count VCs,
+  signed-left-shift representability checks, pinned arithmetic signed right
+  shift, replay/minimization, and a 19-obligation explicit-Z3 fixture. Compound
+  assignments, rotates, and builtin bit operations remain fail-closed.
 - A6.10 adds C++17 `unsigned int`/`unsigned long long` as `u32`/`u64`,
   exact usual conversions and modulo arithmetic, homogeneous QF_BV emission,
   exact widened signed-result overflow checks, width-checked BV model
@@ -80,6 +85,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- A6.11 remains schema v2 because it adds only previously unsupported operator
+  and predicate-op values on new bitwise/shift objects; conforming consumers
+  already reject unknown expression operators fail-closed. Consumers must
+  implement exact shift definedness and the pinned signed-right-shift profile
+  or reject those objects. Existing fixture bytes remain unchanged.
 - A6.10 remains schema v2 because unsigned identities and integral casts were
   reserved by A6.8, and the additive `predicate/signed_no_overflow` form occurs
   only in new unsigned-tainted objects. Consumers must implement that predicate,
