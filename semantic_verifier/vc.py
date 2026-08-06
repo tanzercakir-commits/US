@@ -81,6 +81,7 @@ class VerificationConditionGenerator:
         self._well_formed_keys: set[tuple[str, int]] = set()
         for function in module.functions:
             self._by_key.setdefault(function.key, []).append(function)
+        self._recursive_reasons = self._recursive_call_reasons()
 
     def generate(self) -> tuple[Obligation, ...]:
         for issue in self.module.unsupported:
@@ -89,6 +90,19 @@ class VerificationConditionGenerator:
             )
 
         for function in self.module.functions:
+            recursion_reason = self._recursive_reasons.get(function.key)
+            if recursion_reason is not None:
+                if function.has_body:
+                    self._add(
+                        function.name,
+                        "unsupported_construct",
+                        (),
+                        None,
+                        function.location,
+                        recursion_reason,
+                        unsupported_reason=recursion_reason,
+                    )
+                continue
             unsupported = self._first_unsupported(function.body)
             if unsupported is not None:
                 self._unsupported_obligation(
@@ -122,6 +136,74 @@ class VerificationConditionGenerator:
                     "non-void function must return on every reachable path",
                 )
         return tuple(self._obligations)
+
+    def _recursive_call_reasons(self) -> dict[tuple[str, int], str]:
+        graph = {key: set() for key in self._by_key}
+        for key, functions in self._by_key.items():
+            for function in functions:
+                if not function.has_body:
+                    continue
+                graph[key].update(
+                    called
+                    for called in self._called_keys(function.body)
+                    if called in graph
+                )
+
+        reachable: dict[tuple[str, int], set[tuple[str, int]]] = {}
+        for start in sorted(graph):
+            visited: set[tuple[str, int]] = set()
+            pending = list(reversed(sorted(graph[start])))
+            while pending:
+                current = pending.pop()
+                if current in visited:
+                    continue
+                visited.add(current)
+                pending.extend(
+                    reversed(sorted(graph[current] - visited))
+                )
+            reachable[start] = visited
+
+        recursive = {key for key in graph if key in reachable[key]}
+        reasons: dict[tuple[str, int], str] = {}
+        remaining = set(recursive)
+        while remaining:
+            start = min(remaining)
+            component = {
+                candidate
+                for candidate in recursive
+                if candidate in reachable[start]
+                and start in reachable[candidate]
+            }
+            remaining.difference_update(component)
+            labels = ", ".join(
+                f"{name}/{arity}" for name, arity in sorted(component)
+            )
+            recursion_kind = (
+                "direct recursion"
+                if len(component) == 1
+                else "mutual recursion"
+            )
+            reason = (
+                f"{recursion_kind} is unsupported without a "
+                f"decreasing-measure policy: {labels}"
+            )
+            for key in component:
+                reasons[key] = reason
+        return reasons
+
+    @staticmethod
+    def _called_keys(nodes: Iterable[IRNode]) -> set[tuple[str, int]]:
+        result: set[tuple[str, int]] = set()
+        for node in nodes:
+            if node.kind == "call" and node.callee is not None:
+                result.add((node.callee, len(node.arguments)))
+            result.update(
+                VerificationConditionGenerator._called_keys(node.then_body)
+            )
+            result.update(
+                VerificationConditionGenerator._called_keys(node.else_body)
+            )
+        return result
 
     def _contract_consistency(
         self, function: FunctionIR, contracts: tuple[Contract, ...]

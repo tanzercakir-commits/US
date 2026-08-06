@@ -199,3 +199,15 @@ Evidence: `python -m unittest tests.test_modular_calls` → 5/5; full suite →
 text` → 6 verified, 0 violated/unknown/unsupported/solver_error, exit 0;
 commit: this commit.
 Next: A2.3 (recursion policy).
+
+## 2026-08-06 — A2.3: recursion policy — DONE
++ Added deterministic IR call-graph reachability/SCC analysis across nested
+  branch bodies and overload-safe function keys.
++ Direct and mutual recursive components now fail closed as `unsupported` with
+  explicit members and the missing decreasing-measure policy.
++ Added four tests; acyclic overload and modular-chain behavior remains green;
+  ratchet advanced from 117 to 121.
+- None.
+Evidence: `python -m unittest tests.test_recursion_policy` → 4/4; direct and
+mutual examples explicitly rejected; full suite → 121/121; commit: this commit.
+Next: A2.4 (phase gate).
