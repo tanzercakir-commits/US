@@ -939,3 +939,34 @@ CodeSkeptic suite -> 816/816; forbidden dependency scan -> clean; Rule.h diff
 -> empty; production commit -> `20b12bd`; reference baseline -> 314/314; commit:
 this reference-ledger commit.
 Next: B1.3 (native ASTContext to Semantic IR lowering).
+
+## 2026-08-06 - B1.3: native ASTContext to Semantic IR lowering - DONE
++ Added a standalone `SemanticLowerer` that consumes Clang `ASTContext` and
+  returns fully owned IR with no AST pointers retained beyond the translation
+  unit.
++ Lowered main-file free-function definitions for exact `void`/`bool` and
+  32/64-bit integer types, parameters, initialized locals, assignments, direct
+  calls, returns, `if`/`else`, literals, local references, implicit scalar
+  casts, and the supported unary/binary operator set.
++ Added deterministic source/function/symbol/node identities, source order and
+  locations, distinct identities for shadowed variables, and repeatable output
+  across independently parsed translation units.
++ Kept pointer/narrow types, templates, variadics, uninitialized locals, loops,
+  compound assignment, member/indirect calls, macros, and every other omitted
+  construct explicitly fail-closed with stable unsupported reasons.
++ Extended owned IR with function/parameter/local locations and locals, plus
+  return-type-aware validation including exact void-return handling.
++ Added eight focused production tests; the CodeSkeptic suite grew from 816 to
+  824 tests without touching `Rule.h` or introducing Rule, Diagnostic,
+  reporter, or server dependencies.
++ Expanded the sparse B1.3 Goal/Output/exact file set/boundary/DoD before
+  implementation and ordered B1.5 before the contract-dependent B1.4 gate.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: production build -> success; focused SemanticIR/lowerer tests ->
+13/13; full CodeSkeptic suite -> 824/824; deterministic owned-lowering test ->
+green; unsupported boundary tests -> green; forbidden dependency scan -> clean;
+`Rule.h` diff -> empty; production commit -> `bc3c8f9`; reference suite ->
+314/314; commit: this reference-ledger commit.
+Next: B1.5 (native arithmetic contract parsing and ContractInfo adaptation),
+then B1.4 (byte-for-byte native/Python fixture equality).

@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- [ ] **B1.3 - native ASTContext to Semantic IR lowering**
+- [ ] **B1.5 - arithmetic contract parsing and ContractInfo adaptation**
 
 ## Next
 
@@ -21,6 +21,7 @@
 
 ## Last updated
 
-2026-08-06 - B1.2 added the standalone Clang/reporter-independent production
-SemanticIR module and five tests; CodeSkeptic is green at 816/816. Next is
-native ASTContext lowering for the exact v0 subset.
+2026-08-06 - B1.3 added exact, owned ASTContext lowering for the native scalar
+subset; CodeSkeptic is green at 824/824 and the reference suite at 314/314.
+B1.5 comes before B1.4 because contract-bearing fixture equality requires the
+native contract adaptation.

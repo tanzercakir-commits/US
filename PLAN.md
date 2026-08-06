@@ -712,9 +712,33 @@ infrastructure. Reference: prototype fixtures = the specification.
   suite pass without modifying `src/core/Rule.h`; the reference suite stays
   green.
 #### B1.3 — ASTContext → Semantic IR lowering (v0 subset, exact)
+- Goal: lower a deliberately small scalar C/C++ subset directly from Clang's
+  `ASTContext` into owned Semantic IR without pointer leakage or silent
+  approximation.
+- Output: a production `SemanticLowerer` seam, deterministic source/function/
+  symbol/node identities, exact scalar expression and structured-statement
+  lowering, explicit unsupported records, build integration, and focused tests.
+- Expanded exact file set: CodeSkeptic
+  `src/semantic/{SemanticIR,SemanticLowerer}.{h,cpp}`, `src/CMakeLists.txt`,
+  `tests/{SemanticIR,SemanticLowerer}Test.cpp`, and `tests/CMakeLists.txt`;
+  reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Supported v0 boundary: main-file free-function definitions; `void`, `bool`,
+  and fixed 32/64-bit integer types; named parameters and initialized scalar
+  locals; scalar assignment; direct calls; return; `if`/`else`; integer and
+  boolean literals; variable references; exact supported unary/binary
+  operators and implicit scalar casts. Every other declaration, type,
+  expression, or statement that affects a selected function is recorded as
+  unsupported and is never approximated.
+- DoD: two lowerings of the same in-memory TU are structurally identical;
+  supported nodes retain canonical types, source locations, source order, and
+  stable identities; shadowed variables remain distinct; representative
+  unsupported types/statements/calls fail closed with stable reasons; no
+  `Rule`, reporter, or server dependency is introduced; focused and full
+  production suites and the reference suite pass.
 #### B1.4 — Byte-for-byte comparison harness: fixture equality inside the
   in-memory Clang test harness
 - DoD: C++-produced JSON == Python fixture JSON across the corpus.
+- Depends: B1.5 (contract-bearing fixtures require native contract adaptation).
 #### B1.5 — Extend the existing `cs:` parser with arithmetic; ContractInfo
   adaptation
 
