@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **B3.3 - contract package versioning and distribution**
+- [ ] **B4.0 - CI and adoption path expansion**
 
 ## Next
 
-- [ ] **B4.0 - CI and adoption path expansion**
 - [ ] **B4.1 - CI semantic-verification gate mode**
 - [ ] **B4.2 - editor and SARIF consumer integration**
+- [ ] **C1.1 - offline AI contract proposal template**
 
 ## Blockers / open questions
 
@@ -23,7 +23,7 @@
 
 ## Last updated
 
-2026-08-06 - B3.2 added exact offline integer models for system-header
-`std::abs`, `std::min`, and `std::max`, with value-only semantics and explicit
-fail-closed boundaries. CodeSkeptic is green at 874/874 and the reference suite
-at 314/314. Next is versioned offline contract packaging.
+2026-08-07 - B3.3 moved native models into versioned, hash-checked offline
+contract packages and wired source, release, Docker, Action, CLI/config, and
+MCP layouts. CodeSkeptic is green at 884/884 and the reference suite at
+314/314. Next is the B4 CI/adoption expansion decision.

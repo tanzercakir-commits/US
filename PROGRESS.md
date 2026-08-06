@@ -1207,3 +1207,32 @@ postcondition violations; repeated MCP bytes -> identical; full CodeSkeptic
 suite -> 874/874; reference suite -> 314/314; production commit -> `8c62aad`;
 commit: this reference-ledger commit.
 Next: B3.3 (versioned contract packages and offline distribution).
+
+## 2026-08-07 - B3.3: versioned contract packages and offline distribution - DONE
++ Replaced the embedded standard-library registry with a deterministic offline
+  v1 package loader using target profiles, sorted claims, SHA-256 file pins,
+  safe relative paths, and logical package provenance.
++ Kept loading fail-closed for missing required bundles, unknown schemas,
+  malformed models, incompatible targets, traversal, hash drift, manifest/model
+  disagreement, and non-identical duplicate signature claims; byte-identical
+  duplicates deduplicate without precedence.
++ Added repeatable CLI/config and MCP local-package paths, deterministic package
+  diagnostics, explicit blocked-signature lowering, and package metadata in
+  both MCP analysis and verification results.
++ Migrated all ten B3.2 integer models into the same package schema consumed by
+  source builds and relocated releases, preserving their exact semantic bounds.
++ Bundled the pack in release ZIPs and added fail-fast manifest checks to the
+  packaging script, Docker build/runtime layout, and GitHub Action download.
++ A real 15 MB Windows package retained the pinned model hash; its relocated
+  binary used native Z3 to verify `absolute_value` with summary verified=6 and
+  every other status zero, and repeated MCP responses were byte-identical.
++ Production grew from 874 to 884 tests and every test is green.
+- Docker and a hosted GitHub Action runner were unavailable locally; both
+  definitions now assert the shared release manifest path when they execute.
+Evidence: package/config/stdlib/MCP tests -> 39/39; full CodeSkeptic suite ->
+884/884; release archive contains the pinned manifest and model hash
+`375ee955fcf1da413504d53d249bad0a820f0ec3e2c5221b054b47c7c4f0e544`;
+packaged native-Z3 MCP -> verified=6, all other states=0, repeated bytes equal;
+full reference suite -> 314/314; production commit -> `628c9d6`; commit: this
+reference-ledger commit.
+Next: B4.0 (CI and adoption path expansion).

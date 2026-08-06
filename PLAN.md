@@ -995,14 +995,22 @@ infrastructure. Reference: prototype fixtures = the specification.
 - Output: manifest/schema and hash-checked loader, explicit package search
   configuration, deterministic conflict policy and provenance, migration of the
   B3.2 mini-models, release/Docker/action packaging, and adoption documentation.
-- Planned file set (confirm before edits): CodeSkeptic `contract-packs/**`;
+- Exact file set: CodeSkeptic `contract-packs/**`;
   `src/contracts/{ContractPackage.h,ContractPackage.cpp,StdlibModels.h,
   StdlibModels.cpp}`; `src/config/{Config.h,Config.cpp}`;
   `src/analyzer/StaticAnalyzer.cpp`; `src/server/McpServer.cpp`;
   `src/CMakeLists.txt`; `tests/{CMakeLists.txt,ContractPackageTest.cpp,
-  ConfigTest.cpp,McpServerTest.cpp}`; `scripts/package_release.sh`, `Dockerfile`,
-  `action.yml`, `CONTRACTS.md`, `README.md`, release documentation; reference
+  ConfigTest.cpp,McpServerTest.cpp,SemanticLowererTest.cpp,
+  StdlibModelsTest.cpp}`;
+  `scripts/package_release.sh`, `Dockerfile`,
+  `action.yml`, `CONTRACTS.md`, `README.md`, `docs/usage.md`; reference
   `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Wiring decision: the built-in registry is loaded from the same v1 package
+  schema as explicit local packs. Runtime discovery checks a relocatable
+  executable-relative share tree before the compiled source-tree fallback;
+  explicit paths are additive and sorted. Canonical signatures are deduplicated
+  only when their complete models are identical; conflicting claims are removed
+  and remain blocked rather than receiving precedence.
 - Boundaries: discovery is bundled-default plus explicit local paths only;
   manifests pin schema major, package identity/version, target profile, sorted
   files, and SHA-256 hashes. Unknown majors, hash mismatch, traversal, malformed
