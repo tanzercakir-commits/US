@@ -211,3 +211,15 @@ Next: A2.3 (recursion policy).
 Evidence: `python -m unittest tests.test_recursion_policy` → 4/4; direct and
 mutual examples explicitly rejected; full suite → 121/121; commit: this commit.
 Next: A2.4 (phase gate).
+
+## 2026-08-06 — A2.4: modular-call phase gate — DONE
++ Extended the modular example with an intentionally unchecked caller while
+  preserving the verified `withdraw` → `validate` chain.
++ The negative variant returns a replayed concrete input; all operational and
+  soundness-alarm categories remain zero.
+- None.
+Evidence: modular/recursion focused tests → 9/9; full suite → 121/121;
+`python -m semantic_verifier examples/modular_calls.cpp --format text` →
+6 verified, 1 violated (`candidate=-2147483648`), 0 unknown/unsupported/
+solver_error, exit 1; commit: this commit.
+Next: A3.1 (`cs: invariant` syntax).

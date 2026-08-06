@@ -12,3 +12,8 @@ int withdraw(int balance, int amount) {
     int checked = validate(remaining);
     return checked;
 }
+
+int unchecked_validate(int candidate) {
+    int checked = validate(candidate);
+    return checked;
+}

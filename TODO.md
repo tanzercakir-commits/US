@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A2.4 — Phase gate** (verified/violated modular example + full
-  suite; DoD in the plan)
+- [ ] **A3.1 — `cs: invariant` syntax** (`semantic_verifier/contracts.py` +
+  tests; DoD in the plan)
 
 ## Next
 
-- [ ] A3.1 — `cs: invariant` syntax
 - [ ] A3.2 — `while` lowering + havoc
+- [ ] A3.3 — invariant VC triple
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A2.3 completed: deterministic direct/mutual recursion
-detection fails closed with explicit cycle reasons. Next is A2.4.
+2026-08-06 — A2 phase gate passed: modular chain verified and the
+negative caller returned a replayed counterexample. Next is A3.1.

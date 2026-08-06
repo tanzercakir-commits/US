@@ -116,7 +116,7 @@ class ModularCallVerificationTests(unittest.TestCase):
         )[0]
         self.assertEqual(caller_postcondition.status.value, "verified")
 
-    def test_modular_chain_example_verifies_end_to_end(self):
+    def test_modular_example_has_verified_chain_and_replayed_violation(self):
         if self.z3 is None:
             self.skipTest("Z3 is not installed")
         pipeline = VerificationPipeline()
@@ -134,7 +134,7 @@ class ModularCallVerificationTests(unittest.TestCase):
                 "unknown": 0,
                 "unsupported": 0,
                 "verified": 6,
-                "violated": 0,
+                "violated": 1,
             },
         )
         precondition = results_for(
@@ -145,6 +145,12 @@ class ModularCallVerificationTests(unittest.TestCase):
         )[0]
         self.assertEqual(precondition.status.value, "verified")
         self.assertEqual(postcondition.status.value, "verified")
+        violation = results_for(
+            first, function="unchecked_validate", kind="precondition"
+        )[0]
+        self.assertEqual(violation.status.value, "violated")
+        self.assertIn("candidate", violation.counterexample)
+        self.assertLess(violation.counterexample["candidate"], 0)
 
 
 if __name__ == "__main__":
