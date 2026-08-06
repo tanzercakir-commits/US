@@ -915,3 +915,27 @@ Evidence: native-adapter export tests -> 5/5; manifest SHA-256 ->
 check -> 28/28 current; full suite -> 314/314; diff check -> clean; commit:
 this commit.
 Next: B1.2 (standalone CodeSkeptic semantic module skeleton).
+
+## 2026-08-06 - B1.2: standalone CodeSkeptic semantic module skeleton - DONE
++ Created CodeSkeptic production branch `codex/semantic-verification-native`
+  from the clean `main` clone at `C:\tmp\CodeSkeptic-reference`.
++ Added Clang-independent owned C++17 value objects for v6 scalar/array/record
+  identities, canonical expressions, contracts, statements, functions,
+  unsupported records, complete modules, and deterministic validation issues.
++ Added source-ordered, fail-closed structural validation for type identities,
+  canonical literals, expression arity, locations, node/function identities,
+  parameters, contracts, and statement-specific required fields.
++ Integrated the standalone module into `codeskeptic_core` without touching
+  `src/core/Rule.h` or depending on Diagnostic, reporters, server, or Clang AST.
++ Added five production tests for stable vocabulary, owned expression children,
+  aggregate identities, source order, and deterministic malformed-input refusal;
+  the production suite grew from 811 to 816 tests.
++ Expanded the B1.2 Goal/Output/exact cross-repository file set/DoD before edits
+  and corrected the production-clone location in TODO.
+- MSBuild inherited duplicate `Path`/`PATH` environment keys from the Codex
+  shell; the build command removed the duplicate before launching MSBuild.
+Evidence: production build -> success; focused SemanticIR tests -> 5/5; full
+CodeSkeptic suite -> 816/816; forbidden dependency scan -> clean; Rule.h diff
+-> empty; production commit -> `20b12bd`; reference baseline -> 314/314; commit:
+this reference-ledger commit.
+Next: B1.3 (native ASTContext to Semantic IR lowering).

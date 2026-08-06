@@ -8,19 +8,19 @@
 
 ## Now (active stage)
 
-- [ ] **B1.2 - standalone CodeSkeptic semantic module skeleton**
+- [ ] **B1.3 - native ASTContext to Semantic IR lowering**
 
 ## Next
 
-- [ ] **B1.3 - native ASTContext to Semantic IR lowering**
+- [ ] **B1.4 - native/Python byte-comparison harness**
 
 ## Blockers / open questions
 
-- The production repository is at `C:\Projects\Runtime_CodeSkeptic`; B1.2
-  edits require approved write scope outside this reference workspace.
+- None. Production work continues on `codex/semantic-verification-native` in
+  `C:\tmp\CodeSkeptic-reference`.
 
 ## Last updated
 
-2026-08-06 - B1.1 exported 14 cases as 29 canonical native-adapter IR,
-obligation, and manifest artifacts with complete hashes; next is the standalone
-production semantic module skeleton.
+2026-08-06 - B1.2 added the standalone Clang/reporter-independent production
+SemanticIR module and five tests; CodeSkeptic is green at 816/816. Next is
+native ASTContext lowering for the exact v0 subset.

@@ -699,6 +699,18 @@ infrastructure. Reference: prototype fixtures = the specification.
   full suite and fixture checks are green.
 #### B1.2 — Standalone semantic module skeleton in CodeSkeptic (NO reporter
   dependency; `src/semantic/` — without touching the Rule.h seam)
+- Goal: establish owned semantic value objects and a validation seam in the
+  production C++17 core before any Clang AST lowering is admitted.
+- Output: CodeSkeptic `src/semantic/SemanticIR.{h,cpp}`, build integration, and
+  focused unit tests; no Rule, Diagnostic, reporter, or server dependency.
+- Expanded exact file set: CodeSkeptic `src/semantic/SemanticIR.{h,cpp}`,
+  `src/CMakeLists.txt`, `tests/SemanticIRTest.cpp`, and `tests/CMakeLists.txt`;
+  reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- DoD: the standalone module builds as part of `codeskeptic_core`; owned
+  expressions/statements/functions/modules preserve source order and reject
+  malformed identity/location structure; focused tests and the full production
+  suite pass without modifying `src/core/Rule.h`; the reference suite stays
+  green.
 #### B1.3 — ASTContext → Semantic IR lowering (v0 subset, exact)
 #### B1.4 — Byte-for-byte comparison harness: fixture equality inside the
   in-memory Clang test harness
