@@ -8,15 +8,15 @@
 
 ## Now (active stage)
 
-- [ ] **A6.12 - fixed-width integer phase gate**
+- [ ] **A6.2 - restricted arrays**
 
 ## Next
 
-- [ ] **A6.2 - restricted arrays**
 - [ ] **A6.3 - restricted value structs**
 - [ ] **A6.4 - restricted proved references**
 - [ ] **A6.5 - modular calls and frame summaries**
 - [ ] **A6.6 - optional invariant-inference research**
+- [ ] **A6.7 - semantic-extensions phase gate**
 
 ## Blockers / open questions
 
@@ -25,6 +25,6 @@
 
 ## Last updated
 
-2026-08-06 - A6.11 added exact C++17 bitwise/shift semantics, homogeneous QF_BV
-encoding, shift-count and signed-left-shift safety, pinned arithmetic right
-shift, replay, and deterministic fixtures; next is the integer phase gate.
+2026-08-06 - A6.12 froze the fixed-width profile, operation/conversion tables,
+classifier and backend matrix, replay evidence, v1 migration equivalence, and a
+deterministic 60-obligation gate; next is restricted arrays.

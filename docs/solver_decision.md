@@ -209,9 +209,12 @@ python -m semantic_verifier examples/vertical_slice.cpp --backend z3
 python -m semantic_verifier examples/vertical_slice.cpp --backend both
 python -m semantic_verifier examples/unsigned_slice.cpp --backend z3
 python -m semantic_verifier examples/bitwise_slice.cpp --backend z3
+python tools/integer_phase_gate.py
 python -m unittest tests.test_z3_backend tests.test_backend tests.test_smtlib_bv
 ```
 
 On the accepted Z3 5.0.0 reference setup, the vertical slice produces
 10 verified and 2 replayed violations with zero unknown, unsupported, solver
-error, or backend disagreement results.
+error, or backend disagreement results. The fixed-width phase gate additionally
+freezes QF_LIA as verified by affine/Z3/both and QF_BV as verified only by
+explicit Z3, with affine/both remaining `unsupported`.

@@ -35,7 +35,10 @@ Implemented:
   per-process solver timeouts, with exhaustion remaining explicit `unknown`;
 - a committed scaling slice and hash/count-based phase gate covering exact join
   compaction, uncached/warm cache identity, and repeated budget identity;
-- 226 deterministic tests, including independent soundness regressions.
+- a fixed-width integer phase gate freezing the target profile, conversion and
+  operator tables, homogeneous classifier, backend matrix, replay evidence, and
+  v1-to-v2 migration equivalence;
+- 230 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -395,7 +398,8 @@ loop_termination with the statement location and the partial-correctness scope,
 including when Semantic IR is omitted from JSON.
 
 The field-level contract is documented in [the result and Semantic IR schema
-reference](result_schema.md).
+reference](result_schema.md). The frozen integer operation/capability matrix and
+phase-gate commands are in [the integer operations runbook](integer_operations.md).
 
 ## Supported source subset
 

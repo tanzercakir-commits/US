@@ -602,6 +602,15 @@ may append implementation stages after A6.7 without renumbering existing IDs.
   matrix, migration, and proof equivalence for legacy int32 obligations.
 - Output/file set: combined integer example/fixtures, deterministic phase-gate
   tool, operations/capability docs, schema migration evidence, PROGRESS/TODO.
+- Expanded exact file set: `examples/fixed_integer_gate.cpp`;
+  `fixtures/{manifest.json,cases/fixed_integer_gate.cpp,
+  expected/fixed_integer_gate.{ir,report.json}}`;
+  `tools/{integer_phase_gate,regenerate_fixtures}.py`;
+  `tests/{test_integer_phase_gate,test_fixtures}.py`;
+  `docs/{integer_operations,integer_semantics_decision,solver_decision,
+  adoption_guide,semantic_verification_prototype,result_schema,
+  schema_versioning}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`, `PROGRESS.md`,
+  `TODO.md`, and the test ratchet. Archived v1 fixtures are read-only evidence.
 - DoD: every A6.1 truth-table row has positive/negative evidence; legacy v1 is
   immutable and migrated v2 status-equivalent; LIA queries remain cross-checked;
   BV queries are replayed by explicit Z3 mode and fail closed in affine/both;

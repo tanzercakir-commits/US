@@ -89,6 +89,18 @@
       },
       "name": "bitwise_slice",
       "source": "cases/bitwise_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 47,
+        "violated": 13
+      },
+      "name": "fixed_integer_gate",
+      "source": "cases/fixed_integer_gate.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

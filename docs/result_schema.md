@@ -4,7 +4,10 @@
 
 The current schema identifier is `codeskeptic.semantic-verification/v2`. It
 covers the verification report, obligations, results, non-goals, and the owned
-Semantic IR emitted by the Python reference implementation.
+Semantic IR emitted by the Python reference implementation. The deterministic
+fixed-width acceptance evidence uses the separate
+`codeskeptic.fixed-integer-phase-gate/v0` schema documented in
+[the integer operations runbook](integer_operations.md); it is not a report.
 
 F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
 v1 for minimized public counterexample cores. A6.8 moves to v2 for explicit

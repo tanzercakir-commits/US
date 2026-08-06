@@ -33,6 +33,7 @@ Run the reference baseline first:
 git config core.hooksPath .githooks
 python -m unittest discover -s tests
 python tools/regenerate_fixtures.py --check
+python tools/integer_phase_gate.py
 ```
 
 Do not begin an adoption while the baseline is red.
@@ -264,6 +265,10 @@ counterexample core; apply the same artifact access policy to both fields.
 - Use `python tools/regenerate_fixtures.py --check` in CI. Fixture cases may
   select `backend: z3` only when their formulas require the QF_BV lane; omitted
   backend values retain the default cross-check corpus.
+
+Before adopting any fixed-width feature, require the deterministic targets in
+[the integer operations runbook](integer_operations.md) and retain the phase-gate
+JSON as review evidence.
 
 See [the field reference](result_schema.md) for every report and Semantic IR
 field. Schema-breaking decisions and migration windows follow the

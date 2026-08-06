@@ -49,7 +49,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 226 deterministic tests. The separately cloned,
+The current suite contains 230 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -57,10 +57,11 @@ Committed fixtures are checked with:
 python tools/regenerate_fixtures.py --check
 ```
 
-Run the deterministic scaling/cache/budget phase gate:
+Run the deterministic scaling/cache/budget and fixed-width integer phase gates:
 
 ```powershell
 python tools/scaling_phase_gate.py --backend both
+python tools/integer_phase_gate.py
 ```
 
 See [the design document](docs/semantic_verification_prototype.md) for the
@@ -87,8 +88,11 @@ narrowing, arithmetic, modular calls, and loop invariants. The
 [unsigned example](examples/unsigned_slice.cpp) covers modulo arithmetic,
 usual conversions, unsigned comparison/division, calls, and loops. The
 [bitwise example](examples/bitwise_slice.cpp) covers masks, mixed conversions,
-32/64-bit shifts, arithmetic/logical right shift, and signed-left-shift safety;
-run both with `--backend z3`.
+32/64-bit shifts, arithmetic/logical right shift, and signed-left-shift safety.
+The [combined integer gate](examples/fixed_integer_gate.cpp) carries positive
+and negative evidence for the complete operator table; run all BV examples with
+`--backend z3`. The [integer operations runbook](docs/integer_operations.md)
+freezes the capability matrix and A6.12 gate commands.
 
 ## Development workflow
 

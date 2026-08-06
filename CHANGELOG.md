@@ -22,6 +22,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.12 adds `codeskeptic.fixed-integer-phase-gate/v0`, a deterministic
+  60-obligation combined slice, positive/negative evidence for all eight
+  operator rows, frozen target/conversion/classifier/backend matrices, exact v1
+  archive verification, five-case v1-to-v2 status equivalence, and the integer
+  operations runbook. The fixture corpus grows to 18 artifacts.
 - A6.11 adds C++17 `~`, `&`, `|`, `^`, `<<`, and `>>` with exact promotions,
   usual conversions, precedence, 32/64-bit QF_BV encoding, shift-count VCs,
   signed-left-shift representability checks, pinned arithmetic signed right

@@ -16,7 +16,10 @@ is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
-schema.
+schema. A6.12 adds `codeskeptic.fixed-integer-phase-gate/v0` as a third,
+independent evidence schema; changing its frozen profile, conversion table,
+operator rows, backend matrix, or migration checks requires an intentional gate
+version review, not a report-schema reinterpretation.
 
 ## Why v0 is not bumped retroactively
 

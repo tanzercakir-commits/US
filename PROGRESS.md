@@ -710,3 +710,27 @@ verified, zero non-verified results and repeated JSON byte-identical; full suite
 -> 226/226; fixture check -> 16/16 current; diff check -> clean; commit: this
 commit.
 Next: A6.12 (fixed-width integer phase gate).
+
+## 2026-08-06 - A6.12: fixed-width integer phase gate - DONE
++ Added `codeskeptic.fixed-integer-phase-gate/v0` and a deterministic combined
+  slice with 60 obligations: 47 verified and 13 replayed violations.
++ Froze positive and negative evidence for all eight A6.1 operator-table rows,
+  including every signed/unsigned add-subtract-multiply operation, division/
+  remainder guards, comparisons, bitwise identities, and both shift families.
++ Froze the validated target profile, complete 4-by-4 usual-conversion table,
+  assignment samples, homogeneous QF_LIA/QF_BV query hashes, and backend matrix.
++ Proved all 16 archived v1 hashes immutable and all five legacy v1 cases
+  status-equivalent after v2 migration; archived files remained untouched.
++ Added the fixed-width operations/capability runbook, adoption/schema links,
+  deterministic gate CLI, combined fixture/example, and frozen source/report
+  hashes.
++ Added four phase-gate tests and advanced the test-count ratchet from 226 to
+  230; the current fixture corpus now contains 18 artifacts.
+- None.
+Evidence: phase-gate tests -> 4/4; repeated gate JSON -> byte-identical; combined
+slice -> 47 verified, 13 replayed violations, zero unknown/unsupported/error;
+backend matrix -> LIA verified by affine/Z3/both, BV verified by Z3 and explicit
+unsupported in affine/both; v1 archive -> 16/16 hashes; v1/v2 equivalence -> 5/5
+cases; full suite -> 230/230; fixture check -> 18/18 current; diff check ->
+clean; commit: this commit.
+Next: A6.2 (restricted arrays).
