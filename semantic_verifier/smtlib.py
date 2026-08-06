@@ -1,4 +1,4 @@
-"""Deterministic homogeneous QF_LIA/QF_BV emission.
+"""Deterministic homogeneous QF_LIA/QF_BV/QF_ARRAY emission.
 
 Unsupported or malformed expressions fail closed before any solver process is
 started.
@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 
+from .array_types import array_type, is_array_type
 from .integer_types import integer_type, is_fixed_integer_type
 from .model import Expr, Obligation
 from .query_fragment import QueryFragment, classify_expressions
@@ -152,8 +153,11 @@ def emit_smtlib(obligation: Obligation) -> str:
     expressions = list(obligation.assumptions)
     if obligation.conclusion is not None:
         expressions.append(obligation.conclusion)
-    if classify_expressions(expressions) == QueryFragment.QF_BV:
+    fragment = classify_expressions(expressions)
+    if fragment == QueryFragment.QF_BV:
         return _emit_bv_query(obligation, expressions)
+    if fragment == QueryFragment.QF_ARRAY and _array_requires_bv(expressions):
+        return _emit_bv_query(obligation, expressions, logic="QF_ABV")
     variable_types = _collect_variable_types(expressions)
 
     for assumption in obligation.assumptions:
@@ -173,7 +177,8 @@ def emit_smtlib(obligation: Obligation) -> str:
     if len(set(encoded_names)) != len(encoded_names):
         raise SmtLibEmissionError("variable names collide after SMT encoding")
 
-    lines = ["(set-logic QF_LIA)"]
+    logic = "QF_ALIA" if fragment == QueryFragment.QF_ARRAY else "QF_LIA"
+    lines = [f"(set-logic {logic})"]
     for encoded, type_name, _ in declarations:
         lines.append(f"(declare-fun {encoded} () {_emit_sort(type_name)})")
 
@@ -190,6 +195,30 @@ def emit_smtlib(obligation: Obligation) -> str:
         lines.append(f"(assert (not {_emit_expr(obligation.conclusion)}))")
     lines.append("(check-sat)")
     return "\n".join(lines) + "\n"
+
+
+def _array_requires_bv(expressions: Iterable[Expr]) -> bool:
+    pending = list(expressions)
+    while pending:
+        expression = pending.pop()
+        type_name = expression.type
+        if is_array_type(type_name):
+            type_name = array_type(type_name).element_type
+        if (
+            is_fixed_integer_type(type_name)
+            and not integer_type(type_name).signed
+        ) or expression.op in {
+            "~",
+            "&",
+            "|",
+            "^",
+            "<<",
+            ">>",
+            "signed_left_shift_defined",
+        }:
+            return True
+        pending.extend(expression.args)
+    return False
 
 
 def _collect_variable_types(expressions: Iterable[Expr]) -> dict[str, str]:
@@ -218,6 +247,13 @@ def _emit_sort(type_name: str) -> str:
         return "Int"
     if type_name == "bool":
         return "Bool"
+    if is_array_type(type_name):
+        profile = array_type(type_name)
+        if profile.element_type not in {"i32", "i64"}:
+            raise SmtLibEmissionError(
+                "QF_ALIA requires signed array elements"
+            )
+        return "(Array Int Int)"
     raise SmtLibEmissionError(f"unsupported expression type {type_name!r}")
 
 
@@ -238,6 +274,44 @@ def _emit_expr(expression: Expr) -> str:
         if not isinstance(expression.value, str):
             raise SmtLibEmissionError("variable value must be a string name")
         return encode_symbol(expression.value)
+
+    if expression.kind == "array":
+        profile = array_type(expression.type)
+        if (
+            len(expression.args) != profile.length
+            or any(item.type != profile.element_type for item in expression.args)
+        ):
+            raise SmtLibEmissionError("malformed array initializer expression")
+        sort = _emit_sort(expression.type)
+        result = f"((as const {sort}) 0)"
+        for index, item in enumerate(expression.args):
+            result = f"(store {result} {index} {_emit_expr(item)})"
+        return result
+
+    if expression.kind == "select":
+        if len(expression.args) != 2:
+            raise SmtLibEmissionError("malformed array select expression")
+        array, index = expression.args
+        profile = array_type(array.type)
+        if expression.type != profile.element_type or index.type not in {"i32", "i64"}:
+            raise SmtLibEmissionError("array select types are inconsistent")
+        return f"(select {_emit_expr(array)} {_emit_expr(index)})"
+
+    if expression.kind == "store":
+        if len(expression.args) != 3:
+            raise SmtLibEmissionError("malformed array store expression")
+        array, index, value = expression.args
+        profile = array_type(array.type)
+        if (
+            expression.type != array.type
+            or index.type not in {"i32", "i64"}
+            or value.type != profile.element_type
+        ):
+            raise SmtLibEmissionError("array store types are inconsistent")
+        return (
+            f"(store {_emit_expr(array)} {_emit_expr(index)} "
+            f"{_emit_expr(value)})"
+        )
 
     if expression.kind == "cast":
         if expression.op != "integral" or len(expression.args) != 1:
@@ -287,7 +361,10 @@ def _emit_expr(expression: Expr) -> str:
         smt_op = "and" if op == "&&" else "or"
     elif op in {"==", "!="}:
         if (
-            left.type not in {"i32", "i64", "bool"}
+            (
+                left.type not in {"i32", "i64", "bool"}
+                and not is_array_type(left.type)
+            )
             or left.type != right.type
         ):
             raise SmtLibEmissionError(
@@ -395,7 +472,12 @@ def _integer_literal_value(expression: Expr) -> int:
 def _emit_integer(value: int) -> str:
     return str(value) if value >= 0 else f"(- {abs(value)})"
 
-def _emit_bv_query(obligation: Obligation, expressions: list[Expr]) -> str:
+def _emit_bv_query(
+    obligation: Obligation,
+    expressions: list[Expr],
+    *,
+    logic: str = "QF_BV",
+) -> str:
     variable_types = _collect_variable_types(expressions)
     for assumption in obligation.assumptions:
         if assumption.type != "bool":
@@ -414,7 +496,7 @@ def _emit_bv_query(obligation: Obligation, expressions: list[Expr]) -> str:
     if len(set(encoded_names)) != len(encoded_names):
         raise SmtLibEmissionError("variable names collide after SMT encoding")
 
-    lines = ["(set-logic QF_BV)"]
+    lines = [f"(set-logic {logic})"]
     for encoded, type_name, _ in declarations:
         lines.append(f"(declare-fun {encoded} () {_emit_bv_sort(type_name)})")
     if obligation.assumptions:
@@ -436,6 +518,10 @@ def _emit_bv_sort(type_name: str) -> str:
         return "Bool"
     if is_fixed_integer_type(type_name):
         return f"(_ BitVec {integer_type(type_name).width})"
+    if is_array_type(type_name):
+        profile = array_type(type_name)
+        element_sort = _emit_bv_sort(profile.element_type)
+        return f"(Array (_ BitVec 64) {element_sort})"
     raise SmtLibEmissionError(f"unsupported expression type {type_name!r}")
 
 
@@ -461,6 +547,53 @@ def _emit_bv_expr(expression: Expr) -> str:
         _emit_bv_sort(expression.type)
         return encode_symbol(expression.value)
 
+    if expression.kind == "array":
+        profile = array_type(expression.type)
+        if (
+            len(expression.args) != profile.length
+            or any(item.type != profile.element_type for item in expression.args)
+        ):
+            raise SmtLibEmissionError("malformed array initializer expression")
+        sort = _emit_bv_sort(expression.type)
+        width = integer_type(profile.element_type).width
+        result = f"((as const {sort}) (_ bv0 {width}))"
+        for index, item in enumerate(expression.args):
+            result = (
+                f"(store {result} (_ bv{index} 64) "
+                f"{_emit_bv_expr(item)})"
+            )
+        return result
+
+    if expression.kind == "select":
+        if len(expression.args) != 2:
+            raise SmtLibEmissionError("malformed array select expression")
+        array, index = expression.args
+        profile = array_type(array.type)
+        if (
+            expression.type != profile.element_type
+            or not is_fixed_integer_type(index.type)
+        ):
+            raise SmtLibEmissionError("array select types are inconsistent")
+        return (
+            f"(select {_emit_bv_expr(array)} "
+            f"{_emit_bv_array_index(index)})"
+        )
+
+    if expression.kind == "store":
+        if len(expression.args) != 3:
+            raise SmtLibEmissionError("malformed array store expression")
+        array, index, value = expression.args
+        profile = array_type(array.type)
+        if (
+            expression.type != array.type
+            or not is_fixed_integer_type(index.type)
+            or value.type != profile.element_type
+        ):
+            raise SmtLibEmissionError("array store types are inconsistent")
+        return (
+            f"(store {_emit_bv_expr(array)} "
+            f"{_emit_bv_array_index(index)} {_emit_bv_expr(value)})"
+        )
     if expression.kind == "cast":
         if expression.op != "integral" or len(expression.args) != 1:
             raise SmtLibEmissionError("malformed integral cast expression")
@@ -557,7 +690,9 @@ def _emit_bv_expr(expression: Expr) -> str:
         smt_op = "and" if op == "&&" else "or"
     elif op in {"==", "!="}:
         if left.type != right.type or not (
-            left.type == "bool" or is_fixed_integer_type(left.type)
+            left.type == "bool"
+            or is_fixed_integer_type(left.type)
+            or is_array_type(left.type)
         ):
             raise SmtLibEmissionError(
                 f"operator {op!r} requires matching fixed-width or bool operands"
@@ -644,6 +779,17 @@ def _fixed_literal_value(expression: Expr) -> int:
     if expression.kind == "unary" and expression.op == "-":
         return -_fixed_literal_value(expression.args[0])
     raise SmtLibEmissionError("expression is not a fixed-width literal")
+
+
+def _emit_bv_array_index(expression: Expr) -> str:
+    if not is_fixed_integer_type(expression.type):
+        raise SmtLibEmissionError("array index must be fixed-width")
+    profile = integer_type(expression.type)
+    emitted = _emit_bv_expr(expression)
+    if profile.width == 64:
+        return emitted
+    extension = "sign_extend" if profile.signed else "zero_extend"
+    return f"((_ {extension} {64 - profile.width}) {emitted})"
 
 
 def _emit_bv_shift_count(expression: Expr, target_width: int) -> str:

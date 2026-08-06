@@ -734,3 +734,27 @@ unsupported in affine/both; v1 archive -> 16/16 hashes; v1/v2 equivalence -> 5/5
 cases; full suite -> 230/230; fixture check -> 18/18 current; diff check ->
 clean; commit: this commit.
 Next: A6.2 (restricted arrays).
+
+## 2026-08-06 - A6.2: restricted arrays (QF_ARRAY) - DONE
++ Added canonical `array<E,N>` owned values for fully initialized local,
+  one-dimensional fixed-size arrays of 1-64 fixed-width integer elements.
++ Added exact `array`/`select`/`store` IR, whole-array SSA writes and branch/loop
+  value merges; updating one element preserves every other element exactly.
++ Added source and contract indexing with a replayable `array_bounds` obligation
+  for every access, including accesses inside loop invariants.
++ Added homogeneous QF_ALIA/QF_ABV SMT emission, strict array-sort/value model
+  parsing, source-level materialization, replay, minimization, and cache evidence.
++ Kept decay, aliases, raw-array parameters, dynamic/multidimensional arrays,
+  partial/uninitialized/oversized arrays, and unmodeled operations fail-closed.
++ Advanced report/Semantic IR to v3, cache/key schemas to v1, and the fixed-
+  integer gate to v1; archived all 28 v2 fixture hashes and proved nine-case
+  v2-to-v3 plus five-case v1-to-v3 result-status equivalence.
++ Added 13 focused tests and the fully verified 18-obligation array fixture;
+  advanced the test ratchet from 230 to 244 and the corpus to 20 artifacts.
+- None.
+Evidence: array tests -> 13/13; signed QF_ALIA and unsigned QF_ABV lanes ->
+deterministic; OOB candidates -> replayed and minimized; explicit-Z3 example ->
+18 verified, zero non-verified and repeated JSON byte-identical; integer phase
+gate v1 -> green; v2 archive -> 28/28 hashes; full suite -> 244/244; fixture
+check -> 20/20 current; non-archive diff check -> clean; commit: this commit.
+Next: A6.3 (restricted value structs).

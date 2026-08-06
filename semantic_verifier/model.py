@@ -11,10 +11,11 @@ from enum import Enum
 import json
 from typing import Any, Iterable, Mapping
 
+from .array_types import array_type, make_array_type
 from .integer_types import I32, canonical_decimal, is_fixed_integer_type
 
 
-SCHEMA = "codeskeptic.semantic-verification/v2"
+SCHEMA = "codeskeptic.semantic-verification/v3"
 INT_MIN = I32.minimum
 INT_MAX = I32.maximum
 
@@ -79,6 +80,30 @@ class Expr:
     def predicate(op: str, *args: "Expr") -> "Expr":
         return Expr("predicate", "bool", op=op, args=tuple(args))
 
+    @staticmethod
+    def array(elements: Iterable["Expr"], element_type: str) -> "Expr":
+        values = tuple(elements)
+        type_name = make_array_type(element_type, len(values))
+        if any(value.type != element_type for value in values):
+            raise ValueError("array elements must have the declared element type")
+        return Expr("array", type_name, args=values)
+
+    @staticmethod
+    def select(array: "Expr", index: "Expr") -> "Expr":
+        profile = array_type(array.type)
+        if not is_fixed_integer_type(index.type):
+            raise ValueError("array index must be a fixed-width integer")
+        return Expr("select", profile.element_type, args=(array, index))
+
+    @staticmethod
+    def store(array: "Expr", index: "Expr", value: "Expr") -> "Expr":
+        profile = array_type(array.type)
+        if not is_fixed_integer_type(index.type):
+            raise ValueError("array index must be a fixed-width integer")
+        if value.type != profile.element_type:
+            raise ValueError("array store value has the wrong element type")
+        return Expr("store", array.type, args=(array, index, value))
+
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {"kind": self.kind, "type": self.type}
         if self.value is not None:
@@ -127,6 +152,15 @@ class Expr:
         if self.kind == "predicate":
             arguments = ", ".join(argument.text() for argument in self.args)
             return f"{self.op}({arguments})"
+        if self.kind == "array":
+            return "{" + ", ".join(argument.text() for argument in self.args) + "}"
+        if self.kind == "select":
+            return f"{self.args[0].text()}[{self.args[1].text()}]"
+        if self.kind == "store":
+            return (
+                f"store({self.args[0].text()}, {self.args[1].text()}, "
+                f"{self.args[2].text()})"
+            )
         return f"<{self.kind}>"
 
 
@@ -396,7 +430,7 @@ class VerificationResult:
     status: VerificationStatus
     location: SourceLocation
     message: str
-    counterexample: Mapping[str, int | bool] | None = None
+    counterexample: Mapping[str, int | bool | tuple[int, ...]] | None = None
     trace: tuple[TraceStep, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
@@ -410,16 +444,25 @@ class VerificationResult:
         }
         if self.counterexample is not None:
             result["counterexample"] = {
-                key: (
-                    self.counterexample[key]
-                    if type(self.counterexample[key]) is bool
-                    else canonical_decimal(self.counterexample[key])
-                )
+                key: serialize_evidence_value(self.counterexample[key])
                 for key in sorted(self.counterexample)
             }
         if self.trace:
             result["trace"] = [step.to_dict() for step in self.trace]
         return result
+
+
+
+def serialize_evidence_value(
+    value: int | bool | tuple[int, ...],
+) -> str | bool | list[str]:
+    if type(value) is bool:
+        return value
+    if type(value) is int:
+        return canonical_decimal(value)
+    if isinstance(value, tuple) and all(type(item) is int for item in value):
+        return [canonical_decimal(item) for item in value]
+    raise TypeError("counterexample evidence has an unsupported value")
 
 
 @dataclass(frozen=True, slots=True)

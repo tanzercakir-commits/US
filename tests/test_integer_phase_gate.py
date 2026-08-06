@@ -37,7 +37,7 @@ class IntegerPhaseGateTests(unittest.TestCase):
         self.assertEqual(combined["violations_replayed"], 13)
         self.assertEqual(
             combined["report_sha256"],
-            "7efccddeee0d2215da6052e1061593fd58641c6f1786e2c72f4030d25ab37120",
+            "8e1042bb546b60daef5090d566059165cf59c8b2a8cdbd9df1c084f001e6bab3",
         )
         self.assertEqual(
             combined["source_sha256"],
@@ -103,8 +103,16 @@ class IntegerPhaseGateTests(unittest.TestCase):
             "a5be682d862ea6894d66644ce0d202ea90eb07ac46600b9b13e59ef707fbf0eb",
         )
         self.assertTrue(migration["archive_v1"]["valid"])
-        self.assertEqual(migration["v1_to_v2"]["count"], 5)
-        self.assertTrue(migration["v1_to_v2"]["status_equivalent"])
+        self.assertEqual(migration["archive_v2"]["entries"], 28)
+        self.assertEqual(
+            migration["archive_v2"]["manifest_sha256"],
+            "99d46062dba664de1d13e968ee93716fa6447186fb349ec0956d290b9b6a7c7c",
+        )
+        self.assertTrue(migration["archive_v2"]["valid"])
+        self.assertEqual(migration["v1_to_v3"]["count"], 5)
+        self.assertTrue(migration["v1_to_v3"]["status_equivalent"])
+        self.assertEqual(migration["v2_to_v3"]["count"], 9)
+        self.assertTrue(migration["v2_to_v3"]["status_equivalent"])
 
         operations = (ROOT / "docs" / "integer_operations.md").read_text(
             encoding="utf-8"
@@ -115,7 +123,7 @@ class IntegerPhaseGateTests(unittest.TestCase):
             "QF_LIA",
             "QF_BV",
             "signed_left_shift",
-            "codeskeptic.fixed-integer-phase-gate/v0",
+            "codeskeptic.fixed-integer-phase-gate/v1",
         ):
             self.assertIn(required, operations)
 

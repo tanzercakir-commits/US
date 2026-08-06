@@ -7,14 +7,17 @@ CodeSkeptic repository.
 
 The prototype deliberately supports C++17 `int`/`unsigned int` and `long
 long`/`unsigned long long` (owned IR types `i32`/`u32`/`i64`/`u64`), `bool`,
-local state, assignment, fixed-width bitwise/shift expressions, `if`/`else`,
+local scalar state, fully initialized one-dimensional fixed-size integer
+arrays with exact select/store/bounds, fixed-width bitwise/shift expressions,
+`if`/`else`,
 direct contracted calls with matching fixed-width results, invariant-annotated
 `while`, `assert`, and `return`. Unsupported C++ is reported explicitly. It
 uses a real Clang AST and has no Python package dependencies. The affine
 checker is dependency-free; the default cross-check backend also invokes a
 separately installed Z3 executable through SMT-LIB2. Unsigned, mixed,
-bitwise, or shift obligations require explicit `--backend z3` because they use
-homogeneous QF_BV and the affine referee fails closed.
+bitwise, shift, or array obligations require explicit `--backend z3` because
+they use
+homogeneous QF_BV/QF_ALIA/QF_ABV and the affine referee fails closed.
 
 Run the vertical slice (the CLI defaults to affine/Z3 cross-check mode):
 
@@ -49,7 +52,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 230 deterministic tests. The separately cloned,
+The current suite contains 244 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -89,6 +92,8 @@ narrowing, arithmetic, modular calls, and loop invariants. The
 usual conversions, unsigned comparison/division, calls, and loops. The
 [bitwise example](examples/bitwise_slice.cpp) covers masks, mixed conversions,
 32/64-bit shifts, arithmetic/logical right shift, and signed-left-shift safety.
+The [array example](examples/array_slice.cpp) covers constant/symbolic reads,
+whole-array SSA stores, isolation, signed bounds, and unsigned QF_ABV.
 The [combined integer gate](examples/fixed_integer_gate.cpp) carries positive
 and negative evidence for the complete operator table; run all BV examples with
 `--backend z3`. The [integer operations runbook](docs/integer_operations.md)

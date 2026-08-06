@@ -21,7 +21,8 @@ Before adoption, pin or document:
 - Python 3.11 or newer;
 - a Clang executable that supports JSON AST output;
 - Z3 for the default signed-only `both` backend and the explicit `z3` backend
-  required by unsigned/mixed/bitwise/shift QF_BV obligations, or an explicit
+  required by unsigned/mixed/bitwise/shift QF_BV and owned-array QF_ARRAY
+  obligations, or an explicit
   decision to use the weaker dependency-free `affine` backend;
 - the verifier commit and `schema` identifier;
 - the source paths/functions allowed into the initial subset;
@@ -65,8 +66,12 @@ process exit code.
 
 Create an allow-list of functions/files that already stay inside the supported
 boundary. Unsupported code must remain visible rather than being silently
-dropped. Keep pointers, references, arrays, records, globals, macros, indirect
+dropped. Keep pointers, references, records, globals, macros, indirect
 calls, unsupported loops, and other excluded constructs outside the pilot.
+
+Owned arrays admitted to a pilot must be local, one-dimensional, fully
+initialized, fixed-size integer arrays with every access proved in `[0,N)`.
+Decay, aliasing, dynamic allocation, and multidimensional arrays remain outside.
 
 Pin representative inputs and outputs as fixtures. Regenerate twice and compare
 bytes before accepting a schema or lowering change.
@@ -240,7 +245,7 @@ Do not retry until green and then discard the failed report without review.
 ## Counterexamples and data handling
 
 Counterexample cores contain only the source/SSA variable names and concrete
-fixed-width decimal-string/bool values retained by deterministic greedy minimization. They are proof
+fixed-width decimal-string/bool values, or arrays of decimal strings, retained by deterministic greedy minimization. They are proof
 evidence relative to the obligation assumptions, but may still expose sensitive
 business inputs in logs or CI artifacts. Apply the target repository's retention
 and access policy. Relevance projection is conservative and syntactic, while
@@ -255,7 +260,7 @@ counterexample core; apply the same artifact access policy to both fields.
   do not reinterpret it on a target with different widths or signed behavior.
 - Treat shift-count and signed-left-shift violations as undefined-behavior
   findings; never use a wrapped solver result after either guard fails.
-- Require `codeskeptic.semantic-verification/v2` before consuming fields and
+- Require `codeskeptic.semantic-verification/v3` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.
@@ -263,7 +268,8 @@ counterexample core; apply the same artifact access policy to both fields.
   status as success.
 - Keep golden fixture bytes under review and forced to LF.
 - Use `python tools/regenerate_fixtures.py --check` in CI. Fixture cases may
-  select `backend: z3` only when their formulas require the QF_BV lane; omitted
+  select `backend: z3` only when their formulas require QF_BV or QF_ARRAY;
+  omitted
   backend values retain the default cross-check corpus.
 
 Before adopting any fixed-width feature, require the deterministic targets in

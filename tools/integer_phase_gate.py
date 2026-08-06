@@ -34,9 +34,10 @@ from semantic_verifier.query_fragment import (  # noqa: E402
 from semantic_verifier.smtlib import emit_smtlib  # noqa: E402
 
 
-GATE_SCHEMA = "codeskeptic.fixed-integer-phase-gate/v0"
+GATE_SCHEMA = "codeskeptic.fixed-integer-phase-gate/v1"
 SLICE = ROOT / "examples" / "fixed_integer_gate.cpp"
 V1_ARCHIVE = ROOT / "fixtures" / "versions" / "v1"
+V2_ARCHIVE = ROOT / "fixtures" / "versions" / "v2"
 CURRENT_FIXTURES = ROOT / "fixtures" / "expected"
 EXPECTED_SUMMARY = {
     "solver_error": 0,
@@ -190,14 +191,16 @@ def _truth_table(results: tuple[VerificationResult, ...]) -> dict[str, object]:
     return evidence
 
 
-def _archive_evidence() -> dict[str, object]:
-    manifest = V1_ARCHIVE / "SHA256SUMS"
+def _archive_evidence(
+    archive: Path, version: str
+) -> dict[str, object]:
+    manifest = archive / "SHA256SUMS"
     entries: list[tuple[str, str]] = []
     for line in manifest.read_text(encoding="utf-8").splitlines():
         expected, relative = line.split("  ", 1)
-        actual = hashlib.sha256((V1_ARCHIVE / relative).read_bytes()).hexdigest()
+        actual = hashlib.sha256((archive / relative).read_bytes()).hexdigest()
         if actual != expected:
-            raise RuntimeError(f"archived v1 hash changed: {relative}")
+            raise RuntimeError(f"archived {version} hash changed: {relative}")
         entries.append((relative, actual))
     return {
         "entries": len(entries),
@@ -206,8 +209,10 @@ def _archive_evidence() -> dict[str, object]:
     }
 
 
-def _migration_evidence() -> dict[str, object]:
-    old_reports = V1_ARCHIVE / "expected"
+def _migration_evidence(
+    archive: Path, migration: str
+) -> dict[str, object]:
+    old_reports = archive / "expected"
     cases: list[str] = []
     for old_path in sorted(old_reports.glob("*.report.json")):
         old = json.loads(old_path.read_text(encoding="utf-8"))
@@ -222,7 +227,7 @@ def _migration_evidence() -> dict[str, object]:
             tuple(item[field] for field in fields) for item in new["results"]
         ]
         if new["schema"] != SCHEMA or new_statuses != old_statuses:
-            raise RuntimeError(f"v1/v2 status equivalence changed: {old_path.stem}")
+            raise RuntimeError(f"{migration} status equivalence changed: {old_path.stem}")
         cases.append(old_path.stem.removesuffix(".report"))
     return {"cases": cases, "count": len(cases), "status_equivalent": True}
 
@@ -299,8 +304,10 @@ def run_gate(
             "violations_replayed": len(violated),
         },
         "migration": {
-            "archive_v1": _archive_evidence(),
-            "v1_to_v2": _migration_evidence(),
+            "archive_v1": _archive_evidence(V1_ARCHIVE, "v1"),
+            "archive_v2": _archive_evidence(V2_ARCHIVE, "v2"),
+            "v1_to_v3": _migration_evidence(V1_ARCHIVE, "v1/v3"),
+            "v2_to_v3": _migration_evidence(V2_ARCHIVE, "v2/v3"),
         },
         "schema": GATE_SCHEMA,
         "target_profile": _target_profile(),

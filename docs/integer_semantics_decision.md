@@ -134,7 +134,7 @@ double-width equality; signed negative right shift emits arithmetic `bvashr`.
 Compound assignments, rotates, and bit-library calls remain fail-closed.
 
 A6.12 freezes these decisions with
-`codeskeptic.fixed-integer-phase-gate/v0`. The deterministic gate checks the
+`codeskeptic.fixed-integer-phase-gate/v1`. The deterministic gate checks the
 profile and complete 4-by-4 conversion table, homogeneous query hashes, backend
 support matrix, positive/negative evidence for every operator-table row, all v1
 archive hashes, and five v1-to-v2 status-equivalent legacy cases. The combined

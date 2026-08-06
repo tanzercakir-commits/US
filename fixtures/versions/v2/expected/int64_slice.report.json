@@ -1,0 +1,4180 @@
+{
+  "non_goals": [
+    {
+      "description": "termination is not checked; verified loop obligations establish partial correctness only",
+      "kind": "loop_termination",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 33
+      }
+    }
+  ],
+  "obligations": [
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "x#0"
+          },
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "x#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 1: ensures result == x",
+      "function": "identity64",
+      "id": "ob00001",
+      "kind": "postcondition",
+      "location": {
+        "column": 37,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 2
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "i32",
+                        "value": "x#0"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "i32",
+                        "value": "x#0"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i64",
+      "function": "widen_and_add",
+      "id": "ob00002",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 34,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 5
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "x#0"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "x#0"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "x#0"
+                  }
+                ],
+                "kind": "cast",
+                "op": "integral",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "1"
+              }
+            ],
+            "kind": "binary",
+            "op": "+",
+            "type": "i64"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i64"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 4: ensures result == x + 1",
+      "function": "widen_and_add",
+      "id": "ob00003",
+      "kind": "postcondition",
+      "location": {
+        "column": 34,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 5
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "4294967296"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "narrow64",
+      "id": "ob00004",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 7
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "4294967296"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 8: ensures result == 0",
+      "function": "narrow64",
+      "id": "ob00005",
+      "kind": "postcondition",
+      "location": {
+        "column": 29,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 9
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "increment64",
+      "id": "ob00006",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 11
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i64",
+      "function": "increment64",
+      "id": "ob00007",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 13
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "1"
+              }
+            ],
+            "kind": "binary",
+            "op": "+",
+            "type": "i64"
+          },
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "x#0"
+          }
+        ],
+        "kind": "binary",
+        "op": ">",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 12: ensures result > x",
+      "function": "increment64",
+      "id": "ob00008",
+      "kind": "postcondition",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 13
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "3"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "integer divisor must be non-zero",
+      "function": "divide64",
+      "id": "ob00009",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 35,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 16
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "-9223372036854775808"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "3"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "-1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          }
+        ],
+        "kind": "unary",
+        "op": "!",
+        "type": "bool"
+      },
+      "description": "i64 minimum / -1 must be excluded",
+      "function": "divide64",
+      "id": "ob00010",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 35,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 16
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "x#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "-9223372036854775808"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "3"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "-1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "/",
+            "type": "i64"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "/",
+            "type": "i64"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 15: ensures result == x / 3",
+      "function": "divide64",
+      "id": "ob00011",
+      "kind": "postcondition",
+      "location": {
+        "column": 35,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 16
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "3"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "integer divisor must be non-zero",
+      "function": "remainder64",
+      "id": "ob00012",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 19
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "-9223372036854775808"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "3"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "-1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          }
+        ],
+        "kind": "unary",
+        "op": "!",
+        "type": "bool"
+      },
+      "description": "i64 minimum % -1 must be excluded",
+      "function": "remainder64",
+      "id": "ob00013",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 19
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "x#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "-9223372036854775808"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "3"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "-1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "%",
+            "type": "i64"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "%",
+            "type": "i64"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 18: ensures result == x % 3",
+      "function": "remainder64",
+      "id": "ob00014",
+      "kind": "postcondition",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 19
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "value#0"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "value#0"
+          },
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "x#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 21: ensures result == x",
+      "function": "call64",
+      "id": "ob00015",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 24
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "count64",
+      "id": "ob00016",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 27
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "i#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": ">=",
+        "type": "bool"
+      },
+      "description": "loop invariant must hold on entry: invariant i >= 0",
+      "function": "count64",
+      "id": "ob00017",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 31
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "i#0"
+          },
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "n#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "<=",
+        "type": "bool"
+      },
+      "description": "loop invariant must hold on entry: invariant i <= n",
+      "function": "count64",
+      "id": "ob00018",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 32
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "i#1"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "i#1"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i64",
+      "function": "count64",
+      "id": "ob00019",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 34
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "i#2"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": ">=",
+        "type": "bool"
+      },
+      "description": "loop body must preserve invariant: invariant i >= 0",
+      "function": "count64",
+      "id": "ob00020",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 31
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "i#2"
+          },
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "n#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "<=",
+        "type": "bool"
+      },
+      "description": "loop body must preserve invariant: invariant i <= n",
+      "function": "count64",
+      "id": "ob00021",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 32
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#3"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#3"
+            },
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "n#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#3"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "i#3"
+          },
+          {
+            "kind": "variable",
+            "type": "i64",
+            "value": "n#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 28: ensures result == n",
+      "function": "count64",
+      "id": "ob00022",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 36
+      },
+      "mode": "validity"
+    }
+  ],
+  "results": [
+    {
+      "function": "identity64",
+      "kind": "postcondition",
+      "location": {
+        "column": 37,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 2
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00001",
+      "status": "verified"
+    },
+    {
+      "function": "widen_and_add",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 34,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 5
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00002",
+      "status": "verified"
+    },
+    {
+      "function": "widen_and_add",
+      "kind": "postcondition",
+      "location": {
+        "column": 34,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 5
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00003",
+      "status": "verified"
+    },
+    {
+      "function": "narrow64",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 7
+      },
+      "message": "backend cross-check completed: verified: Z3 found a satisfying model",
+      "obligation": "ob00004",
+      "status": "verified"
+    },
+    {
+      "function": "narrow64",
+      "kind": "postcondition",
+      "location": {
+        "column": 29,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 9
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00005",
+      "status": "verified"
+    },
+    {
+      "function": "increment64",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 11
+      },
+      "message": "backend cross-check completed: verified: Z3 found a satisfying model",
+      "obligation": "ob00006",
+      "status": "verified"
+    },
+    {
+      "function": "increment64",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 13
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00007",
+      "status": "verified"
+    },
+    {
+      "function": "increment64",
+      "kind": "postcondition",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 13
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00008",
+      "status": "verified"
+    },
+    {
+      "function": "divide64",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 35,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 16
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00009",
+      "status": "verified"
+    },
+    {
+      "function": "divide64",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 35,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 16
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00010",
+      "status": "verified"
+    },
+    {
+      "function": "divide64",
+      "kind": "postcondition",
+      "location": {
+        "column": 35,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 16
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00011",
+      "status": "verified"
+    },
+    {
+      "function": "remainder64",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 19
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00012",
+      "status": "verified"
+    },
+    {
+      "function": "remainder64",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 19
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00013",
+      "status": "verified"
+    },
+    {
+      "function": "remainder64",
+      "kind": "postcondition",
+      "location": {
+        "column": 38,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 19
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00014",
+      "status": "verified"
+    },
+    {
+      "function": "call64",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 24
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00015",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 27
+      },
+      "message": "backend cross-check completed: verified: Z3 found a satisfying model",
+      "obligation": "ob00016",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 31
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00017",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 32
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00018",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 34
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00019",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 31
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00020",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 32
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00021",
+      "status": "verified"
+    },
+    {
+      "function": "count64",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/int64_slice.cpp",
+        "line": 36
+      },
+      "message": "backend cross-check completed: verified: Z3 proved the obligation",
+      "obligation": "ob00022",
+      "status": "verified"
+    }
+  ],
+  "schema": "codeskeptic.semantic-verification/v2",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            "id": "n00001",
+            "kind": "return",
+            "location": {
+              "column": 37,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 2
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 1
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x"
+          }
+        ],
+        "has_body": true,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 2
+        },
+        "name": "identity64",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 32,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 2
+            },
+            "name": "x",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "x#0"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00002",
+            "kind": "return",
+            "location": {
+              "column": 34,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 5
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "i32",
+                          "value": "x#0"
+                        },
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "1"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "+",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 4
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x + 1"
+          }
+        ],
+        "has_body": true,
+        "id": "f0002",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 5
+        },
+        "name": "widen_and_add",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 5
+            },
+            "name": "x",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967296"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00003",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 7
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "cast",
+              "op": "integral",
+              "type": "i32"
+            },
+            "id": "n00004",
+            "kind": "return",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 9
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967296"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 7
+            },
+            "machine_proposed": false,
+            "text": "requires x == 4294967296"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 8
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 0"
+          }
+        ],
+        "has_body": true,
+        "id": "f0003",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 9
+        },
+        "name": "narrow64",
+        "parameters": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 24,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 9
+            },
+            "name": "x",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "9223372036854775807"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00005",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 11
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00006",
+            "kind": "return",
+            "location": {
+              "column": 38,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 13
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "9223372036854775807"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 11
+            },
+            "machine_proposed": false,
+            "text": "requires x < 9223372036854775807"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 12
+            },
+            "machine_proposed": false,
+            "text": "ensures result > x"
+          }
+        ],
+        "has_body": true,
+        "id": "f0004",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 13
+        },
+        "name": "increment64",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 33,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 13
+            },
+            "name": "x",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "i64"
+            },
+            "id": "n00007",
+            "kind": "return",
+            "location": {
+              "column": 35,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 16
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "x#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "/",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 15
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x / 3"
+          }
+        ],
+        "has_body": true,
+        "id": "f0005",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 16
+        },
+        "name": "divide64",
+        "parameters": [
+          {
+            "id": "f0005.s0001",
+            "location": {
+              "column": 30,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 16
+            },
+            "name": "x",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "%",
+              "type": "i64"
+            },
+            "id": "n00008",
+            "kind": "return",
+            "location": {
+              "column": 38,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 19
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "x#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "%",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 18
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x % 3"
+          }
+        ],
+        "has_body": true,
+        "id": "f0006",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 19
+        },
+        "name": "remainder64",
+        "parameters": [
+          {
+            "id": "f0006.s0001",
+            "location": {
+              "column": 33,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 19
+            },
+            "name": "x",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              }
+            ],
+            "callee": "identity64",
+            "id": "n00009",
+            "kind": "call",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 23
+            },
+            "result_type": "i64",
+            "target": "value#0"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i64",
+              "value": "value#0"
+            },
+            "id": "n00010",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 24
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 21
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x"
+          }
+        ],
+        "has_body": true,
+        "id": "f0007",
+        "locals": [
+          {
+            "id": "f0007.s0002",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 23
+            },
+            "name": "value",
+            "type": "i64",
+            "versioned_name": "value#0"
+          }
+        ],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 22
+        },
+        "name": "call64",
+        "parameters": [
+          {
+            "id": "f0007.s0001",
+            "location": {
+              "column": 28,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 22
+            },
+            "name": "x",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "id": "n00011",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 27
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i64",
+              "value": "0"
+            },
+            "id": "n00012",
+            "kind": "assign",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 30
+            },
+            "target": "i#0"
+          },
+          {
+            "body": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i64"
+                },
+                "id": "n00014",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/int64_slice.cpp",
+                  "line": 34
+                },
+                "target": "i#2"
+              }
+            ],
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00013",
+            "invariants": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i64",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/int64_slice.cpp",
+                  "line": 31
+                },
+                "machine_proposed": false,
+                "text": "invariant i >= 0"
+              },
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i64",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/int64_slice.cpp",
+                  "line": 32
+                },
+                "machine_proposed": false,
+                "text": "invariant i <= n"
+              }
+            ],
+            "kind": "loop",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 33
+            },
+            "loop_variables": [
+              {
+                "back_edge": "i#2",
+                "entry": "i#0",
+                "exit": "i#3",
+                "head": "i#1",
+                "name": "i",
+                "type": "i64"
+              }
+            ],
+            "termination": "non_goal"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i64",
+              "value": "i#3"
+            },
+            "id": "n00015",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 36
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 27
+            },
+            "machine_proposed": false,
+            "text": "requires n >= 0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 28
+            },
+            "machine_proposed": false,
+            "text": "ensures result == n"
+          }
+        ],
+        "has_body": true,
+        "id": "f0008",
+        "locals": [
+          {
+            "id": "f0008.s0002",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 30
+            },
+            "name": "i",
+            "type": "i64",
+            "versioned_name": "i#0"
+          }
+        ],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/int64_slice.cpp",
+          "line": 29
+        },
+        "name": "count64",
+        "parameters": [
+          {
+            "id": "f0008.s0001",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/int64_slice.cpp",
+              "line": 29
+            },
+            "name": "n",
+            "type": "i64",
+            "versioned_name": "n#0"
+          }
+        ],
+        "return_type": "i64"
+      }
+    ],
+    "schema": "codeskeptic.semantic-verification/v2",
+    "source": "fixtures/cases/int64_slice.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/int64_slice.cpp",
+  "summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 22,
+    "violated": 0
+  }
+}

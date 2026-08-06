@@ -429,6 +429,18 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: owned array type/value/index IR; frontend/lowering/VC/SMT support;
   contract expression indexing; schema/migration updates; `tests/test_arrays.py`;
   result/adoption/prototype/changelog documentation.
+- Expanded exact file set: `semantic_verifier/{array_types,model,lowering,
+  contracts,vc,checker,counterexample,query_fragment,smtlib,z3_backend,backend,
+  cache,schema}.py`; `tests/{test_arrays,test_integer_types,test_fixtures,
+  test_integer_phase_gate,test_changelog,test_counterexample_quality,
+  test_determinism,test_frontend_failures,test_unsigned}.py`;
+  `examples/array_slice.cpp`; current fixture
+  manifest/case/expected artifacts, immutable `fixtures/versions/v2/**`, and
+  `tools/{regenerate_fixtures,integer_phase_gate}.py`;
+  `docs/{result_schema,schema_versioning,adoption_guide,
+  semantic_verification_prototype,solver_decision,integer_operations,
+  integer_semantics_decision}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: constant and symbolic reads/writes verify; in-range facts prove access;
   feasible out-of-bounds access violates with replayed evidence; unknown bounds
   never verify; array copy/store isolation is exact; decay/alias/dynamic cases

@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 
+from .array_types import array_type, is_array_type
 from .budget import SolverTimeout
 from .checker import evaluate, resolve_trace
 from .counterexample import minimize_counterexample
@@ -130,7 +131,7 @@ class Z3ProcessRunner:
         except Z3DiscoveryError:
             executable = self._configured_z3
         return {
-            "command_policy": "homogeneous-qf-lia-qf-bv-bitwise-deterministic-seeds/v1",
+            "command_policy": "homogeneous-qf-lia-qf-bv-qf-array-deterministic-seeds/v2",
             "executable": executable,
             "timeout_seconds": self.timeout_seconds,
         }
@@ -283,11 +284,14 @@ class Z3ModelError(ValueError):
     """Raised when solver model output is malformed or incomplete."""
 
 
+EvidenceValue = int | bool | tuple[int, ...]
+
+
 def parse_z3_model(
     output: str,
     expected_types: Mapping[str, str] | None = None,
-) -> dict[str, int | bool]:
-    """Parse zero-arity Int/BitVec/Bool models into source-level bindings."""
+) -> dict[str, EvidenceValue]:
+    """Parse zero-arity scalar/owned-array models into source-level bindings."""
 
     expressions = _parse_s_expressions(output)
     if len(expressions) != 2 or expressions[0] != "sat":
@@ -297,7 +301,7 @@ def parse_z3_model(
         raise Z3ModelError("model output must contain an S-expression")
     forms = model[1:] if model and model[0] == "model" else model
 
-    bindings: dict[str, int | bool] = {}
+    bindings: dict[str, EvidenceValue] = {}
     sorts: dict[str, str] = {}
     for form in forms:
         if (
@@ -315,7 +319,14 @@ def parse_z3_model(
         if source_name in bindings:
             raise Z3ModelError(f"duplicate model binding for {source_name!r}")
         sort = _normalize_model_sort(form[3])
-        bindings[source_name] = _parse_model_value(form[4], sort)
+        expected_type = (
+            expected_types.get(source_name)
+            if expected_types is not None
+            else None
+        )
+        bindings[source_name] = _parse_model_value(
+            form[4], sort, expected_type
+        )
         sorts[source_name] = sort
 
     if expected_types is not None:
@@ -347,6 +358,14 @@ def parse_z3_model(
                 expected_sorts = {f"BitVec{profile.width}"}
                 if profile.signed:
                     expected_sorts.add("Int")
+            elif is_array_type(type_name):
+                profile = array_type(type_name)
+                element = integer_type(profile.element_type)
+                expected_sorts = {
+                    f"Array[BitVec64,BitVec{element.width}]"
+                }
+                if element.signed:
+                    expected_sorts.add("Array[Int,Int]")
             else:
                 expected_sorts = set()
             if actual_sort not in expected_sorts:
@@ -356,6 +375,12 @@ def parse_z3_model(
                 )
             if actual_sort.startswith("BitVec"):
                 bindings[name] = convert_integer(int(bindings[name]), type_name)
+            elif actual_sort.startswith("Array[BitVec"):
+                profile = array_type(type_name)
+                bindings[name] = tuple(
+                    convert_integer(int(item), profile.element_type)
+                    for item in bindings[name]  # type: ignore[union-attr]
+                )
     return bindings
 
 
@@ -549,10 +574,38 @@ def _normalize_model_sort(value: object) -> str:
         and int(value[2]) > 0
     ):
         return f"BitVec{value[2]}"
+    if (
+        isinstance(value, list)
+        and len(value) == 3
+        and value[0] == "Array"
+    ):
+        index_sort = _normalize_model_sort(value[1])
+        element_sort = _normalize_model_sort(value[2])
+        if index_sort not in {"Int", "BitVec64"}:
+            raise Z3ModelError("owned array model index sort must be Int or BitVec64")
+        if element_sort == "Bool" or element_sort.startswith("Array["):
+            raise Z3ModelError("owned array model element sort must be integer")
+        return f"Array[{index_sort},{element_sort}]"
     raise Z3ModelError(f"unsupported model sort {value!r}")
 
 
-def _parse_model_value(value: object, sort: str) -> int | bool:
+def _parse_model_value(
+    value: object,
+    sort: str,
+    expected_type: str | None = None,
+) -> EvidenceValue:
+    if sort.startswith("Array["):
+        if expected_type is None or not is_array_type(expected_type):
+            raise Z3ModelError("array model parsing requires an expected array type")
+        profile = array_type(expected_type)
+        index_sort, element_sort = _array_sort_parts(sort)
+        default, updates = _parse_array_value(
+            value, sort, index_sort, element_sort
+        )
+        return tuple(
+            int(updates.get(index, default))
+            for index in range(profile.length)
+        )
     if sort == "Bool":
         if value == "true":
             return True
@@ -598,6 +651,65 @@ def _parse_model_value(value: object, sort: str) -> int | bool:
     raise Z3ModelError(f"unsupported Int model value {value!r}")
 
 
+def _array_sort_parts(sort: str) -> tuple[str, str]:
+    if not sort.startswith("Array[") or not sort.endswith("]"):
+        raise Z3ModelError(f"malformed array sort {sort!r}")
+    payload = sort[6:-1]
+    index_sort, separator, element_sort = payload.partition(",")
+    if not separator or not index_sort or not element_sort:
+        raise Z3ModelError(f"malformed array sort {sort!r}")
+    return index_sort, element_sort
+
+
+def _parse_array_value(
+    value: object,
+    sort: str,
+    index_sort: str,
+    element_sort: str,
+) -> tuple[int, dict[int, int]]:
+    if (
+        isinstance(value, list)
+        and len(value) == 2
+        and isinstance(value[0], list)
+        and value[0] == ["as", "const", _model_sort_expression(sort)]
+    ):
+        default = _parse_model_value(value[1], element_sort)
+        if type(default) is not int:
+            raise Z3ModelError("array default must be an integer")
+        return default, {}
+    if (
+        isinstance(value, list)
+        and len(value) == 4
+        and value[0] == "store"
+    ):
+        default, updates = _parse_array_value(
+            value[1], sort, index_sort, element_sort
+        )
+        index = _parse_model_value(value[2], index_sort)
+        element = _parse_model_value(value[3], element_sort)
+        if type(index) is not int or type(element) is not int:
+            raise Z3ModelError("array store model terms must be integers")
+        updated = dict(updates)
+        updated[index] = element
+        return default, updated
+    raise Z3ModelError(f"unsupported array model value {value!r}")
+
+
+def _model_sort_expression(sort: str) -> object:
+    if sort == "Int":
+        return "Int"
+    if sort == "Bool":
+        return "Bool"
+    if sort.startswith("BitVec"):
+        return ["_", "BitVec", sort.removeprefix("BitVec")]
+    index_sort, element_sort = _array_sort_parts(sort)
+    return [
+        "Array",
+        _model_sort_expression(index_sort),
+        _model_sort_expression(element_sort),
+    ]
+
+
 def _variable_types(expressions: tuple[Expr | None, ...]) -> dict[str, str]:
     result: dict[str, str] = {}
 
@@ -618,9 +730,9 @@ def _variable_types(expressions: tuple[Expr | None, ...]) -> dict[str, str]:
 
 
 def _human_counterexample(
-    model: Mapping[str, int | bool],
-) -> dict[str, int | bool]:
-    result: dict[str, int | bool] = {}
+    model: Mapping[str, EvidenceValue],
+) -> dict[str, EvidenceValue]:
+    result: dict[str, EvidenceValue] = {}
     for name in sorted(model):
         base, separator, version = name.partition("#")
         shown = base if separator and version == "0" else name
@@ -634,7 +746,7 @@ def _obligation_result(
     obligation: Obligation,
     status: VerificationStatus,
     message: str,
-    counterexample: Mapping[str, int | bool] | None = None,
+    counterexample: Mapping[str, EvidenceValue] | None = None,
     trace: tuple[TraceStep, ...] = (),
 ) -> VerificationResult:
     return VerificationResult(

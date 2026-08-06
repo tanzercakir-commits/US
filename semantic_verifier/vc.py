@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
 
+from .array_types import array_type
 from .integer_types import (
     integer_type,
     is_fixed_integer_type,
@@ -66,6 +67,12 @@ def _literal_integer(expr: Expr) -> bool:
         and expr.args[0].kind == "constant"
         and expr.args[0].type == expr.type
         and is_signed_integer_type(expr.type)
+    )
+
+
+def _contains_array_operation(expr: Expr) -> bool:
+    return expr.kind in {"select", "store"} or any(
+        _contains_array_operation(argument) for argument in expr.args
     )
 
 
@@ -410,19 +417,34 @@ class VerificationConditionGenerator:
 
             entry_replacements = self._loop_replacements(node, "entry")
             for invariant in node.invariants:
+                entry_expression = invariant.expression.substitute(
+                    entry_replacements
+                )
+                entry_defined = (
+                    self._expression_safety(
+                        function.name, entry_expression, state, node
+                    )
+                    if _contains_array_operation(entry_expression)
+                    else state
+                )
                 self._add(
                     function.name,
                     "loop_invariant_entry",
-                    state.assumptions,
-                    invariant.expression.substitute(entry_replacements),
+                    entry_defined.assumptions,
+                    entry_expression,
                     invariant.location,
                     f"loop invariant must hold on entry: {invariant.text}",
-                    trace_templates=state.trace_templates,
+                    trace_templates=entry_defined.trace_templates,
                 )
 
             head_state = self._add_loop_havoc_bounds(state, node, "head")
             for invariant in node.invariants:
                 head_state = head_state.add(invariant.expression)
+            for invariant in node.invariants:
+                if _contains_array_operation(invariant.expression):
+                    head_state = self._expression_safety(
+                        function.name, invariant.expression, head_state, node
+                    )
             head_state = self._expression_safety(
                 function.name, node.expression, head_state, node
             )
@@ -436,25 +458,41 @@ class VerificationConditionGenerator:
                 node, "back_edge"
             )
             for body_state in body_states:
+                preservation_state = body_state
                 for invariant in node.invariants:
+                    preservation_expression = invariant.expression.substitute(
+                        back_edge_replacements
+                    )
+                    if _contains_array_operation(preservation_expression):
+                        preservation_state = self._expression_safety(
+                            function.name,
+                            preservation_expression,
+                            preservation_state,
+                            node,
+                        )
                     self._add(
                         function.name,
                         "loop_invariant_preservation",
-                        body_state.assumptions,
-                        invariant.expression.substitute(
-                            back_edge_replacements
-                        ),
+                        preservation_state.assumptions,
+                        preservation_expression,
                         invariant.location,
                         f"loop body must preserve invariant: {invariant.text}",
-                        trace_templates=body_state.trace_templates,
+                        trace_templates=preservation_state.trace_templates,
                     )
 
             exit_state = self._add_loop_havoc_bounds(state, node, "exit")
             exit_replacements = self._loop_replacements(node, "exit")
-            for invariant in node.invariants:
-                exit_state = exit_state.add(
-                    invariant.expression.substitute(exit_replacements)
-                )
+            exit_invariants = tuple(
+                invariant.expression.substitute(exit_replacements)
+                for invariant in node.invariants
+            )
+            for expression in exit_invariants:
+                exit_state = exit_state.add(expression)
+            for expression in exit_invariants:
+                if _contains_array_operation(expression):
+                    exit_state = self._expression_safety(
+                        function.name, expression, exit_state, node
+                    )
             exit_condition = node.expression.substitute(exit_replacements)
             exit_state = self._expression_safety(
                 function.name, exit_condition, exit_state, node
@@ -640,6 +678,24 @@ class VerificationConditionGenerator:
         current = state
         for argument in expr.args:
             current = self._expression_safety(function, argument, current, node)
+        if expr.kind in {"select", "store"}:
+            profile = array_type(expr.args[0].type)
+            index = expr.args[1]
+            nonnegative = _binary(">=", index, Expr.integer(0, index.type))
+            below_length = _binary(
+                "<", index, Expr.integer(profile.length, index.type)
+            )
+            in_range = _and(nonnegative, below_length)
+            self._add(
+                function,
+                "array_bounds",
+                current.assumptions,
+                in_range,
+                node.location,
+                f"array index must be in [0, {profile.length})",
+                trace_templates=current.trace_templates,
+            )
+            return current.add(nonnegative).add(below_length)
         if (
             expr.kind == "unary"
             and expr.op == "-"

@@ -22,6 +22,13 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.2 adds exact owned one-dimensional fixed-size arrays with canonical
+  `array<element,length>` types, `array`/`select`/`store` expressions,
+  whole-array SSA updates, per-access replayable bounds obligations, contract
+  indexing, homogeneous QF_ALIA/QF_ABV Z3 emission, model replay, and a fully
+  verified 18-obligation fixture. Pointer decay, aliasing, dynamic allocation,
+  multidimensional arrays, partial initialization, and unmodeled libraries
+  remain fail-closed.
 - A6.12 adds `codeskeptic.fixed-integer-phase-gate/v0`, a deterministic
   60-obligation combined slice, positive/negative evidence for all eight
   operator rows, frozen target/conversion/classifier/backend matrices, exact v1
@@ -68,6 +75,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Changed
 
+- A6.2 moves the producer to `codeskeptic.semantic-verification/v3` because
+  array type identities, expression kinds, bounds obligations, and array-valued
+  evidence are new proof-bearing wire semantics. Cache/key schemas advance to
+  v1, the fixed-integer phase gate advances to v1, and the fixture corpus grows
+  to 20 artifacts.
 - A6.8 moves the producer to `codeskeptic.semantic-verification/v2`, maps the
   existing C++17 `int` subset to the explicit `i32` IR identity, and serializes
   every fixed-width integer constant and counterexample binding as canonical
@@ -90,6 +102,13 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- v3 consumers must implement exact owned-array values, `select`/`store`,
+  `[0, length)` access obligations, QF_ALIA/QF_ABV sorts, and arrays of
+  canonical decimal strings in counterexample evidence, or reject those
+  objects fail-closed. The complete nine-case v2 corpus is immutable under
+  `fixtures/versions/v2/` with 28 SHA-256 entries; v2-to-v3 statuses are
+  equivalent for all nine legacy cases. v0, v1, v2, unknown, and mixed-major
+  payloads are rejected by the current compatibility gate.
 - A6.11 remains schema v2 because it adds only previously unsupported operator
   and predicate-op values on new bitwise/shift objects; conforming consumers
   already reject unknown expression operators fail-closed. Consumers must

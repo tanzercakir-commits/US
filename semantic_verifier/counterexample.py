@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 
+from .array_types import array_type
 from .model import Expr, Obligation
 
 
@@ -30,8 +31,8 @@ def obligation_variable_cone(obligation: Obligation) -> frozenset[str]:
 
 def project_counterexample(
     obligation: Obligation,
-    model: Mapping[str, int | bool],
-) -> dict[str, int | bool]:
+    model: Mapping[str, int | bool | tuple[int, ...]],
+) -> dict[str, int | bool | tuple[int, ...]]:
     """Project a replayed model to variables in the obligation cone."""
 
     if obligation.mode != "validity" or obligation.conclusion is None:
@@ -42,9 +43,9 @@ def project_counterexample(
 
 def minimize_counterexample(
     obligation: Obligation,
-    model: Mapping[str, int | bool],
+    model: Mapping[str, int | bool | tuple[int, ...]],
     proves: ValidityProver,
-) -> dict[str, int | bool]:
+) -> dict[str, int | bool | tuple[int, ...]]:
     """Greedily remove bindings that are unnecessary to force a violation.
 
     The caller must first replay the complete model against the original
@@ -88,7 +89,7 @@ def _obligation_variable_types(obligation: Obligation) -> dict[str, str]:
 
 
 def _binding_equality(
-    name: str, value: int | bool, type_name: str
+    name: str, value: int | bool | tuple[int, ...], type_name: str
 ) -> Expr:
     if isinstance(value, bool):
         if type_name != "bool":
@@ -96,6 +97,14 @@ def _binding_equality(
         constant = Expr.boolean(value)
     elif isinstance(value, int):
         constant = Expr.integer(value, type_name)
+    elif isinstance(value, tuple):
+        profile = array_type(type_name)
+        if len(value) != profile.length or any(type(item) is not int for item in value):
+            raise TypeError(f"counterexample binding {name!r} has mismatched array value")
+        constant = Expr.array(
+            (Expr.integer(item, profile.element_type) for item in value),
+            profile.element_type,
+        )
     else:
         raise TypeError(f"counterexample binding {name!r} has unsupported value")
     return Expr.binary(

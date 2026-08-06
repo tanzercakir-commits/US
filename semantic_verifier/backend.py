@@ -44,7 +44,7 @@ class CheckerBackend(ABC):
 
 
 class Z3Checker(CheckerBackend):
-    name = "z3-homogeneous-qf-lia-qf-bv"
+    name = "z3-homogeneous-qf-lia-qf-bv-qf-array"
 
     def __init__(
         self,
@@ -73,8 +73,8 @@ class Z3Checker(CheckerBackend):
         )
         return {
             "configuration": configuration,
-            "implementation": "smtlib-replay/v3",
-            "query_policy": "homogeneous-qf-lia-qf-bv/v1",
+            "implementation": "smtlib-replay/v4",
+            "query_policy": "homogeneous-qf-lia-qf-bv-qf-array/v2",
             "name": self.name,
         }
 
@@ -216,7 +216,7 @@ def _result(
     obligation: Obligation,
     status: VerificationStatus,
     message: str,
-    counterexample: Mapping[str, int | bool] | None = None,
+    counterexample: Mapping[str, int | bool | tuple[int, ...]] | None = None,
     trace: tuple[TraceStep, ...] = (),
 ) -> VerificationResult:
     return VerificationResult(

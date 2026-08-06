@@ -2,20 +2,22 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v2`. It
+The current schema identifier is `codeskeptic.semantic-verification/v3`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation. The deterministic
 fixed-width acceptance evidence uses the separate
-`codeskeptic.fixed-integer-phase-gate/v0` schema documented in
+`codeskeptic.fixed-integer-phase-gate/v1` schema documented in
 [the integer operations runbook](integer_operations.md); it is not a report.
 
 F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
 v1 for minimized public counterexample cores. A6.8 moves to v2 for explicit
 fixed-width type identities and canonical decimal-string integer evidence.
-Consumers must check `schema`, ignore unknown object fields only within that
-known major, and fail closed on unknown status/mode/kind values. The complete
-[version and migration policy](schema_versioning.md) defines compatibility and
-preserves the v0 and v1 corpora.
+A6.2 moves to v3 for exact owned-array type/value semantics, access obligations,
+and array-valued evidence. Consumers must check `schema`, ignore unknown object
+fields only within that known major, and fail closed on unknown
+status/mode/kind values. The complete [version and migration
+policy](schema_versioning.md) defines compatibility and preserves the v0, v1,
+and v2 corpora.
 
 ## Report envelope
 
@@ -26,7 +28,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v2",
+  "schema": "codeskeptic.semantic-verification/v3",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -79,13 +81,13 @@ Non-goals do not change the exit code.
 ## Persistent obligation-result cache
 
 `--cache PATH` enables an opt-in local JSON cache with schema
-`codeskeptic.obligation-result-cache/v0`. Cache files are optimization state,
+`codeskeptic.obligation-result-cache/v1`. Cache files are optimization state,
 not part of the report envelope; cold and warm runs emit byte-identical reports.
 The cache contains a sorted `entries` object keyed by lowercase SHA-256 digest.
 
 The canonical key payload binds:
 
-- `codeskeptic.obligation-semantic-key/v0` and the current report/IR schema;
+- `codeskeptic.obligation-semantic-key/v1` and the current report/IR schema;
 - backend identity, implementation policy, nested cross-check identities, and
   result-relevant configuration such as the Z3 executable and timeout;
 - obligation mode, conclusion or explicit null, and unsupported reason;
@@ -271,8 +273,9 @@ is never lowered under a different target.
 
 ### Expression
 
-Every expression has `kind` and `type`. v2 type identities are `bool`, `i32`,
-`u32`, `i64`, and `u64`; the current source subset emits all five identities.
+Every expression has `kind` and `type`. v3 type identities are `bool`, `i32`,
+`u32`, `i64`, `u64`, and `array<E,N>` where `E` is a fixed-width
+integer identity and `1 <= N <= 64`.
 
 | Kind | Additional fields | Contract |
 | --- | --- | --- |
@@ -282,6 +285,9 @@ Every expression has `kind` and `type`. v2 type identities are `bool`, `i32`,
 | `cast` | `op`, one-element `args` | `integral`; bool-to-fixed-width or any owned fixed-width conversion under the pinned profile. |
 | `binary` | `op`, two-element `args` | Arithmetic, comparison, equality, or boolean connective. |
 | `predicate` | `op`, one-element `args` | `signed_no_overflow` for mixed arithmetic or `signed_left_shift_defined` for C++17 left-shift safety. |
+| `array` | `args` | Exactly `N` source-ordered element expressions for `array<E,N>`. |
+| `select` | two-element `args` | Owned array and fixed-width index; result is the element type. |
+| `store` | three-element `args` | Owned array, fixed-width index, and matching element; result is a new array value. |
 
 The representable operators are `+`, `-`, `*`, `/`, `%`, `~`, `&`, `|`, `^`,
 `<<`, `>>`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`, `||`, and unary `!`/`-`.
@@ -302,6 +308,14 @@ signed right shift is arithmetic under the pinned profile. Both lanes require
 nonzero divisors, and signed division/remainder also excludes the type minimum
 with `-1`.
 
+Every `select` and `store` emits an `array_bounds` validity obligation requiring
+`0 <= index < N`; later path facts assume the access only after that obligation.
+Signed-only arrays use homogeneous QF_ALIA with `(Array Int Int)`. Any unsigned
+or bitwise taint uses homogeneous QF_ABV with 64-bit bitvector indices and
+width-matching bitvector elements. Z3 countermodels are materialized to exactly
+`N` source-level values before replay. Public array bindings, when retained in a
+minimized core, serialize as arrays of canonical decimal strings.
+
 ## Semantic IR
 
 ### Module
@@ -320,7 +334,7 @@ with `-1`.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | v2 type identity; currently emitted as `i32`, `u32`, `i64`, `u64`, or `bool`. |
+| `return_type` | string | yes | v3 type identity; function returns remain scalar in A6.2. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
@@ -335,7 +349,7 @@ with `-1`.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | v2 type identity; currently emitted as `i32`, `u32`, `i64`, `u64`, or `bool`. |
+| `type` | string | yes | v3 scalar or owned-array type identity. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
 
@@ -372,7 +386,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | v2 type identity; currently emitted as `i32`, `u32`, `i64`, `u64`, or `bool`. |
+| `type` | string | v3 scalar or owned-array type identity. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

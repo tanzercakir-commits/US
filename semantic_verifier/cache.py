@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .backend import CheckerBackend
-from .integer_types import canonical_decimal, parse_canonical_decimal
+from .integer_types import parse_canonical_decimal
 from .model import (
     Obligation,
     SCHEMA,
@@ -18,11 +18,12 @@ from .model import (
     TraceTemplate,
     VerificationResult,
     VerificationStatus,
+    serialize_evidence_value,
 )
 
 
-CACHE_SCHEMA = "codeskeptic.obligation-result-cache/v0"
-KEY_SCHEMA = "codeskeptic.obligation-semantic-key/v0"
+CACHE_SCHEMA = "codeskeptic.obligation-result-cache/v1"
+KEY_SCHEMA = "codeskeptic.obligation-semantic-key/v1"
 
 
 def obligation_semantic_payload(
@@ -220,11 +221,7 @@ def _encode_entry(
     }
     if result.counterexample is not None:
         encoded_result["counterexample"] = {
-            key: (
-                result.counterexample[key]
-                if type(result.counterexample[key]) is bool
-                else canonical_decimal(result.counterexample[key])
-            )
+            key: serialize_evidence_value(result.counterexample[key])
             for key in sorted(result.counterexample)
         }
     return {
@@ -236,18 +233,26 @@ def _encode_entry(
 
 def _decode_counterexample(
     raw_result: Mapping[str, Any],
-) -> tuple[bool, Mapping[str, int | bool] | None]:
+) -> tuple[bool, Mapping[str, int | bool | tuple[int, ...]] | None]:
     if "counterexample" not in raw_result:
         return True, None
     raw = raw_result["counterexample"]
     if not isinstance(raw, Mapping):
         return False, None
-    decoded: dict[str, int | bool] = {}
+    decoded: dict[str, int | bool | tuple[int, ...]] = {}
     for key, value in raw.items():
         if not isinstance(key, str):
             return False, None
         if type(value) is bool:
             decoded[key] = value
+            continue
+        if isinstance(value, list):
+            try:
+                decoded[key] = tuple(
+                    parse_canonical_decimal(item) for item in value
+                )
+            except ValueError:
+                return False, None
             continue
         try:
             decoded[key] = parse_canonical_decimal(value)

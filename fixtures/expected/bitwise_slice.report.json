@@ -2007,7 +2007,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v2",
+  "schema": "codeskeptic.semantic-verification/v3",
   "semantic_ir": {
     "functions": [
       {
@@ -3085,7 +3085,7 @@
         "return_type": "u32"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v2",
+    "schema": "codeskeptic.semantic-verification/v3",
     "source": "fixtures/cases/bitwise_slice.cpp",
     "unsupported": []
   },

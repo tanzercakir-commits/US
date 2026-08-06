@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import re
 from typing import Mapping
 
+from .array_types import is_array_type
 from .integer_types import (
     I32,
     I64,
@@ -39,7 +40,7 @@ _TOKEN = re.compile(
     r"\s*(?:"
     r"(?P<int>[0-9]+)|"
     r"(?P<ident>[A-Za-z_][A-Za-z0-9_]*)|"
-    r"(?P<op>==|!=|<=|>=|<<|>>|&&|\|\||[()+\-*/%!<>&|^~])|"
+    r"(?P<op>==|!=|<=|>=|<<|>>|&&|\|\||[()[\]+\-*/%!<>&|^~])|"
     r"(?P<bad>.)"
     r")"
 )
@@ -206,7 +207,23 @@ class ContractExpressionParser:
             self._take()
             value = self._promote_integral(self._unary(), "~")
             return Expr.unary("~", value, value.type)
-        return self._primary()
+        return self._postfix()
+
+    def _postfix(self) -> Expr:
+        value = self._primary()
+        while self._peek().text == "[":
+            if not is_array_type(value.type):
+                raise ContractSyntaxError(
+                    f"subscript requires an owned array, got {value.type}"
+                )
+            self._take("[")
+            index = self._or()
+            self._take("]")
+            try:
+                value = Expr.select(value, index)
+            except ValueError as error:
+                raise ContractSyntaxError(str(error)) from error
+        return value
 
     def _primary(self) -> Expr:
         token = self._peek()

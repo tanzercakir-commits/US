@@ -13,13 +13,15 @@ Implemented:
 
 - real Clang C++ parsing through the JSON AST interface;
 - an owned, deterministic, versioned Semantic IR for branches, modular calls,
-  and invariant-annotated while loops;
+  invariant-annotated while loops, and exact owned fixed-size arrays;
 - strict inline cs: preconditions, postconditions, and loop invariants;
 - path-specific VCs for contracts, signed i32/i64 definedness, unsigned
   u32/u64 modulo arithmetic, conversions, bitwise/shift definedness, modular
   calls, and loop obligations;
 - a dependency-free affine checker plus a complete external Z3 backend for the
-  emitted homogeneous QF_LIA/QF_BV fragments;
+  emitted homogeneous QF_LIA/QF_BV/QF_ARRAY fragments;
+- exact local `array<E,N>` values (`1 <= N <= 64`), whole-array SSA stores,
+  per-access bounds VCs, contract indexing, QF_ALIA/QF_ABV, and array-model replay;
 - deterministic SMT-LIB2, solver timeouts, model parsing, mandatory replay,
   minimized/relevance-projected counterexample cores, and source-mapped branch
   traces for violated paths;
@@ -37,8 +39,8 @@ Implemented:
   compaction, uncached/warm cache identity, and repeated budget identity;
 - a fixed-width integer phase gate freezing the target profile, conversion and
   operator tables, homogeneous classifier, backend matrix, replay evidence, and
-  v1-to-v2 migration equivalence;
-- 230 deterministic tests, including independent soundness regressions.
+  v1-to-v3 and v2-to-v3 migration equivalence;
+- 244 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -53,8 +55,8 @@ Partially implemented:
 - source mapping is statement-granular, but preserves CRLF and Clang UTF-8
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete and rejects
-  QF_BV; Z3 is complete for both emitted homogeneous fragments;
-- v0 and v1 are archived and v2 is current; owned C++17 fixed-width types lower
+  QF_BV and QF_ARRAY; Z3 is complete for every emitted homogeneous fragment;
+- v0, v1, and v2 are archived and v3 is current; owned C++17 fixed-width types lower
   to `i32`/`u32`/`i64`/`u64`, integer wire evidence is canonical decimal text,
   and Clang must pass the pinned target-profile probe before lowering.
 
@@ -234,13 +236,14 @@ The implemented node kinds are:
 - unsupported.
 
 Expressions contain typed constants, versioned variables, unary not/negation,
-arithmetic, comparisons, boolean connectives, and the exact
+arithmetic, comparisons, boolean connectives, owned `array`/`select`/`store`
+expressions, and the exact
 `signed_no_overflow` safety predicate. The JSON schema identifier is
-codeskeptic.semantic-verification/v2. Serialization uses sorted JSON object keys
+codeskeptic.semantic-verification/v3. Serialization uses sorted JSON object keys
 and source-ordered arrays. Compatibility and major-version triggers are defined in the
 [schema version policy](schema_versioning.md).
 
-Allocate, release, load, and store remain proposed. Adding their names without
+Heap allocate/release and pointer-based load/store remain proposed. Adding them without
 an alias and memory model would create false confidence.
 
 ### Contract model
@@ -436,8 +439,9 @@ The frontend explicitly rejects:
 - templates and top-level records/namespaces;
 - all preprocessor directives and macros as semantic nodes;
 - exceptions and throw;
-- pointers, references, arrays, structs/classes, inheritance, and virtual calls;
-- allocation, release, load, store, alias, and heap semantics;
+- pointers, references, structs/classes, inheritance, and virtual calls;
+- array decay/aliases, dynamic or multidimensional arrays, partial array
+  initialization, allocation/release, pointer load/store, and heap semantics;
 - globals, static/thread-local locals, and volatile values;
 - uninitialized locals;
 - shadowing;

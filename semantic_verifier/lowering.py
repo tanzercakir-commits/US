@@ -7,6 +7,7 @@ import os
 import re
 from typing import Any, Iterable, Mapping
 
+from .array_types import array_type, is_array_type, parse_source_array_type
 from .contracts import contracts_before, invariants_before
 from .frontend import FrontendUnit
 from .integer_types import integer_type, is_fixed_integer_type
@@ -631,6 +632,34 @@ class SemanticLowerer:
         if kind == "BinaryOperator" and node.get("opcode") == "=":
             inner = self._inner(node, 2)
             lhs = self._strip_expr(inner[0])
+            if lhs.get("kind") == "ArraySubscriptExpr":
+                array_node, index_node = self._inner(lhs, 2)
+                name = self._array_base_name(array_node)
+                if name not in current:
+                    raise UnsupportedNode(node, f"assignment to unknown array {name!r}")
+                ir_name = self._version_base(current[name])
+                type_name = self._types[ir_name]
+                if not is_array_type(type_name):
+                    raise UnsupportedNode(node, "subscript assignment requires an array")
+                index = self._expression(index_node, current)
+                value = self._expression(inner[1], current)
+                if value.type != array_type(type_name).element_type:
+                    raise UnsupportedNode(
+                        node, "array assignment changes the element type"
+                    )
+                expression = Expr.store(
+                    Expr.variable(current[name], type_name), index, value
+                )
+                target = self._next_version(ir_name)
+                current[name] = target
+                return [
+                    self._node(
+                        "assign",
+                        self._location(node),
+                        target=target,
+                        expression=expression,
+                    )
+                ], current, True
             if lhs.get("kind") != "DeclRefExpr":
                 raise UnsupportedNode(node, "assignment target must be a local variable")
             name = self._decl_name(lhs)
@@ -719,7 +748,15 @@ class SemanticLowerer:
         name = str(node.get("name", ""))
         raw_type_name = _qual_type(node)
         source_type_name = _normalize_value_type(raw_type_name)
-        type_name = SOURCE_TYPE_MAP.get(source_type_name, source_type_name)
+        try:
+            array_profile = parse_source_array_type(source_type_name, SOURCE_TYPE_MAP)
+        except ValueError as error:
+            raise UnsupportedNode(node, str(error)) from error
+        type_name = (
+            array_profile.name
+            if array_profile is not None
+            else SOURCE_TYPE_MAP.get(source_type_name, source_type_name)
+        )
         if not name:
             raise UnsupportedNode(node, "unnamed local variable is unsupported")
         if name in current:
@@ -730,7 +767,7 @@ class SemanticLowerer:
             raise UnsupportedNode(
                 node, "static and thread_local local variables are unsupported"
             )
-        if source_type_name not in SUPPORTED_TYPES:
+        if source_type_name not in SUPPORTED_TYPES and array_profile is None:
             raise UnsupportedNode(node, f"local type {source_type_name!r} is unsupported")
         initializer_nodes = [
             child for child in node.get("inner", []) if isinstance(child, dict)
@@ -938,6 +975,13 @@ class SemanticLowerer:
                 lhs = self._strip_expr(inner[0])
                 if lhs.get("kind") == "DeclRefExpr":
                     assigned.add(self._decl_name(lhs))
+                elif lhs.get("kind") == "ArraySubscriptExpr":
+                    try:
+                        assigned.add(
+                            self._array_base_name(self._inner(lhs, 2)[0])
+                        )
+                    except UnsupportedNode:
+                        pass
         for child in node.get("inner", []):
             if isinstance(child, dict):
                 assigned.update(self._assigned_names(child))
@@ -981,6 +1025,45 @@ class SemanticLowerer:
             return Expr.integer(value, type_name)
         if kind == "CXXBoolLiteralExpr":
             return Expr.boolean(bool(node.get("value")))
+        if kind == "InitListExpr":
+            try:
+                profile = parse_source_array_type(
+                    _normalize_value_type(_qual_type(node)), SOURCE_TYPE_MAP
+                )
+            except ValueError as error:
+                raise UnsupportedNode(node, str(error)) from error
+            if profile is None:
+                raise UnsupportedNode(node, "initializer list type is unsupported")
+            children = [
+                child for child in node.get("inner", []) if isinstance(child, dict)
+            ]
+            if len(children) != profile.length or any(
+                child.get("kind") == "ImplicitValueInitExpr" for child in children
+            ):
+                raise UnsupportedNode(
+                    node, "array initializer must explicitly initialize every element"
+                )
+            values = tuple(
+                self._expression(child, environment) for child in children
+            )
+            if any(value.type != profile.element_type for value in values):
+                raise UnsupportedNode(
+                    node, "array initializer element type is inconsistent"
+                )
+            return Expr.array(values, profile.element_type)
+        if kind == "ArraySubscriptExpr":
+            array_node, index_node = self._inner(node, 2)
+            name = self._array_base_name(array_node)
+            if name not in environment:
+                raise UnsupportedNode(node, f"reference to non-local array {name!r}")
+            versioned = environment[name]
+            type_name = self._types[self._version_base(versioned)]
+            if not is_array_type(type_name):
+                raise UnsupportedNode(node, "subscript base is not an owned array")
+            return Expr.select(
+                Expr.variable(versioned, type_name),
+                self._expression(index_node, environment),
+            )
         if kind == "DeclRefExpr":
             name = self._decl_name(node)
             if name not in environment:
@@ -1142,6 +1225,20 @@ class SemanticLowerer:
         }:
             current = self._inner(current, 1)[0]
         return current
+
+    def _array_base_name(self, node: Mapping[str, Any]) -> str:
+        current = node
+        while str(current.get("kind", "")) in TRANSPARENT_EXPR_KINDS:
+            current = self._inner(current, 1)[0]
+        if (
+            current.get("kind") == "ImplicitCastExpr"
+            and current.get("castKind") == "ArrayToPointerDecay"
+        ):
+            current = self._inner(current, 1)[0]
+        current = self._strip_expr(current)
+        if current.get("kind") != "DeclRefExpr":
+            raise UnsupportedNode(node, "array base must be a direct local array")
+        return self._decl_name(current)
 
     @staticmethod
     def _decl_name(node: Mapping[str, Any]) -> str:

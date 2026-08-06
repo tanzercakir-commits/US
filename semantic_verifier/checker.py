@@ -13,6 +13,7 @@ from itertools import product
 from math import gcd
 from typing import Iterable, Mapping
 
+from .array_types import array_type
 from .backend import CheckerBackend
 from .counterexample import minimize_counterexample
 from .integer_types import (
@@ -104,6 +105,35 @@ def simplify(expr: Expr) -> Expr:
             )
             return Expr.integer(converted, expr.type)
         return Expr(expr.kind, expr.type, expr.value, expr.op, args)
+
+    if expr.kind == "array":
+        return Expr.array(args, array_type(expr.type).element_type)
+
+    if expr.kind == "select":
+        array, index = args
+        if index.kind == "constant":
+            offset = int(index.value)
+            if array.kind == "array" and 0 <= offset < len(array.args):
+                return array.args[offset]
+            if array.kind == "store":
+                stored_index = array.args[1]
+                if stored_index.kind == "constant":
+                    if int(stored_index.value) == offset:
+                        return array.args[2]
+                    return simplify(Expr.select(array.args[0], index))
+        if array.kind == "store" and array.args[1] == index:
+            return array.args[2]
+        return Expr.select(array, index)
+
+    if expr.kind == "store":
+        array, index, value = args
+        if index.kind == "constant" and array.kind == "array":
+            offset = int(index.value)
+            if 0 <= offset < len(array.args):
+                elements = list(array.args)
+                elements[offset] = value
+                return Expr.array(elements, array_type(array.type).element_type)
+        return Expr.store(array, index, value)
 
     if expr.kind == "predicate":
         return Expr(expr.kind, expr.type, expr.value, expr.op, args)
@@ -620,11 +650,33 @@ def _integer_value(value: int, type_name: str) -> int:
     )
 
 
-def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
+EvidenceValue = int | bool | tuple[int, ...]
+
+
+def evaluate(
+    expr: Expr, environment: Mapping[str, EvidenceValue]
+) -> EvidenceValue:
     if expr.kind == "constant":
         return expr.value  # type: ignore[return-value]
     if expr.kind == "variable":
         return environment[str(expr.value)]
+    if expr.kind == "array":
+        return tuple(int(evaluate(item, environment)) for item in expr.args)
+    if expr.kind == "select":
+        array = evaluate(expr.args[0], environment)
+        index = int(evaluate(expr.args[1], environment))
+        if not isinstance(array, tuple) or not 0 <= index < len(array):
+            raise ValueError("array index is outside the owned array")
+        return array[index]
+    if expr.kind == "store":
+        array = evaluate(expr.args[0], environment)
+        index = int(evaluate(expr.args[1], environment))
+        value = int(evaluate(expr.args[2], environment))
+        if not isinstance(array, tuple) or not 0 <= index < len(array):
+            raise ValueError("array index is outside the owned array")
+        updated = list(array)
+        updated[index] = value
+        return tuple(updated)
     if expr.kind == "cast":
         value = evaluate(expr.args[0], environment)
         if expr.args[0].type == "bool" and is_fixed_integer_type(expr.type):
@@ -840,7 +892,7 @@ class TraceResolutionError(ValueError):
 
 def resolve_trace(
     templates: tuple[TraceTemplate, ...],
-    model: Mapping[str, int | bool],
+    model: Mapping[str, EvidenceValue],
 ) -> tuple[TraceStep, ...]:
     resolved: list[TraceStep] = []
     for template in templates:
@@ -872,9 +924,9 @@ def resolve_trace(
 
 
 def _human_counterexample(
-    model: Mapping[str, int | bool]
-) -> dict[str, int | bool]:
-    result: dict[str, int | bool] = {}
+    model: Mapping[str, EvidenceValue]
+) -> dict[str, EvidenceValue]:
+    result: dict[str, EvidenceValue] = {}
     for name in sorted(model):
         base, separator, version = name.partition("#")
         shown = base if separator and version == "0" else name
@@ -1010,7 +1062,7 @@ class AffineChecker(CheckerBackend):
         obligation: Obligation,
         status: VerificationStatus,
         message: str,
-        counterexample: Mapping[str, int | bool] | None = None,
+        counterexample: Mapping[str, EvidenceValue] | None = None,
         trace: tuple[TraceStep, ...] = (),
     ) -> VerificationResult:
         return VerificationResult(

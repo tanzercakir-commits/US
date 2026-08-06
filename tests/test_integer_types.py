@@ -67,7 +67,7 @@ class IntegerTypeTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 parse_canonical_decimal(invalid)
 
-    def test_v2_serializes_fixed_integers_as_decimal_strings(self):
+    def test_v3_serializes_fixed_integers_as_decimal_strings(self):
         for type_name, value in (
             ("i32", -1),
             ("u32", 2**32 - 1),
@@ -147,10 +147,15 @@ class IntegerTypeTests(unittest.TestCase):
         _PROFILE_VALIDATION.pop(key, None)
 
 
-class V2MigrationTests(unittest.TestCase):
-    def test_v1_and_mixed_payloads_are_rejected(self):
-        with self.assertRaisesRegex(SchemaCompatibilityError, "unsupported"):
-            require_current_schema({"schema": "codeskeptic.semantic-verification/v1"})
+class V3MigrationTests(unittest.TestCase):
+    def test_legacy_and_mixed_payloads_are_rejected(self):
+        for version in ("v1", "v2"):
+            with self.subTest(version=version), self.assertRaisesRegex(
+                SchemaCompatibilityError, "unsupported"
+            ):
+                require_current_schema(
+                    {"schema": f"codeskeptic.semantic-verification/{version}"}
+                )
         with self.assertRaisesRegex(SchemaCompatibilityError, "mixed"):
             require_current_schema(
                 {
@@ -161,18 +166,35 @@ class V2MigrationTests(unittest.TestCase):
                 }
             )
 
-    def test_archived_v1_hash_manifest_is_exact(self):
-        archive = ROOT / "fixtures" / "versions" / "v1"
-        for line in (archive / "SHA256SUMS").read_text(encoding="utf-8").splitlines():
-            expected, relative = line.split("  ", 1)
+    def test_archived_v1_and_v2_hash_manifests_are_exact(self):
+        for version in ("v1", "v2"):
+            archive = ROOT / "fixtures" / "versions" / version
+            for line in (
+                archive / "SHA256SUMS"
+            ).read_text(encoding="utf-8").splitlines():
+                expected, relative = line.split("  ", 1)
+                self.assertEqual(
+                    hashlib.sha256((archive / relative).read_bytes()).hexdigest(),
+                    expected,
+                    f"{version}/{relative}",
+                )
+
+    def test_v1_to_v3_preserves_result_statuses(self):
+        archive = ROOT / "fixtures" / "versions" / "v1" / "expected"
+        current = ROOT / "fixtures" / "expected"
+        for old_path in sorted(archive.glob("*.report.json")):
+            old = json.loads(old_path.read_text(encoding="utf-8"))
+            new = json.loads((current / old_path.name).read_text(encoding="utf-8"))
+            self.assertEqual(new["schema"], SCHEMA)
+            self.assertEqual(new["summary"], old["summary"])
+            fields = ("obligation", "function", "kind", "status")
             self.assertEqual(
-                hashlib.sha256((archive / relative).read_bytes()).hexdigest(),
-                expected,
-                relative,
+                [tuple(item[field] for field in fields) for item in new["results"]],
+                [tuple(item[field] for field in fields) for item in old["results"]],
             )
 
-    def test_v1_to_v2_preserves_result_statuses(self):
-        archive = ROOT / "fixtures" / "versions" / "v1" / "expected"
+    def test_v2_to_v3_preserves_result_statuses(self):
+        archive = ROOT / "fixtures" / "versions" / "v2" / "expected"
         current = ROOT / "fixtures" / "expected"
         for old_path in sorted(archive.glob("*.report.json")):
             old = json.loads(old_path.read_text(encoding="utf-8"))

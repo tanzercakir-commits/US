@@ -8,7 +8,7 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v2`. F4.1 froze the
+The current value is `codeskeptic.semantic-verification/v3`. F4.1 froze the
 report and Semantic IR contract as v0; A4.1 advanced to v1 for minimized public
 counterexample evidence; A6.8 advances to v2 for explicit fixed-width types and
 canonical integer evidence. A producer emits exactly one major version; there
@@ -16,10 +16,11 @@ is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
-schema. A6.12 adds `codeskeptic.fixed-integer-phase-gate/v0` as a third,
-independent evidence schema; changing its frozen profile, conversion table,
-operator rows, backend matrix, or migration checks requires an intentional gate
-version review, not a report-schema reinterpretation.
+schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 advances
+that independent evidence schema to v1 so it also pins the v2 archive and both
+v1-to-v3 and v2-to-v3 migration checks. Changing its frozen profile, conversion
+table, operator rows, backend matrix, or migration checks requires an
+intentional gate version review, not a report-schema reinterpretation.
 
 ## Why v0 is not bumped retroactively
 
@@ -86,6 +87,30 @@ stages.
 The `require_current_schema` gate rejects v0, v1, unknown, and mixed-major
 payloads. No legacy reader or conversion tool exists in this producer-only
 repository.
+
+## v3 decision: owned fixed-size arrays
+
+A6.2 introduces proof-bearing `array<E,N>` types plus `array`, `select`, and
+`store` expression kinds. Each access creates an explicit `[0,N)`
+`array_bounds` obligation. Signed-only formulas use QF_ALIA; unsigned or
+bitwise-tainted formulas use QF_ABV. Array countermodel values are materialized
+at their owned length for replay and, when retained publicly, serialize as JSON
+arrays of canonical decimal strings.
+
+Keeping these semantics under v2 was rejected. A v2 consumer does not know that
+`store` returns an isolated value, cannot enforce the new access-definedness
+claim, and may misinterpret an array-valued counterexample binding. The complete
+nine-case v2 corpus is preserved byte-for-byte under `fixtures/versions/v2/`
+with 28 checked SHA-256 entries. Current fixtures are regenerated as v3;
+status-equivalence is checked for all nine legacy v2 reports and the five v1
+reports. `require_current_schema` rejects v0, v1, v2, unknown, and mixed-major
+payloads.
+
+The reviewed source subset is local, one-dimensional, positive fixed size,
+fully initialized, and limited to 64 fixed-width integer elements. Raw-array
+parameters/returns, pointer decay outside direct subscripting, aliases, dynamic
+allocation, multidimensional arrays, partial initialization, and unmodeled
+libraries remain unsupported.
 
 ## Consumer rules
 
@@ -185,22 +210,23 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A6.8:
+As of A6.2:
 
-- current producer: `codeskeptic.semantic-verification/v2`;
-- frozen previous baselines: complete five-case v0 and v1 corpora under
-  `fixtures/versions/v0/` and `fixtures/versions/v1/`;
-- compatible readers: v2 readers that require the exact schema, understand
-  fixed-width type identities, decode integer evidence from canonical decimal
-  strings, and apply the minimized-core interpretation;
+- current producer: `codeskeptic.semantic-verification/v3`;
+- frozen previous baselines: complete v0, v1, and v2 corpora under
+  `fixtures/versions/v0/`, `fixtures/versions/v1/`, and
+  `fixtures/versions/v2/`;
+- compatible readers: v3 readers that require the exact schema, understand
+  fixed-width and owned-array types, exact select/store/bounds semantics,
+  canonical decimal scalar/array evidence, and minimized cores;
   `semantic_verifier.schema` supplies the reference fail-closed gate;
-- v0 and v1 readers are intentionally incompatible with v2 type/evidence
-  semantics;
+- v0, v1, and v2 readers are intentionally incompatible with current
+  type/evidence semantics;
 - no legacy report reader or conversion tool exists in this producer-only
   reference repository, so none is deleted by this migration;
 - the Unreleased changelog period is the migration window; archived fixture
   bytes remain available and are not scheduled for deletion.
 
-This policy does not promise that every future source feature stays in v2. It
+This policy does not promise that every future source feature stays in v3. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,
 and impossible to confuse silently with the previous proof contract.

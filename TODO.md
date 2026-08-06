@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **A6.2 - restricted arrays**
+- [ ] **A6.3 - restricted value structs**
 
 ## Next
 
-- [ ] **A6.3 - restricted value structs**
 - [ ] **A6.4 - restricted proved references**
 - [ ] **A6.5 - modular calls and frame summaries**
 - [ ] **A6.6 - optional invariant-inference research**
@@ -25,6 +24,6 @@
 
 ## Last updated
 
-2026-08-06 - A6.12 froze the fixed-width profile, operation/conversion tables,
-classifier and backend matrix, replay evidence, v1 migration equivalence, and a
-deterministic 60-obligation gate; next is restricted arrays.
+2026-08-06 - A6.2 added exact owned arrays, bounds VCs, QF_ALIA/QF_ABV,
+replay/cache support, schema v3 migration, the immutable v2 archive, and a
+fully verified array fixture; next is restricted value structs.

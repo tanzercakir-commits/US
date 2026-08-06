@@ -3154,7 +3154,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v2",
+  "schema": "codeskeptic.semantic-verification/v3",
   "semantic_ir": {
     "functions": [
       {
@@ -4165,7 +4165,7 @@
         "return_type": "i64"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v2",
+    "schema": "codeskeptic.semantic-verification/v3",
     "source": "fixtures/cases/int64_slice.cpp",
     "unsupported": []
   },

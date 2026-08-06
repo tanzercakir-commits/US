@@ -2175,7 +2175,7 @@
       "status": "verified"
     }
   ],
-  "schema": "codeskeptic.semantic-verification/v2",
+  "schema": "codeskeptic.semantic-verification/v3",
   "semantic_ir": {
     "functions": [
       {
@@ -2642,7 +2642,7 @@
         "return_type": "i32"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v2",
+    "schema": "codeskeptic.semantic-verification/v3",
     "source": "fixtures/cases/sum_loop.cpp",
     "unsupported": []
   },

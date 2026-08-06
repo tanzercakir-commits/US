@@ -1,0 +1,4469 @@
+{
+  "non_goals": [],
+  "obligations": [
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "4"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "constant_read",
+      "id": "ob00001",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 6
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "4"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "array<i32,3>",
+                "value": "values#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              }
+            ],
+            "kind": "select",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "7"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 3: ensures return == 7",
+      "function": "constant_read",
+      "id": "ob00002",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 6
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "symbolic_read",
+      "id": "ob00003",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 9
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "4"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "symbolic_read",
+      "id": "ob00004",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 13
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "4"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "array<i32,3>",
+                "value": "values#0"
+              },
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              }
+            ],
+            "kind": "select",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": ">",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 10: ensures return > 0",
+      "function": "symbolic_read",
+      "id": "ob00005",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 13
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "store_isolation",
+      "id": "ob00006",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 19
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "store_isolation",
+      "id": "ob00007",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 20
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "array<i32,3>",
+                "value": "values#1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              }
+            ],
+            "kind": "select",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "2"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 16: ensures return == 2",
+      "function": "store_isolation",
+      "id": "ob00008",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 20
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "read_after_write",
+      "id": "ob00009",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 23
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "read_after_write",
+      "id": "ob00010",
+      "kind": "array_bounds",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 27
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "previous#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "previous#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "previous#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i32",
+      "function": "read_after_write",
+      "id": "ob00011",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 28
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "previous#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "read_after_write",
+      "id": "ob00012",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 28
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "previous#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "previous#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "read_after_write",
+      "id": "ob00013",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 29
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "previous#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "previous#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "array<i32,3>",
+                        "value": "values#1"
+                      },
+                      {
+                        "kind": "variable",
+                        "type": "i32",
+                        "value": "i#0"
+                      }
+                    ],
+                    "kind": "select",
+                    "type": "i32"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "previous#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "array<i32,3>",
+                        "value": "values#1"
+                      },
+                      {
+                        "kind": "variable",
+                        "type": "i32",
+                        "value": "i#0"
+                      }
+                    ],
+                    "kind": "select",
+                    "type": "i32"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "previous#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed - result must remain within i32",
+      "function": "read_after_write",
+      "id": "ob00014",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 29
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">=",
+              "type": "bool"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "binary",
+          "op": "&&",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "previous#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,3>",
+              "value": "values#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "previous#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,3>",
+                      "value": "values#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,3>",
+                      "value": "values#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i32"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "array<i32,3>",
+                    "value": "values#1"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "i#0"
+                  }
+                ],
+                "kind": "select",
+                "type": "i32"
+              },
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "previous#0"
+              }
+            ],
+            "kind": "binary",
+            "op": "-",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 24: ensures return == 1",
+      "function": "read_after_write",
+      "id": "ob00015",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 29
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "unsigned_read",
+      "id": "ob00016",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 32
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<u32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "2"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                }
+              ],
+              "kind": "array",
+              "type": "array<u32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "u32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "u32",
+                "value": "i#0"
+              },
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 3)",
+      "function": "unsigned_read",
+      "id": "ob00017",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 36
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<u32,3>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "2"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                }
+              ],
+              "kind": "array",
+              "type": "array<u32,3>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "array<u32,3>",
+                "value": "values#0"
+              },
+              {
+                "kind": "variable",
+                "type": "u32",
+                "value": "i#0"
+              }
+            ],
+            "kind": "select",
+            "type": "u32"
+          },
+          {
+            "kind": "constant",
+            "type": "u32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 33: ensures return != 0",
+      "function": "unsigned_read",
+      "id": "ob00018",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 36
+      },
+      "mode": "validity"
+    }
+  ],
+  "results": [
+    {
+      "function": "constant_read",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 6
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00001",
+      "status": "verified"
+    },
+    {
+      "function": "constant_read",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 6
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00002",
+      "status": "verified"
+    },
+    {
+      "function": "symbolic_read",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 9
+      },
+      "message": "verified: Z3 found a satisfying model",
+      "obligation": "ob00003",
+      "status": "verified"
+    },
+    {
+      "function": "symbolic_read",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 13
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00004",
+      "status": "verified"
+    },
+    {
+      "function": "symbolic_read",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 13
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00005",
+      "status": "verified"
+    },
+    {
+      "function": "store_isolation",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 19
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00006",
+      "status": "verified"
+    },
+    {
+      "function": "store_isolation",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 20
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00007",
+      "status": "verified"
+    },
+    {
+      "function": "store_isolation",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 20
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00008",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 23
+      },
+      "message": "verified: Z3 found a satisfying model",
+      "obligation": "ob00009",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "array_bounds",
+      "location": {
+        "column": 9,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 27
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00010",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 28
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00011",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 28
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00012",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 29
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00013",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 29
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00014",
+      "status": "verified"
+    },
+    {
+      "function": "read_after_write",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 29
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00015",
+      "status": "verified"
+    },
+    {
+      "function": "unsigned_read",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 32
+      },
+      "message": "verified: Z3 found a satisfying model",
+      "obligation": "ob00016",
+      "status": "verified"
+    },
+    {
+      "function": "unsigned_read",
+      "kind": "array_bounds",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 36
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00017",
+      "status": "verified"
+    },
+    {
+      "function": "unsigned_read",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/array_slice.cpp",
+        "line": 36
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00018",
+      "status": "verified"
+    }
+  ],
+  "schema": "codeskeptic.semantic-verification/v3",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "4"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            },
+            "id": "n00001",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 5
+            },
+            "target": "values#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            },
+            "id": "n00002",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 6
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 3
+            },
+            "machine_proposed": false,
+            "text": "ensures return == 7"
+          }
+        ],
+        "has_body": true,
+        "id": "f0001",
+        "locals": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 5
+            },
+            "name": "values",
+            "type": "array<i32,3>",
+            "versioned_name": "values#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/array_slice.cpp",
+          "line": 4
+        },
+        "name": "constant_read",
+        "parameters": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "id": "n00003",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 9
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "4"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            },
+            "id": "n00004",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 12
+            },
+            "target": "values#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            },
+            "id": "n00005",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 13
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 9
+            },
+            "machine_proposed": false,
+            "text": "requires i >= 0 && i < 3"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": ">",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 10
+            },
+            "machine_proposed": false,
+            "text": "ensures return > 0"
+          }
+        ],
+        "has_body": true,
+        "id": "f0002",
+        "locals": [
+          {
+            "id": "f0002.s0002",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 12
+            },
+            "name": "values",
+            "type": "array<i32,3>",
+            "versioned_name": "values#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/array_slice.cpp",
+          "line": 11
+        },
+        "name": "symbolic_read",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 11
+            },
+            "name": "i",
+            "type": "i32",
+            "versioned_name": "i#0"
+          }
+        ],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            },
+            "id": "n00006",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 18
+            },
+            "target": "values#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "9"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            },
+            "id": "n00007",
+            "kind": "assign",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 19
+            },
+            "target": "values#1"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            },
+            "id": "n00008",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 20
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 16
+            },
+            "machine_proposed": false,
+            "text": "ensures return == 2"
+          }
+        ],
+        "has_body": true,
+        "id": "f0003",
+        "locals": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 18
+            },
+            "name": "values",
+            "type": "array<i32,3>",
+            "versioned_name": "values#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/array_slice.cpp",
+          "line": 17
+        },
+        "name": "store_isolation",
+        "parameters": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "id": "n00009",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 23
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "10"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "20"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "30"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,3>"
+            },
+            "id": "n00010",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 26
+            },
+            "target": "values#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "i32"
+            },
+            "id": "n00011",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 27
+            },
+            "target": "previous#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<i32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "previous#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                }
+              ],
+              "kind": "store",
+              "type": "array<i32,3>"
+            },
+            "id": "n00012",
+            "kind": "assign",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 28
+            },
+            "target": "values#1"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,3>",
+                      "value": "values#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "previous#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i32"
+            },
+            "id": "n00013",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 29
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 23
+            },
+            "machine_proposed": false,
+            "text": "requires i >= 0 && i < 3"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 24
+            },
+            "machine_proposed": false,
+            "text": "ensures return == 1"
+          }
+        ],
+        "has_body": true,
+        "id": "f0004",
+        "locals": [
+          {
+            "id": "f0004.s0002",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 26
+            },
+            "name": "values",
+            "type": "array<i32,3>",
+            "versioned_name": "values#0"
+          },
+          {
+            "id": "f0004.s0003",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 27
+            },
+            "name": "previous",
+            "type": "i32",
+            "versioned_name": "previous#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/array_slice.cpp",
+          "line": 25
+        },
+        "name": "read_after_write",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 26,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 25
+            },
+            "name": "i",
+            "type": "i32",
+            "versioned_name": "i#0"
+          }
+        ],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00014",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 32
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "2"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                }
+              ],
+              "kind": "array",
+              "type": "array<u32,3>"
+            },
+            "id": "n00015",
+            "kind": "assign",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 35
+            },
+            "target": "values#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "array<u32,3>",
+                  "value": "values#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#0"
+                }
+              ],
+              "kind": "select",
+              "type": "u32"
+            },
+            "id": "n00016",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 36
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 32
+            },
+            "machine_proposed": false,
+            "text": "requires i < 3"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 33
+            },
+            "machine_proposed": false,
+            "text": "ensures return != 0"
+          }
+        ],
+        "has_body": true,
+        "id": "f0005",
+        "locals": [
+          {
+            "id": "f0005.s0002",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 35
+            },
+            "name": "values",
+            "type": "array<u32,3>",
+            "versioned_name": "values#0"
+          }
+        ],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/array_slice.cpp",
+          "line": 34
+        },
+        "name": "unsigned_read",
+        "parameters": [
+          {
+            "id": "f0005.s0001",
+            "location": {
+              "column": 41,
+              "file": "fixtures/cases/array_slice.cpp",
+              "line": 34
+            },
+            "name": "i",
+            "type": "u32",
+            "versioned_name": "i#0"
+          }
+        ],
+        "return_type": "u32"
+      }
+    ],
+    "schema": "codeskeptic.semantic-verification/v3",
+    "source": "fixtures/cases/array_slice.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/array_slice.cpp",
+  "summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 18,
+    "violated": 0
+  }
+}

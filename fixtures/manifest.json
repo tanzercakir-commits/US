@@ -101,6 +101,18 @@
       },
       "name": "fixed_integer_gate",
       "source": "cases/fixed_integer_gate.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 18,
+        "violated": 0
+      },
+      "name": "array_slice",
+      "source": "cases/array_slice.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"
