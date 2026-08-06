@@ -28,7 +28,7 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 149 deterministic tests, including independent soundness regressions.
+- 152 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -341,7 +341,9 @@ is unknown. Definitive disagreement, backend process failure, or replay failure
 becomes solver_error. No solver library or Python solver package is linked; z3
 and both modes require the separately installed Z3 executable. Licensing,
 packaging, timeout, and determinism decisions are recorded in
-docs/solver_decision.md.
+[the solver decision](solver_decision.md). The exponential sequential-diamond
+baseline and exact structured-merge choice are recorded in
+[the path-scaling decision](path_scaling_decision.md).
 
 ### Result taxonomy
 
@@ -508,7 +510,7 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 149-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 152-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent

@@ -470,3 +470,24 @@ Evidence: A5 structure/field review -> A5.1–A5.4 complete; local documentation
 links -> valid via full suite; baseline/full suite -> 149/149; diff check ->
 clean; commit: this commit.
 Next: A5.1 (path-growth measurement and merge-point VC decision spike).
+## 2026-08-06 - A5.1: path-growth measurement and merge decision - DONE
++ Added a solver-free deterministic probe using the ordinary Clang, lowering,
+  and VC path plus stable sorted JSON under codeskeptic.path-scaling-probe/v0.
++ Measured 1/2/4/8 sequential empty diamonds: 2/4/16/256 post-join assertion
+  obligations from 114/148/216/352 source bytes and 3/4/6/10 IR nodes.
++ Confirmed every measured obligation has a unique exact semantic key, so exact
+  duplicate deletion gives zero reduction on the baseline.
++ Defined the SHA-256 logical key boundary and documented why branch dropping,
+  unproved assumption subsumption, source/ID hashing, affine exhaustion, eager
+  trace alternatives, and a general BDD/SMT simplifier are rejected shortcuts.
++ Chose exact factored disjunction at structured joins with compact guarded trace
+  templates; inserted A5.5 before caching with a 1/1/1/1 acceptance target.
++ Added probe determinism, exponential-count, key-normalization, and decision
+  guardrails; expanded the declared stage file set before required ratchet/count
+  updates and advanced the suite from 149 to 152.
+- None.
+Evidence: path-scaling tests -> 3/3; two external probe renders -> byte-identical
+SHA-256 f1ce3d1b528273af2df8052f92d0af9cb69bd51f6d1fb710bb0aedd425303f59;
+full suite -> 152/152; fixture check -> 10/10 current; diff check -> clean;
+commit: this commit.
+Next: A5.5 (exact structured merge-point compaction).

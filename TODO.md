@@ -8,7 +8,8 @@
 
 ## Now (active stage)
 
-- [ ] **A5.1 - path-growth measurement and merge-point VC decision spike**
+- [ ] **A5.5 - exact structured merge-point compaction** (stage inserted by
+  the A5.1 measurement decision)
 
 ## Next
 
@@ -23,5 +24,5 @@
 
 ## Last updated
 
-2026-08-06 - A5.0 expanded scaling into measurable path-growth research,
-fail-safe caching, deterministic budgets, and a phase gate. Next is A5.1.
+2026-08-06 - A5.1 measured 2^N post-join growth with zero exact duplicates and
+inserted A5.5 for exact guarded merge compaction before caching.

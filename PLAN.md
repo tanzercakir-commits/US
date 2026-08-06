@@ -298,12 +298,30 @@ produce `verified`.
   it must not approximate or silently drop paths.
 - Output: `tools/path_scaling_probe.py`, `tests/test_path_scaling.py`,
   `docs/path_scaling_decision.md`; optional PLAN extension for the chosen
-  implementation stage. No production VC rewrite belongs to this spike.
+  implementation stage; required test-ratchet/count updates in
+  `guardrails/test_baseline.txt`, `README.md`, and the prototype document. No
+  production VC rewrite belongs to this spike.
 - DoD: `python -m unittest tests.test_path_scaling` is green; probe runs for
   1/2/4/8 synthetic diamonds and emits byte-identical sorted JSON twice; the
   decision records measured counts, exact-key definition, rejected unsound
   shortcuts, chosen architecture, and whether a new pre-gate stage is required.
 - Depends: A5.0.
+
+#### A5.5 — Exact structured merge-point compaction (inserted by A5.1)
+- Goal: replace explicit post-join path lists with an equivalent factored
+  disjunction of incoming state conjunctions; eliminate only structurally exact
+  duplicates/identities; retain compact guarded trace templates that resolve to
+  the existing source-ordered TraceStep values after full-model replay.
+- Output: `semantic_verifier/model.py`, `semantic_verifier/vc.py`, backend trace
+  resolution, `tests/test_path_scaling.py`, and updates to
+  `docs/path_scaling_decision.md` plus result-schema/changelog documentation.
+- DoD: `python -m unittest tests.test_path_scaling` is green; the probe's
+  post-join assertion counts for 1/2/4/8 empty diamonds become 1/1/1/1 instead
+  of 2/4/16/256; nested and assignment-bearing diamond verdicts match an
+  unmerged reference; true/false trace directions resolve from replayed models;
+  unsupported resolution falls back or fails closed; full suite and fixture
+  check are green.
+- Depends: A5.1.
 
 #### A5.2 — Persistent obligation-result cache
 - Goal: compute a deterministic SHA-256 semantic key over schema, backend
@@ -318,7 +336,7 @@ produce `verified`.
   byte-identical and the second makes zero wrapped-backend calls; changing one
   obligation invalidates only its entry; schema/backend/config changes miss;
   malformed cache bytes recompute safely; full suite and fixture check are green.
-- Depends: A5.1 and any implementation stage it adds.
+- Depends: A5.5.
 
 #### A5.3 — Deterministic resource budgets
 - Goal: enforce a per-obligation solver timeout and deterministic per-file work
@@ -344,7 +362,7 @@ produce `verified`.
   the path-growth probe and any A5.1 implementation benchmark meet their
   recorded target; `python -m unittest discover -s tests` and
   `python tools/regenerate_fixtures.py --check` are green.
-- Depends: A5.1–A5.3 and every implementation stage introduced by A5.1.
+- Depends: A5.1–A5.3 and A5.5.
 
 ### Phase A6 — Semantic extensions (far horizon; each expands when due)
 
