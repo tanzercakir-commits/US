@@ -910,12 +910,103 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase B3 — Sidecar contract database
 
-- B3.0 — Expansion
-- B3.1 — Wire `.csk` sidecars into verification (bodiless external function +
-  sidecar contract = call obligations)
-- B3.2 — First stdlib mini-models (value-semantic, heap-free functions only:
-  `abs`, `min`, `max` level; vector/string EXCLUDED — no heap model before A6)
-- B3.3 — Contract package versioning/distribution format
+#### B3.0 — Sidecar contract database expansion
+
+- Goal: replace the coarse B3 headings with bounded stages that connect the
+  existing adjacent `.csk` parser to native verification, add a deliberately
+  small standard-library model set, and make contract packs distributable.
+- Output/exact file set: reference `PLAN.md`, `PROGRESS.md`, and `TODO.md` only.
+- DoD: B3.1-B3.3 each declare Goal/Output/file boundary/DoD/Depends; load and
+  conflict precedence, provenance, supported model scope, schema failure, and
+  offline distribution rules are explicit; full production/reference suites
+  remain green.
+- Depends: B2.4.
+
+#### B3.1 — Adjacent `.csk` contracts on the native verification path
+
+- Goal: bind contracts from the declaring file's existing adjacent `.csk`
+  sidecar into owned Semantic IR so a bodiless external declaration can create
+  call preconditions, assumed postconditions, and contract well-formedness
+  obligations without source edits.
+- Output: provenance-preserving inline/sidecar semantic merge, strict typed
+  binding through the existing contract grammar, and end-to-end CLI/SARIF/MCP
+  evidence for a sidecar-contracted external call.
+- Planned file set (confirm before edits): CodeSkeptic `CONTRACTS.md`;
+  `src/contracts/{ContractInfo.h,ContractInfo.cpp,Sidecar.h,Sidecar.cpp}`;
+  minimal `src/semantic/SemanticLowerer.cpp` wiring;
+  `tests/{ContractTest.cpp,SemanticLowererTest.cpp,
+  VerificationConditionTest.cpp,McpServerTest.cpp}`; reference `PLAN.md`,
+  `PROGRESS.md`, and `TODO.md`.
+- Boundaries: B3.1 reads only adjacent `<declaring-file>.csk` files; inline
+  clauses remain first in source order and sidecar clauses retain their `.csk`
+  file/absolute line provenance. Conflicting or malformed clauses are never
+  silently selected or dropped. Package search and built-in models wait for
+  B3.2-B3.3.
+- DoD: a bodiless external declaration plus sidecar `requires` produces a call
+  obligation and a false call violates; sidecar `ensures` is assumed only after
+  its well-formedness obligation and can prove a caller postcondition; malformed,
+  unbound, duplicate/conflicting, missing, and edited-sidecar cases fail closed
+  with deterministic `.csk` locations; repeated IR/obligations/MCP bytes match;
+  legacy sidecar and full production/reference suites pass.
+- Depends: B2.4.
+
+#### B3.2 — First value-semantic standard-library mini-models
+
+- Goal: model only scalar, heap-free `abs`, `min`, and `max` calls under the
+  pinned C++17 integer profile, including namespace/header declarations, without
+  claiming alias, heap, floating-point, comparator, or initializer-list behavior.
+- Output: an offline built-in mini-model registry keyed by qualified canonical
+  signature; referenced external-declaration synthesis in lowering; sound
+  `abs` minimum-value preconditions and homogeneous `min`/`max` postconditions;
+  positive/negative examples and focused tests.
+- Planned file set (confirm before edits): CodeSkeptic
+  `src/contracts/{StdlibModels.h,StdlibModels.cpp}`;
+  `src/semantic/SemanticLowerer.cpp`;
+  `src/verification/VerificationConditionGenerator.cpp`; `src/CMakeLists.txt`;
+  `tests/{CMakeLists.txt,StdlibModelsTest.cpp,SemanticLowererTest.cpp,
+  VerificationConditionTest.cpp}`; `examples/stdlib_models.cpp`;
+  `CONTRACTS.md`, `README.md`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Boundaries: exact qualified signatures only; `abs` covers signed i32/i64 with
+  the minimum value excluded, and `min`/`max` cover homogeneous i32/u32/i64/u64
+  value observations. Unsupported overloads remain explicit; user functions
+  named `abs`, `min`, or `max` never inherit a model. No filesystem/network
+  package discovery is introduced in this stage.
+- DoD: supported calls no longer emit `uncontracted external call`; valid
+  boundary examples verify and wrong caller/postcondition variants violate with
+  replayed models; signed-min, mixed-type, floating, comparator, initializer-
+  list, pointer/reference-alias, and lookalike user functions fail closed or
+  remain unmodeled; model lookup and results repeat byte-identically; full
+  production/reference suites pass.
+- Depends: B3.1.
+
+#### B3.3 — Versioned contract packages and offline distribution
+
+- Goal: move built-in and user-supplied model sets behind a versioned,
+  relocatable, deterministic contract-package format with no network access on
+  the analysis path.
+- Output: manifest/schema and hash-checked loader, explicit package search
+  configuration, deterministic conflict policy and provenance, migration of the
+  B3.2 mini-models, release/Docker/action packaging, and adoption documentation.
+- Planned file set (confirm before edits): CodeSkeptic `contract-packs/**`;
+  `src/contracts/{ContractPackage.h,ContractPackage.cpp,StdlibModels.h,
+  StdlibModels.cpp}`; `src/config/{Config.h,Config.cpp}`;
+  `src/analyzer/StaticAnalyzer.cpp`; `src/server/McpServer.cpp`;
+  `src/CMakeLists.txt`; `tests/{CMakeLists.txt,ContractPackageTest.cpp,
+  ConfigTest.cpp,McpServerTest.cpp}`; `scripts/package_release.sh`, `Dockerfile`,
+  `action.yml`, `CONTRACTS.md`, `README.md`, release documentation; reference
+  `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Boundaries: discovery is bundled-default plus explicit local paths only;
+  manifests pin schema major, package identity/version, target profile, sorted
+  files, and SHA-256 hashes. Unknown majors, hash mismatch, traversal, malformed
+  entries, target mismatch, and non-identical duplicate signature claims fail
+  closed; there is no silent precedence override.
+- DoD: source-tree, relocated release, Docker, and action layouts resolve the
+  same bundled pack; explicit local packs load in sorted order; missing optional
+  packs are reported without changing proof status, while corrupt/incompatible/
+  conflicting packs block affected claims; repeated manifests, diagnostics, IR,
+  obligations, and results are byte-identical; packaging smoke tests and full
+  production/reference suites pass.
+- Depends: B3.2.
 
 ### Phase B4 — CI and adoption path
 

@@ -1141,3 +1141,23 @@ green; all five result states -> green; deterministic repeat -> green; full
 CodeSkeptic suite -> 866/866; reference suite -> 314/314; production commit ->
 `9d46aaf`; commit: this reference-ledger commit.
 Next: B3.0 (sidecar contract database expansion).
+
+## 2026-08-06 - B3.0: sidecar contract database expansion - DONE
++ Measured the existing production seam: adjacent `.csk` parsing, anchored
+  legacy enforcement, absolute sidecar locations, per-run cache clearing, and
+  malformed-line diagnostics already exist and remain the foundation.
++ Isolated the native verification gap: semantic contract adaptation currently
+  reads inline comments only, so B3.1 can merge adjacent sidecars without
+  changing the parser grammar or introducing package discovery.
++ Expanded B3.1-B3.3 with explicit goals, outputs, planned file boundaries,
+  soundness constraints, runnable DoD evidence, and dependencies.
++ Limited the first standard-library models to qualified scalar `abs`, `min`,
+  and `max` signatures; heap, alias, floating, comparator, and container claims
+  remain explicitly outside the stage.
++ Defined offline hash-checked package discovery and fail-closed conflict/schema
+  rules before any distribution implementation.
+- None.
+Evidence: existing sidecar parser/enforcement tests -> green; production suite
+at unchanged B2.4 commit -> 866/866; reference suite -> 314/314; plan links and
+stage IDs -> present; commit: this planning commit.
+Next: B3.1 (adjacent `.csk` contracts on the native verification path).
