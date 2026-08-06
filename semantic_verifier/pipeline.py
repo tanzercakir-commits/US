@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .backend import CheckerBackend
+from .cache import CachedCheckerBackend
 from .checker import DeterministicChecker
 from .frontend import ClangJsonFrontend, FrontendError
 from .lowering import SemanticLowerer
@@ -21,7 +23,13 @@ from .vc import VerificationConditionGenerator
 
 
 class VerificationPipeline:
-    def __init__(self, clang: str | None = None) -> None:
+    def __init__(
+        self,
+        clang: str | None = None,
+        *,
+        checker: CheckerBackend | None = None,
+        cache_path: str | Path | None = None,
+    ) -> None:
         self.frontend: ClangJsonFrontend | None = None
         self._frontend_initialization_error: str | None = None
         try:
@@ -31,7 +39,12 @@ class VerificationPipeline:
             # result envelope as checker failures. In particular, JSON mode
             # must never degrade to an unstructured stderr-only response.
             self._frontend_initialization_error = str(error)
-        self.checker = DeterministicChecker()
+        selected = checker or DeterministicChecker()
+        self.checker = (
+            CachedCheckerBackend(selected, cache_path)
+            if cache_path is not None
+            else selected
+        )
 
     def verify_file(self, path: str | Path) -> VerificationReport:
         shown = Path(path).as_posix()

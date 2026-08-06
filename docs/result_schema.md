@@ -72,6 +72,42 @@ The CLI exit-code precedence is:
 
 Non-goals do not change the exit code.
 
+## Persistent obligation-result cache
+
+`--cache PATH` enables an opt-in local JSON cache with schema
+`codeskeptic.obligation-result-cache/v0`. Cache files are optimization state,
+not part of the report envelope; cold and warm runs emit byte-identical reports.
+The cache contains a sorted `entries` object keyed by lowercase SHA-256 digest.
+
+The canonical key payload binds:
+
+- `codeskeptic.obligation-semantic-key/v0` and the current report/IR schema;
+- backend identity, implementation policy, nested cross-check identities, and
+  result-relevant configuration such as the Z3 executable and timeout;
+- obligation mode, conclusion or explicit null, and unsupported reason;
+- assumptions serialized with sorted object keys and sorted as a conjunction.
+
+IDs, function/kind labels, descriptions, source locations, and trace locations
+are excluded because they do not alter the logical query. A matching entry is
+accepted only when its stored key payload exactly equals the current payload.
+Trace-template semantics are also matched before cached diagnostic directions
+are attached to current source locations. Result obligation ID, function, kind,
+primary location, and trace locations are always reconstructed from the current
+obligation.
+
+Missing files and keys, unknown cache schemas, changed report schemas, backend
+or configuration changes, malformed JSON/entries/statuses/evidence, and trace
+metadata mismatches all cause ordinary backend recomputation. Read, directory,
+write, or atomic-replace failures do not change the returned referee result.
+`solver_error` is deliberately neither stored nor reused, because an
+operational failure may disappear without any semantic configuration change.
+
+A syntactically valid matching cache entry is trusted derived state. Keep cache
+files inside the same access boundary as verifier outputs and do not restore
+one from an untrusted source. Counterexample bindings in the cache have the same
+retention sensitivity as report artifacts. Delete the file to force a cold run;
+manual editing is unsupported.
+
 ## Verification result
 
 | Field | Type | Required | Contract |

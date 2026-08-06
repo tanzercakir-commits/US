@@ -28,7 +28,9 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 155 deterministic tests, including independent soundness regressions.
+- an opt-in persistent exact-result cache keyed by report/key schema, backend
+  identity/configuration, solver policy, and canonical obligation semantics;
+- 162 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 

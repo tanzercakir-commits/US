@@ -151,6 +151,29 @@ explicitly for that shell.
 For the reference repository, `.github/workflows/determinism.yml` is the model
 for full-suite plus two-run fixture comparison.
 
+## Persistent cache in CI
+
+Enable `--cache PATH` only after the pilot has a protected persistent workspace
+or an explicitly managed CI cache. Bind restoration to the verifier/report
+version and backend configuration even though every entry also carries exact
+schema and referee identities. A warm run must emit the same report bytes and
+exit code as a cold run.
+
+Treat the cache as derived verifier evidence, not as an interchangeable build
+acceleration artifact. Do not download or restore it from an untrusted job,
+fork, or user-controlled key. It can contain counterexample bindings. If a file
+is missing, stale, malformed, or cannot be written, the verifier recomputes
+normally; `solver_error` is never a reusable cache result. Delete the cache when
+investigating infrastructure or soundness incidents so the backend is invoked
+again.
+
+Example:
+
+```powershell
+python -m semantic_verifier src/pilot.cpp --backend both --format json `
+  --cache .ci/semantic-verifier-cache.json
+```
+
 ## Result triage
 
 ### `verified`

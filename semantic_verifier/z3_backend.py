@@ -122,6 +122,19 @@ class Z3ProcessRunner:
         self._configured_z3 = z3
         self.timeout_seconds = float(timeout_seconds)
 
+    def cache_identity(self) -> Mapping[str, object]:
+        """Describe every runner setting that can change a returned result."""
+
+        try:
+            executable = Path(discover_z3(self._configured_z3)).as_posix()
+        except Z3DiscoveryError:
+            executable = self._configured_z3
+        return {
+            "command_policy": "qf-lia-deterministic-seeds/v0",
+            "executable": executable,
+            "timeout_seconds": self.timeout_seconds,
+        }
+
     def run(self, smtlib: str, mode: str = "validity") -> Z3RunResult:
         if mode not in {"validity", "satisfiable"}:
             return self._error(

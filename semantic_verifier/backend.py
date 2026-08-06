@@ -36,6 +36,11 @@ class CheckerBackend(ABC):
     ) -> tuple[VerificationResult, ...]:
         return tuple(self.check(obligation) for obligation in obligations)
 
+    def cache_identity(self) -> Mapping[str, object]:
+        """Return stable referee identity and result-relevant configuration."""
+
+        return {"implementation": "v0", "name": self.name}
+
 
 class Z3Checker(CheckerBackend):
     name = "z3-qf-lia"
@@ -57,6 +62,19 @@ class Z3Checker(CheckerBackend):
         from .z3_backend import check_obligation
 
         return check_obligation(obligation, self.runner)
+
+    def cache_identity(self) -> Mapping[str, object]:
+        identity = getattr(self.runner, "cache_identity", None)
+        configuration = (
+            identity()
+            if callable(identity)
+            else {"runner": type(self.runner).__qualname__}
+        )
+        return {
+            "configuration": configuration,
+            "implementation": "smtlib-replay/v1",
+            "name": self.name,
+        }
 
 
 class CrossCheckBackend(CheckerBackend):
@@ -126,6 +144,14 @@ class CrossCheckBackend(CheckerBackend):
             selected.counterexample,
             selected.trace,
         )
+
+    def cache_identity(self) -> Mapping[str, object]:
+        return {
+            "implementation": "definitive-agreement/v0",
+            "name": self.name,
+            "primary": self.primary.cache_identity(),
+            "secondary": self.secondary.cache_identity(),
+        }
 
 
 def create_backend(

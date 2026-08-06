@@ -335,6 +335,12 @@ produce `verified`.
   trusted as proof.
 - Output: `semantic_verifier/cache.py`, backend/pipeline/CLI integration,
   `tests/test_cache.py`, result-schema/adoption/changelog documentation.
+  Stage file set also includes `semantic_verifier/backend.py`,
+  `semantic_verifier/pipeline.py`, `semantic_verifier/cli.py`,
+  `semantic_verifier/z3_backend.py`, `README.md`,
+  `docs/semantic_verification_prototype.md`, `PLAN.md`, `PROGRESS.md`, `TODO.md`,
+  and `guardrails/test_baseline.txt` for the required integration, consumer
+  surface, ledger, active-set, and test-ratchet updates.
 - DoD: `python -m unittest tests.test_cache` is green; two identical runs are
   byte-identical and the second makes zero wrapped-backend calls; changing one
   obligation invalidates only its entry; schema/backend/config changes miss;

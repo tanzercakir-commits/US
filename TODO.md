@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **A5.2 - persistent obligation-result cache**
+- [ ] **A5.3 - deterministic resource budgets**
 
 ## Next
 
-- [ ] **A5.3 - deterministic resource budgets**
 - [ ] **A5.4 - scaling phase gate**
 
 ## Blockers / open questions
@@ -22,5 +21,7 @@
 
 ## Last updated
 
-2026-08-06 - A5.5 replaced enumerated post-join paths with exact factored
-disjunctions and replay-resolved guarded trace templates. Next is A5.2.
+2026-08-06 - A5.2 added an opt-in exact semantic-keyed persistent result
+cache. Warm and cold reports are byte-identical; stale/malformed/incompatible
+entries recompute, current source metadata is reconstructed, and solver errors
+are never reused. Next is A5.3.

@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A5.2 adds the opt-in `--cache PATH` persistent obligation-result cache. Exact
+  SHA-256 keys bind report/key schemas, backend identity and configuration,
+  solver policy, and canonical logical query content; valid hits reconstruct
+  current result IDs and source/trace locations without changing report bytes.
+  Missing, stale, malformed, or incompatible data is recomputed, cache I/O
+  failures do not change referee results, and `solver_error` is never reused.
 - A4.3 adds optional source-ordered `trace` steps to violated results whose VC
   path crosses a branch. Each machine-readable step records the versioned
   condition, taken direction, and source location; text output renders the same

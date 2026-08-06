@@ -26,13 +26,20 @@ python -m semantic_verifier examples/vertical_slice.cpp --backend z3
 python -m semantic_verifier examples/vertical_slice.cpp --backend affine
 ```
 
+Reuse exact obligation results from an opt-in local cache:
+
+```powershell
+python -m semantic_verifier examples/vertical_slice.cpp `
+  --backend both --cache .semantic-verifier-cache.json --format json
+```
+
 Run the tests:
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 155 deterministic tests. The separately cloned,
+The current suite contains 162 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 

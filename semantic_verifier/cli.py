@@ -48,17 +48,25 @@ def build_parser() -> argparse.ArgumentParser:
         default=5.0,
         help="Z3 timeout in seconds (default: 5)",
     )
+    parser.add_argument(
+        "--cache",
+        help="persistent exact obligation-result cache file",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     arguments = build_parser().parse_args(argv)
     try:
-        pipeline = VerificationPipeline(arguments.clang)
-        pipeline.checker = create_backend(
+        checker = create_backend(
             arguments.backend,
             z3=arguments.z3,
             timeout_seconds=arguments.solver_timeout,
+        )
+        pipeline = VerificationPipeline(
+            arguments.clang,
+            checker=checker,
+            cache_path=arguments.cache,
         )
         report = pipeline.verify_file(arguments.source)
     except Exception as error:

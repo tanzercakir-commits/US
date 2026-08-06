@@ -513,3 +513,27 @@ Evidence: path-scaling tests -> 5/5; focused merge/trace/backend tests -> 18/18;
 probe acceptance -> 1/1/1/1; full suite -> 155/155; fixture check -> 10/10
 current; diff check -> clean; commit: this commit.
 Next: A5.2 (persistent obligation-result cache).
+
+## 2026-08-06 - A5.2: persistent obligation-result cache - DONE
++ Added an opt-in deterministic JSON cache with exact SHA-256 keys over the
+  report/key schemas, canonical conjunction/query content, backend identity,
+  implementation policy, nested cross-check identities, and configuration.
++ Reconstructed every hit with the current obligation ID, owner/kind, primary
+  source location, and source-mapped trace locations; trace semantics must match
+  before cached directions are reusable.
++ Kept cache I/O outside referee status: missing, stale, malformed, unknown, or
+  unwritable data recomputes normally, and solver_error is never stored/reused.
++ Integrated cache selection into the backend interface, pipeline constructor,
+  Z3 runner identity, cross-check identity, and the CLI as `--cache PATH`.
++ Proved warm/cold pipeline report byte identity with zero warm backend calls,
+  one-query-only invalidation, schema/backend/config misses, current metadata
+  reconstruction, malformed-file/entry recovery, and solver-error retry.
++ Documented the independent cache/key schemas, exact trust boundary, CI use,
+  untrusted-cache warning, and counterexample retention sensitivity.
++ Expanded the declared stage file set before required consumer/count/ledger
+  updates and advanced the test ratchet from 155 to 162.
+- None.
+Evidence: cache tests -> 7/7; CLI cold/warm affine reports -> byte-identical with
+matching exit 1; full suite -> 162/162; fixture check -> 10/10 current; diff
+check -> clean; commit: this commit.
+Next: A5.3 (deterministic resource budgets).
