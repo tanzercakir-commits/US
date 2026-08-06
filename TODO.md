@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **B2.3 - SARIF semantic-verification output**
+- [ ] **B2.4 - MCP `verify_function` referee surface**
 
 ## Next
 
-- [ ] **B2.4 - MCP `verify_function` referee surface**
 - [ ] **B3.0 - sidecar contract database expansion**
+- [ ] **B3.1 - production sidecar loading and provenance**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-06 - B2.2 added the native deterministic Z3 referee and replay gate.
-All 14 status summaries match the reference; CodeSkeptic is green at 855/855
-and the reference suite at 314/314. Next is semantic SARIF output.
+2026-08-06 - B2.3 added versioned semantic-verification SARIF results while
+preserving legacy output bytes. CodeSkeptic is green at 859/859 and the
+reference suite at 314/314. Next is the MCP referee surface.

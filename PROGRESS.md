@@ -1103,3 +1103,22 @@ Evidence: focused referee tests -> 15/15; native/reference status summaries ->
 repeat -> green; full CodeSkeptic suite -> 855/855; reference suite -> 314/314;
 production commit -> `80be397`; commit: this reference-ledger commit.
 Next: B2.3 (SARIF semantic-verification output).
+
+## 2026-08-06 - B2.3: SARIF semantic-verification output - DONE
++ Added a backward-compatible reporter overload carrying the separate native
+  verification-result channel from `StaticAnalyzer` into SARIF.
++ Added distinct SARIF level/kind mappings for verified, violated, unknown,
+  unsupported, and solver-error results with a versioned CodeSkeptic property
+  bag and deterministically sorted semantic rule IDs.
++ Added structured typed counterexamples, source/logical locations, and trace
+  code flows carrying obligation IDs and evaluated step values.
++ Preserved the existing one-argument SARIF contract byte-for-byte when no
+  semantic results are supplied; repeated semantic serialization is identical.
++ Production grew from 855 to 859 tests and every test is green.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: focused SARIF tests -> 10/10; five-status distinction -> green;
+legacy byte compatibility -> green; deterministic repeated render -> green;
+full CodeSkeptic suite -> 859/859; reference suite -> 314/314; production
+commit -> `8bf2265`; commit: this reference-ledger commit.
+Next: B2.4 (MCP `verify_function` referee surface).

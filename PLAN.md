@@ -874,10 +874,13 @@ infrastructure. Reference: prototype fixtures = the specification.
   standard report output without changing legacy finding semantics.
 - Output: versioned SARIF properties/result mapping for every verification
   status plus deterministic serialization and compatibility fixtures.
-- Planned file set (confirm before edits): CodeSkeptic
-  `src/reporter/{SarifReporter.h,SarifReporter.cpp}` and verification result
-  adapters; `tests/SarifReporterTest.cpp`, semantic SARIF fixtures, and
-  `tests/CMakeLists.txt`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Exact file set: CodeSkeptic
+  `src/reporter/{Reporter.h,SarifReporter.h,SarifReporter.cpp}`;
+  `src/analyzer/StaticAnalyzer.cpp`; `tests/SarifReporterTest.cpp`; reference
+  `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Boundary: the base reporter overload preserves every legacy reporter and
+  existing one-argument SARIF byte contract; semantic results are appended in
+  obligation order with a versioned property bag, while rule IDs remain sorted.
 - DoD: positive, violation, unknown, unsupported, and solver-error records are
   distinguishable; counterexamples/traces retain obligation IDs and locations;
   old SARIF fixtures remain unchanged; repeated reports are byte-identical;
