@@ -7,9 +7,17 @@ import os
 import re
 from typing import Any, Iterable, Mapping
 
-from .contracts import contracts_before
+from .contracts import contracts_before, invariants_before
 from .frontend import FrontendUnit
-from .model import Expr, FunctionIR, IRNode, ModuleIR, SourceLocation, Symbol
+from .model import (
+    Expr,
+    FunctionIR,
+    IRNode,
+    LoopVariable,
+    ModuleIR,
+    SourceLocation,
+    Symbol,
+)
 
 
 SUPPORTED_TYPES = {"int", "bool"}
@@ -319,7 +327,8 @@ class SemanticLowerer:
                 unsupported.append(
                     self._module_issue(
                         location,
-                        "orphan cs: contract is not attached to a function declaration",
+                        "orphan cs: contract is not attached to a supported declaration "
+                        "or while statement",
                     )
                 )
         return ModuleIR(
@@ -637,6 +646,9 @@ class SemanticLowerer:
         if kind == "IfStmt":
             return self._lower_if(node, current)
 
+        if kind == "WhileStmt":
+            return self._lower_while(node, current)
+
         if kind == "ReturnStmt":
             inner = [child for child in node.get("inner", []) if isinstance(child, dict)]
             if len(inner) != 1:
@@ -673,7 +685,6 @@ class SemanticLowerer:
         if kind == "NullStmt":
             return [], current, True
         if kind in {
-            "WhileStmt",
             "DoStmt",
             "ForStmt",
             "CXXForRangeStmt",
@@ -799,6 +810,121 @@ class SemanticLowerer:
             merges=tuple(merges),
         )
         return [branch], output, then_falls or else_falls
+
+    def _lower_while(
+        self, node: Mapping[str, Any], environment: Mapping[str, str]
+    ) -> tuple[list[IRNode], dict[str, str], bool]:
+        if node.get("hasVar"):
+            raise UnsupportedNode(
+                node, "while condition variables are unsupported"
+            )
+        inner = [
+            child for child in node.get("inner", []) if isinstance(child, dict)
+        ]
+        if len(inner) != 2:
+            raise UnsupportedNode(node, "unsupported Clang while-statement shape")
+
+        assigned = self._assigned_names(inner[1])
+        modified_names = sorted(name for name in assigned if name in environment)
+        head_environment = dict(environment)
+        for name in modified_names:
+            ir_name = self._version_base(environment[name])
+            head_environment[name] = self._next_version(ir_name)
+
+        begin_byte_offset = declaration_begin_offset(node)
+        if begin_byte_offset is None:
+            raise UnsupportedNode(node, "while statement has no source offset")
+        statement_offset = self.unit.line_map.char_offset_from_byte_offset(
+            begin_byte_offset
+        )
+        invariants, invariant_issues = invariants_before(
+            self.unit.source,
+            statement_offset,
+            self.unit.line_map,
+            {
+                name: self._types[self._version_base(versioned)]
+                for name, versioned in environment.items()
+            },
+            "WhileStmt",
+        )
+        self._consumed_contract_lines.update(
+            invariant.location.line for invariant in invariants
+        )
+        self._consumed_contract_lines.update(
+            issue.location.line for issue in invariant_issues
+        )
+        if invariant_issues:
+            issue = invariant_issues[0]
+            raise UnsupportedNode(
+                node,
+                f"invariant at {issue.location.line}:{issue.location.column}: "
+                f"{issue.reason}",
+            )
+
+        replacements = {
+            name: Expr.variable(
+                head_environment[name],
+                self._types[self._version_base(head_environment[name])],
+            )
+            for name in head_environment
+        }
+        lowered_invariants = tuple(
+            replace(
+                invariant,
+                expression=invariant.expression.substitute(replacements),
+            )
+            for invariant in invariants
+        )
+        condition = self._expression(inner[0], head_environment)
+        if condition.type != "bool":
+            raise UnsupportedNode(node, "while condition must be boolean")
+
+        loop_id = self._new_node_id()
+        body_nodes, body_environment, _ = self._lower_statement(
+            inner[1], head_environment
+        )
+        output = dict(environment)
+        loop_variables: list[LoopVariable] = []
+        for name in modified_names:
+            ir_name = self._version_base(environment[name])
+            exit_name = self._next_version(ir_name)
+            output[name] = exit_name
+            loop_variables.append(
+                LoopVariable(
+                    name=ir_name,
+                    type=self._types[ir_name],
+                    entry=environment[name],
+                    head=head_environment[name],
+                    back_edge=body_environment.get(name, head_environment[name]),
+                    exit=exit_name,
+                )
+            )
+
+        loop = IRNode(
+            id=loop_id,
+            kind="loop",
+            location=self._location(node),
+            expression=condition,
+            invariants=lowered_invariants,
+            loop_variables=tuple(loop_variables),
+            body=tuple(body_nodes),
+        )
+        return [loop], output, True
+
+    def _assigned_names(self, node: Mapping[str, Any]) -> set[str]:
+        assigned: set[str] = set()
+        if node.get("kind") == "BinaryOperator" and node.get("opcode") == "=":
+            inner = [
+                child for child in node.get("inner", []) if isinstance(child, dict)
+            ]
+            if inner:
+                lhs = self._strip_expr(inner[0])
+                if lhs.get("kind") == "DeclRefExpr":
+                    assigned.add(self._decl_name(lhs))
+        for child in node.get("inner", []):
+            if isinstance(child, dict):
+                assigned.update(self._assigned_names(child))
+        return assigned
 
     def _expression(
         self, node: Mapping[str, Any], environment: Mapping[str, str]

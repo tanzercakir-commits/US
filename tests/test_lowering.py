@@ -125,3 +125,72 @@ class LoweringTests(unittest.TestCase):
                     if result.status.value == "unsupported"
                 )
                 self.assertIn(reason, unsupported.message)
+    def test_while_lowers_invariant_and_loop_state_havoc(self):
+        source = (
+            "int sum(int n) {\n"
+            "  int i = 0;\n"
+            "  int total = 0;\n"
+            "  // cs: invariant i >= 0 && total >= 0\n"
+            "  while (i < n) {\n"
+            "    total = total + i;\n"
+            "    i = i + 1;\n"
+            "  }\n"
+            "  return total;\n"
+            "}\n"
+        )
+        report = verify_source(source)
+        function = report.module.functions[0]
+        loop = next(node for node in function.body if node.kind == "loop")
+
+        self.assertEqual(loop.expression.text(), "(i#1 < n#0)")
+        self.assertEqual(
+            [item.expression.text() for item in loop.invariants],
+            ["((i#1 >= 0) && (total#1 >= 0))"],
+        )
+        self.assertEqual(
+            [
+                (
+                    item.name,
+                    item.entry,
+                    item.head,
+                    item.back_edge,
+                    item.exit,
+                )
+                for item in loop.loop_variables
+            ],
+            [
+                ("i", "i#0", "i#1", "i#2", "i#3"),
+                ("total", "total#0", "total#1", "total#2", "total#3"),
+            ],
+        )
+        self.assertEqual(
+            [(node.kind, node.target) for node in loop.body],
+            [("assign", "total#2"), ("assign", "i#2")],
+        )
+        self.assertEqual(function.body[-1].expression.value, "total#3")
+        self.assertEqual(
+            [item["name"] for item in loop.to_dict()["loop_variables"]],
+            ["i", "total"],
+        )
+
+    def test_loop_modified_variables_include_nested_branch_assignments(self):
+        source = (
+            "int f(int x, int y, bool flag) {\n"
+            "  // cs: invariant x >= 0 && y >= 0\n"
+            "  while (x < 10) {\n"
+            "    if (flag) x = x + 1; else y = y + 1;\n"
+            "  }\n"
+            "  return x + y;\n"
+            "}\n"
+        )
+        report = verify_source(source)
+        loop = report.module.functions[0].body[0]
+
+        self.assertEqual(loop.kind, "loop")
+        self.assertEqual(
+            [item.name for item in loop.loop_variables], ["x", "y"]
+        )
+        self.assertEqual(loop.body[0].kind, "branch")
+        self.assertEqual(
+            [item.back_edge for item in loop.loop_variables], ["x#3", "y#3"]
+        )

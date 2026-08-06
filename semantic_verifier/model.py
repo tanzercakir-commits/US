@@ -150,6 +150,28 @@ class Symbol:
 
 
 @dataclass(frozen=True, slots=True)
+class LoopVariable:
+    """SSA state carried across a loop back edge and its nondeterministic exit."""
+
+    name: str
+    type: str
+    entry: str
+    head: str
+    back_edge: str
+    exit: str
+
+    def to_dict(self) -> dict[str, str]:
+        return {
+            "back_edge": self.back_edge,
+            "entry": self.entry,
+            "exit": self.exit,
+            "head": self.head,
+            "name": self.name,
+            "type": self.type,
+        }
+
+
+@dataclass(frozen=True, slots=True)
 class IRNode:
     id: str
     kind: str
@@ -160,6 +182,9 @@ class IRNode:
     origin: str | None = None
     callee: str | None = None
     arguments: tuple[Expr, ...] = ()
+    invariants: tuple[Contract, ...] = ()
+    loop_variables: tuple[LoopVariable, ...] = ()
+    body: tuple["IRNode", ...] = ()
     then_body: tuple["IRNode", ...] = ()
     else_body: tuple["IRNode", ...] = ()
     merges: tuple["IRNode", ...] = ()
@@ -186,6 +211,14 @@ class IRNode:
             result["expression"] = self.expression.to_dict()
         if self.arguments:
             result["arguments"] = [arg.to_dict() for arg in self.arguments]
+        if self.kind == "loop":
+            result["body"] = [node.to_dict() for node in self.body]
+            result["invariants"] = [
+                invariant.to_dict() for invariant in self.invariants
+            ]
+            result["loop_variables"] = [
+                variable.to_dict() for variable in self.loop_variables
+            ]
         if self.then_body:
             result["then"] = [node.to_dict() for node in self.then_body]
         if self.else_body:
@@ -367,6 +400,9 @@ def expressions_in(nodes: Iterable[IRNode]) -> Iterable[Expr]:
             yield node.incoming_true
         if node.incoming_false is not None:
             yield node.incoming_false
+        for invariant in node.invariants:
+            yield invariant.expression
+        yield from expressions_in(node.body)
         yield from expressions_in(node.then_body)
         yield from expressions_in(node.else_body)
         yield from expressions_in(node.merges)

@@ -234,3 +234,17 @@ Next: A3.1 (`cs: invariant` syntax).
 Evidence: python -m unittest tests.test_contracts -> 8/8; full suite ->
 125/125; git diff --check -> clean; commit: this commit.
 Next: A3.2 (while lowering and loop-modified-variable havoc).
+## 2026-08-06 - A3.2: while lowering and havoc - DONE
++ Added owned loop IR with invariant contracts, a one-iteration body, and
+  deterministic entry/head/back-edge/exit SSA state for each modified variable.
++ Loop heads and exits are explicit havoc states; nested branch assignments are
+  included while unchanged variables retain their existing SSA names.
++ Serialization, human-readable dumps, expression traversal, recursive-call
+  discovery, and fail-closed pre-A3.3 VC handling now understand loop nodes.
++ Replaced the obsolete unreachable-WhileStmt boundary fixture with DoStmt and
+  added two focused lowering tests; ratchet advanced from 125 to 127.
+- Loop VC generation intentionally remains unsupported until A3.3.
+Evidence: lowering/verification focused tests -> 22/22; deterministic loop IR
+dump -> byte-identical; full suite -> 127/127; compileall and diff check ->
+clean; commit: this commit.
+Next: A3.3 (loop-invariant VC triple).

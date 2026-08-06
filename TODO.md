@@ -8,16 +8,14 @@
 
 ## Now (active stage)
 
-- [ ] **A3.2 - while lowering + havoc** (DoD and declared file set in the
-  plan)
+- [ ] **A3.3 - invariant VC triple** (entry, preservation, and exit knowledge;
+  missing invariant remains unsupported)
 
 ## Next
 
-- [ ] A3.3 - invariant VC triple
 - [ ] A3.4 - termination explicit NON-GOAL
 - [ ] A3.5 - loop phase gate
 - [ ] F2.1 - fixtures layout + regeneration script
-
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -25,5 +23,5 @@
 
 ## Last updated
 
-2026-08-06 - A3.1 completed: invariant blocks parse deterministically and
-bind only to while statements. Next is A3.2.
+2026-08-06 - A3.2 completed: while loops lower to deterministic invariant and
+havoc state. Next is A3.3.

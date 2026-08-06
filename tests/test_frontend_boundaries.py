@@ -238,11 +238,11 @@ class FrontendBoundaryTests(unittest.TestCase):
 
     def test_unreachable_unsupported_statement_is_still_explicit(self):
         report = verify_source(
-            "int f(int x) { return x; while (x) x = x - 1; }\n"
+            "int f(int x) { return x; do x = x - 1; while (x); }\n"
         )
 
         self.assertEqual(report.results[0].status.value, "unsupported")
-        self.assertIn("WhileStmt", report.results[0].message)
+        self.assertIn("DoStmt", report.results[0].message)
 
     def test_main_fallthrough_lowers_to_explicit_return_zero(self):
         report = verify_source("int main() {}\n")

@@ -45,6 +45,27 @@ def _dump_nodes(nodes: tuple[IRNode, ...], depth: int) -> list[str]:
             lines.append(f"{prefix}call {node.callee}({arguments})")
         elif node.kind == "unsupported":
             lines.append(f"{prefix}unsupported {node.reason}")
+        elif node.kind == "loop":
+            lines.append(f"{prefix}loop {node.expression.text()}")
+            for invariant in node.invariants:
+                lines.append(
+                    f"{indent}  invariant {invariant.expression.text()}"
+                )
+            for variable in node.loop_variables:
+                lines.append(
+                    f"{indent}  havoc head {variable.head}:{variable.type} "
+                    f"(entry {variable.entry})"
+                )
+            lines.append(f"{indent}  body:")
+            lines.extend(_dump_nodes(node.body, depth + 2))
+            for variable in node.loop_variables:
+                lines.append(
+                    f"{indent}  back-edge {variable.name} := "
+                    f"{variable.back_edge}"
+                )
+                lines.append(
+                    f"{indent}  havoc exit {variable.exit}:{variable.type}"
+                )
         elif node.kind == "branch":
             lines.append(f"{prefix}branch {node.expression.text()}")
             lines.append(f"{indent}  true:")

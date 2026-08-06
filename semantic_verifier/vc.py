@@ -111,6 +111,15 @@ class VerificationConditionGenerator:
                     unsupported.reason or "unsupported function construct",
                 )
                 continue
+            pending_loop = self._first_loop(function.body)
+            if pending_loop is not None:
+                self._unsupported_obligation(
+                    function.name,
+                    pending_loop,
+                    "WhileStmt lowered to Semantic IR, but loop verification "
+                    "conditions are not implemented until A3.3",
+                )
+                continue
             contracts = self._contracts_for(function)
             self._contract_consistency(function, contracts)
             if not function.has_body:
@@ -197,6 +206,9 @@ class VerificationConditionGenerator:
         for node in nodes:
             if node.kind == "call" and node.callee is not None:
                 result.add((node.callee, len(node.arguments)))
+            result.update(
+                VerificationConditionGenerator._called_keys(node.body)
+            )
             result.update(
                 VerificationConditionGenerator._called_keys(node.then_body)
             )
@@ -605,6 +617,9 @@ class VerificationConditionGenerator:
         for node in nodes:
             if node.kind == "unsupported":
                 return node
+            nested = VerificationConditionGenerator._first_unsupported(node.body)
+            if nested is not None:
+                return nested
             nested = VerificationConditionGenerator._first_unsupported(node.then_body)
             if nested is not None:
                 return nested
@@ -613,6 +628,16 @@ class VerificationConditionGenerator:
                 return nested
         return None
 
+    @staticmethod
+    def _first_loop(nodes: Iterable[IRNode]) -> IRNode | None:
+        for node in nodes:
+            if node.kind == "loop":
+                return node
+            for nested_nodes in (node.body, node.then_body, node.else_body):
+                nested = VerificationConditionGenerator._first_loop(nested_nodes)
+                if nested is not None:
+                    return nested
+        return None
     def _unsupported_obligation(
         self, function: str, node: IRNode, reason: str
     ) -> None:
