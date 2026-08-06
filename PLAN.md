@@ -312,9 +312,12 @@ produce `verified`.
   disjunction of incoming state conjunctions; eliminate only structurally exact
   duplicates/identities; retain compact guarded trace templates that resolve to
   the existing source-ordered TraceStep values after full-model replay.
-- Output: `semantic_verifier/model.py`, `semantic_verifier/vc.py`, backend trace
-  resolution, `tests/test_path_scaling.py`, and updates to
-  `docs/path_scaling_decision.md` plus result-schema/changelog documentation.
+- Output: `semantic_verifier/model.py`, `semantic_verifier/vc.py`,
+  `semantic_verifier/checker.py`, `semantic_verifier/z3_backend.py`, backend
+  trace resolution, `tests/test_path_scaling.py`, `tests/test_z3_backend.py`,
+  `tests/test_determinism.py`, updates to `docs/path_scaling_decision.md` plus
+  result-schema/changelog documentation, and required ratchet/count updates in
+  `guardrails/test_baseline.txt`, `README.md`, and the prototype document.
 - DoD: `python -m unittest tests.test_path_scaling` is green; the probe's
   post-join assertion counts for 1/2/4/8 empty diamonds become 1/1/1/1 instead
   of 2/4/16/256; nested and assignment-bearing diamond verdicts match an

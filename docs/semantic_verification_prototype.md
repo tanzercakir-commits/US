@@ -28,7 +28,7 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 152 deterministic tests, including independent soundness regressions.
+- 155 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -266,9 +266,11 @@ iteration per loop. Each obligation is:
     path assumptions -> required condition
 
 Assignments become equality facts over versioned variables. True and false
-edges add the condition or its negation and retain the branch source location
-and taken direction as diagnostic path metadata. Merge equalities are selected
-by the edge actually taken. A result-bearing call havocs its fresh target, adds int32
+edges add the condition or its negation and retain guarded branch source
+provenance. A structured join factors common assumptions and represents the
+exact union of residual path conjunctions as one disjunction; merge equalities
+remain inside the edge that selected them. A result-bearing call havocs its
+fresh target, adds int32
 bounds, proves substituted requires, and assumes substituted ensures. Recursive
 call components fail closed.
 
@@ -314,7 +316,8 @@ The checker seam is the CheckerBackend ABC. Three stable selections exist:
 - z3: deterministic SMT-LIB2 through an external Z3 process;
 - both: affine/Z3 cross-check, which is the CLI default.
 
-The affine backend validates the raw fragment before simplification, substitutes
+The affine backend validates the raw fragment before simplification, performs
+exact deterministic case splitting for disjunctive join assumptions, substitutes
 assignment equalities, normalizes affine comparisons with exact integer
 arithmetic, proves matching path facts, and searches a deterministic finite set
 for witnesses or counterexamples. Found models are real; exhausting the fixed
@@ -510,7 +513,7 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 152-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 155-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent

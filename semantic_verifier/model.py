@@ -285,6 +285,14 @@ class ModuleIR:
 
 
 @dataclass(frozen=True, slots=True)
+class TraceTemplate:
+    kind: str
+    condition: Expr
+    guard: tuple[Expr, ...]
+    location: SourceLocation
+
+
+@dataclass(frozen=True, slots=True)
 class TraceStep:
     kind: str
     condition: Expr
@@ -320,7 +328,7 @@ class Obligation:
     description: str
     unsupported_reason: str | None = None
     mode: str = "validity"
-    trace: tuple[TraceStep, ...] = ()
+    trace_templates: tuple[TraceTemplate, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {

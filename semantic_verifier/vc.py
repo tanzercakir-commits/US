@@ -15,7 +15,7 @@ from .model import (
     ModuleIR,
     Obligation,
     SourceLocation,
-    TraceStep,
+    TraceTemplate,
 )
 
 
@@ -37,6 +37,15 @@ def _not(value: Expr) -> Expr:
 
 def _implies(premise: Expr, conclusion: Expr) -> Expr:
     return _or(_not(premise), conclusion)
+
+
+def _join_boolean(expressions: tuple[Expr, ...], op: str) -> Expr:
+    if not expressions:
+        return Expr.boolean(True)
+    result = expressions[0]
+    for expression in expressions[1:]:
+        result = Expr.binary(op, result, expression, "bool")
+    return result
 
 
 def _equality(name: str, type_name: str, value: Expr) -> Expr:
@@ -66,12 +75,12 @@ def _contains_nonlinear_multiplication(expr: Expr) -> bool:
 @dataclass(frozen=True, slots=True)
 class _PathState:
     assumptions: tuple[Expr, ...]
-    trace: tuple[TraceStep, ...] = ()
+    trace_templates: tuple[TraceTemplate, ...] = ()
 
     def add(self, expression: Expr) -> "_PathState":
         if expression in self.assumptions:
             return self
-        return _PathState(self.assumptions + (expression,), self.trace)
+        return _PathState(self.assumptions + (expression,), self.trace_templates)
 
     def decide(
         self,
@@ -82,10 +91,13 @@ class _PathState:
     ) -> "_PathState":
         assumption = condition if taken else _not(condition)
         state = self.add(assumption)
-        step = TraceStep(kind, condition, taken, location)
-        if step in state.trace:
+        template = TraceTemplate(kind, condition, self.assumptions, location)
+        if template in state.trace_templates:
             return state
-        return _PathState(state.assumptions, state.trace + (step,))
+        return _PathState(
+            state.assumptions,
+            state.trace_templates + (template,),
+        )
 
 
 class VerificationConditionGenerator:
@@ -160,7 +172,7 @@ class VerificationConditionGenerator:
                     Expr.boolean(False),
                     function.location,
                     "non-void function must return on every reachable path",
-                    trace=state.trace,
+                    trace_templates=state.trace_templates,
                 )
         return tuple(self._obligations)
 
@@ -328,7 +340,7 @@ class VerificationConditionGenerator:
                 node.expression,
                 node.location,
                 "source assertion must hold",
-                trace=defined.trace,
+                trace_templates=defined.trace_templates,
             )
             return [defined.add(node.expression)]
         if node.kind == "call":
@@ -352,7 +364,7 @@ class VerificationConditionGenerator:
                     node.location,
                     "call-result target must have explicit matching int type",
                     unsupported_reason="malformed call-result IR",
-                    trace=defined.trace,
+                    trace_templates=defined.trace_templates,
                 )
                 return [defined]
             target = Expr.variable(node.target, node.result_type)
@@ -373,7 +385,7 @@ class VerificationConditionGenerator:
                     node.location,
                     reason,
                     unsupported_reason=reason,
-                    trace=state.trace,
+                    trace_templates=state.trace_templates,
                 )
                 return []
 
@@ -386,7 +398,7 @@ class VerificationConditionGenerator:
                     invariant.expression.substitute(entry_replacements),
                     invariant.location,
                     f"loop invariant must hold on entry: {invariant.text}",
-                    trace=state.trace,
+                    trace_templates=state.trace_templates,
                 )
 
             head_state = self._add_loop_havoc_bounds(state, node, "head")
@@ -415,7 +427,7 @@ class VerificationConditionGenerator:
                         ),
                         invariant.location,
                         f"loop body must preserve invariant: {invariant.text}",
-                        trace=body_state.trace,
+                        trace_templates=body_state.trace_templates,
                     )
 
             exit_state = self._add_loop_havoc_bounds(state, node, "exit")
@@ -443,7 +455,7 @@ class VerificationConditionGenerator:
                     goal,
                     node.location,
                     f"postcondition declared at line {contract.location.line}: {contract.text}",
-                    trace=defined.trace,
+                    trace_templates=defined.trace_templates,
                 )
             return []
         if node.kind == "branch":
@@ -479,8 +491,59 @@ class VerificationConditionGenerator:
                 self._apply_merges(item, node.merges, False, function)
                 for item in false_states
             )
-            return merged
+            return self._compact_states(merged)
         raise RuntimeError(f"unexpected IR node kind during VC generation: {node.kind}")
+
+    @staticmethod
+    def _compact_states(states: list[_PathState]) -> list[_PathState]:
+        if len(states) < 2:
+            return states
+
+        unique: list[_PathState] = []
+        by_assumptions: dict[frozenset[Expr], int] = {}
+        for state in states:
+            key = frozenset(state.assumptions)
+            existing = by_assumptions.get(key)
+            if existing is None:
+                by_assumptions[key] = len(unique)
+                unique.append(state)
+                continue
+            prior = unique[existing]
+            templates = prior.trace_templates
+            for template in state.trace_templates:
+                if template not in templates:
+                    templates += (template,)
+            unique[existing] = _PathState(prior.assumptions, templates)
+
+        if len(unique) == 1:
+            return unique
+
+        common_set = set(unique[0].assumptions)
+        for state in unique[1:]:
+            common_set.intersection_update(state.assumptions)
+        common = tuple(
+            assumption
+            for assumption in unique[0].assumptions
+            if assumption in common_set
+        )
+        residuals = [
+            tuple(
+                assumption
+                for assumption in state.assumptions
+                if assumption not in common_set
+            )
+            for state in unique
+        ]
+        path_union = _join_boolean(residuals[0], "&&")
+        for residual in residuals[1:]:
+            path_union = _or(path_union, _join_boolean(residual, "&&"))
+
+        templates: tuple[TraceTemplate, ...] = ()
+        for state in unique:
+            for template in state.trace_templates:
+                if template not in templates:
+                    templates += (template,)
+        return [_PathState(common + (path_union,), templates)]
 
     def _apply_merges(
         self,
@@ -562,7 +625,7 @@ class VerificationConditionGenerator:
                 in_range,
                 node.location,
                 "signed negation must remain within int32",
-                trace=current.trace,
+                trace_templates=current.trace_templates,
             )
             return current.add(in_range)
         if expr.kind != "binary" or expr.type != "int":
@@ -577,7 +640,7 @@ class VerificationConditionGenerator:
                     node.location,
                     "variable-by-variable multiplication is outside QF_LIA",
                     unsupported_reason="nonlinear integer multiplication",
-                    trace=current.trace,
+                    trace_templates=current.trace_templates,
                 )
                 return current
             lower_bound = _binary(">=", expr, Expr.integer(INT_MIN))
@@ -590,7 +653,7 @@ class VerificationConditionGenerator:
                 in_range,
                 node.location,
                 f"signed {expr.op} result must remain within int32",
-                trace=current.trace,
+                trace_templates=current.trace_templates,
             )
             return current.add(lower_bound).add(upper_bound)
         elif expr.op == "/":
@@ -603,7 +666,7 @@ class VerificationConditionGenerator:
                 nonzero,
                 node.location,
                 "integer divisor must be non-zero",
-                trace=current.trace,
+                trace_templates=current.trace_templates,
             )
             denominator_defined = current.add(nonzero)
             overflow_case = _and(
@@ -618,7 +681,7 @@ class VerificationConditionGenerator:
                 no_overflow,
                 node.location,
                 "INT_MIN / -1 must be excluded",
-                trace=denominator_defined.trace,
+                trace_templates=denominator_defined.trace_templates,
             )
             return denominator_defined.add(no_overflow)
         return current
@@ -637,7 +700,7 @@ class VerificationConditionGenerator:
                 node.location,
                 f"call to {node.callee} has no visible body or contract",
                 unsupported_reason="uncontracted external call",
-                trace=state.trace,
+                trace_templates=state.trace_templates,
             )
             return
         has_body = any(candidate.has_body for candidate in candidates)
@@ -658,7 +721,7 @@ class VerificationConditionGenerator:
                 node.location,
                 f"external call {node.callee} has no contract",
                 unsupported_reason="uncontracted external call",
-                trace=state.trace,
+                trace_templates=state.trace_templates,
             )
             return
         seen: set[Expr] = set()
@@ -678,7 +741,7 @@ class VerificationConditionGenerator:
                 conclusion,
                 node.location,
                 f"{node.callee} requires {contract.text.removeprefix('requires ')}",
-                trace=state.trace,
+                trace_templates=state.trace_templates,
             )
 
     def _assume_call_postconditions(
@@ -798,7 +861,7 @@ class VerificationConditionGenerator:
         description: str,
         unsupported_reason: str | None = None,
         mode: str = "validity",
-        trace: tuple[TraceStep, ...] = (),
+        trace_templates: tuple[TraceTemplate, ...] = (),
     ) -> None:
         self._obligation_index += 1
         self._obligations.append(
@@ -812,6 +875,6 @@ class VerificationConditionGenerator:
                 description=description,
                 unsupported_reason=unsupported_reason,
                 mode=mode,
-                trace=trace,
+                trace_templates=trace_templates,
             )
         )

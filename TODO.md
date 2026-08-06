@@ -8,12 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **A5.5 - exact structured merge-point compaction** (stage inserted by
-  the A5.1 measurement decision)
+- [ ] **A5.2 - persistent obligation-result cache**
 
 ## Next
 
-- [ ] **A5.2 - persistent obligation-result cache**
 - [ ] **A5.3 - deterministic resource budgets**
 - [ ] **A5.4 - scaling phase gate**
 
@@ -24,5 +22,5 @@
 
 ## Last updated
 
-2026-08-06 - A5.1 measured 2^N post-join growth with zero exact duplicates and
-inserted A5.5 for exact guarded merge compaction before caching.
+2026-08-06 - A5.5 replaced enumerated post-join paths with exact factored
+disjunctions and replay-resolved guarded trace templates. Next is A5.2.

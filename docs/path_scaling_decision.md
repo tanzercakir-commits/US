@@ -102,3 +102,30 @@ A5.5 must reduce the post-join assertion obligations for 1/2/4/8 empty diamonds
 from 2/4/16/256 to 1/1/1/1 while preserving verdicts and replayable true/false
 branch explanations. Assignment-bearing and nested diamonds need independent
 equivalence tests. A5.2 and A5.4 depend on A5.5.
+
+## A5.5 implementation evidence
+
+The structured join now factors assumptions common to every incoming state,
+forms one source-ordered disjunction of the residual conjunctions, and removes
+only states with identical assumption sets. It deliberately retains exact
+boolean tautologies when they carry branch variables required for trace model
+resolution.
+
+The same deterministic probe now reports one post-join assertion obligation for
+each 1/2/4/8 case: `1/1/1/1` instead of `2/4/16/256`. Source bytes, IR node
+counts, expected path counts, and maximum assumption counts remain unchanged.
+The optimization moves the path union into one exact formula rather than
+silently removing reachable executions.
+
+Nested and assignment-bearing diamonds are checked against a test-only unmerged
+VC generator with Z3. A compact query is `verified` exactly when all reference
+path queries are verified, and a compact violation is retained when any
+reference path violates. The accepted nested violation resolves both guarded
+branch templates to the true edge; independent post-join regressions force true
+and false directions separately.
+
+The affine backend performs deterministic exact case splitting on disjunctive
+assumptions before its ordinary proof rules. This preserves prior affine proofs;
+finite search remains a witness mechanism and is never promoted to proof.
+Unresolvable trace templates turn a candidate Z3 violation into `solver_error`
+before any public counterexample is emitted.

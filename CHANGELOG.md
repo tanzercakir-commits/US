@@ -38,6 +38,10 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
   assumption-variable cone before greedy minimization, so disconnected solver
   bindings cannot appear in the public core even when a removal proof is
   inconclusive.
+- A5.5 compacts structured branch joins into one exact factored disjunction,
+  reducing the 1/2/4/8-diamond probe from 2/4/16/256 post-join obligations to
+  1/1/1/1. Guarded trace templates resolve only after full-model replay, and the
+  affine backend uses exact case splitting to preserve prior proofs.
 
 ### Migration
 

@@ -12,9 +12,15 @@ from pathlib import Path
 import shutil
 import subprocess
 
-from .checker import evaluate
+from .checker import evaluate, resolve_trace
 from .counterexample import minimize_counterexample
-from .model import Expr, Obligation, VerificationResult, VerificationStatus
+from .model import (
+    Expr,
+    Obligation,
+    TraceStep,
+    VerificationResult,
+    VerificationStatus,
+)
 from .smtlib import SmtLibEmissionError, decode_symbol, emit_smtlib
 
 
@@ -385,6 +391,7 @@ def check_obligation(
             raise Z3ModelError("countermodel does not satisfy the assumptions")
         if bool(evaluate(obligation.conclusion, model)):
             raise Z3ModelError("countermodel does not falsify the conclusion")
+        trace = resolve_trace(obligation.trace_templates, model)
     except (ArithmeticError, KeyError, TypeError, ValueError) as error:
         return _obligation_result(
             obligation,
@@ -409,6 +416,7 @@ def check_obligation(
             f"minimized from {len(model)} to {len(minimized)} bindings"
         ),
         _human_counterexample(minimized),
+        trace,
     )
 
 
@@ -550,6 +558,7 @@ def _obligation_result(
     status: VerificationStatus,
     message: str,
     counterexample: Mapping[str, int | bool] | None = None,
+    trace: tuple[TraceStep, ...] = (),
 ) -> VerificationResult:
     return VerificationResult(
         obligation_id=obligation.id,
@@ -559,9 +568,5 @@ def _obligation_result(
         location=obligation.location,
         message=message,
         counterexample=counterexample,
-        trace=(
-            obligation.trace
-            if status == VerificationStatus.VIOLATED
-            else ()
-        ),
+        trace=trace,
     )

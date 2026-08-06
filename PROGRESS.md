@@ -491,3 +491,25 @@ SHA-256 f1ce3d1b528273af2df8052f92d0af9cb69bd51f6d1fb710bb0aedd425303f59;
 full suite -> 152/152; fixture check -> 10/10 current; diff check -> clean;
 commit: this commit.
 Next: A5.5 (exact structured merge-point compaction).
+## 2026-08-06 - A5.5: exact structured merge-point compaction - DONE
++ Compacted every multi-state structured branch join into common assumptions
+  plus one exact source-ordered disjunction of residual state conjunctions.
++ Deduplicated only structurally identical assumption sets; no path, assignment,
+  or branch-specific merge equality is approximated or silently discarded.
++ Replaced eagerly copied resolved paths with compact guarded TraceTemplate
+  provenance and resolved true/false TraceStep values only after complete model
+  replay; resolution failure is solver_error before public evidence.
++ Added deterministic affine case splitting for disjunctive assumptions, which
+  restored pre-compaction exact proofs without treating finite search as proof.
++ Reduced the 1/2/4/8-diamond probe from 2/4/16/256 post-join obligations to
+  1/1/1/1 while leaving source, IR, expected path, and assumption-depth metrics
+  unchanged.
++ Matched compact/unmerged Z3 verdicts for nested and assignment-bearing
+  diamonds; forced both post-join trace directions and guarded failure behavior.
++ Existing 10 fixture artifacts remain byte-identical; expanded the declared
+  file set before ratchet/count updates and advanced tests from 152 to 155.
+- None.
+Evidence: path-scaling tests -> 5/5; focused merge/trace/backend tests -> 18/18;
+probe acceptance -> 1/1/1/1; full suite -> 155/155; fixture check -> 10/10
+current; diff check -> clean; commit: this commit.
+Next: A5.2 (persistent obligation-result cache).

@@ -20,6 +20,8 @@ from .model import (
     INT_MAX,
     INT_MIN,
     Obligation,
+    TraceStep,
+    TraceTemplate,
     VerificationResult,
     VerificationStatus,
 )
@@ -441,6 +443,48 @@ def prove(conclusion: Expr, assumptions: tuple[Expr, ...]) -> bool | None:
     return None
 
 
+def prove_disjunctive_validity(
+    conclusion: Expr,
+    assumptions: tuple[Expr, ...],
+) -> bool | None:
+    """Prove a validity query by exact deterministic assumption case-splitting."""
+
+    flattened: list[Expr] = []
+
+    def flatten(expression: Expr) -> None:
+        if expression.kind == "binary" and expression.op == "&&":
+            for argument in expression.args:
+                flatten(argument)
+            return
+        flattened.append(expression)
+
+    for assumption in assumptions:
+        flatten(assumption)
+    normalized = tuple(flattened)
+    for index, assumption in enumerate(normalized):
+        if assumption.kind != "binary" or assumption.op != "||":
+            continue
+        remaining = normalized[:index] + normalized[index + 1 :]
+        outcomes = tuple(
+            prove_disjunctive_validity(
+                conclusion,
+                remaining + (alternative,),
+            )
+            for alternative in assumption.args
+        )
+        if all(outcome is True for outcome in outcomes):
+            return True
+        if any(outcome is False for outcome in outcomes):
+            return False
+        return None
+
+    prepared_assumptions, prepared_conclusion = prepare_formulas(
+        normalized,
+        conclusion,
+    )
+    return prove(prepared_conclusion, prepared_assumptions)
+
+
 def _constraint_implied(
     goal: Constraint | None, facts: tuple[Constraint, ...]
 ) -> bool:
@@ -636,6 +680,43 @@ def find_counterexample(
     return False, {}
 
 
+class TraceResolutionError(ValueError):
+    """Raised when compact path provenance cannot resolve against a model."""
+
+
+def resolve_trace(
+    templates: tuple[TraceTemplate, ...],
+    model: Mapping[str, int | bool],
+) -> tuple[TraceStep, ...]:
+    resolved: list[TraceStep] = []
+    for template in templates:
+        try:
+            active = all(bool(evaluate(item, model)) for item in template.guard)
+            if not active:
+                continue
+            taken = evaluate(template.condition, model)
+        except (ArithmeticError, KeyError, TypeError, ValueError) as error:
+            raise TraceResolutionError(
+                f"cannot resolve {template.kind} trace at "
+                f"{template.location.file}:{template.location.line}: "
+                f"{error}"
+            ) from error
+        if not isinstance(taken, bool):
+            raise TraceResolutionError(
+                f"trace condition at {template.location.file}:"
+                f"{template.location.line} did not evaluate to bool"
+            )
+        resolved.append(
+            TraceStep(
+                template.kind,
+                template.condition,
+                taken,
+                template.location,
+            )
+        )
+    return tuple(resolved)
+
+
 def _human_counterexample(
     model: Mapping[str, int | bool]
 ) -> dict[str, int | bool]:
@@ -653,11 +734,7 @@ def _proves_violation_core(
     assumptions: tuple[Expr, ...],
     conclusion: Expr,
 ) -> bool:
-    prepared_assumptions, prepared_conclusion = prepare_formulas(
-        assumptions,
-        conclusion,
-    )
-    return prove(prepared_conclusion, prepared_assumptions) is True
+    return prove_disjunctive_validity(conclusion, assumptions) is True
 
 
 class AffineChecker(CheckerBackend):
@@ -727,11 +804,10 @@ class AffineChecker(CheckerBackend):
                 )
 
             assert obligation.conclusion is not None
-            assumptions, conclusion = prepare_formulas(
-                obligation.assumptions, obligation.conclusion
+            outcome = prove_disjunctive_validity(
+                obligation.conclusion,
+                obligation.assumptions,
             )
-
-            outcome = prove(conclusion, assumptions)
             if outcome is True:
                 return self._result(
                     obligation,
@@ -746,6 +822,7 @@ class AffineChecker(CheckerBackend):
                 obligation.assumptions, obligation.conclusion
             )
             if found:
+                trace = resolve_trace(obligation.trace_templates, model)
                 minimized = minimize_counterexample(
                     obligation,
                     model,
@@ -760,6 +837,7 @@ class AffineChecker(CheckerBackend):
                         f"{len(minimized)} bindings"
                     ),
                     _human_counterexample(minimized),
+                    trace,
                 )
             return self._result(
                 obligation,
@@ -779,6 +857,7 @@ class AffineChecker(CheckerBackend):
         status: VerificationStatus,
         message: str,
         counterexample: Mapping[str, int | bool] | None = None,
+        trace: tuple[TraceStep, ...] = (),
     ) -> VerificationResult:
         return VerificationResult(
             obligation_id=obligation.id,
@@ -788,11 +867,7 @@ class AffineChecker(CheckerBackend):
             location=obligation.location,
             message=message,
             counterexample=counterexample,
-            trace=(
-                obligation.trace
-                if status == VerificationStatus.VIOLATED
-                else ()
-            ),
+            trace=trace,
         )
 
 

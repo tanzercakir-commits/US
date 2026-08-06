@@ -116,6 +116,11 @@ status or replaces replay evidence. Steps retain outer-to-inner path order.
 | `taken` | boolean | `true` for the then edge, `false` for the else/fallthrough edge. |
 | `location` | location | Source location of the branch statement. |
 
+At a compact structured join, branch provenance is stored internally as guarded
+trace templates instead of enumerated path alternatives. Only after the complete
+countermodel replays are active guards and condition directions evaluated into
+the public steps above. Resolution failure is fail-closed as `solver_error`.
+
 Human-readable result output renders the same fields as, for example,
 `when branch condition (x#0 > 0) is true at trace.cpp:3:5`. A result with no
 source branch omits `trace`; an empty array is not emitted.
@@ -133,6 +138,11 @@ source branch omits `trace`; an empty array is not emitted.
 | `location` | location | yes | Source location that caused the obligation. |
 | `description` | string | yes | Deterministic human explanation. |
 | `unsupported_reason` | string | no | Fail-closed reason; checking returns `unsupported`. |
+
+A single obligation may represent the exact disjunction of several incoming
+structured paths after a branch join. Consumers must not infer one obligation
+or result per enumerated source path; the serialized assumptions remain the
+complete formula.
 
 Mode semantics:
 
