@@ -1079,3 +1079,27 @@ Evidence: obligation hashes -> 14/14; native/Python obligation byte equality ->
 production commit -> `a36425e`; reference suite -> 314/314; commit: this
 reference-ledger commit.
 Next: B2.2 (native deterministic referee and verification rule).
+
+## 2026-08-06 - B2.2: native deterministic referee and rule seam - DONE
++ Added the native `CheckerBackend`/`Z3Checker` seam and deterministic SMT-LIB2
+  emission for homogeneous signed-integer, bitvector, owned-array, and owned-
+  record obligations, including stable symbol encoding and solver seeds.
++ Added bounded unlinked-Z3 execution with deterministic discovery, explicit
+  missing/crash/timeout outcomes, fixed options, and no library dependency.
++ Added typed get-value parsing, mandatory replay against the original
+  assumptions/conclusion, trace resolution, and deterministic counterexample
+  projection/minimization; malformed or incomplete models are solver errors.
++ Added a separate five-status verification result channel at `Rule::check`,
+  `RuleEngine`, and `StaticAnalyzer`, preserving legacy diagnostics unchanged.
++ Added `SemanticVerificationRule` with injectable referee ownership; focused
+  tests cover backend substitution, coexistence, missing Z3, timeout, crash,
+  unsupported logic, corrupt models, deterministic queries, replay, and traces.
++ All 14 native status summaries match the manifest-pinned Python reference;
+  production grew from 840 to 855 tests and every test is green.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: focused referee tests -> 15/15; native/reference status summaries ->
+14/14; corrupt-model replay rejection -> green; deterministic violating fixture
+repeat -> green; full CodeSkeptic suite -> 855/855; reference suite -> 314/314;
+production commit -> `80be397`; commit: this reference-ledger commit.
+Next: B2.3 (SARIF semantic-verification output).

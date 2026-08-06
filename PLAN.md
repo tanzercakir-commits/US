@@ -848,21 +848,25 @@ infrastructure. Reference: prototype fixtures = the specification.
   `SemanticVerificationRule`; and a result carrier that represents
   `verified`, `violated`, `unknown`, `unsupported`, and `solver_error` rather
   than forcing positive/non-finding states into the legacy finding shape.
-- Planned file set (confirm before edits): CodeSkeptic
+- Exact file set: CodeSkeptic
   `src/verification/{CheckerBackend,SmtLib,Z3ProcessRunner,
   CounterexampleReplay,SemanticVerificationRule,VerificationResult}.{h,cpp}`;
-  `src/core/{Diagnostic.h,Rule.h}`; `src/engine/{RuleEngine.h,RuleEngine.cpp}`;
+  `src/core/Rule.h`; `src/engine/{RuleEngine.h,RuleEngine.cpp}`;
   `src/analyzer/{StaticAnalyzer.h,StaticAnalyzer.cpp}`; `src/CMakeLists.txt`;
-  corresponding focused tests and `tests/CMakeLists.txt`; reference
-  `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+  `tests/{CMakeLists.txt,SmtLibTest.cpp,Z3ProcessRunnerTest.cpp,
+  CounterexampleReplayTest.cpp,SemanticVerificationRuleTest.cpp,
+  NativeRefereeFixtureTest.cpp}`; reference `PLAN.md`, `PROGRESS.md`, and
+  `TODO.md`.
 - Boundaries: Z3 remains an unlinked subprocess (D4); fixed solver options and
   sorted serialization only; every reported model is replayed against its
   original obligation; missing/crashed solver is `solver_error`, timeout is
   `unknown`, and unsupported is never promoted.
-- DoD: native referee results equal reference result fixtures for the selected
-  corpus; corrupt-model injection proves replay rejection; deterministic repeat,
-  missing-Z3, timeout, crash, unsupported, and backend-interface tests pass;
-  the verification rule coexists with legacy findings; full suites pass.
+- DoD: native status summaries equal the manifest-pinned reference summaries
+  for all 14 fixtures; replayed scalar counterexamples and resolved traces match
+  their original obligations; corrupt-model injection proves replay rejection;
+  deterministic repeat, missing-Z3, timeout, crash, unsupported, and backend-
+  interface tests pass; the verification rule coexists with legacy findings;
+  full suites pass.
 - Depends: B2.1.
 
 #### B2.3 — SARIF semantic-verification output

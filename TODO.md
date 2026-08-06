@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **B2.2 - native deterministic referee and verification rule**
+- [ ] **B2.3 - SARIF semantic-verification output**
 
 ## Next
 
-- [ ] **B2.3 - SARIF semantic-verification output**
 - [ ] **B2.4 - MCP `verify_function` referee surface**
+- [ ] **B3.0 - sidecar contract database expansion**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-06 - B2.1 added the pure native VC generator. All 14 obligation
-payloads are byte-identical to the Python reference; CodeSkeptic is green at
-840/840 and the reference suite at 314/314. Next is the deterministic referee.
+2026-08-06 - B2.2 added the native deterministic Z3 referee and replay gate.
+All 14 status summaries match the reference; CodeSkeptic is green at 855/855
+and the reference suite at 314/314. Next is semantic SARIF output.
