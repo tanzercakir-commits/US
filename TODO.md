@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **A2.2 — VC: havoc + assumed ensures** (`semantic_verifier/vc.py` +
-  tests + chain example; DoD in the plan)
+- [ ] **A2.3 — Recursion policy** (call-graph detection + tests; DoD in
+  the plan)
 
 ## Next
 
-- [ ] A2.3 — Recursion policy
 - [ ] A2.4 — Phase gate
+- [ ] A3.1 — `cs: invariant` syntax
 - [ ] F2.1 — `fixtures/` layout + regeneration script (can run parallel to
   A1; prerequisite of B1.1)
 
@@ -25,5 +25,5 @@
 
 ## Last updated
 
-2026-08-06 — A2.1 completed: controlled int call-result init/assign
-lowering with fail-closed nested-call boundaries. Next is A2.2.
+2026-08-06 — A2.2 completed: call targets are havoced and callee ensures
+are assumed after substitution; modular chain verifies. Next is A2.3.

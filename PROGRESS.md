@@ -184,3 +184,18 @@ Evidence: `python -m unittest tests.test_lowering` → 8/8; full suite →
 112/112; `python -m compileall -q semantic_verifier tests` → success; ratchet
 advanced from 109 to 112; commit: this commit.
 Next: A2.2 (VC havoc + assumed ensures).
+
+## 2026-08-06 — A2.2: havoc + assumed ensures — DONE
++ Result-bearing calls now leave the fresh SSA target unconstrained except for
+  int32 bounds, then assume deduplicated callee `ensures` after parameter and
+  `result` substitution.
++ Existing call `requires` obligations remain evaluated before result facts;
+  ensures-only external contracts are now recognized as contracted calls.
++ Added `examples/modular_calls.cpp` and five focused tests; ratchet advanced
+  from 112 to 117.
+- None.
+Evidence: `python -m unittest tests.test_modular_calls` → 5/5; full suite →
+117/117; `python -m semantic_verifier examples/modular_calls.cpp --format
+text` → 6 verified, 0 violated/unknown/unsupported/solver_error, exit 0;
+commit: this commit.
+Next: A2.3 (recursion policy).

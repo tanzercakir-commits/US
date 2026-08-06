@@ -225,7 +225,28 @@ class VerificationConditionGenerator:
                     function.name, argument, defined, node
                 )
             self._call_preconditions(function, node, defined)
-            return [defined]
+            if node.target is None:
+                return [defined]
+            if (
+                node.result_type != "int"
+                or self._symbol_type(function, node.target) != node.result_type
+            ):
+                self._add(
+                    function.name,
+                    "unsupported_construct",
+                    defined.assumptions,
+                    None,
+                    node.location,
+                    "call-result target must have explicit matching int type",
+                    unsupported_reason="malformed call-result IR",
+                )
+                return [defined]
+            target = Expr.variable(node.target, node.result_type)
+            after_call = defined.add(_binary(">=", target, Expr.integer(INT_MIN)))
+            after_call = after_call.add(
+                _binary("<=", target, Expr.integer(INT_MAX))
+            )
+            return [self._assume_call_postconditions(node, after_call)]
         if node.kind == "return":
             assert node.expression is not None
             defined = self._expression_safety(
@@ -394,6 +415,7 @@ class VerificationConditionGenerator:
             )
             return
         has_body = any(candidate.has_body for candidate in candidates)
+        has_contract = any(candidate.contracts for candidate in candidates)
         requires: list[tuple[FunctionIR, Contract]] = []
         for candidate in candidates:
             requires.extend(
@@ -401,7 +423,7 @@ class VerificationConditionGenerator:
                 for contract in candidate.contracts
                 if contract.kind == "requires"
             )
-        if not has_body and not requires:
+        if not has_body and not has_contract:
             self._add(
                 caller.name,
                 "unsupported_construct",
@@ -430,6 +452,32 @@ class VerificationConditionGenerator:
                 node.location,
                 f"{node.callee} requires {contract.text.removeprefix('requires ')}",
             )
+
+    def _assume_call_postconditions(
+        self,
+        node: IRNode,
+        state: _PathState,
+    ) -> _PathState:
+        assert node.target is not None and node.result_type is not None
+        key = (node.callee or "", len(node.arguments))
+        result = Expr.variable(node.target, node.result_type)
+        current = state
+        seen: set[Expr] = set()
+        for owner in self._by_key.get(key, []):
+            replacements = {
+                parameter.versioned_name: argument
+                for parameter, argument in zip(owner.parameters, node.arguments)
+            }
+            replacements["result"] = result
+            for contract in owner.contracts:
+                if contract.kind != "ensures":
+                    continue
+                assumption = contract.expression.substitute(replacements)
+                if assumption in seen:
+                    continue
+                seen.add(assumption)
+                current = current.add(assumption)
+        return current
 
     def _contracts_for(self, function: FunctionIR) -> tuple[Contract, ...]:
         contracts: list[Contract] = []
