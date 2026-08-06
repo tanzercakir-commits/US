@@ -788,6 +788,11 @@ class AffineChecker(CheckerBackend):
             location=obligation.location,
             message=message,
             counterexample=counterexample,
+            trace=(
+                obligation.trace
+                if status == VerificationStatus.VIOLATED
+                else ()
+            ),
         )
 
 

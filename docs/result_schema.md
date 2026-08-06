@@ -83,6 +83,7 @@ Non-goals do not change the exit code.
 | `location` | location | yes | Primary source location. |
 | `message` | string | yes | Deterministic human-readable backend explanation. |
 | `counterexample` | object | no | Sorted `int`/`bool` bindings forming a minimized violation core. |
+| `trace` | trace-step array | no | Source-ordered branch decisions leading to a violated obligation. |
 
 For a violated validity obligation, the backend first replays a complete model
 against the original assumptions and conclusion. Relevance projection seeds the
@@ -100,6 +101,24 @@ Counterexample keys use IR variable names. A unique `name#0` is displayed as
 versioned name is retained. Consumers must treat the minimized bindings as
 evidence for the specific obligation, not as a complete input or execution
 trace.
+
+### Branch trace step
+
+`trace` is emitted only for a `violated` result when its VC path crossed at
+least one source branch. It is explanatory metadata; the serialized obligation
+assumptions remain the canonical logical path, and a trace never changes a
+status or replaces replay evidence. Steps retain outer-to-inner path order.
+
+| Field | Type | Contract |
+| --- | --- | --- |
+| `kind` | string | Currently `branch`. |
+| `condition` | expression | Versioned boolean condition evaluated at the branch. |
+| `taken` | boolean | `true` for the then edge, `false` for the else/fallthrough edge. |
+| `location` | location | Source location of the branch statement. |
+
+Human-readable result output renders the same fields as, for example,
+`when branch condition (x#0 > 0) is true at trace.cpp:3:5`. A result with no
+source branch omits `trace`; an empty array is not emitted.
 
 ## Obligation
 
@@ -257,7 +276,8 @@ No equality between `entry`, `head`, or `exit` is implied by this metadata.
 
 - JSON uses UTF-8, two-space indentation, sorted object keys, unescaped Unicode,
   and exactly one trailing newline.
-- Arrays retain semantic/source order; minimized counterexample-core keys are sorted.
+- Arrays retain semantic/source order, including outer-to-inner trace steps;
+  minimized counterexample-core keys are sorted.
 - Stable IDs and SSA versions are assigned in deterministic traversal order.
 - Clang pointer identities, temporary parse paths, wall clock, and randomness
   never enter serialized logic artifacts.

@@ -8,8 +8,8 @@
 
 ## Now (active stage)
 
-- [ ] **A4.3 - counterexample trace explanation** (path assumptions to source
-  mapping, machine-readable and human-readable)
+- [ ] **A5.0 - expand the scaling phase into concrete stages** (rolling-wave
+  planning before implementation)
 
 ## Next
 
@@ -22,5 +22,5 @@
 
 ## Last updated
 
-2026-08-06 - A4.2 completed conservative transitive obligation-cone projection
-without changing existing v1 fixture bytes. Next is A4.3.
+2026-08-06 - A4 completed minimized/relevance-projected counterexample cores and
+source-mapped true/false branch traces. Next is A5.0.

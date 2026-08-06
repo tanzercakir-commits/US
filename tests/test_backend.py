@@ -15,6 +15,7 @@ from semantic_verifier.model import (
     Expr,
     Obligation,
     SourceLocation,
+    TraceStep,
     VerificationResult,
     VerificationStatus,
 )
@@ -34,7 +35,7 @@ OBLIGATION = Obligation(
 )
 
 
-def result(status, message=None, counterexample=None):
+def result(status, message=None, counterexample=None, trace=()):
     return VerificationResult(
         obligation_id=OBLIGATION.id,
         function=OBLIGATION.function,
@@ -43,6 +44,7 @@ def result(status, message=None, counterexample=None):
         location=LOCATION,
         message=message or status.value,
         counterexample=counterexample,
+        trace=trace,
     )
 
 
@@ -98,13 +100,19 @@ class CrossCheckBackendTests(unittest.TestCase):
         self.assertIn("secondary=violated", checked.message)
 
     def test_agreement_uses_replayed_secondary_counterexample(self):
+        trace = (TraceStep("branch", Expr.boolean(True), True, LOCATION),)
         checked = self.cross_check(
             result(VerificationStatus.VIOLATED, counterexample={"x": 1}),
-            result(VerificationStatus.VIOLATED, counterexample={"x": 2}),
+            result(
+                VerificationStatus.VIOLATED,
+                counterexample={"x": 2},
+                trace=trace,
+            ),
         )
 
         self.assertEqual(checked.status.value, "violated")
         self.assertEqual(checked.counterexample, {"x": 2})
+        self.assertEqual(checked.trace, trace)
 
     def test_definitive_result_can_strengthen_unknown(self):
         checked = self.cross_check(

@@ -100,6 +100,11 @@ def dump_results(report: VerificationReport) -> str:
                 for name in sorted(result.counterexample)
             )
             lines.append(f"  counterexample: {model or '{}'}")
+        for step in result.trace:
+            lines.append(
+                f"  trace: {step.text()} at {step.location.file}:"
+                f"{step.location.line}:{step.location.column}"
+            )
     for record in report.non_goals():
         lines.append(
             f"non-goal: {record.kind} at {record.location.file}:"

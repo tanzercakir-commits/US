@@ -2,11 +2,13 @@ import json
 from pathlib import Path
 import unittest
 
+from semantic_verifier import verify_source
 from semantic_verifier.backend import create_backend
 from semantic_verifier.counterexample import (
     minimize_counterexample,
     obligation_variable_cone,
 )
+from semantic_verifier.dump import dump_results
 from semantic_verifier.model import Expr, Obligation, SCHEMA, SourceLocation
 from semantic_verifier.pipeline import VerificationPipeline
 from semantic_verifier.schema import (
@@ -145,6 +147,53 @@ class CounterexampleMinimizationTests(unittest.TestCase):
 
         self.assertEqual(divisor_zero.status.value, "violated")
         self.assertIn("minimized from 2 to 1 bindings", divisor_zero.message)
+
+
+class CounterexampleTraceTests(unittest.TestCase):
+    def test_branch_trace_is_machine_and_human_readable(self):
+        report = verify_source(
+            "void assert(bool);\n"
+            "int traced(int x) {\n"
+            "    if (x > 0) {\n"
+            "        assert(x > 1);\n"
+            "    }\n"
+            "    return 0;\n"
+            "}\n",
+            "trace.cpp",
+        )
+        result = report.results[0]
+
+        self.assertEqual(result.status.value, "violated")
+        self.assertEqual(len(result.trace), 1)
+        step = result.to_dict()["trace"][0]
+        self.assertEqual(step["kind"], "branch")
+        self.assertIs(step["taken"], True)
+        self.assertEqual(
+            step["location"],
+            {"file": "trace.cpp", "line": 3, "column": 5},
+        )
+        self.assertEqual(step["condition"]["op"], ">")
+        self.assertIn(
+            "trace: when branch condition (x#0 > 0) is true at trace.cpp:3:5",
+            dump_results(report),
+        )
+
+    def test_false_branch_trace_preserves_direction(self):
+        report = verify_source(
+            "void assert(bool);\n"
+            "int traced_false(int x) {\n"
+            "    if (x > 0) return 0;\n"
+            "    assert(x < 0);\n"
+            "    return 0;\n"
+            "}\n",
+            "trace-false.cpp",
+        )
+        result = report.results[0]
+
+        self.assertEqual(result.counterexample, {"x": 0})
+        self.assertEqual(len(result.trace), 1)
+        self.assertIs(result.trace[0].taken, False)
+        self.assertIn("is false at trace-false.cpp:3:5", dump_results(report))
 
 
 class SchemaMigrationTests(unittest.TestCase):

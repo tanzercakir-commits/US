@@ -431,3 +431,24 @@ Evidence: A4 counterexample-quality tests -> 8/8; fixture check -> 10/10 current
 with no byte diff; full suite -> 147/147; diff check -> clean; commit: this
 commit.
 Next: A4.3 (counterexample trace explanation).
+## 2026-08-06 - A4.3: counterexample trace explanation - DONE
++ Added internal immutable TraceStep metadata with a versioned condition, taken
+  direction, deterministic kind, and exact source location.
++ Carried true/false branch decisions through VC path state in outer-to-inner
+  order and attached them only to violated results; proof obligations and
+  referee decisions remain independent of the diagnostic trace.
++ Preserved traces through affine, Z3, and definitive cross-check selection
+  while suppressing them for verified, unknown, unsupported, and solver-error
+  outcomes.
++ Added an optional machine-readable result trace and deterministic human text
+  in the form "when branch condition ... is true/false at file:line:column".
++ Documented the field as a compatible v1 diagnostic addition: consumers may
+  ignore it safely, and all 10 existing current fixtures remain byte-identical.
++ Added true/false direction, JSON shape, human rendering, cross-check, Z3
+  propagation, and replay-error suppression regressions; ratchet advanced from
+  147 to 149.
+- None.
+Evidence: focused trace/backend tests -> 12/12; fixture check -> 10/10 current
+with no byte diff; full suite -> 149/149; diff check -> clean; commit: this
+commit.
+Next: A5.0 (expand the scaling phase into concrete stages).

@@ -559,4 +559,9 @@ def _obligation_result(
         location=obligation.location,
         message=message,
         counterexample=counterexample,
+        trace=(
+            obligation.trace
+            if status == VerificationStatus.VIOLATED
+            else ()
+        ),
     )

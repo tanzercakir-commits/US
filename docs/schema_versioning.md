@@ -51,6 +51,13 @@ The five-case v0 corpus is preserved byte-for-byte under
 `require_current_schema` gate is the reference compatibility check; it rejects
 unknown report majors and mixed report/Semantic IR schemas.
 
+A4.3 adds the optional diagnostic `trace` result field within v1. It is safe for
+a v1 consumer to ignore: branch explanations do not change the obligation,
+status, replay requirement, or counterexample-core meaning. Results without a
+violated source-branch path omit the field, so the existing five-case current
+fixture corpus remains byte-identical. An equivalent change that altered proof
+meaning or existing fixture bytes would require a new major review.
+
 ## Consumer rules
 
 Consumers must:
@@ -149,7 +156,7 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A4.1:
+As of A4.3:
 
 - current producer: `codeskeptic.semantic-verification/v1`;
 - frozen previous baseline: the complete five-case v0 corpus under

@@ -14,6 +14,8 @@ from .model import (
     IRNode,
     ModuleIR,
     Obligation,
+    SourceLocation,
+    TraceStep,
 )
 
 
@@ -64,11 +66,26 @@ def _contains_nonlinear_multiplication(expr: Expr) -> bool:
 @dataclass(frozen=True, slots=True)
 class _PathState:
     assumptions: tuple[Expr, ...]
+    trace: tuple[TraceStep, ...] = ()
 
     def add(self, expression: Expr) -> "_PathState":
         if expression in self.assumptions:
             return self
-        return _PathState(self.assumptions + (expression,))
+        return _PathState(self.assumptions + (expression,), self.trace)
+
+    def decide(
+        self,
+        condition: Expr,
+        taken: bool,
+        kind: str,
+        location: SourceLocation,
+    ) -> "_PathState":
+        assumption = condition if taken else _not(condition)
+        state = self.add(assumption)
+        step = TraceStep(kind, condition, taken, location)
+        if step in state.trace:
+            return state
+        return _PathState(state.assumptions, state.trace + (step,))
 
 
 class VerificationConditionGenerator:
@@ -143,6 +160,7 @@ class VerificationConditionGenerator:
                     Expr.boolean(False),
                     function.location,
                     "non-void function must return on every reachable path",
+                    trace=state.trace,
                 )
         return tuple(self._obligations)
 
@@ -310,6 +328,7 @@ class VerificationConditionGenerator:
                 node.expression,
                 node.location,
                 "source assertion must hold",
+                trace=defined.trace,
             )
             return [defined.add(node.expression)]
         if node.kind == "call":
@@ -333,6 +352,7 @@ class VerificationConditionGenerator:
                     node.location,
                     "call-result target must have explicit matching int type",
                     unsupported_reason="malformed call-result IR",
+                    trace=defined.trace,
                 )
                 return [defined]
             target = Expr.variable(node.target, node.result_type)
@@ -353,6 +373,7 @@ class VerificationConditionGenerator:
                     node.location,
                     reason,
                     unsupported_reason=reason,
+                    trace=state.trace,
                 )
                 return []
 
@@ -365,6 +386,7 @@ class VerificationConditionGenerator:
                     invariant.expression.substitute(entry_replacements),
                     invariant.location,
                     f"loop invariant must hold on entry: {invariant.text}",
+                    trace=state.trace,
                 )
 
             head_state = self._add_loop_havoc_bounds(state, node, "head")
@@ -393,6 +415,7 @@ class VerificationConditionGenerator:
                         ),
                         invariant.location,
                         f"loop body must preserve invariant: {invariant.text}",
+                        trace=body_state.trace,
                     )
 
             exit_state = self._add_loop_havoc_bounds(state, node, "exit")
@@ -420,6 +443,7 @@ class VerificationConditionGenerator:
                     goal,
                     node.location,
                     f"postcondition declared at line {contract.location.line}: {contract.text}",
+                    trace=defined.trace,
                 )
             return []
         if node.kind == "branch":
@@ -428,11 +452,22 @@ class VerificationConditionGenerator:
                 function.name, node.expression, state, node
             )
             true_states = self._walk_sequence(
-                node.then_body, [defined.add(node.expression)], function, ensures
+                node.then_body,
+                [
+                    defined.decide(
+                        node.expression, True, "branch", node.location
+                    )
+                ],
+                function,
+                ensures,
             )
             false_states = self._walk_sequence(
                 node.else_body,
-                [defined.add(_not(node.expression))],
+                [
+                    defined.decide(
+                        node.expression, False, "branch", node.location
+                    )
+                ],
                 function,
                 ensures,
             )
@@ -527,6 +562,7 @@ class VerificationConditionGenerator:
                 in_range,
                 node.location,
                 "signed negation must remain within int32",
+                trace=current.trace,
             )
             return current.add(in_range)
         if expr.kind != "binary" or expr.type != "int":
@@ -541,6 +577,7 @@ class VerificationConditionGenerator:
                     node.location,
                     "variable-by-variable multiplication is outside QF_LIA",
                     unsupported_reason="nonlinear integer multiplication",
+                    trace=current.trace,
                 )
                 return current
             lower_bound = _binary(">=", expr, Expr.integer(INT_MIN))
@@ -553,6 +590,7 @@ class VerificationConditionGenerator:
                 in_range,
                 node.location,
                 f"signed {expr.op} result must remain within int32",
+                trace=current.trace,
             )
             return current.add(lower_bound).add(upper_bound)
         elif expr.op == "/":
@@ -565,6 +603,7 @@ class VerificationConditionGenerator:
                 nonzero,
                 node.location,
                 "integer divisor must be non-zero",
+                trace=current.trace,
             )
             denominator_defined = current.add(nonzero)
             overflow_case = _and(
@@ -579,6 +618,7 @@ class VerificationConditionGenerator:
                 no_overflow,
                 node.location,
                 "INT_MIN / -1 must be excluded",
+                trace=denominator_defined.trace,
             )
             return denominator_defined.add(no_overflow)
         return current
@@ -597,6 +637,7 @@ class VerificationConditionGenerator:
                 node.location,
                 f"call to {node.callee} has no visible body or contract",
                 unsupported_reason="uncontracted external call",
+                trace=state.trace,
             )
             return
         has_body = any(candidate.has_body for candidate in candidates)
@@ -617,6 +658,7 @@ class VerificationConditionGenerator:
                 node.location,
                 f"external call {node.callee} has no contract",
                 unsupported_reason="uncontracted external call",
+                trace=state.trace,
             )
             return
         seen: set[Expr] = set()
@@ -636,6 +678,7 @@ class VerificationConditionGenerator:
                 conclusion,
                 node.location,
                 f"{node.callee} requires {contract.text.removeprefix('requires ')}",
+                trace=state.trace,
             )
 
     def _assume_call_postconditions(
@@ -751,10 +794,11 @@ class VerificationConditionGenerator:
         kind: str,
         assumptions: tuple[Expr, ...],
         conclusion: Expr | None,
-        location,
+        location: SourceLocation,
         description: str,
         unsupported_reason: str | None = None,
         mode: str = "validity",
+        trace: tuple[TraceStep, ...] = (),
     ) -> None:
         self._obligation_index += 1
         self._obligations.append(
@@ -768,5 +812,6 @@ class VerificationConditionGenerator:
                 description=description,
                 unsupported_reason=unsupported_reason,
                 mode=mode,
+                trace=trace,
             )
         )

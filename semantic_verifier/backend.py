@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from .model import (
     Obligation,
+    TraceStep,
     VerificationResult,
     VerificationStatus,
 )
@@ -123,6 +124,7 @@ class CrossCheckBackend(CheckerBackend):
             selected.status,
             "backend cross-check completed: " + selected.message,
             selected.counterexample,
+            selected.trace,
         )
 
 
@@ -166,6 +168,7 @@ def _result(
     status: VerificationStatus,
     message: str,
     counterexample: Mapping[str, int | bool] | None = None,
+    trace: tuple[TraceStep, ...] = (),
 ) -> VerificationResult:
     return VerificationResult(
         obligation_id=obligation.id,
@@ -175,4 +178,5 @@ def _result(
         location=obligation.location,
         message=message,
         counterexample=counterexample,
+        trace=trace,
     )

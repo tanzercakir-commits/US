@@ -19,15 +19,16 @@ Implemented:
   and the loop entry/preservation/exit triple;
 - a dependency-free affine checker plus a complete external Z3 backend for the
   emitted QF_LIA fragment;
-- deterministic SMT-LIB2, solver timeouts, model parsing, and mandatory replay
-  of every candidate counterexample;
+- deterministic SMT-LIB2, solver timeouts, model parsing, mandatory replay,
+  minimized/relevance-projected counterexample cores, and source-mapped branch
+  traces for violated paths;
 - affine/Z3 cross-check mode as the CLI default, with disagreement promoted to
   solver_error;
 - explicit verified, violated, unknown, unsupported, and solver_error results;
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 147 deterministic tests, including independent soundness regressions.
+- 149 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -265,8 +266,9 @@ iteration per loop. Each obligation is:
     path assumptions -> required condition
 
 Assignments become equality facts over versioned variables. True and false
-edges add the condition or its negation. Merge equalities are selected by the
-edge actually taken. A result-bearing call havocs its fresh target, adds int32
+edges add the condition or its negation and retain the branch source location
+and taken direction as diagnostic path metadata. Merge equalities are selected
+by the edge actually taken. A result-bearing call havocs its fresh target, adds int32
 bounds, proves substituted requires, and assumes substituted ensures. Recursive
 call components fail closed.
 
@@ -354,8 +356,11 @@ docs/solver_decision.md.
 Unknown and unsupported are never converted to verified. JSON results contain
 the obligation ID, function, kind, location, message, and sorted minimized
 counterexample-core bindings when present. A public core may be empty and must
-be interpreted with the referenced obligation assumptions. Non-goals are
-separate from statuses: every loop records
+be interpreted with the referenced obligation assumptions. Violated results
+also carry a source-ordered machine trace when their VC path crossed a branch;
+human output renders each taken direction as a `when` explanation. The trace is
+diagnostic and never changes the referee status. Non-goals are separate from
+statuses: every loop records
 loop_termination with the statement location and the partial-correctness scope,
 including when Semantic IR is omitted from JSON.
 
@@ -503,7 +508,7 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 147-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 149-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent

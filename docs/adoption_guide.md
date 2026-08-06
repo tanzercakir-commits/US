@@ -166,7 +166,10 @@ the reported bindings are minimized. Interpret the public core together with
 the obligation assumptions; the core can be empty and is not a complete input.
 Reproduce with the same verifier/solver versions, inspect versioned variables in
 the obligation, and decide whether to fix source code or correct an inaccurate
-contract. Do not weaken a soundness test merely to remove the violation.
+contract. When `trace` is present, use its source locations and taken directions
+to reconstruct the branch path; retain the obligation assumptions as the
+canonical formula. Do not weaken a soundness test merely to remove the
+violation.
 
 ### `unknown`
 
@@ -195,11 +198,14 @@ evidence relative to the obligation assumptions, but may still expose sensitive
 business inputs in logs or CI artifacts. Apply the target repository's retention
 and access policy. Relevance projection is conservative and syntactic, while
 greedy minimization returns one sufficient core; that core may still differ
-from the variable set a human would find most explanatory.
+from the variable set a human would find most explanatory. Branch traces expose
+source locations and versioned conditions but add no concrete values beyond the
+counterexample core; apply the same artifact access policy to both fields.
 
 ## Schema and fixture discipline
 
-- Require `codeskeptic.semantic-verification/v1` before consuming fields and reject mixed report/IR schemas.
+- Require `codeskeptic.semantic-verification/v1` before consuming fields and
+  reject mixed report/IR schemas.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.
 - Ignore unknown object fields only within a known major; never ignore an unknown

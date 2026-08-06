@@ -20,6 +20,13 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ## [Unreleased]
 
+### Added
+
+- A4.3 adds optional source-ordered `trace` steps to violated results whose VC
+  path crosses a branch. Each machine-readable step records the versioned
+  condition, taken direction, and source location; text output renders the same
+  data as a deterministic `when branch condition ...` explanation.
+
 ### Changed
 
 - A4.1 moves the producer to `codeskeptic.semantic-verification/v1` and changes

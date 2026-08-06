@@ -9,6 +9,7 @@ from semantic_verifier.model import (
     Expr,
     Obligation,
     SourceLocation,
+    TraceStep,
     VerificationStatus,
 )
 from semantic_verifier.z3_backend import (
@@ -237,7 +238,9 @@ MODEL_OUTPUT = """sat
 LOCATION = SourceLocation("model.cpp", 1, 1)
 
 
-def make_obligation(*, assumptions=(), conclusion=None, mode="validity"):
+def make_obligation(
+    *, assumptions=(), conclusion=None, mode="validity", trace=()
+):
     return Obligation(
         id="ob-model",
         function="f",
@@ -247,6 +250,7 @@ def make_obligation(*, assumptions=(), conclusion=None, mode="validity"):
         location=LOCATION,
         description="model replay test",
         mode=mode,
+        trace=trace,
     )
 
 
@@ -315,7 +319,11 @@ class Z3ModelParserTests(unittest.TestCase):
 class Z3CountermodelReplayTests(unittest.TestCase):
     def test_valid_countermodel_is_replayed_and_projected(self):
         x = Expr.variable("x#0")
-        item = make_obligation(conclusion=Expr.binary(">=", x, Expr.integer(0)))
+        trace = (TraceStep("branch", Expr.boolean(True), True, LOCATION),)
+        item = make_obligation(
+            conclusion=Expr.binary(">=", x, Expr.integer(0)),
+            trace=trace,
+        )
         runner = Mock()
         runner.run.side_effect = (
             process_result(Z3Outcome.SAT, VerificationStatus.VIOLATED, "sat\n"),
@@ -335,12 +343,17 @@ class Z3CountermodelReplayTests(unittest.TestCase):
 
         self.assertEqual(result.status.value, "violated")
         self.assertEqual(result.counterexample, {"x": -1})
+        self.assertEqual(result.trace, trace)
         self.assertEqual(runner.run.call_count, 3)
         self.assertTrue(runner.run.call_args_list[1].args[0].endswith("(get-model)\n"))
 
     def test_corrupt_model_that_fails_replay_is_solver_error(self):
         x = Expr.variable("x#0")
-        item = make_obligation(conclusion=Expr.binary(">=", x, Expr.integer(0)))
+        trace = (TraceStep("branch", Expr.boolean(True), True, LOCATION),)
+        item = make_obligation(
+            conclusion=Expr.binary(">=", x, Expr.integer(0)),
+            trace=trace,
+        )
         runner = Mock()
         runner.run.side_effect = (
             process_result(Z3Outcome.SAT, VerificationStatus.VIOLATED, "sat\n"),
@@ -356,6 +369,7 @@ class Z3CountermodelReplayTests(unittest.TestCase):
         self.assertEqual(result.status.value, "solver_error")
         self.assertIn("does not falsify", result.message)
         self.assertIsNone(result.counterexample)
+        self.assertEqual(result.trace, ())
 
     def test_malformed_or_disagreeing_model_query_is_solver_error(self):
         x = Expr.variable("x#0")

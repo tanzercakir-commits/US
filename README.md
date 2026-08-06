@@ -32,7 +32,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 147 deterministic tests. The separately cloned,
+The current suite contains 149 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 

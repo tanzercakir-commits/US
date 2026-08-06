@@ -285,6 +285,31 @@ class ModuleIR:
 
 
 @dataclass(frozen=True, slots=True)
+class TraceStep:
+    kind: str
+    condition: Expr
+    taken: bool
+    location: SourceLocation
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "condition": self.condition.to_dict(),
+            "kind": self.kind,
+            "location": self.location.to_dict(),
+            "taken": self.taken,
+        }
+
+    def text(self) -> str:
+        label = {
+            "branch": "branch condition",
+            "loop_condition": "loop condition",
+            "short_circuit": "short-circuit condition",
+        }.get(self.kind, self.kind.replace("_", " "))
+        value = "true" if self.taken else "false"
+        return f"when {label} {self.condition.text()} is {value}"
+
+
+@dataclass(frozen=True, slots=True)
 class Obligation:
     id: str
     function: str
@@ -295,6 +320,7 @@ class Obligation:
     description: str
     unsupported_reason: str | None = None
     mode: str = "validity"
+    trace: tuple[TraceStep, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {
@@ -340,6 +366,7 @@ class VerificationResult:
     location: SourceLocation
     message: str
     counterexample: Mapping[str, int | bool] | None = None
+    trace: tuple[TraceStep, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {
@@ -354,6 +381,8 @@ class VerificationResult:
             result["counterexample"] = {
                 key: self.counterexample[key] for key in sorted(self.counterexample)
             }
+        if self.trace:
+            result["trace"] = [step.to_dict() for step in self.trace]
         return result
 
 
