@@ -8,12 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **F2.2 - determinism CI job** (suite plus two independent fixture
-  generations with byte comparison)
+- [ ] **F3.1 - documentation phase-gate upkeep** (separate implemented,
+  partial, and proposed capabilities)
 
 ## Next
 
-- [ ] F3.1 - keep implemented/partial/proposed documentation current
+- [ ] F3.2 - result taxonomy + schema reference page
+- [ ] F3.3 - adoption guide
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -21,5 +22,5 @@
 
 ## Last updated
 
-2026-08-06 - F2.1 completed: five fixture cases regenerate to ten canonical
-artifacts and pass --check from any working directory. Next is F2.2.
+2026-08-06 - F2 completed: CI and local tests regenerate the corpus twice and
+enforce byte-identical fixture artifacts. Next is F3.1.

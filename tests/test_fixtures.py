@@ -51,3 +51,32 @@ class FixtureInfrastructureTests(unittest.TestCase):
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("fixtures are current (10 artifacts)", completed.stdout)
+    def test_two_independent_regenerations_are_byte_identical(self):
+        with tempfile.TemporaryDirectory() as directory:
+            parent = Path(directory)
+            outputs = [parent / "first", parent / "second"]
+            for output in outputs:
+                completed = subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "tools" / "regenerate_fixtures.py"),
+                        "--output-dir",
+                        str(output),
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                    check=False,
+                )
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+
+            def artifact_bytes(output):
+                return {
+                    path.relative_to(output).as_posix(): path.read_bytes()
+                    for path in output.rglob("*")
+                    if path.is_file()
+                }
+
+            self.assertEqual(
+                artifact_bytes(outputs[0]), artifact_bytes(outputs[1])
+            )

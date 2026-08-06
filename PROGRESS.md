@@ -305,3 +305,17 @@ Evidence: fixture regeneration -> 10 artifacts; regeneration --check from an
 unrelated working directory -> current; fixture tests -> 2/2; full suite ->
 136/136; compileall and diff check -> clean; commit: this commit.
 Next: F2.2 (determinism CI job).
+## 2026-08-06 - F2.2: determinism CI gate - DONE
++ Added a least-privilege Ubuntu CI job that installs Clang/Z3, runs the full
+  suite, regenerates fixtures in two independent directories, and recursively
+  compares every byte.
++ The workflow uses the current Node 24 action majors (checkout v6 and
+  setup-python v6) with an explicit Python 3.11 runtime.
++ Added a two-process local regression test for the same byte-identity contract;
+  ratchet advanced from 136 to 137.
+- The hosted workflow itself cannot be executed locally; its exact commands are
+  covered by the repository tests and local fixture tool.
+Evidence: fixture infrastructure tests -> 3/3 including two-process byte
+identity; full suite -> 137/137; compileall and diff check -> clean; commit:
+this commit.
+Next: F3.1 (documentation phase-gate upkeep).

@@ -1,0 +1,35 @@
+name: Determinism
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-byte-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install verifier executables
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang z3
+
+      - name: Run full suite
+        run: python -m unittest discover -s tests
+
+      - name: Generate fixtures twice
+        run: |
+          python tools/regenerate_fixtures.py --output-dir fixture-run-a
+          python tools/regenerate_fixtures.py --output-dir fixture-run-b
+
+      - name: Compare fixture bytes
+        run: diff --recursive --no-dereference fixture-run-a fixture-run-b
