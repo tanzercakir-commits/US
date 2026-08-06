@@ -27,6 +27,10 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
   minimized binding cores. A complete model is still replayed internally, and
   a binding is removed only when exact reasoning proves the remaining core,
   together with the obligation assumptions, forces the violation.
+- A4.2 projects replayed models to the conclusion's transitive
+  assumption-variable cone before greedy minimization, so disconnected solver
+  bindings cannot appear in the public core even when a removal proof is
+  inconclusive.
 
 ### Migration
 

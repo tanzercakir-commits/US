@@ -157,11 +157,14 @@ through the existing evaluator against the original obligation:
 2. the conclusion must evaluate to false;
 3. evaluation must complete without missing names or partial-operation errors.
 
-Any mismatch becomes `solver_error`. Only then does deterministic greedy
-minimization try bindings in sorted Semantic IR name order. A binding is removed
-only if a second exact validity query proves that the original assumptions plus
-the retained equalities imply the negated conclusion. Unknown/error results keep
-the binding. The retained core is projected to human-facing names and serialized
+Any mismatch becomes `solver_error`. Only then does deterministic relevance
+projection seed a variable cone from the conclusion and close it transitively
+through co-occurrence in assumptions. Bindings outside the cone are discarded;
+greedy minimization tries the rest in sorted Semantic IR name order. A binding
+is removed only if a second exact validity query proves that the original
+assumptions plus the retained equalities imply the negated conclusion.
+Unknown/error results keep the in-cone binding. The retained core is projected
+to human-facing names and serialized
 in sorted-key order by `VerificationResult.to_dict()`; it may be empty and is
 not independently replayable without the obligation assumptions. Raw solver
 stdout and the complete replay model remain internal and are not trusted as the

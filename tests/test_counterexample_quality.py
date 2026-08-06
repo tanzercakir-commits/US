@@ -3,7 +3,10 @@ from pathlib import Path
 import unittest
 
 from semantic_verifier.backend import create_backend
-from semantic_verifier.counterexample import minimize_counterexample
+from semantic_verifier.counterexample import (
+    minimize_counterexample,
+    obligation_variable_cone,
+)
 from semantic_verifier.model import Expr, Obligation, SCHEMA, SourceLocation
 from semantic_verifier.pipeline import VerificationPipeline
 from semantic_verifier.schema import (
@@ -39,7 +42,19 @@ class CounterexampleMinimizationTests(unittest.TestCase):
             function="f",
             kind="postcondition",
             assumptions=(),
-            conclusion=Expr.boolean(False),
+            conclusion=Expr.binary(
+                "==",
+                Expr.binary(
+                    "+",
+                    Expr.binary(
+                        "+",
+                        Expr.variable("a"),
+                        Expr.variable("m"),
+                    ),
+                    Expr.variable("z"),
+                ),
+                Expr.integer(0),
+            ),
             location=SourceLocation("quality.cpp", 1, 1),
             description="deterministic minimization",
         )
@@ -65,6 +80,48 @@ class CounterexampleMinimizationTests(unittest.TestCase):
 
         self.assertEqual(observed, [("m", "z"), ("a", "z"), ("a", "m")])
         self.assertEqual(list(minimized), ["a", "m", "z"])
+
+    def test_obligation_cone_closes_transitively(self):
+        x = Expr.variable("x")
+        y = Expr.variable("y")
+        z = Expr.variable("z")
+        noise = Expr.variable("noise")
+        obligation = Obligation(
+            id="obl-cone",
+            function="f",
+            kind="postcondition",
+            assumptions=(
+                Expr.binary("==", x, y),
+                Expr.binary("==", y, z),
+                Expr.binary("==", noise, Expr.integer(0)),
+            ),
+            conclusion=Expr.binary(">", z, Expr.integer(0)),
+            location=SourceLocation("quality.cpp", 1, 1),
+            description="transitive relevance cone",
+        )
+
+        self.assertEqual(obligation_variable_cone(obligation), {"x", "y", "z"})
+
+    def test_projection_drops_noise_even_when_greedy_prover_is_inconclusive(self):
+        x = Expr.variable("x")
+        noise = Expr.variable("noise")
+        obligation = Obligation(
+            id="obl-projection",
+            function="f",
+            kind="postcondition",
+            assumptions=(Expr.binary(">=", noise, Expr.integer(0)),),
+            conclusion=Expr.binary(">=", x, Expr.integer(0)),
+            location=SourceLocation("quality.cpp", 1, 1),
+            description="relevance projection",
+        )
+
+        minimized = minimize_counterexample(
+            obligation,
+            {"noise": 0, "x": -1},
+            lambda _assumptions, _conclusion: False,
+        )
+
+        self.assertEqual(minimized, {"x": -1})
 
     def test_affine_backend_removes_irrelevant_call_argument(self):
         results = precondition_results(create_backend("affine"))

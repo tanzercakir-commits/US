@@ -85,13 +85,15 @@ Non-goals do not change the exit code.
 | `counterexample` | object | no | Sorted `int`/`bool` bindings forming a minimized violation core. |
 
 For a violated validity obligation, the backend first replays a complete model
-against the original assumptions and conclusion. It then tries bindings in
-sorted variable order. A binding is removed only when exact backend reasoning
-proves that the original assumptions plus the retained equalities imply the
-negated conclusion. Solver uncertainty or an emission failure keeps the binding.
-The public object can therefore be empty, and it is not a standalone replay
-model. Consumers must interpret it together with the referenced obligation's
-`assumptions`.
+against the original assumptions and conclusion. Relevance projection seeds the
+variable cone from the conclusion and transitively includes every variable that
+co-occurs in a connected assumption; bindings outside that cone are never
+reported. The minimizer then tries remaining bindings in sorted variable order.
+A binding is removed only when exact backend reasoning proves that the original
+assumptions plus the retained equalities imply the negated conclusion. Solver
+uncertainty or an emission failure keeps an in-cone binding. The public object
+can therefore be empty, and it is not a standalone replay model. Consumers must
+interpret it together with the referenced obligation's `assumptions`.
 
 Counterexample keys use IR variable names. A unique `name#0` is displayed as
 `name`; later SSA versions retain `#N`. If shortening would collide, the full

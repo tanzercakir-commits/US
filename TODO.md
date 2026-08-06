@@ -8,13 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **A4.2 - counterexample relevance projection** (report only variables in
-  the obligation cone)
+- [ ] **A4.3 - counterexample trace explanation** (path assumptions to source
+  mapping, machine-readable and human-readable)
 
 ## Next
 
-- [ ] **A4.3 - trace explanation** (path assumptions to source mapping,
-  machine-readable and human-readable)
+- None pulled until the A5 phase is read at stage start.
 
 ## Blockers / open questions
 
@@ -23,5 +22,5 @@
 
 ## Last updated
 
-2026-08-06 - A4.1 completed deterministic counterexample-core minimization and
-migrated public proof evidence from the archived v0 contract to schema v1.
+2026-08-06 - A4.2 completed conservative transitive obligation-cone projection
+without changing existing v1 fixture bytes. Next is A4.3.

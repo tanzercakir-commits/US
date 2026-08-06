@@ -411,3 +411,23 @@ Evidence: focused A4.1/schema tests -> 20/20; v0 Git-blob comparison -> 16/16;
 independent current-corpus generation -> 10/10 byte-identical; fixture check ->
 10/10 current; full suite -> 145/145; diff check -> clean; commit: this commit.
 Next: A4.2 (counterexample relevance projection).
+## 2026-08-06 - A4.2: counterexample relevance projection - DONE
++ Added a deterministic variable-cone analysis seeded by the obligation
+  conclusion and closed transitively through variable co-occurrence in
+  assumptions.
++ Projected complete replayed models through the shared affine/Z3 evidence path
+  before A4.1 greedy minimization, while retaining mandatory full-model replay.
++ Kept the projection conservative for compound assumptions and independent of
+  solver minimization success; disconnected variables cannot leak into the
+  public core even when the exact removal prover is inconclusive.
++ Added direct regressions for transitive x-y-z relevance and disconnected noise
+  removal; ratchet advanced from 145 to 147.
++ Updated the schema, solver, prototype, adoption, and changelog documentation;
+  the counterexample field remains compatible with the existing v1 partial-core
+  contract.
++ Confirmed all 10 current fixture artifacts remain byte-identical.
+- None.
+Evidence: A4 counterexample-quality tests -> 8/8; fixture check -> 10/10 current
+with no byte diff; full suite -> 147/147; diff check -> clean; commit: this
+commit.
+Next: A4.3 (counterexample trace explanation).

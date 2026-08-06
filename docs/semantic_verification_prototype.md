@@ -27,7 +27,7 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 145 deterministic tests, including independent soundness regressions.
+- 147 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -329,8 +329,10 @@ fixed solver options, structured stdout/stderr handling, and explicit mappings
 for sat/unsat/unknown/process failures. A sat validity result is only a candidate
 violation until the complete parsed model replays against the original
 obligation. Replay failure is a solver_error soundness alarm, never a violation.
-After replay, both backends greedily remove bindings in sorted order only when
-exact reasoning proves the remaining core still forces the negated conclusion.
+After replay, both backends project the model to the conclusion's transitive
+assumption-variable cone. They then greedily remove in-cone bindings in sorted
+order only when exact reasoning proves the remaining core still forces the
+negated conclusion.
 
 Cross-check mode accepts the stronger definitive answer when the other backend
 is unknown. Definitive disagreement, backend process failure, or replay failure
@@ -501,7 +503,7 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 145-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 147-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent

@@ -193,8 +193,9 @@ Counterexample cores contain only the source/SSA variable names and concrete
 int/bool values retained by deterministic greedy minimization. They are proof
 evidence relative to the obligation assumptions, but may still expose sensitive
 business inputs in logs or CI artifacts. Apply the target repository's retention
-and access policy. Static relevance projection remains a later roadmap item, so
-a minimal greedy core may still differ from the most explanatory variable set.
+and access policy. Relevance projection is conservative and syntactic, while
+greedy minimization returns one sufficient core; that core may still differ
+from the variable set a human would find most explanatory.
 
 ## Schema and fixture discipline
 
