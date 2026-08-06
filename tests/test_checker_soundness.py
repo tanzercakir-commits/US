@@ -29,7 +29,7 @@ class CheckerSoundnessTests(unittest.TestCase):
         self.assertEqual(result.status.value, "unsupported")
 
     def test_large_affine_normalization_uses_exact_integer_ceiling(self):
-        coefficient = 10**20
+        coefficient = 10**18
         report = verify_source(
             f"// cs: requires x >= 1\n"
             f"// cs: ensures {coefficient} * x >= {coefficient + 1}\n"

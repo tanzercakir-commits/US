@@ -109,6 +109,11 @@ positive literal.
 | `~`, `&`, `|`, `^` | bitwise result after promotions/usual conversions | none beyond operand well-formedness |
 | `E1 << E2` | promoted-left result type; unsigned modulo; signed C++17/profile rule | `0 <= E2 < width`; signed `E1 >= 0` and shifted value representable in corresponding unsigned type |
 | `E1 >> E2` | logical for unsigned/nonnegative; pinned arithmetic shift for negative signed | `0 <= E2 < width` |
+A6.9 keeps signed expression obligations inside QF_LIA: source `/` and `%`
+always receive divisor-nonzero and minimum/-1 definedness VCs, while exact
+quotient/remainder terms are emitted only when the divisor is a literal. A
+variable-divisor quotient/remainder appearing in a logical contract fails
+closed rather than silently selecting a stronger logic.
 
 The C++17 shift rules, including undefined counts, conditional signed left
 shift, and implementation-defined negative signed right shift, are stated in

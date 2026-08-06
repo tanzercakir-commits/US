@@ -537,6 +537,14 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output/file set: frontend/literal/lowering/VC/affine/SMT-LIB/replay support;
   width-parameterized range/overflow/division checks; `tests/test_int64.py`;
   examples, result/adoption/prototype/changelog, fixtures, PROGRESS/TODO/ratchet.
+- Expanded exact file set: `semantic_verifier/{integer_types,model,frontend,
+  lowering,contracts,vc,checker,smtlib,z3_backend,counterexample}.py`;
+  `tests/{test_int64,test_integer_types,test_contracts,test_checker_soundness,
+  test_smtlib,test_fixtures}.py`; `examples/int64_slice.cpp`; current fixture
+  manifest/case/expected artifacts; `docs/{result_schema,adoption_guide,
+  semantic_verification_prototype,solver_decision,
+  integer_semantics_decision}.md`; `CHANGELOG.md`, `README.md`, `PLAN.md`,
+  `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: i64 boundaries, widening, narrowing under the pinned profile, unary
   negation, add/sub/mul/div/rem, calls/contracts/loops, violation replay, and
   deterministic serialization pass; overflow and min/-1 never verify; `long`,

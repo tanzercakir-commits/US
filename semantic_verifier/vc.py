@@ -5,12 +5,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable
 
+from .integer_types import integer_type, is_signed_integer_type
 from .model import (
     Contract,
     Expr,
     FunctionIR,
-    INT_MAX,
-    INT_MIN,
     IRNode,
     ModuleIR,
     Obligation,
@@ -53,14 +52,15 @@ def _equality(name: str, type_name: str, value: Expr) -> Expr:
 
 
 def _literal_integer(expr: Expr) -> bool:
-    if expr.kind == "constant" and expr.type == "i32":
+    if expr.kind == "constant" and is_signed_integer_type(expr.type):
         return True
     return (
         expr.kind == "unary"
         and expr.op == "-"
         and len(expr.args) == 1
         and expr.args[0].kind == "constant"
-        and expr.args[0].type == "i32"
+        and expr.args[0].type == expr.type
+        and is_signed_integer_type(expr.type)
     )
 
 
@@ -353,7 +353,8 @@ class VerificationConditionGenerator:
             if node.target is None:
                 return [defined]
             if (
-                node.result_type != "i32"
+                node.result_type is None
+                or not is_signed_integer_type(node.result_type)
                 or self._symbol_type(function, node.target) != node.result_type
             ):
                 self._add(
@@ -368,9 +369,20 @@ class VerificationConditionGenerator:
                 )
                 return [defined]
             target = Expr.variable(node.target, node.result_type)
-            after_call = defined.add(_binary(">=", target, Expr.integer(INT_MIN)))
+            profile = integer_type(node.result_type)
+            after_call = defined.add(
+                _binary(
+                    ">=",
+                    target,
+                    Expr.integer(profile.minimum, node.result_type),
+                )
+            )
             after_call = after_call.add(
-                _binary("<=", target, Expr.integer(INT_MAX))
+                _binary(
+                    "<=",
+                    target,
+                    Expr.integer(profile.maximum, node.result_type),
+                )
             )
             return [self._assume_call_postconditions(node, after_call)]
         if node.kind == "loop":
@@ -583,13 +595,18 @@ class VerificationConditionGenerator:
     ) -> _PathState:
         result = state
         for variable in node.loop_variables:
-            if variable.type != "i32":
+            if not is_signed_integer_type(variable.type):
                 continue
+            profile = integer_type(variable.type)
             value = Expr.variable(
                 str(getattr(variable, state_name)), variable.type
             )
-            result = result.add(_binary(">=", value, Expr.integer(INT_MIN)))
-            result = result.add(_binary("<=", value, Expr.integer(INT_MAX)))
+            result = result.add(
+                _binary(">=", value, Expr.integer(profile.minimum, variable.type))
+            )
+            result = result.add(
+                _binary("<=", value, Expr.integer(profile.maximum, variable.type))
+            )
         return result
 
     def _expression_safety(
@@ -616,20 +633,30 @@ class VerificationConditionGenerator:
         current = state
         for argument in expr.args:
             current = self._expression_safety(function, argument, current, node)
-        if expr.kind == "unary" and expr.op == "-" and expr.type == "i32":
-            in_range = _binary("!=", expr.args[0], Expr.integer(INT_MIN))
+        if (
+            expr.kind == "unary"
+            and expr.op == "-"
+            and is_signed_integer_type(expr.type)
+        ):
+            profile = integer_type(expr.type)
+            in_range = _binary(
+                "!=",
+                expr.args[0],
+                Expr.integer(profile.minimum, expr.type),
+            )
             self._add(
                 function,
                 "signed_overflow",
                 current.assumptions,
                 in_range,
                 node.location,
-                "signed negation must remain within int32",
+                f"signed negation must remain within {expr.type}",
                 trace_templates=current.trace_templates,
             )
             return current.add(in_range)
-        if expr.kind != "binary" or expr.type != "i32":
+        if expr.kind != "binary" or not is_signed_integer_type(expr.type):
             return current
+        profile = integer_type(expr.type)
         if expr.op in {"+", "-", "*"}:
             if expr.op == "*" and _contains_nonlinear_multiplication(expr):
                 self._add(
@@ -643,8 +670,12 @@ class VerificationConditionGenerator:
                     trace_templates=current.trace_templates,
                 )
                 return current
-            lower_bound = _binary(">=", expr, Expr.integer(INT_MIN))
-            upper_bound = _binary("<=", expr, Expr.integer(INT_MAX))
+            lower_bound = _binary(
+                ">=", expr, Expr.integer(profile.minimum, expr.type)
+            )
+            upper_bound = _binary(
+                "<=", expr, Expr.integer(profile.maximum, expr.type)
+            )
             in_range = _and(lower_bound, upper_bound)
             self._add(
                 function,
@@ -652,13 +683,15 @@ class VerificationConditionGenerator:
                 current.assumptions,
                 in_range,
                 node.location,
-                f"signed {expr.op} result must remain within int32",
+                f"signed {expr.op} result must remain within {expr.type}",
                 trace_templates=current.trace_templates,
             )
             return current.add(lower_bound).add(upper_bound)
-        elif expr.op == "/":
+        if expr.op in {"/", "%"}:
             numerator, denominator = expr.args
-            nonzero = _binary("!=", denominator, Expr.integer(0))
+            nonzero = _binary(
+                "!=", denominator, Expr.integer(0, expr.type)
+            )
             self._add(
                 function,
                 "division_by_zero",
@@ -670,8 +703,14 @@ class VerificationConditionGenerator:
             )
             denominator_defined = current.add(nonzero)
             overflow_case = _and(
-                _binary("==", numerator, Expr.integer(INT_MIN)),
-                _binary("==", denominator, Expr.integer(-1)),
+                _binary(
+                    "==",
+                    numerator,
+                    Expr.integer(profile.minimum, expr.type),
+                ),
+                _binary(
+                    "==", denominator, Expr.integer(-1, expr.type)
+                ),
             )
             no_overflow = _not(overflow_case)
             self._add(
@@ -680,7 +719,7 @@ class VerificationConditionGenerator:
                 denominator_defined.assumptions,
                 no_overflow,
                 node.location,
-                "INT_MIN / -1 must be excluded",
+                f"{expr.type} minimum {expr.op} -1 must be excluded",
                 trace_templates=denominator_defined.trace_templates,
             )
             return denominator_defined.add(no_overflow)
@@ -795,11 +834,16 @@ class VerificationConditionGenerator:
     @staticmethod
     def _type_bounds(function: FunctionIR) -> Iterable[Expr]:
         for parameter in function.parameters:
-            if parameter.type != "i32":
+            if not is_signed_integer_type(parameter.type):
                 continue
-            value = Expr.variable(parameter.versioned_name, "i32")
-            yield _binary(">=", value, Expr.integer(INT_MIN))
-            yield _binary("<=", value, Expr.integer(INT_MAX))
+            profile = integer_type(parameter.type)
+            value = Expr.variable(parameter.versioned_name, parameter.type)
+            yield _binary(
+                ">=", value, Expr.integer(profile.minimum, parameter.type)
+            )
+            yield _binary(
+                "<=", value, Expr.integer(profile.maximum, parameter.type)
+            )
 
     @staticmethod
     def _symbol_type(function: FunctionIR, versioned_name: str) -> str:

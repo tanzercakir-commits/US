@@ -134,14 +134,37 @@ class SmtLibEmitterTests(unittest.TestCase):
                 )
             )
 
-    def test_rejects_division_and_unsupported_obligations(self):
+    def test_emits_cxx_division_and_rejects_unsupported_obligations(self):
         division = Expr.binary(
             "==",
             Expr.binary("/", Expr.integer(4), Expr.integer(2)),
             Expr.integer(2),
         )
-        with self.assertRaisesRegex(SmtLibEmissionError, "operator '/'"):
-            emit_smtlib(obligation(conclusion=division))
+        query = emit_smtlib(obligation(conclusion=division))
+        self.assertIn("(div ", query)
+        self.assertIn("(ite ", query)
+        with self.assertRaisesRegex(SmtLibEmissionError, "literal divisor"):
+            emit_smtlib(
+                obligation(
+                    conclusion=Expr.binary(
+                        "==",
+                        Expr.binary(
+                            "/", Expr.variable("x#0"), Expr.variable("y#0")
+                        ),
+                        Expr.integer(0),
+                    )
+                )
+            )
+        with self.assertRaisesRegex(SmtLibEmissionError, "non-zero"):
+            emit_smtlib(
+                obligation(
+                    conclusion=Expr.binary(
+                        "==",
+                        Expr.binary("%", Expr.variable("x#0"), Expr.integer(0)),
+                        Expr.integer(0),
+                    )
+                )
+            )
         with self.assertRaisesRegex(SmtLibEmissionError, "unsupported obligation"):
             emit_smtlib(
                 obligation(

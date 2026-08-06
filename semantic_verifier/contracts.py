@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import re
 from typing import Mapping
 
+from .integer_types import I32, I64, is_signed_integer_type
 from .locations import LineMap
 from .model import Contract, Expr, SourceLocation
 
@@ -31,7 +32,7 @@ _TOKEN = re.compile(
     r"\s*(?:"
     r"(?P<int>[0-9]+)|"
     r"(?P<ident>[A-Za-z_][A-Za-z0-9_]*)|"
-    r"(?P<op>==|!=|<=|>=|&&|\|\||[()+\-*/!<>])|"
+    r"(?P<op>==|!=|<=|>=|&&|\|\||[()+\-*/%!<>])|"
     r"(?P<bad>.)"
     r")"
 )
@@ -99,7 +100,9 @@ class ContractExpressionParser:
         while self._peek().text in {"==", "!="}:
             op = self._take().text
             right = self._relational()
-            if left.type != right.type:
+            if is_signed_integer_type(left.type) and is_signed_integer_type(right.type):
+                left, right, _ = self._signed_pair(left, right, op)
+            elif left.type != right.type:
                 raise ContractSyntaxError(
                     f"{op} operands have different types: {left.type}, {right.type}"
                 )
@@ -111,8 +114,7 @@ class ContractExpressionParser:
         while self._peek().text in {"<", "<=", ">", ">="}:
             op = self._take().text
             right = self._additive()
-            self._require(left, "i32", op)
-            self._require(right, "i32", op)
+            left, right, _ = self._signed_pair(left, right, op)
             left = Expr.binary(op, left, right, "bool")
         return left
 
@@ -121,19 +123,17 @@ class ContractExpressionParser:
         while self._peek().text in {"+", "-"}:
             op = self._take().text
             right = self._multiplicative()
-            self._require(left, "i32", op)
-            self._require(right, "i32", op)
-            left = Expr.binary(op, left, right, "i32")
+            left, right, type_name = self._signed_pair(left, right, op)
+            left = Expr.binary(op, left, right, type_name)
         return left
 
     def _multiplicative(self) -> Expr:
         left = self._unary()
-        while self._peek().text in {"*", "/"}:
+        while self._peek().text in {"*", "/", "%"}:
             op = self._take().text
             right = self._unary()
-            self._require(left, "i32", op)
-            self._require(right, "i32", op)
-            left = Expr.binary(op, left, right, "i32")
+            left, right, type_name = self._signed_pair(left, right, op)
+            left = Expr.binary(op, left, right, type_name)
         return left
 
     def _unary(self) -> Expr:
@@ -145,8 +145,17 @@ class ContractExpressionParser:
         if self._peek().text == "-":
             self._take()
             value = self._unary()
-            self._require(value, "i32", "-")
-            return Expr.unary("-", value, "i32")
+            if not is_signed_integer_type(value.type):
+                raise ContractSyntaxError(
+                    f"operator '-' requires a signed integer, got {value.type}"
+                )
+            if (
+                value.kind == "constant"
+                and value.type == "i64"
+                and int(value.value) == 2**31
+            ):
+                return Expr.integer(I32.minimum, "i32")
+            return Expr.unary("-", value, value.type)
         return self._primary()
 
     def _primary(self) -> Expr:
@@ -158,7 +167,12 @@ class ContractExpressionParser:
             return value
         if token.kind == "int":
             self._take()
-            return Expr.integer(int(token.text))
+            value = int(token.text)
+            if I32.contains(value):
+                return Expr.integer(value, "i32")
+            if I64.contains(value):
+                return Expr.integer(value, "i64")
+            raise ContractSyntaxError("integer literal is outside i64")
         if token.kind == "ident":
             self._take()
             if token.text in {"true", "false"}:
@@ -170,6 +184,25 @@ class ContractExpressionParser:
         raise ContractSyntaxError(
             f"expected expression at column {token.position + 1}"
         )
+
+    @staticmethod
+    def _signed_pair(left: Expr, right: Expr, operator: str) -> tuple[Expr, Expr, str]:
+        if not is_signed_integer_type(left.type) or not is_signed_integer_type(right.type):
+            raise ContractSyntaxError(
+                f"operator {operator!r} requires signed integers, "
+                f"got {left.type}, {right.type}"
+            )
+        type_name = "i64" if "i64" in {left.type, right.type} else "i32"
+
+        def convert(value: Expr) -> Expr:
+            if value.type == type_name:
+                return value
+            if value.kind == "constant":
+                return Expr.integer(int(value.value), type_name)
+            return Expr.cast(value, type_name)
+
+        return convert(left), convert(right), type_name
+
 
     @staticmethod
     def _require(expr: Expr, expected: str, operator: str) -> None:

@@ -100,16 +100,9 @@
                       "value": "a#0"
                     },
                     {
-                      "args": [
-                        {
-                          "kind": "constant",
-                          "type": "i32",
-                          "value": "2147483648"
-                        }
-                      ],
-                      "kind": "unary",
-                      "op": "-",
-                      "type": "i32"
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-2147483648"
                     }
                   ],
                   "kind": "binary",
@@ -261,16 +254,9 @@
                       "value": "a#0"
                     },
                     {
-                      "args": [
-                        {
-                          "kind": "constant",
-                          "type": "i32",
-                          "value": "2147483648"
-                        }
-                      ],
-                      "kind": "unary",
-                      "op": "-",
-                      "type": "i32"
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-2147483648"
                     }
                   ],
                   "kind": "binary",
@@ -439,16 +425,9 @@
                       "value": "a#0"
                     },
                     {
-                      "args": [
-                        {
-                          "kind": "constant",
-                          "type": "i32",
-                          "value": "2147483648"
-                        }
-                      ],
-                      "kind": "unary",
-                      "op": "-",
-                      "type": "i32"
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-2147483648"
                     }
                   ],
                   "kind": "binary",
@@ -538,7 +517,7 @@
         "op": "!",
         "type": "bool"
       },
-      "description": "INT_MIN / -1 must be excluded",
+      "description": "i32 minimum / -1 must be excluded",
       "function": "safe_divide",
       "id": "ob00003",
       "kind": "signed_overflow",
@@ -663,16 +642,9 @@
                     "value": "x#0"
                   },
                   {
-                    "args": [
-                      {
-                        "kind": "constant",
-                        "type": "i32",
-                        "value": "2147483648"
-                      }
-                    ],
-                    "kind": "unary",
-                    "op": "-",
-                    "type": "i32"
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-2147483648"
                   }
                 ],
                 "kind": "binary",
@@ -906,16 +878,9 @@
                     "value": "x#0"
                   },
                   {
-                    "args": [
-                      {
-                        "kind": "constant",
-                        "type": "i32",
-                        "value": "2147483648"
-                      }
-                    ],
-                    "kind": "unary",
-                    "op": "-",
-                    "type": "i32"
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-2147483648"
                   }
                 ],
                 "kind": "binary",
@@ -1151,7 +1116,7 @@
         "op": "&&",
         "type": "bool"
       },
-      "description": "signed + result must remain within int32",
+      "description": "signed + result must remain within i32",
       "function": "increment",
       "id": "ob00009",
       "kind": "signed_overflow",
@@ -1830,16 +1795,9 @@
                           "value": "a#0"
                         },
                         {
-                          "args": [
-                            {
-                              "kind": "constant",
-                              "type": "i32",
-                              "value": "2147483648"
-                            }
-                          ],
-                          "kind": "unary",
-                          "op": "-",
-                          "type": "i32"
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "-2147483648"
                         }
                       ],
                       "kind": "binary",
@@ -1957,16 +1915,9 @@
                           "value": "a#0"
                         },
                         {
-                          "args": [
-                            {
-                              "kind": "constant",
-                              "type": "i32",
-                              "value": "2147483648"
-                            }
-                          ],
-                          "kind": "unary",
-                          "op": "-",
-                          "type": "i32"
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "-2147483648"
                         }
                       ],
                       "kind": "binary",

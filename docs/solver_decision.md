@@ -39,11 +39,15 @@ Rejected alternatives:
 
 ## Supported logic and query semantics
 
-The emitter declares `QF_LIA` and accepts typed `i32`/`bool` constants and
-variables, boolean connectives, equality/order comparisons, addition,
-subtraction, negation, and multiplication by an integer literal. Division,
+The emitter declares `QF_LIA` and accepts typed `i32`/`i64`/`bool` constants
+and variables, boolean connectives, equality/order comparisons, addition,
+subtraction, negation, i32-to-i64 widening, pinned i64-to-i32 narrowing by
+constant-modulus arithmetic, and multiplication by an integer literal. Signed
+division and remainder are encoded with C++ truncation/sign rules when the
+divisor is a literal. Variable-divisor logical expressions,
 variable-by-variable multiplication, malformed types, and unknown expression
-kinds fail closed before Z3 starts.
+kinds fail closed before Z3 starts. Source operations with variable divisors
+still receive exact nonzero and signed minimum/-1 safety obligations.
 
 For a validity obligation, assumptions are asserted together with the negated
 conclusion. `unsat` means `verified`; `sat` is only a candidate violation until

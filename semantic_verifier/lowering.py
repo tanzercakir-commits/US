@@ -9,6 +9,7 @@ from typing import Any, Iterable, Mapping
 
 from .contracts import contracts_before, invariants_before
 from .frontend import FrontendUnit
+from .integer_types import integer_type, is_signed_integer_type
 from .model import (
     Expr,
     FunctionIR,
@@ -20,8 +21,8 @@ from .model import (
 )
 
 
-SUPPORTED_TYPES = {"int", "bool"}
-SOURCE_TYPE_MAP = {"int": "i32", "bool": "bool"}
+SOURCE_TYPE_MAP = {"bool": "bool", "int": "i32", "long long": "i64"}
+SUPPORTED_TYPES = set(SOURCE_TYPE_MAP)
 TRANSPARENT_EXPR_KINDS = {
     "ParenExpr",
     "ExprWithCleanups",
@@ -632,7 +633,7 @@ class SemanticLowerer:
             ir_name = self._version_base(current[name])
             call_node = self._direct_call_expression(inner[1])
             if call_node is not None:
-                if self._types[ir_name] != "i32":
+                if not is_signed_integer_type(self._types[ir_name]):
                     raise UnsupportedNode(
                         node, "only int call results may be assigned"
                     )
@@ -746,7 +747,7 @@ class SemanticLowerer:
         )
         call_node = self._direct_call_expression(initializer_nodes[-1])
         if call_node is not None:
-            if type_name != "i32":
+            if not is_signed_integer_type(type_name):
                 raise UnsupportedNode(
                     node, "only int call results may initialize locals"
                 )
@@ -949,13 +950,29 @@ class SemanticLowerer:
             value = self._expression(inner, environment)
             if cast_kind in {"LValueToRValue", "NoOp"}:
                 return value
-            if cast_kind == "IntegralToBoolean" and value.type == "i32":
-                return Expr.binary("!=", value, Expr.integer(0), "bool")
+            destination_source = _normalize_value_type(_qual_type(node))
+            destination = SOURCE_TYPE_MAP.get(destination_source, destination_source)
+            if cast_kind == "IntegralToBoolean" and is_signed_integer_type(value.type):
+                return Expr.binary(
+                    "!=", value, Expr.integer(0, value.type), "bool"
+                )
+            if cast_kind == "IntegralCast" and (
+                (is_signed_integer_type(value.type) and is_signed_integer_type(destination))
+                or (value.type == "bool" and destination == "i32")
+            ):
+                return Expr.cast(value, destination)
             raise UnsupportedNode(node, f"implicit cast {cast_kind!r} is unsupported")
         if kind == "IntegerLiteral":
-            if _normalize_value_type(_qual_type(node)) != "int":
-                raise UnsupportedNode(node, "only int literals are supported")
-            return Expr.integer(int(str(node.get("value", "0"))))
+            source_type = _normalize_value_type(_qual_type(node))
+            type_name = SOURCE_TYPE_MAP.get(source_type)
+            if type_name is None or not is_signed_integer_type(type_name):
+                raise UnsupportedNode(
+                    node, f"integer literal type {source_type!r} is unsupported"
+                )
+            value = int(str(node.get("value", "0")))
+            if not integer_type(type_name).contains(value):
+                raise UnsupportedNode(node, "integer literal is outside its resolved type")
+            return Expr.integer(value, type_name)
         if kind == "CXXBoolLiteralExpr":
             return Expr.boolean(bool(node.get("value")))
         if kind == "DeclRefExpr":
@@ -967,10 +984,10 @@ class SemanticLowerer:
         if kind == "UnaryOperator":
             operator = str(node.get("opcode", ""))
             value = self._expression(self._inner(node, 1)[0], environment)
-            if operator == "+" and value.type == "i32":
+            if operator == "+" and is_signed_integer_type(value.type):
                 return value
-            if operator == "-" and value.type == "i32":
-                return Expr.unary("-", value, "i32")
+            if operator == "-" and is_signed_integer_type(value.type):
+                return Expr.unary("-", value, value.type)
             if operator == "!" and value.type == "bool":
                 return Expr.unary("!", value, "bool")
             raise UnsupportedNode(node, f"unary operator {operator!r} is unsupported")
@@ -983,6 +1000,7 @@ class SemanticLowerer:
                 "-",
                 "*",
                 "/",
+                "%",
                 "==",
                 "!=",
                 "<",
@@ -996,17 +1014,27 @@ class SemanticLowerer:
             left_node, right_node = self._inner(node, 2)
             left = self._expression(left_node, environment)
             right = self._expression(right_node, environment)
-            if operator in {"+", "-", "*", "/"}:
-                if left.type != "i32" or right.type != "i32":
-                    raise UnsupportedNode(node, f"{operator} requires integer operands")
-                return Expr.binary(operator, left, right, "i32")
+            if operator in {"+", "-", "*", "/", "%"}:
+                if (
+                    not is_signed_integer_type(left.type)
+                    or left.type != right.type
+                ):
+                    raise UnsupportedNode(node, f"{operator} requires matching signed operands")
+                result_source = _normalize_value_type(_qual_type(node))
+                result_type = SOURCE_TYPE_MAP.get(result_source, result_source)
+                if result_type != left.type:
+                    raise UnsupportedNode(node, "arithmetic result type is inconsistent")
+                return Expr.binary(operator, left, right, result_type)
             if operator in {"&&", "||"}:
                 if left.type != "bool" or right.type != "bool":
                     raise UnsupportedNode(node, f"{operator} requires boolean operands")
                 return Expr.binary(operator, left, right, "bool")
             if operator in {"<", "<=", ">", ">="}:
-                if left.type != "i32" or right.type != "i32":
-                    raise UnsupportedNode(node, f"{operator} requires integer operands")
+                if (
+                    not is_signed_integer_type(left.type)
+                    or left.type != right.type
+                ):
+                    raise UnsupportedNode(node, f"{operator} requires matching signed operands")
             elif left.type != right.type:
                 raise UnsupportedNode(node, f"{operator} operands have different types")
             return Expr.binary(operator, left, right, "bool")
@@ -1035,17 +1063,22 @@ class SemanticLowerer:
     ) -> IRNode:
         callee, arguments = self._call(node, environment)
         return_type = self._function_return_types.get(callee)
-        if return_type != "i32":
+        target_type = self._types[self._version_base(target)]
+        if (
+            return_type is None
+            or not is_signed_integer_type(return_type)
+            or target_type != return_type
+        ):
             shown = return_type or "unknown"
             raise UnsupportedNode(
                 node,
-                f"assigned call must have int return type, got {shown!r}",
+                f"assigned call result type {shown!r} does not match {target_type!r}",
             )
         return self._node(
             "call",
             self._location(node),
             target=target,
-            result_type="i32",
+            result_type=return_type,
             callee=callee,
             arguments=tuple(arguments),
         )

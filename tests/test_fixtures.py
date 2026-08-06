@@ -17,7 +17,7 @@ class FixtureInfrastructureTests(unittest.TestCase):
         )
 
         self.assertEqual(manifest["schema"], "codeskeptic.fixture-corpus/v0")
-        self.assertGreaterEqual(len(manifest["cases"]), 5)
+        self.assertGreaterEqual(len(manifest["cases"]), 6)
         names = []
         for case in manifest["cases"]:
             names.append(case["name"])
@@ -50,7 +50,8 @@ class FixtureInfrastructureTests(unittest.TestCase):
             )
 
         self.assertEqual(completed.returncode, 0, completed.stderr)
-        self.assertIn("fixtures are current (10 artifacts)", completed.stdout)
+        self.assertIn("fixtures are current (12 artifacts)", completed.stdout)
+
     def test_two_independent_regenerations_are_byte_identical(self):
         with tempfile.TemporaryDirectory() as directory:
             parent = Path(directory)

@@ -87,6 +87,29 @@ def is_fixed_integer_type(type_name: str) -> bool:
     return type_name in FIXED_INTEGER_TYPES
 
 
+def is_signed_integer_type(type_name: str) -> bool:
+    item = FIXED_INTEGER_TYPES.get(type_name)
+    return item is not None and item.signed
+
+
+def integer_type(type_name: str) -> IntegerType:
+    try:
+        return FIXED_INTEGER_TYPES[type_name]
+    except KeyError as error:
+        raise ValueError(f"unsupported fixed-width integer type {type_name!r}") from error
+
+
+def convert_integer(value: int, destination: str) -> int:
+    """Apply the pinned modulo/two's-complement destination conversion."""
+
+    target = integer_type(destination)
+    modulus = 2**target.width
+    converted = value % modulus
+    if target.signed and converted >= 2 ** (target.width - 1):
+        converted -= modulus
+    return converted
+
+
 def canonical_decimal(value: int) -> str:
     if type(value) is not int:
         raise TypeError("fixed-width integer evidence must be a Python int")

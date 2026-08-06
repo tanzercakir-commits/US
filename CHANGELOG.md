@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.9 adds C++17 `long long` as owned `i64` across lowering, contracts,
+  signed promotions, pinned i64-to-i32 narrowing, width-specific safety VCs,
+  affine reasoning/search, SMT-LIB, replay, modular calls, and loops. Signed
+  `/` and `%` are exact in logical formulas with literal divisors; general
+  source divisors still receive exact zero and minimum/-1 safety checks. The
+  22-obligation int64 fixture and example are fully verified.
 - A5.4 adds the committed assignment-diamond scaling slice and
   `codeskeptic.scaling-phase-gate/v0` executable gate. It freezes cold/fill/warm
   report identity, zero warm backend calls, repeated budget identity, and the
@@ -68,6 +74,10 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- A6.9 remains in v2 because its fixed-width identities were reserved by A6.8.
+  Consumers that do not implement `i64` or the additive `integral` cast
+  expression kind must reject those objects fail-closed; existing i32 fixture
+  outcomes remain unchanged.
 - v2 consumers must replace the implicit `int` identity with `i32`, accept the
   reserved `u32`/`i64`/`u64` identities, and decode fixed-width constants and
   counterexample bindings from canonical decimal strings. Boolean values remain

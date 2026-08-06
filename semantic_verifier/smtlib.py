@@ -211,7 +211,7 @@ def _collect_variable_types(expressions: Iterable[Expr]) -> dict[str, str]:
 
 
 def _emit_sort(type_name: str) -> str:
-    if type_name == "i32":
+    if type_name in {"i32", "i64"}:
         return "Int"
     if type_name == "bool":
         return "Bool"
@@ -224,7 +224,7 @@ def _emit_expr(expression: Expr) -> str:
             raise SmtLibEmissionError("malformed constant expression")
         if expression.type == "bool" and isinstance(expression.value, bool):
             return "true" if expression.value else "false"
-        if expression.type == "i32" and type(expression.value) is int:
+        if expression.type in {"i32", "i64"} and type(expression.value) is int:
             return _emit_integer(int(expression.value))
         raise SmtLibEmissionError("constant value does not match its declared type")
 
@@ -236,6 +236,23 @@ def _emit_expr(expression: Expr) -> str:
             raise SmtLibEmissionError("variable value must be a string name")
         return encode_symbol(expression.value)
 
+    if expression.kind == "cast":
+        if expression.op != "integral" or len(expression.args) != 1:
+            raise SmtLibEmissionError("malformed integral cast expression")
+        operand = expression.args[0]
+        emitted = _emit_expr(operand)
+        if operand.type == "bool" and expression.type == "i32":
+            return f"(ite {emitted} 1 0)"
+        if operand.type == "i32" and expression.type == "i64":
+            return emitted
+        if operand.type == "i64" and expression.type == "i32":
+            offset = 2**31
+            modulus = 2**32
+            return f"(- (mod (+ {emitted} {offset}) {modulus}) {offset})"
+        raise SmtLibEmissionError(
+            f"unsupported integral cast {operand.type!r} to {expression.type!r}"
+        )
+
     if expression.kind == "unary":
         if len(expression.args) != 1:
             raise SmtLibEmissionError("unary expressions must have one operand")
@@ -243,8 +260,8 @@ def _emit_expr(expression: Expr) -> str:
         if expression.op == "!":
             _require_types(expression, "bool", (operand, "bool"))
             return f"(not {_emit_expr(operand)})"
-        if expression.op == "-":
-            _require_types(expression, "i32", (operand, "i32"))
+        if expression.op == "-" and expression.type in {"i32", "i64"}:
+            _require_types(expression, expression.type, (operand, expression.type))
             return f"(- {_emit_expr(operand)})"
         raise SmtLibEmissionError(f"unsupported unary operator {expression.op!r}")
 
@@ -257,28 +274,74 @@ def _emit_expr(expression: Expr) -> str:
         _require_types(expression, "bool", (left, "bool"), (right, "bool"))
         smt_op = "and" if op == "&&" else "or"
     elif op in {"==", "!="}:
-        if left.type not in {"i32", "bool"} or left.type != right.type:
+        if (
+            left.type not in {"i32", "i64", "bool"}
+            or left.type != right.type
+        ):
             raise SmtLibEmissionError(
-                f"operator {op!r} requires same-typed int or bool operands"
+                f"operator {op!r} requires same-typed signed integer or bool operands"
             )
         _require_types(expression, "bool")
         smt_op = "=" if op == "==" else "distinct"
     elif op in {"<", "<=", ">", ">="}:
-        _require_types(expression, "bool", (left, "i32"), (right, "i32"))
+        if left.type not in {"i32", "i64"} or left.type != right.type:
+            raise SmtLibEmissionError(
+                f"operator {op!r} requires matching signed integer operands"
+            )
+        _require_types(expression, "bool")
         smt_op = op
-    elif op in {"+", "-"}:
-        _require_types(expression, "i32", (left, "i32"), (right, "i32"))
-        smt_op = op
-    elif op == "*":
-        _require_types(expression, "i32", (left, "i32"), (right, "i32"))
-        if not (_is_integer_literal(left) or _is_integer_literal(right)):
+    elif op in {"+", "-", "*", "/", "%"}:
+        if expression.type not in {"i32", "i64"}:
+            raise SmtLibEmissionError(
+                f"operator {op!r} requires a signed integer result"
+            )
+        _require_types(
+            expression,
+            expression.type,
+            (left, expression.type),
+            (right, expression.type),
+        )
+        if op == "*" and not (
+            _is_integer_literal(left) or _is_integer_literal(right)
+        ):
             raise SmtLibEmissionError(
                 "variable-by-variable multiplication is outside QF_LIA"
             )
-        smt_op = "*"
+        if op in {"/", "%"}:
+            if not _is_integer_literal(right):
+                raise SmtLibEmissionError(
+                    f"operator {op!r} requires a literal divisor in QF_LIA"
+                )
+            numerator = _emit_expr(left)
+            denominator = _integer_literal_value(right)
+            if denominator == 0:
+                raise SmtLibEmissionError("literal divisor must be non-zero")
+            return (
+                _emit_cxx_div_by_literal(numerator, denominator)
+                if op == "/"
+                else _emit_cxx_remainder_by_literal(numerator, denominator)
+            )
+        smt_op = op
     else:
         raise SmtLibEmissionError(f"unsupported binary operator {op!r}")
     return f"({smt_op} {_emit_expr(left)} {_emit_expr(right)})"
+
+
+def _emit_cxx_div_by_literal(numerator: str, denominator: int) -> str:
+    absolute_numerator = f"(ite (< {numerator} 0) (- {numerator}) {numerator})"
+    magnitude = f"(div {absolute_numerator} {abs(denominator)})"
+    negative = f"(< {numerator} 0)"
+    return (
+        f"(ite {negative} (- {magnitude}) {magnitude})"
+        if denominator > 0
+        else f"(ite {negative} {magnitude} (- {magnitude}))"
+    )
+
+
+def _emit_cxx_remainder_by_literal(numerator: str, denominator: int) -> str:
+    absolute_numerator = f"(ite (< {numerator} 0) (- {numerator}) {numerator})"
+    magnitude = f"(mod {absolute_numerator} {abs(denominator)})"
+    return f"(ite (< {numerator} 0) (- {magnitude}) {magnitude})"
 
 
 def _require_types(
@@ -299,14 +362,22 @@ def _require_types(
 
 def _is_integer_literal(expression: Expr) -> bool:
     if expression.kind == "constant":
-        return expression.type == "i32" and type(expression.value) is int
+        return expression.type in {"i32", "i64"} and type(expression.value) is int
     return (
         expression.kind == "unary"
         and expression.op == "-"
-        and expression.type == "i32"
+        and expression.type in {"i32", "i64"}
         and len(expression.args) == 1
         and _is_integer_literal(expression.args[0])
     )
+
+
+def _integer_literal_value(expression: Expr) -> int:
+    if expression.kind == "constant":
+        return int(expression.value)
+    if expression.kind == "unary" and expression.op == "-":
+        return -_integer_literal_value(expression.args[0])
+    raise SmtLibEmissionError("expression is not an integer literal")
 
 
 def _emit_integer(value: int) -> str:

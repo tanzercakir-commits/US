@@ -434,7 +434,7 @@
         "op": "&&",
         "type": "bool"
       },
-      "description": "signed - result must remain within int32",
+      "description": "signed - result must remain within i32",
       "function": "withdraw",
       "id": "ob00004",
       "kind": "signed_overflow",

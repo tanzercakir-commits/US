@@ -95,7 +95,7 @@ class IntegerTypeTests(unittest.TestCase):
 
         self.assertEqual(result["counterexample"], {"ready": False, "x": "-1"})
 
-    def test_existing_cpp_int_lowers_to_i32_without_accepting_new_types(self):
+    def test_existing_cpp_int_lowers_to_i32_without_accepting_unsigned_types(self):
         report = verify_source(
             "int identity(int x) { int y = x; return y; }\n", "types.cpp"
         )
@@ -107,7 +107,7 @@ class IntegerTypeTests(unittest.TestCase):
 
         for source in (
             "unsigned int f(unsigned int x) { return x; }\n",
-            "long long f(long long x) { return x; }\n",
+            "unsigned long long f(unsigned long long x) { return x; }\n",
         ):
             rejected = verify_source(source, "future-type.cpp")
             self.assertGreater(rejected.summary()["unsupported"], 0)

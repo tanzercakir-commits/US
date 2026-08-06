@@ -269,18 +269,26 @@ is never lowered under a different target.
 ### Expression
 
 Every expression has `kind` and `type`. v2 type identities are `bool`, `i32`,
-`u32`, `i64`, and `u64`; the current source subset emits only `bool` and `i32`.
+`u32`, `i64`, and `u64`; the current source subset emits `bool`, `i32`, and `i64`.
 
 | Kind | Additional fields | Contract |
 | --- | --- | --- |
 | `constant` | `value` | Canonical decimal string for fixed-width integers; JSON boolean for `bool`. |
 | `variable` | `value` | Versioned IR symbol name. |
 | `unary` | `op`, one-element `args` | `!` or unary `-`. |
+| `cast` | `op`, one-element `args` | `integral`; currently bool-to-i32, i32-to-i64, or pinned i64-to-i32. |
 | `binary` | `op`, two-element `args` | Arithmetic, comparison, equality, or boolean connective. |
 
-The representable operators are `+`, `-`, `*`, `/`, `==`, `!=`, `<`, `<=`,
+The representable operators are `+`, `-`, `*`, `/`, `%`, `==`, `!=`, `<`, `<=`,
 `>`, `>=`, `&&`, `||`, and unary `!`/`-`. Representation does not imply solver
-support: the QF_LIA emitter rejects division and nonlinear multiplication.
+support: the QF_LIA emitter accepts exact signed division/remainder only with
+a literal divisor and rejects variable-by-variable multiplication. General
+source division/remainder still receives exact zero and minimum/-1 safety VCs.
+Signed operands follow Clang's resolved promotions: i32 widens to i64. An
+`integral` cast preserves i32-to-i64 values and applies the pinned modulo/
+two's-complement rule for i64-to-i32 narrowing. Signed `+`, `-`, and literal
+`*` have type-specific range obligations; unary negation and `/`/`%` exclude
+the type minimum with `-1`.
 
 ## Semantic IR
 
@@ -300,7 +308,7 @@ support: the QF_LIA emitter rejects division and nonlinear multiplication.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | v2 type identity; currently emitted as `i32` or `bool`. |
+| `return_type` | string | yes | v2 type identity; currently emitted as `i32`, `i64`, or `bool`. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
@@ -315,7 +323,7 @@ support: the QF_LIA emitter rejects division and nonlinear multiplication.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | v2 type identity; currently emitted as `i32` or `bool`. |
+| `type` | string | yes | v2 type identity; currently emitted as `i32`, `i64`, or `bool`. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
 
@@ -352,7 +360,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | v2 type identity; currently emitted as `i32` or `bool`. |
+| `type` | string | v2 type identity; currently emitted as `i32`, `i64`, or `bool`. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

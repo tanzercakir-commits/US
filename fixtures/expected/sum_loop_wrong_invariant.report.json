@@ -615,7 +615,7 @@
         "op": "&&",
         "type": "bool"
       },
-      "description": "signed + result must remain within int32",
+      "description": "signed + result must remain within i32",
       "function": "sum_zero_to_n",
       "id": "ob00003",
       "kind": "signed_overflow",
@@ -1040,7 +1040,7 @@
         "op": "&&",
         "type": "bool"
       },
-      "description": "signed + result must remain within int32",
+      "description": "signed + result must remain within i32",
       "function": "sum_zero_to_n",
       "id": "ob00004",
       "kind": "signed_overflow",

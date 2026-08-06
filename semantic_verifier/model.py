@@ -58,6 +58,12 @@ class Expr:
         return Expr("unary", type_name or arg.type, op=op, args=(arg,))
 
     @staticmethod
+    def cast(arg: "Expr", type_name: str) -> "Expr":
+        if arg.type == type_name:
+            return arg
+        return Expr("cast", type_name, op="integral", args=(arg,))
+
+    @staticmethod
     def binary(
         op: str, left: "Expr", right: "Expr", type_name: str | None = None
     ) -> "Expr":
@@ -110,6 +116,8 @@ class Expr:
             return str(self.value)
         if self.kind == "unary":
             return f"({self.op}{self.args[0].text()})"
+        if self.kind == "cast":
+            return f"(({self.type}) {self.args[0].text()})"
         if self.kind == "binary":
             return f"({self.args[0].text()} {self.op} {self.args[1].text()})"
         return f"<{self.kind}>"

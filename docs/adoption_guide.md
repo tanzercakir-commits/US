@@ -117,7 +117,7 @@ For each new source construct:
 1. state its exact semantics and unsupported boundary;
 2. extend owned IR before checker logic;
 3. add positive, violation, and fail-closed tests;
-4. add 32-bit/undefined-behavior safety obligations where required;
+4. add width-specific/undefined-behavior safety obligations where required;
 5. advance the test-count ratchet deliberately;
 6. regenerate fixtures twice and review the byte diff;
 7. update schema/version documentation before consumers depend on fields.
@@ -247,6 +247,8 @@ counterexample core; apply the same artifact access policy to both fields.
 
 ## Schema and fixture discipline
 
+- Validate the pinned target profile before accepting i32/i64 evidence; do not
+  reinterpret it on a target with different widths or signed behavior.
 - Require `codeskeptic.semantic-verification/v2` before consuming fields and
   reject mixed report/IR schemas.
 - Join results to obligations by ID.

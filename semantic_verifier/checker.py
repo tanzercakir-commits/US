@@ -1,4 +1,4 @@
-"""Small deterministic checker for boolean logic and affine int32 formulas.
+"""Small deterministic checker for boolean logic and affine signed-integer formulas.
 
 Validity proofs come only from exact simplification and matching affine facts.
 A finite deterministic search finds real counterexamples and satisfiability
@@ -15,10 +15,9 @@ from typing import Iterable, Mapping
 
 from .backend import CheckerBackend
 from .counterexample import minimize_counterexample
+from .integer_types import I32, I64, convert_integer, is_signed_integer_type
 from .model import (
     Expr,
-    INT_MAX,
-    INT_MIN,
     Obligation,
     TraceStep,
     TraceTemplate,
@@ -53,14 +52,21 @@ class LinearForm:
 
 
 def linearize(expr: Expr) -> LinearForm | None:
-    if expr.kind == "constant" and expr.type == "i32":
+    if expr.kind == "constant" and is_signed_integer_type(expr.type):
         return LinearForm((), int(expr.value))
-    if expr.kind == "variable" and expr.type == "i32":
+    if expr.kind == "variable" and is_signed_integer_type(expr.type):
         return LinearForm(((str(expr.value), 1),), 0)
-    if expr.kind == "unary" and expr.op == "-" and expr.type == "i32":
+    if expr.kind == "cast" and len(expr.args) == 1:
+        operand = expr.args[0]
+        if operand.type == "i32" and expr.type == "i64":
+            return linearize(operand)
+        return None
+    if expr.kind == "unary" and expr.op == "-" and is_signed_integer_type(expr.type):
         inner = linearize(expr.args[0])
         return inner.scale(-1) if inner is not None else None
-    if expr.kind != "binary" or expr.type != "i32":
+    if expr.kind != "binary" or not is_signed_integer_type(expr.type):
+        return None
+    if any(argument.type != expr.type for argument in expr.args):
         return None
     left = linearize(expr.args[0])
     right = linearize(expr.args[1])
@@ -75,11 +81,17 @@ def linearize(expr: Expr) -> LinearForm | None:
             return left.scale(right.constant)
     return None
 
-
 def simplify(expr: Expr) -> Expr:
     if not expr.args:
         return expr
     args = tuple(simplify(argument) for argument in expr.args)
+    if expr.kind == "cast":
+        value = args[0]
+        if value.kind == "constant":
+            converted = int(bool(value.value)) if value.type == "bool" else convert_integer(int(value.value), expr.type)
+            return Expr.integer(converted, expr.type)
+        return Expr(expr.kind, expr.type, expr.value, expr.op, args)
+
     if expr.kind == "unary":
         value = args[0]
         if expr.op == "!" and value.kind == "constant":
@@ -98,7 +110,7 @@ def simplify(expr: Expr) -> Expr:
             if inverse:
                 return Expr.binary(inverse, value.args[0], value.args[1], "bool")
         if expr.op == "-" and value.kind == "constant":
-            return Expr.integer(-int(value.value))
+            return Expr.integer(-int(value.value), expr.type)
         return Expr(expr.kind, expr.type, expr.value, expr.op, args)
 
     left, right = args
@@ -127,27 +139,33 @@ def simplify(expr: Expr) -> Expr:
             return _constant_binary(expr.op or "", left, right, expr.type)
         except (ArithmeticError, TypeError, ValueError):
             pass
-    if expr.op in {"+", "-"} and right == Expr.integer(0):
-        return left
-    if expr.op == "*" and right == Expr.integer(1):
-        return left
-    if expr.op == "*" and left == Expr.integer(1):
-        return right
-    if expr.op == "*" and (left == Expr.integer(0) or right == Expr.integer(0)):
-        return Expr.integer(0)
+    if is_signed_integer_type(expr.type):
+        zero = Expr.integer(0, expr.type)
+        one = Expr.integer(1, expr.type)
+        if expr.op in {"+", "-"} and right == zero:
+            return left
+        if expr.op == "*" and right == one:
+            return left
+        if expr.op == "*" and left == one:
+            return right
+        if expr.op == "*" and (left == zero or right == zero):
+            return zero
     return Expr(expr.kind, expr.type, expr.value, expr.op, args)
 
 
 def _constant_binary(op: str, left: Expr, right: Expr, type_name: str) -> Expr:
     a, b = left.value, right.value
     if op == "+":
-        return Expr.integer(int(a) + int(b))
+        return Expr.integer(int(a) + int(b), type_name)
     if op == "-":
-        return Expr.integer(int(a) - int(b))
+        return Expr.integer(int(a) - int(b), type_name)
     if op == "*":
-        return Expr.integer(int(a) * int(b))
+        return Expr.integer(int(a) * int(b), type_name)
     if op == "/":
-        return Expr.integer(_cxx_div(int(a), int(b)))
+        return Expr.integer(_cxx_div(int(a), int(b)), type_name)
+    if op == "%":
+        quotient = _cxx_div(int(a), int(b))
+        return Expr.integer(int(a) - int(b) * quotient, type_name)
     if op == "&&":
         return Expr.boolean(bool(a) and bool(b))
     if op == "||":
@@ -241,27 +259,51 @@ def _normalize_constraint(
     return Constraint(kind, tuple(sorted(cleaned.items())), bound)
 
 
+def _integer_literal_expression(expr: Expr) -> bool:
+    if expr.kind == "constant":
+        return is_signed_integer_type(expr.type) and type(expr.value) is int
+    return (
+        expr.kind == "unary"
+        and expr.op == "-"
+        and len(expr.args) == 1
+        and expr.args[0].type == expr.type
+        and _integer_literal_expression(expr.args[0])
+    )
+
+
 def logic_supported(expr: Expr) -> bool:
     """Validate the original expression before any simplifying rewrite."""
 
-    if expr.type == "i32":
+    if is_signed_integer_type(expr.type):
         if expr.kind in {"constant", "variable"}:
             return True
+        if expr.kind == "cast":
+            if expr.op != "integral" or len(expr.args) != 1:
+                return False
+            operand = expr.args[0]
+            return (
+                (operand.type, expr.type)
+                in {("bool", "i32"), ("i32", "i64"), ("i64", "i32")}
+                and logic_supported(operand)
+            )
         if expr.kind == "unary":
             return (
                 expr.op == "-"
                 and len(expr.args) == 1
-                and expr.args[0].type == "i32"
+                and expr.args[0].type == expr.type
                 and logic_supported(expr.args[0])
             )
-        if expr.kind != "binary" or expr.op not in {"+", "-", "*"}:
+        if expr.kind != "binary" or expr.op not in {"+", "-", "*", "/", "%"}:
             return False
-        if len(expr.args) != 2 or any(arg.type != "i32" for arg in expr.args):
+        if len(expr.args) != 2 or any(arg.type != expr.type for arg in expr.args):
             return False
-        return (
-            all(logic_supported(arg) for arg in expr.args)
-            and linearize(expr) is not None
-        )
+        if not all(logic_supported(arg) for arg in expr.args):
+            return False
+        if expr.op == "*" and linearize(expr) is None:
+            return False
+        if expr.op in {"/", "%"} and not _integer_literal_expression(expr.args[1]):
+            return False
+        return True
     if expr.type != "bool":
         return False
     if expr.kind in {"constant", "variable"}:
@@ -281,20 +323,16 @@ def logic_supported(expr: Expr) -> bool:
             for argument in expr.args
         )
     if expr.op in {"<", "<=", ">", ">="}:
-        return all(
-            argument.type == "i32"
-            and logic_supported(argument)
-            and linearize(argument) is not None
-            for argument in expr.args
+        return (
+            is_signed_integer_type(expr.args[0].type)
+            and expr.args[0].type == expr.args[1].type
+            and all(logic_supported(argument) for argument in expr.args)
         )
     if expr.op in {"==", "!="}:
         if expr.args[0].type != expr.args[1].type:
             return False
-        if expr.args[0].type == "i32":
-            return all(
-                logic_supported(argument) and linearize(argument) is not None
-                for argument in expr.args
-            )
+        if is_signed_integer_type(expr.args[0].type):
+            return all(logic_supported(argument) for argument in expr.args)
         if expr.args[0].type == "bool":
             return all(logic_supported(argument) for argument in expr.args)
         return False
@@ -531,6 +569,11 @@ def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
         return expr.value  # type: ignore[return-value]
     if expr.kind == "variable":
         return environment[str(expr.value)]
+    if expr.kind == "cast":
+        value = evaluate(expr.args[0], environment)
+        if expr.args[0].type == "bool" and expr.type == "i32":
+            return int(bool(value))
+        return convert_integer(int(value), expr.type)
     if expr.kind == "unary":
         value = evaluate(expr.args[0], environment)
         if expr.op == "!":
@@ -555,6 +598,9 @@ def evaluate(expr: Expr, environment: Mapping[str, int | bool]) -> int | bool:
         return int(left) * int(right)
     if op == "/":
         return _cxx_div(int(left), int(right))
+    if op == "%":
+        quotient = _cxx_div(int(left), int(right))
+        return int(left) - int(right) * quotient
     if op == "==":
         return left == right
     if op == "!=":
@@ -588,7 +634,7 @@ def _integer_constants(expressions: Iterable[Expr]) -> set[int]:
     result: set[int] = set()
 
     def visit(expr: Expr) -> None:
-        if expr.kind == "constant" and expr.type == "i32":
+        if expr.kind == "constant" and is_signed_integer_type(expr.type):
             result.add(int(expr.value))
         for argument in expr.args:
             visit(argument)
@@ -598,6 +644,28 @@ def _integer_constants(expressions: Iterable[Expr]) -> set[int]:
     return result
 
 
+def _integer_domain(type_name: str, constants: set[int]) -> tuple[int, ...]:
+    profile = {"i32": I32, "i64": I64}.get(type_name)
+    if profile is None:
+        raise ValueError(f"unsupported search integer type {type_name!r}")
+    values = {
+        profile.minimum,
+        profile.minimum + 1,
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        profile.maximum - 1,
+        profile.maximum,
+    }
+    for value in constants:
+        for candidate in (value - 1, value, value + 1):
+            if profile.contains(candidate):
+                values.add(candidate)
+    return tuple(sorted(values))
+
+
 def find_satisfying_model(
     expressions: tuple[Expr, ...],
     max_evaluations: int = 100_000,
@@ -605,24 +673,11 @@ def find_satisfying_model(
     types = _variable_types(expressions)
     names = sorted(types)
     constants = _integer_constants(expressions)
-    integer_values = {
-        INT_MIN,
-        INT_MIN + 1,
-        -2,
-        -1,
-        0,
-        1,
-        2,
-        INT_MAX - 1,
-        INT_MAX,
-    }
-    for value in constants:
-        for candidate in (value - 1, value, value + 1):
-            if INT_MIN <= candidate <= INT_MAX:
-                integer_values.add(candidate)
-    integer_domain = tuple(sorted(integer_values))
     domains = [
-        (False, True) if types[name] == "bool" else integer_domain for name in names
+        (False, True)
+        if types[name] == "bool"
+        else _integer_domain(types[name], constants)
+        for name in names
     ]
     for checked, values in enumerate(product(*domains), start=1):
         if checked > max_evaluations:
@@ -645,24 +700,11 @@ def find_counterexample(
     types = _variable_types(expressions)
     names = sorted(types)
     constants = _integer_constants(expressions)
-    integer_values = {
-        INT_MIN,
-        INT_MIN + 1,
-        -2,
-        -1,
-        0,
-        1,
-        2,
-        INT_MAX - 1,
-        INT_MAX,
-    }
-    for value in constants:
-        for candidate in (value - 1, value, value + 1):
-            if INT_MIN <= candidate <= INT_MAX:
-                integer_values.add(candidate)
-    integer_domain = tuple(sorted(integer_values))
     domains = [
-        (False, True) if types[name] == "bool" else integer_domain for name in names
+        (False, True)
+        if types[name] == "bool"
+        else _integer_domain(types[name], constants)
+        for name in names
     ]
     checked = 0
     for values in product(*domains):

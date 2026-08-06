@@ -644,3 +644,22 @@ Evidence: integer/profile/migration tests -> 11/11; full suite -> 189/189;
 fixture check -> 10/10 current; archived v1 hashes -> 16/16; v1/v2 result
 equivalence -> 5/5 cases; diff check -> clean; commit: this commit.
 Next: A6.9 (signed int64 QF_LIA lane).
+
+## 2026-08-06 - A6.9: signed int64 QF_LIA lane - DONE
++ Added owned C++17 `long long`/`i64` lowering, exact i32-to-i64 promotion,
+  pinned i64-to-i32 narrowing, typed literals, contracts, calls, and loops.
++ Parameterized signed range, negation, add/subtract/multiply, divisor-zero,
+  and type-minimum/-1 obligations by width for both i32 and i64.
++ Added exact C++17 signed division/remainder emission for literal divisors;
+  variable-divisor logical formulas fail closed in both referee paths.
++ Extended deterministic affine search, SMT-LIB sorts/casts, Z3 model parsing,
+  and counterexample minimization/replay with exact i64 decimal evidence.
++ Added the 22-obligation i64 example/fixture and ten boundary, conversion,
+  arithmetic, call, loop, replay, and negative fail-closed tests.
++ Updated schema/adoption/solver/prototype/changelog documentation and advanced
+  the ratchet from 189 to 199 tests.
+- None.
+Evidence: int64 tests -> 10/10; exact SMT-LIB/referee tests -> green; i64
+example -> 22 verified, zero non-verified results; full suite -> 199/199;
+fixture check -> 12/12 current; diff check -> clean; commit: this commit.
+Next: A6.10 (unsigned integers and homogeneous QF_BV lane).

@@ -58,25 +58,44 @@ def minimize_counterexample(
         return {name: model[name] for name in sorted(model)}
 
     retained = project_counterexample(obligation, model)
+    variable_types = _obligation_variable_types(obligation)
     negated_conclusion = Expr.unary("!", obligation.conclusion, "bool")
     for name in tuple(retained):
         candidate = dict(retained)
         candidate.pop(name)
         binding_facts = tuple(
-            _binding_equality(key, candidate[key]) for key in sorted(candidate)
+            _binding_equality(key, candidate[key], variable_types[key])
+            for key in sorted(candidate)
         )
         if proves(obligation.assumptions + binding_facts, negated_conclusion):
             retained = candidate
     return retained
 
 
-def _binding_equality(name: str, value: int | bool) -> Expr:
+def _obligation_variable_types(obligation: Obligation) -> dict[str, str]:
+    result: dict[str, str] = {}
+    expressions = obligation.assumptions
+    if obligation.conclusion is not None:
+        expressions += (obligation.conclusion,)
+    for expression in expressions:
+        pending = [expression]
+        while pending:
+            current = pending.pop()
+            if current.kind == "variable":
+                result[str(current.value)] = current.type
+            pending.extend(current.args)
+    return result
+
+
+def _binding_equality(
+    name: str, value: int | bool, type_name: str
+) -> Expr:
     if isinstance(value, bool):
+        if type_name != "bool":
+            raise TypeError(f"counterexample binding {name!r} has mismatched type")
         constant = Expr.boolean(value)
-        type_name = "bool"
     elif isinstance(value, int):
-        constant = Expr.integer(value)
-        type_name = "i32"
+        constant = Expr.integer(value, type_name)
     else:
         raise TypeError(f"counterexample binding {name!r} has unsupported value")
     return Expr.binary(

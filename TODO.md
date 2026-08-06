@@ -8,15 +8,15 @@
 
 ## Now (active stage)
 
-- [ ] **A6.9 - signed int64 QF_LIA lane**
+- [ ] **A6.10 - unsigned integers and homogeneous QF_BV lane**
 
 ## Next
 
-- [ ] **A6.10 - unsigned integers and homogeneous QF_BV lane**
 - [ ] **A6.11 - C++17 bitwise and shift operators**
 - [ ] **A6.12 - fixed-width integer phase gate**
 - [ ] **A6.2 - restricted arrays**
 - [ ] **A6.3 - restricted value structs**
+- [ ] **A6.4 - restricted proved references**
 
 ## Blockers / open questions
 
@@ -25,6 +25,6 @@
 
 ## Last updated
 
-2026-08-06 - A6.8 established the pinned frontend target-profile gate, explicit
-fixed-width type identities, schema v2 decimal-string integer evidence, and
-immutable v1 migration corpus; next is signed int64 QF_LIA.
+2026-08-06 - A6.9 added signed i64 lowering, exact promotions/narrowing,
+width-specific safety VCs, literal-divisor C++17 arithmetic, replay, calls,
+loops, and deterministic fixtures; next is the homogeneous unsigned QF_BV lane.
