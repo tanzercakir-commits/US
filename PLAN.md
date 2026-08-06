@@ -550,6 +550,13 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: combined extension examples/fixtures, backend capability matrix,
   schema migration evidence, deterministic phase-gate tool, operations docs,
   and PROGRESS evidence.
+- Expanded exact file set: `tools/semantic_extensions_phase_gate.py`;
+  `tests/{test_semantic_extensions_gate,test_fixtures}.py`;
+  `examples/semantic_extensions_gate.cpp`;
+  `fixtures/{manifest.json,cases/semantic_extensions_gate.cpp,
+  expected/semantic_extensions_gate.{ir,report.json}}`;
+  `docs/semantic_extensions_operations.md`; `README.md`, `CHANGELOG.md`,
+  `PLAN.md`, `PROGRESS.md`, `TODO.md`, and the test ratchet.
 - DoD: all A6 feature and negative-boundary tests are green; legacy v1 fixtures
   remain archived/unchanged; current fixtures regenerate twice byte-identically;
   capable-backend results replay; default cross-check never hides unsupported;

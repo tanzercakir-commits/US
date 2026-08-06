@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 301 deterministic tests. The separately cloned,
+The current suite contains 309 deterministic tests. The separately cloned,
 unmodified CodeSkeptic reference also passes all 811 tests on this machine.
 Committed fixtures are checked with:
 
@@ -63,11 +63,13 @@ Committed fixtures are checked with:
 python tools/regenerate_fixtures.py --check
 ```
 
-Run the deterministic scaling/cache/budget and fixed-width integer phase gates:
+Run the deterministic scaling/cache/budget, fixed-width integer, and combined
+semantic-extension phase gates:
 
 ```powershell
 python tools/scaling_phase_gate.py --backend both
 python tools/integer_phase_gate.py
+python tools/semantic_extensions_phase_gate.py
 ```
 
 Reproduce the isolated, proposal-only invariant-inference research artifact:
@@ -97,7 +99,10 @@ homogeneous QF_LIA/QF_BV strategy and pinned C++17 target profile. Clang
 validates that profile before any source is lowered; a mismatch fails closed. The
 [invariant-inference research decision](docs/invariant_inference_decision.md)
 records the isolated CHC/Spacer corpus, deterministic resource policy, measured
-useful/insufficient outcomes, and untrusted-proposal boundary.
+useful/insufficient outcomes, and untrusted-proposal boundary. The
+[semantic-extension operations runbook](docs/semantic_extensions_operations.md)
+freezes the combined A6 feature/capability matrix, fixture and migration
+evidence, negative boundary, and phase-gate response.
 The [signed int64 example](examples/int64_slice.cpp) covers widening, pinned
 narrowing, arithmetic, modular calls, and loop invariants. The
 [unsigned example](examples/unsigned_slice.cpp) covers modulo arithmetic,

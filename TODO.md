@@ -8,19 +8,19 @@
 
 ## Now (active stage)
 
-- [ ] **A6.7 - semantic-extensions phase gate**
+- [ ] **B1.1 - deterministic fixture export for the native adapter**
 
 ## Next
 
-- None.
+- [ ] **B1.2 - standalone CodeSkeptic semantic module skeleton**
 
 ## Blockers / open questions
 
-- None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
-  User env var points to it. New shells pick the variable up automatically.)
+- B1.2 targets the separate CodeSkeptic production repository; its workspace
+  location and write scope must be available before that stage starts.
 
 ## Last updated
 
-2026-08-06 - A6.6 added the isolated deterministic CHC/Spacer research corpus,
-proposal-only ordinary-referee validation, explicit failure outcomes, and the
-inference decision memo; next is the combined semantic-extension phase gate.
+2026-08-06 - A6.7 froze the combined semantic-extension feature/capability
+matrix, replay and migration evidence, negative boundary, inference referee,
+and 28-artifact corpus; next is B1.1 fixture export.

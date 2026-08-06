@@ -22,6 +22,12 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A6.7 adds the deterministic combined semantic-extension phase gate, an
+  eight-obligation all-feature slice/fixture, a frozen backend capability
+  matrix, five explicit negative-boundary probes, current-corpus byte identity,
+  v1-to-v6 migration evidence, replay counts, and independently accepted or
+  rejected invariant proposals. The operations runbook defines reproducibility
+  commands and intentional-change handling.
 - A6.6 adds an isolated, proposal-only CHC/Spacer research runner with strict
   signed-linear Horn input, pinned Z3 identity and seeds, deterministic
   timeout/count budgets, canonical candidate artifacts, and a six-case corpus.

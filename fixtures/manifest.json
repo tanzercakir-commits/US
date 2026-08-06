@@ -149,6 +149,18 @@
       },
       "name": "frame_conditions",
       "source": "cases/frame_conditions.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 8,
+        "violated": 0
+      },
+      "name": "semantic_extensions_gate",
+      "source": "cases/semantic_extensions_gate.cpp"
     }
   ],
   "schema": "codeskeptic.fixture-corpus/v0"

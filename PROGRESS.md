@@ -863,3 +863,32 @@ identical; committed artifact SHA-256 ->
 proposal-only check -> green; full suite -> 301/301; fixture check -> 26/26
 current; diff check -> clean; commit: this commit.
 Next: A6.7 (semantic-extension phase gate).
+
+## 2026-08-06 - A6.7: semantic-extension phase gate - DONE
++ Added the deterministic `codeskeptic.semantic-extensions-phase-gate/v0`
+  artifact over every A6 feature family, current/legacy fixtures, migration,
+  counterexample replay, negative boundaries, and invariant proposals.
++ Added an eight-obligation combined slice covering owned arrays, value records,
+  proved references, modular frames, i64 arithmetic, unsigned bitwise state,
+  and loop invariants; explicit Z3 verifies all eight obligations.
++ Froze the seven-row backend capability matrix. Signed QF_LIA cross-checks;
+  BV, array, and record formulas remain explicit `unsupported` under default
+  cross-check even though the capable Z3 lane verifies them.
++ Added five fail-closed probes for pointers, variable-length arrays, array-
+  element references, missing mutable-reference frames, and `short`.
++ Regenerated the 14-case/28-artifact current corpus twice byte-identically and
+  added the combined example IR/report fixture without changing schema v6.
++ Reused and pinned all v1-v5 archive/migration evidence, 13 replayed integer
+  violations, and the A6.6 useful/insufficient ordinary-referee decisions.
++ Added the semantic-extension operations runbook and eight phase-gate tests;
+  advanced the test ratchet from 301 to 309.
++ Expanded the A6.7 exact file set before implementation, then recorded and
+  resolved the fixture-count test spill before editing that test.
+- None.
+Evidence: semantic-extension gate -> green, canonical artifact SHA-256
+`d27330e7f930043bca16b955d17b39b912f9ff345f4f260f7aab02d717fff2a9`;
+combined capable/default summaries -> 8 verified / 8 unsupported; focused gate
+tests -> 8/8; fixture infrastructure -> 3/3; inference artifact -> matched;
+integer gate -> green with 13 replayed violations; fixture checks -> 28/28 on
+two runs; full suite -> 309/309; diff check -> clean; commit: this commit.
+Next: B1.1 (deterministic fixture export for the native adapter).
