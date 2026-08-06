@@ -8,13 +8,14 @@
 
 ## Now (active stage)
 
-- [ ] **F3.1 - documentation phase-gate upkeep** (separate implemented,
-  partial, and proposed capabilities)
+- [ ] **F3.2 - result taxonomy + schema reference page** (machine-readable
+  field contracts and status/non-goal semantics)
 
 ## Next
 
-- [ ] F3.2 - result taxonomy + schema reference page
 - [ ] F3.3 - adoption guide
+- [ ] F4.1 - schema version policy
+- [ ] F4.2 - CHANGELOG discipline
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -22,5 +23,5 @@
 
 ## Last updated
 
-2026-08-06 - F2 completed: CI and local tests regenerate the corpus twice and
-enforce byte-identical fixture artifacts. Next is F3.1.
+2026-08-06 - F3.1 completed: the prototype document now separates implemented,
+partial, and proposed capabilities through A3/F2. Next is F3.2.

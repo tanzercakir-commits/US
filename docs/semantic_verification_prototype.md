@@ -12,33 +12,46 @@ not a production integration and not a general C++ verifier.
 Implemented:
 
 - real Clang C++ parsing through the JSON AST interface;
-- an owned, deterministic, versioned Semantic IR;
-- strict inline cs: preconditions and postconditions;
-- path-specific verification-condition generation;
-- a dependency-free deterministic affine checker;
-- concrete counterexamples when a sampled model really violates an obligation;
-- explicit contract-satisfiability and missing-return obligations;
+- an owned, deterministic, versioned Semantic IR for branches, modular calls,
+  and invariant-annotated while loops;
+- strict inline cs: preconditions, postconditions, and loop invariants;
+- path-specific VCs for contracts, defined 32-bit arithmetic, modular calls,
+  and the loop entry/preservation/exit triple;
+- a dependency-free affine checker plus a complete external Z3 backend for the
+  emitted QF_LIA fragment;
+- deterministic SMT-LIB2, solver timeouts, model parsing, and mandatory replay
+  of every candidate counterexample;
+- affine/Z3 cross-check mode as the CLI default, with disagreement promoted to
+  solver_error;
 - explicit verified, violated, unknown, unsupported, and solver_error results;
-- deterministic JSON and human-readable output;
-- focused automated tests, including independent soundness regressions.
+- explicit machine-readable loop-termination non-goals;
+- deterministic JSON, human-readable output, a versioned golden corpus, and a
+  two-process byte-identity CI gate;
+- 137 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
-- function calls are supported only as standalone calls and only when a visible
-  definition or a contract exists;
-- multiplication is supported only when it remains affine (one operand is a
-  literal constant);
+- modular calls are direct only; assigned/initialized results must be int, and
+  callers learn results from callee ensures rather than body inlining;
+- recursive call cycles are rejected until a decreasing-measure policy exists;
+- loops are while-only, require user-written invariants, and establish partial
+  correctness without proving termination;
+- multiplication is supported only when one operand is a literal constant;
 - source mapping is statement-granular, but preserves CRLF and Clang UTF-8
   byte offsets;
-- the checker proves a useful but incomplete subset of QF linear integer
-  arithmetic.
+- the dependency-free affine checker is deliberately incomplete, while Z3 is
+  complete only for the emitted QF_LIA fragment;
+- the schema still carries the v0 identifier despite additive A2/A3 IR fields;
+  its version policy is deferred to F4.
 
 Proposed, not implemented:
 
 - a native clang::ASTContext adapter inside CodeSkeptic;
 - reuse of CodeSkeptic .csk sidecars;
-- a complete QF-LIA SMT backend with models and timeouts;
-- diagnostic/SARIF/MCP adapters in CodeSkeptic.
+- production diagnostic/SARIF/MCP adapters for proof results and models;
+- broader C++ value, memory, alias, and ownership semantics;
+- loop termination variants or invariant inference;
+- automated repair/AI-loop integration.
 
 ## Problem statement
 
@@ -63,7 +76,8 @@ The prototype does not attempt:
 - arbitrary pointer, heap, ownership, alias, or lifetime reasoning;
 - templates, exceptions, virtual dispatch, concurrency, volatile, inline
   assembly, or macro semantics;
-- loop termination; verified loop obligations establish partial correctness only;
+- loop termination; verified loop obligations establish partial correctness
+  only;
 - external-library modeling without contracts;
 - automatic repair or AI authority over proof results;
 - production certification claims.
@@ -178,6 +192,11 @@ with different versions, an explicit merge is emitted:
       false: y#2 := 0
       merge y#3 := [true: y#1, false: y#2]
 
+Assigned int call results receive fresh SSA targets. A while node owns its
+invariants, one symbolic body iteration, and deterministic entry/head/back-edge/
+exit names for every loop-modified variable. Head and exit names are explicit
+havoc states; they are never equated to a guessed iteration count.
+
 Stable function, symbol, and node IDs are assigned in source traversal order.
 Locations use the caller-visible path plus one-based line and column.
 Disjoint lexical scopes may reuse a C++ spelling, but receive distinct IR
@@ -193,13 +212,11 @@ This is the fail-closed boundary.
 The implemented node kinds are:
 
 - function, parameter, and local metadata;
-- assume;
-- assign;
-- assert;
-- branch;
-- merge;
-- call;
-- return;
+- assume, assign, assert, and return;
+- branch plus explicit merge nodes;
+- direct call, optionally with an int result target and result type;
+- loop with invariants, a body, loop-variable havoc metadata, and the explicit
+  termination=non_goal record;
 - unsupported.
 
 Expressions contain typed constants, versioned variables, unary not/negation,
@@ -231,22 +248,32 @@ expressions. Supported contract expression syntax is:
 - parentheses.
 
 Only the contiguous line-comment block immediately before a function is
-attached. Malformed clauses and unsupported clause kinds produce an explicit
-unsupported result. Multi-line function declarations use the declaration
-begin location, and unattached cs: comments produce an orphan-contract result.
+attached for requires/ensures. A contiguous cs: invariant block attaches only
+to the immediately following while statement and can reference variables in
+scope there. result/return is available only to ensures. Malformed clauses,
+wrong attachment, and orphan cs: comments produce explicit unsupported results.
 The source parameter name result is reserved to prevent collision with the
 postcondition result symbol. Sidecars are not implemented in US, although
 CodeSkeptic's existing sidecar loader is reusable.
 
 ### Verification-condition generation
 
-The VC generator enumerates acyclic structured paths. Each obligation is:
+The VC generator enumerates acyclic structured paths and one symbolic body
+iteration per loop. Each obligation is:
 
     path assumptions -> required condition
 
 Assignments become equality facts over versioned variables. True and false
 edges add the condition or its negation. Merge equalities are selected by the
-edge actually taken.
+edge actually taken. A result-bearing call havocs its fresh target, adds int32
+bounds, proves substituted requires, and assumes substituted ensures. Recursive
+call components fail closed.
+
+A loop proves each invariant at the concrete entry state, checks one arbitrary
+bounded head state under I and the condition, and proves I again at the back
+edge. Code after the loop sees an independent bounded exit havoc state
+constrained by I and the negated condition. Body-path facts do not leak to the
+exit state. Missing invariants fail closed before path walking.
 
 Generated obligation kinds:
 
@@ -254,6 +281,7 @@ Generated obligation kinds:
 - external-contract fragment well-formedness;
 - precondition at a call;
 - postcondition at each reachable return;
+- loop-invariant entry and inductive preservation;
 - source assertion;
 - division by zero;
 - signed integer overflow;
@@ -261,7 +289,8 @@ Generated obligation kinds:
 - unsupported logic/construct.
 
 Obligations distinguish validity, satisfiability, and fragment-well-formedness
-modes. Every 32-bit int parameter receives implicit INT_MIN/INT_MAX bounds. Program
+modes. Every 32-bit int parameter receives implicit INT_MIN/INT_MAX bounds.
+Program
 addition, subtraction, constant multiplication, and negation receive range
 safety obligations. Division receives both divisor-nonzero and
 INT_MIN / -1 obligations.
@@ -276,31 +305,36 @@ counterexample.
 
 ### Checker
 
-semantic_verifier/checker.py has no external solver dependency. It:
+The checker seam is the CheckerBackend ABC. Three stable selections exist:
 
-1. validates the raw formula fragment before any simplifying rewrite;
-2. substitutes assignment equalities;
-3. simplifies constants and boolean structure;
-4. normalizes affine integer comparisons with exact integer arithmetic;
-5. proves direct and stronger matching path facts;
-6. searches a deterministic, finite set of boundary and formula-adjacent
-   values for a concrete counterexample.
+- affine: the dependency-free checker in semantic_verifier/checker.py;
+- z3: deterministic SMT-LIB2 through an external Z3 process;
+- both: affine/Z3 cross-check, which is the CLI default.
 
-Finite search is used to refute validity obligations and to witness contract
-satisfiability. A discovered countermodel or witness is real. Exhausting the
-finite search set is never promoted to proof: if exact reasoning did not decide
-the question, the result is unknown.
+The affine backend validates the raw fragment before simplification, substitutes
+assignment equalities, normalizes affine comparisons with exact integer
+arithmetic, proves matching path facts, and searches a deterministic finite set
+for witnesses or counterexamples. Found models are real; exhausting the fixed
+100,000-evaluation search set is never promoted to proof and returns unknown.
 
-No solver library was added, so this slice has no new solver license, linker,
-packaging, or platform impact. Search order and the 100,000-evaluation cap are
-fixed. Internal failures become solver_error; resource exhaustion or an
-incomplete proof becomes unknown, never verified. A later SMT integration must
-document its license, per-platform packaging, timeout, deterministic options,
-unknown handling, and model serialization before adoption.
+semantic_verifier/smtlib.py emits sorted QF_LIA declarations and reversible
+symbols for int/bool constants and variables, boolean connectives, equality/
+order, addition, subtraction, negation, and multiplication by a literal.
+Division, nonlinear multiplication, malformed types, and unknown expression
+kinds fail closed before the solver starts.
 
-The exact prover is intentionally incomplete. For example, it does not combine
-x >= y and y >= z to derive x >= z. A later complete QF-LIA backend can replace
-the checker behind the same obligation/result interface.
+The Z3 runner has deterministic discovery order, a configurable timeout,
+fixed solver options, structured stdout/stderr handling, and explicit mappings
+for sat/unsat/unknown/process failures. A sat validity result is only a candidate
+violation until the parsed model replays against the original obligation.
+Replay failure is a solver_error soundness alarm, never a violation.
+
+Cross-check mode accepts the stronger definitive answer when the other backend
+is unknown. Definitive disagreement, backend process failure, or replay failure
+becomes solver_error. No solver library or Python solver package is linked; z3
+and both modes require the separately installed Z3 executable. Licensing,
+packaging, timeout, and determinism decisions are recorded in
+docs/solver_decision.md.
 
 ### Result taxonomy
 
@@ -314,7 +348,9 @@ the checker behind the same obligation/result interface.
 
 Unknown and unsupported are never converted to verified. JSON results contain
 the obligation ID, function, kind, location, message, and sorted counterexample
-bindings when present.
+bindings when present. Non-goals are separate from statuses: every loop records
+loop_termination with the statement location and the partial-correctness scope,
+including when Semantic IR is omitted from JSON.
 
 ## Supported source subset
 
@@ -330,6 +366,8 @@ bindings when present.
 - side-effect-free boolean and/or;
 - if/else;
 - standalone direct function calls;
+- direct int call results assigned to or initializing a local, with contracted
+  postconditions assumed after a fresh result havoc;
 - assert represented only by a declaration-only void assert(bool) sentinel;
 - return;
 - implicit return 0 when main falls through;
@@ -352,8 +390,10 @@ The frontend explicitly rejects:
 - shadowing;
 - compound assignment, increment/decrement, comma, ternary, and assignment
   expressions;
-- indirect/member calls and calls nested inside expressions;
+- indirect/member calls, non-int assigned results, and calls nested in return,
+  arithmetic, or argument expressions;
 - calls with neither a visible body nor a contract;
+- direct and mutual recursive call cycles without a decreasing measure;
 - implicit casts other than lvalue-to-rvalue, no-op, and int-to-bool;
 - unsigned and non-32-bit integer types;
 - variable-by-variable multiplication and all division in logical contracts;
@@ -411,24 +451,32 @@ Representative obligations and outcomes:
       status: violated
       counterexample: input = 0
 
-The complete runnable input is examples/vertical_slice.cpp. It also includes a
-verified increment postcondition and a valid transitive postcondition that the
-small checker reports as unknown.
+The complete runnable input is examples/vertical_slice.cpp. Under the default
+affine/Z3 cross-check it produces 10 verified obligations, two replayed
+violations, and zero unknown/unsupported/solver_error results. The affine-only
+backend deliberately remains unable to prove the transitive postcondition.
+Modular-call and loop gates are in examples/modular_calls.cpp and
+examples/sum_loop*.cpp.
 
 ## Build and test
 
 Runtime requirements:
 
 - Python 3.11 or newer;
-- Clang with JSON AST output (tested with Clang 20.1.8).
+- Clang with JSON AST output (tested with Clang 20.1.8);
+- Z3 for the z3/both backends and committed fixture regeneration (tested with
+  Z3 5.0.0).
 
-No Python package or solver dependency is required.
+There are no Python package dependencies. The affine backend remains fully
+dependency-free; Z3 is a separately installed executable, not a linked library.
 
 Commands:
 
     python -m semantic_verifier examples/vertical_slice.cpp --format text
     python -m semantic_verifier examples/vertical_slice.cpp --format json
     python -m semantic_verifier examples/vertical_slice.cpp --format ir
+    python -m semantic_verifier examples/sum_loop.cpp --format text
+    python tools/regenerate_fixtures.py --check
     python -m unittest discover -s tests -v
 
 Reference validation used the environment-specific equivalents of:
@@ -445,14 +493,12 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The original US repository had no test directory; the baseline unittest command
-therefore failed with "Start directory is not importable." The implemented 64-test
-suite covers IR construction, deterministic serialization, assignment,
-if/else/merge lowering, contract parsing and consistency, valid and violated
-preconditions/postconditions, assertions, unknown, unsupported constructs,
-short-circuit safety, source mapping, overload/scope identity, C++ overflow,
-UTF-8 BOM and preprocessing boundaries, function-try-block rejection, structured
-frontend-initialization failures, counterexample replay, and repeated execution.
+The 137-test suite covers frontend boundaries, deterministic IR/SMT/report
+serialization, contracts, branches/merges, modular calls, recursion rejection,
+loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
+process failures, counterexample replay, fixture regeneration, and independent
+two-process byte comparison. The test-count ratchet prevents accidental loss of
+coverage. Five versioned fixture cases produce ten committed golden artifacts.
 
 The unmodified CodeSkeptic reference was configured separately against LLVM
 20.1.8. Its CTest run passed 811/811 tests, and the same 811 tests passed again
@@ -466,15 +512,15 @@ fetch. CodeSkeptic's source worktree remained clean.
 
 - Clang JSON is a convenient prototype transport, not the recommended
   production API. CodeSkeptic should lower directly from ASTContext.
-- The checker is sound only for what it marks verified, within the documented
-  mathematical-int formula model and the generated 32-bit program-safety
-  obligations. It is intentionally incomplete.
-- Model search is finite. Found models are real; absence of a model is not
-  evidence of validity or unsatisfiability.
+- Verified results are sound only within the documented mathematical-int
+  formula model, emitted QF_LIA fragment, and generated 32-bit program-safety
+  obligations; broader C++ semantics remain outside the claim.
+- Affine model search is finite. Found models are real, while exhaustion is
+  unknown. Z3 is complete only for formulas accepted by the fail-closed emitter.
 - Acyclic branches are enumerated directly and can grow exponentially. Loops
   are summarized by user-written invariants; termination is not checked.
-- Function return values are not modeled at call sites. Calls are currently
-  useful for precondition checking only.
+- Modular calls are direct and contract-based. Only int results in a local
+  initializer/assignment are modeled, and callee bodies are not inlined.
 - Source columns identify the containing statement rather than the exact
   operator token.
 - The prototype assumes 32-bit signed int, matching the tested target.
@@ -482,8 +528,8 @@ fetch. CodeSkeptic's source worktree remained clean.
   production integration should still use canonical Clang declaration identity
   and CodeSkeptic's existing attachment/sidecar machinery.
 - Includes and all header semantics are explicitly unsupported in v0.
-- The model-search cap is 100,000 deterministic evaluations; there is no
-  configurable resource budget or wall-clock timeout yet.
+- The affine model-search cap is 100,000 deterministic evaluations. Z3 has a
+  configurable per-obligation timeout, but there is no whole-run budget yet.
 
 ## Technical assessment
 
@@ -554,10 +600,11 @@ Build one native CodeSkeptic integration slice:
 6. compare the native IR/VC JSON byte-for-byte against fixtures derived from
    this prototype.
 
-A complete QF-LIA solver can be evaluated only after that adapter is stable.
-The solver decision should document license, Windows/macOS/Linux packaging,
-timeouts, deterministic seeds/options, unknown handling, and model
-serialization.
+The Python reference has already accepted the external Z3/SMT-LIB2 design and
+documents its license, Windows/macOS/Linux packaging, timeouts, deterministic
+options, unknown handling, and model replay. The native slice should first match
+fixture IR bytes; sharing or porting solver invocation comes only after that
+semantic boundary is stable.
 
 ### What should not be built yet?
 
@@ -568,6 +615,7 @@ existing specialized DataflowEngine pretend to be a persistent Semantic IR.
 ## Recommended next milestone
 
 Implement a native, test-only CodeSkeptic ASTContext-to-Semantic-IR adapter for
-the same acyclic int/bool subset and reuse the existing contract parser. Stop
+the first int/bool fixture subset and reuse the existing contract parser. Stop
 when assignment, if/else merge, return, unsupported handling, and deterministic
-IR JSON match pinned fixtures. Do not add a solver in that milestone.
+IR JSON match the corresponding pinned Python fixtures. Do not add native solver
+integration in that milestone.

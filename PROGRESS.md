@@ -319,3 +319,14 @@ Evidence: fixture infrastructure tests -> 3/3 including two-process byte
 identity; full suite -> 137/137; compileall and diff check -> clean; commit:
 this commit.
 Next: F3.1 (documentation phase-gate upkeep).
+## 2026-08-06 - F3.1: phase-gate documentation upkeep - DONE
++ Reclassified current capabilities into explicit implemented, partial, and
+  proposed sections through the completed A1-A3 and F2 gates.
++ Documented Z3/cross-check semantics, fail-closed SMT emission, replay, modular
+  call havoc/ensures, recursion rejection, loop VCs, and termination non-goals.
++ Updated the supported/unsupported boundary, runtime requirements, examples,
+  fixture commands, 137-test scope, limitations, and native-adapter next step.
+- None.
+Evidence: stale-capability text scan -> clean; local documentation links ->
+valid; full suite -> 137/137; diff check -> clean; commit: this commit.
+Next: F3.2 (result taxonomy and schema reference).
