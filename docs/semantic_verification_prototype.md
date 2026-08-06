@@ -27,7 +27,7 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
-- 137 deterministic tests, including independent soundness regressions.
+- 139 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -497,7 +497,7 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 137-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 139-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent

@@ -100,7 +100,8 @@ Every major bump must be one intentional stage/commit and include:
 
 1. a decision note describing the semantic incompatibility and rejected
    compatibility alternatives;
-2. an entry in `CHANGELOG.md` with producer and consumer migration steps;
+2. an entry in [CHANGELOG.md](../CHANGELOG.md) with producer and consumer
+   migration steps;
 3. an update to the single `SCHEMA` constant and every report/IR schema test;
 4. updated result/schema and adoption documentation;
 5. preservation of the complete previous fixture corpus under a versioned

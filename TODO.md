@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **F4.2 - CHANGELOG discipline** (format, Unreleased workflow, schema and
-  migration visibility)
+- [ ] **A4.1 - deterministic counterexample model minimization** (greedy
+  variable elimination while preserving the violation)
 
 ## Next
 
-- None pulled until the next program phase is selected after F4 closes.
+- None pulled until the A4 phase is read at stage start.
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-06 - F4.1 completed: v0 is frozen and future semantic breaks have an
-explicit v1 migration and fixture-preservation policy. Next is F4.2.
+2026-08-06 - F4 completed: v0 compatibility and consumer-facing changelog
+discipline are frozen and guardrail-tested. Next is A4.1.

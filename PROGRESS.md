@@ -373,3 +373,17 @@ Evidence: all golden report/IR schema values -> matching v0; documentation links
 and code fences -> valid; full suite -> 137/137; diff check -> clean; commit:
 this commit.
 Next: F4.2 (CHANGELOG discipline).
+## 2026-08-06 - F4.2: CHANGELOG discipline - DONE
++ Added a consumer-facing CHANGELOG with an Unreleased workflow, allowed
+  categories, stage-ID linkage, append-only releases, and schema migration rules.
++ Recorded the complete 0.1.0 baseline, including the frozen v0 consumer
+  contract and migration expectations.
++ Added guardrail tests that require the current project version release heading,
+  current schema identity, migration section, and policy link; ratchet advanced
+  from 137 to 139.
++ Linked CHANGELOG from README and linked its migration requirement from the
+  schema policy.
+- None.
+Evidence: changelog guardrail tests -> 2/2; documentation links/code fences ->
+valid; full suite -> 139/139; diff check -> clean; commit: this commit.
+Next: A4.1 (deterministic counterexample model minimization).
