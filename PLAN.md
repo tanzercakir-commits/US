@@ -737,7 +737,29 @@ infrastructure. Reference: prototype fixtures = the specification.
   production suites and the reference suite pass.
 #### B1.4 — Byte-for-byte comparison harness: fixture equality inside the
   in-memory Clang test harness
-- DoD: C++-produced JSON == Python fixture JSON across the corpus.
+- Goal: make the exported Python adapter corpus an executable compatibility
+  specification for the production C++ frontend and owned IR.
+- Output: canonical native-adapter JSON serialization; a vendored hash-checked
+  copy of the B1.1 source/IR corpus; an in-memory Clang fixture runner; exact
+  aggregate/reference/frame/loop/SSA lowering needed by the corpus; and a
+  per-case byte-comparison gate with deterministic diagnostics.
+- Expanded exact file set: CodeSkeptic
+  `.gitattributes`; `src/semantic/{SemanticIR,SemanticJson,SemanticLowerer}.{h,cpp}`;
+  `src/contracts/{ContractParser,ContractInfo}.{h,cpp}`; `src/CMakeLists.txt`;
+  `tests/{CMakeLists.txt,SemanticIRTest.cpp,SemanticLowererTest.cpp,
+  NativeAdapterFixtureTest.cpp}`; `tests/fixtures/native_adapter/**`; reference
+  `PLAN.md`, `PROGRESS.md`, and `TODO.md`. The B1.1 exported corpus is copied
+  byte-for-byte and is not hand-edited in production.
+- Compatibility lanes: (1) canonical envelope/value serialization and scalar
+  cases; (2) arrays/value records, references, modular frames, and SSA merges;
+  (3) while-loop invariants/termination metadata and full-corpus gate. Every
+  lane keeps unsupported constructs explicit until its exact lowering lands.
+- DoD: all 14 vendored source hashes and Python IR hashes equal the B1.1
+  manifest; native serialization is byte-identical to every corresponding
+  `*.semantic-ir.json`; two complete native renders are byte-identical;
+  mismatch output names the case and first byte/line; no Python process or
+  fixture substitution participates in native rendering; focused/full
+  production and reference suites pass.
 - Depends: B1.5 (contract-bearing fixtures require native contract adaptation).
 #### B1.5 — Extend the existing `cs:` parser with arithmetic; ContractInfo
   adaptation

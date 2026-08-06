@@ -1002,3 +1002,34 @@ matched for u32/i64/u64 arithmetic, i32 minimum, u64 maximum, result naming,
 and `integral` casts; full reference suite -> 314/314; `Rule.h` diff -> empty;
 production commit -> `f7fb925`; commit: this reference-ledger commit.
 Next: B1.4 (byte-for-byte native/Python fixture equality).
+
+## 2026-08-06 - B1.4: native/Python byte-comparison harness - DONE
++ Added canonical, lexicographically sorted native-adapter JSON serialization
+  for the complete v6 module envelope, including records, references, frames,
+  SSA nodes, loop metadata, unsupported records, and source identity.
++ Vendored the 14 B1.1 C++ sources and 14 canonical Semantic IR payloads with
+  their manifest; all source and IR SHA-256 values match, and `.gitattributes`
+  pins the byte contract to LF on Windows checkouts.
++ Added an in-memory Clang fixture runner with no Python process or fixture
+  substitution on the native render path, first-byte/line/column mismatch
+  diagnostics, and two-run determinism coverage.
++ Extended native lowering through owned arrays and records, projections and
+  functional updates, local references, reference parameters, `modifies`
+  frames and call effects, direct call results, branch merges, loop-head/back/
+  exit SSA, invariants, termination metadata, and declaration-only functions.
++ Extended the owned contract parser/binder with result aliases, record field
+  projections, invariants, and strict modifies paths while preserving all
+  legacy contract consumers and fail-closed diagnostics.
++ Kept the B1.3 compatibility tests meaningful by updating them to assert the
+  stronger SSA/declaration/loop semantics; production grew from 830 to 833
+  tests and every test is green.
++ Expanded the B1.4 exact file set before implementation and recorded the
+  discovered LF portability spill before adding production `.gitattributes`.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: vendored hash gate -> 14/14; native/Python byte equality -> 14/14;
+complete native render determinism -> green; focused lowerer/adapter tests ->
+13/13; full CodeSkeptic suite -> 833/833; reference fixture export -> 29/29
+current; full reference suite -> 314/314; production commit -> `5acc51b`;
+commit: this reference-ledger commit.
+Next: B2.0 (production VC/referee route expansion and decision).

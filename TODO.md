@@ -8,11 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **B1.4 - native/Python byte-comparison harness**
+- [ ] **B2.0 - production VC/referee route expansion and decision**
 
 ## Next
 
-- [ ] **B2.0 - production VC/referee route expansion and decision**
+- [ ] **B2.1 - VC generator on the chosen route; fixture equality**
+- [ ] **B2.2 - verification rule and positive/unknown result model**
 
 ## Blockers / open questions
 
@@ -21,7 +22,7 @@
 
 ## Last updated
 
-2026-08-06 - B1.5 added the precedence-correct arithmetic contract tree,
-typed scalar Semantic IR adaptation, and requires-assume lowering. CodeSkeptic
-is green at 830/830 and the reference suite at 314/314. Next is the native/
-Python canonical byte-equality gate.
+2026-08-06 - B1.4 added the complete native semantic lowering and canonical
+serializer; all 14 reference fixtures match byte-for-byte. CodeSkeptic is green
+at 833/833 and the reference suite at 314/314. Next is the B2.0 VC/referee route
+decision.
