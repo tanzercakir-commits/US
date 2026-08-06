@@ -111,13 +111,13 @@ class VerificationConditionGenerator:
                     unsupported.reason or "unsupported function construct",
                 )
                 continue
-            pending_loop = self._first_loop(function.body)
-            if pending_loop is not None:
+
+            unannotated_loop = self._first_unannotated_loop(function.body)
+            if unannotated_loop is not None:
                 self._unsupported_obligation(
                     function.name,
-                    pending_loop,
-                    "WhileStmt lowered to Semantic IR, but loop verification "
-                    "conditions are not implemented until A3.3",
+                    unannotated_loop,
+                    "WhileStmt is unsupported without a cs: invariant",
                 )
                 continue
             contracts = self._contracts_for(function)
@@ -341,6 +341,71 @@ class VerificationConditionGenerator:
                 _binary("<=", target, Expr.integer(INT_MAX))
             )
             return [self._assume_call_postconditions(node, after_call)]
+        if node.kind == "loop":
+            assert node.expression is not None
+            if not node.invariants:
+                reason = "WhileStmt is unsupported without a cs: invariant"
+                self._add(
+                    function.name,
+                    "unsupported_construct",
+                    state.assumptions,
+                    None,
+                    node.location,
+                    reason,
+                    unsupported_reason=reason,
+                )
+                return []
+
+            entry_replacements = self._loop_replacements(node, "entry")
+            for invariant in node.invariants:
+                self._add(
+                    function.name,
+                    "loop_invariant_entry",
+                    state.assumptions,
+                    invariant.expression.substitute(entry_replacements),
+                    invariant.location,
+                    f"loop invariant must hold on entry: {invariant.text}",
+                )
+
+            head_state = self._add_loop_havoc_bounds(state, node, "head")
+            for invariant in node.invariants:
+                head_state = head_state.add(invariant.expression)
+            head_state = self._expression_safety(
+                function.name, node.expression, head_state, node
+            )
+            body_states = self._walk_sequence(
+                node.body,
+                [head_state.add(node.expression)],
+                function,
+                ensures,
+            )
+            back_edge_replacements = self._loop_replacements(
+                node, "back_edge"
+            )
+            for body_state in body_states:
+                for invariant in node.invariants:
+                    self._add(
+                        function.name,
+                        "loop_invariant_preservation",
+                        body_state.assumptions,
+                        invariant.expression.substitute(
+                            back_edge_replacements
+                        ),
+                        invariant.location,
+                        f"loop body must preserve invariant: {invariant.text}",
+                    )
+
+            exit_state = self._add_loop_havoc_bounds(state, node, "exit")
+            exit_replacements = self._loop_replacements(node, "exit")
+            for invariant in node.invariants:
+                exit_state = exit_state.add(
+                    invariant.expression.substitute(exit_replacements)
+                )
+            exit_condition = node.expression.substitute(exit_replacements)
+            exit_state = self._expression_safety(
+                function.name, exit_condition, exit_state, node
+            )
+            return [exit_state.add(_not(exit_condition))]
         if node.kind == "return":
             assert node.expression is not None
             defined = self._expression_safety(
@@ -401,6 +466,32 @@ class VerificationConditionGenerator:
                     incoming,
                 )
             )
+        return result
+
+    @staticmethod
+    def _loop_replacements(
+        node: IRNode, state_name: str
+    ) -> dict[str, Expr]:
+        return {
+            variable.head: Expr.variable(
+                str(getattr(variable, state_name)), variable.type
+            )
+            for variable in node.loop_variables
+        }
+
+    @staticmethod
+    def _add_loop_havoc_bounds(
+        state: _PathState, node: IRNode, state_name: str
+    ) -> _PathState:
+        result = state
+        for variable in node.loop_variables:
+            if variable.type != "int":
+                continue
+            value = Expr.variable(
+                str(getattr(variable, state_name)), variable.type
+            )
+            result = result.add(_binary(">=", value, Expr.integer(INT_MIN)))
+            result = result.add(_binary("<=", value, Expr.integer(INT_MAX)))
         return result
 
     def _expression_safety(
@@ -629,15 +720,18 @@ class VerificationConditionGenerator:
         return None
 
     @staticmethod
-    def _first_loop(nodes: Iterable[IRNode]) -> IRNode | None:
+    def _first_unannotated_loop(nodes: Iterable[IRNode]) -> IRNode | None:
         for node in nodes:
-            if node.kind == "loop":
+            if node.kind == "loop" and not node.invariants:
                 return node
             for nested_nodes in (node.body, node.then_body, node.else_body):
-                nested = VerificationConditionGenerator._first_loop(nested_nodes)
+                nested = VerificationConditionGenerator._first_unannotated_loop(
+                    nested_nodes
+                )
                 if nested is not None:
                     return nested
         return None
+
     def _unsupported_obligation(
         self, function: str, node: IRNode, reason: str
     ) -> None:

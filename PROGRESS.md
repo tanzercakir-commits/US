@@ -248,3 +248,18 @@ Evidence: lowering/verification focused tests -> 22/22; deterministic loop IR
 dump -> byte-identical; full suite -> 127/127; compileall and diff check ->
 clean; commit: this commit.
 Next: A3.3 (loop-invariant VC triple).
+## 2026-08-06 - A3.3: loop-invariant VC triple - DONE
++ Loop verification now proves each invariant at entry and after one arbitrary
+  iteration from a bounded, invariant-constrained head havoc state.
++ Post-loop paths use an independent bounded exit havoc state constrained only
+  by all invariants and the negated condition; body-path facts are not leaked.
++ Missing invariants are detected before path walking and fail closed for the
+  whole function; nested loops and loop-body calls remain structurally visible.
++ Added five Z3/cross-check soundness tests, including replayed entry and
+  preservation counterexamples; ratchet advanced from 127 to 132.
+- None.
+Evidence: loop/legacy verification tests -> 17/17; count-loop entry,
+preservation, overflow, and postcondition obligations all verified under both
+backends; full suite -> 132/132; compileall and diff check -> clean; commit:
+this commit.
+Next: A3.4 (explicit termination NON-GOAL record).
