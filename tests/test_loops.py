@@ -1,3 +1,4 @@
+from pathlib import Path
 import unittest
 
 from semantic_verifier.backend import create_backend
@@ -129,3 +130,40 @@ class LoopInvariantTests(unittest.TestCase):
         )
         self.assertIn("termination non_goal", dump_module(report.module))
         self.assertIn("non-goal: loop_termination", dump_results(report))
+    def test_phase_gate_example_variants(self):
+        if self.z3 is None:
+            self.skipTest("Z3 is not installed")
+        root = Path(__file__).resolve().parents[1]
+        pipeline = VerificationPipeline()
+        pipeline.checker = create_backend("both", z3=self.z3)
+
+        correct = pipeline.verify_file(root / "examples" / "sum_loop.cpp")
+        missing = pipeline.verify_file(
+            root / "examples" / "sum_loop_missing_invariant.cpp"
+        )
+        wrong = pipeline.verify_file(
+            root / "examples" / "sum_loop_wrong_invariant.cpp"
+        )
+
+        self.assertTrue(correct.results)
+        self.assertTrue(
+            all(result.status.value == "verified" for result in correct.results)
+        )
+        self.assertEqual(
+            missing.summary(),
+            {
+                "verified": 0,
+                "violated": 0,
+                "unknown": 0,
+                "unsupported": 1,
+                "solver_error": 0,
+            },
+        )
+        violation = next(
+            result
+            for result in wrong.results
+            if result.kind == "loop_invariant_preservation"
+        )
+        self.assertEqual(violation.status.value, "violated")
+        self.assertIsNotNone(violation.counterexample)
+        self.assertEqual(len(correct.non_goals()), 1)

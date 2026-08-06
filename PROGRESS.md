@@ -275,3 +275,17 @@ Next: A3.4 (explicit termination NON-GOAL record).
 Evidence: loop/determinism focused tests -> 11/11; full suite -> 133/133;
 compileall and diff check -> clean; commit: this commit.
 Next: A3.5 (loop phase gate).
+## 2026-08-06 - A3.5: loop phase gate - DONE
++ Added a bounded sum(0..n) example whose linear invariant proves entry,
+  preservation, int32 safety, and the declared result bounds.
++ Added source-identical missing-invariant and non-inductive-invariant variants.
++ The correct example is fully verified, the missing annotation fails closed,
+  and the wrong invariant returns a replayed preservation counterexample.
++ Added an end-to-end fixture gate test; ratchet advanced from 133 to 134.
+- Exact unbounded triangular-number specifications are outside QF_LIA; the
+  example deliberately verifies linear safety/result bounds for 0 <= n <= 10.
+Evidence: correct CLI -> 6 verified, no alarms, exit 0; missing-invariant CLI ->
+1 unsupported, exit 2; wrong-invariant CLI -> 1 violated with replayed
+counterexample (n=2, i#1=1, total#2=3), exit 1; loop tests -> 7/7; full suite
+-> 134/134; commit: this commit.
+Next: F2.1 (fixture layout and regeneration script).

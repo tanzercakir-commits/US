@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **A3.5 - loop phase gate** (verified sum loop, missing invariant
-  unsupported, wrong invariant violated with counterexample)
+- [ ] **F2.1 - fixtures layout + regeneration script** (declared outputs and
+  DoD in the plan)
 
 ## Next
 
-- [ ] F2.1 - fixtures layout + regeneration script
+- None pulled until the F2 phase is read at stage start.
 ## Blockers / open questions
 
 - None. (Z3 5.0.0 installed 2026-08-02, user scope; `SEMANTIC_VERIFIER_Z3`
@@ -21,5 +21,6 @@
 
 ## Last updated
 
-2026-08-06 - A3.4 completed: all output modes record loop termination as an
-explicit non-goal. Next is A3.5.
+2026-08-06 - A3 phase gate passed: the sum loop verifies, the missing invariant
+is unsupported, and the wrong invariant yields a replayed counterexample. Next
+is F2.1.
