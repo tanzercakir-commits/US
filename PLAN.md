@@ -893,10 +893,15 @@ infrastructure. Reference: prototype fixtures = the specification.
 - Output: `verify_function` MCP schema/handler, deterministic function
   selection, structured obligations/results/counterexamples, and bounded error
   responses.
-- Planned file set (confirm before edits): CodeSkeptic
-  `src/server/{McpServer.h,McpServer.cpp}` plus the minimal analyzer/
-  verification wiring; `tests/McpServerTest.cpp`, focused fixtures, and
-  `tests/CMakeLists.txt`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Exact file set: CodeSkeptic `src/server/{McpServer.h,McpServer.cpp}`;
+  `src/analyzer/StaticAnalyzer.h`; `src/engine/RuleEngine.h`;
+  `src/verification/{SemanticVerificationRule.h,SemanticVerificationRule.cpp,
+  VerificationConditionGenerator.h,VerificationConditionGenerator.cpp}`;
+  `tests/McpServerTest.cpp`; reference `PLAN.md`, `PROGRESS.md`, and `TODO.md`.
+- Boundary: a plain selector must identify one function name, while a canonical
+  signature key selects an overload exactly; error candidates are sorted and
+  capped, injected backends remain a test seam, and production always defaults
+  to the native Z3 referee.
 - DoD: tool discovery advertises the stable schema; exact/ambiguous/missing
   function selection is tested; verified/violated/unknown/unsupported/
   solver-error responses are structured and deterministic; no AI judgment

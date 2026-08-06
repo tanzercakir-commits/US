@@ -1122,3 +1122,22 @@ legacy byte compatibility -> green; deterministic repeated render -> green;
 full CodeSkeptic suite -> 859/859; reference suite -> 314/314; production
 commit -> `8bf2265`; commit: this reference-ledger commit.
 Next: B2.4 (MCP `verify_function` referee surface).
+
+## 2026-08-06 - B2.4: MCP `verify_function` referee surface - DONE
++ Added a stable `verify_function` MCP discovery schema requiring a source path
+  and unique plain function name or exact canonical signature key.
++ Reused the native lowering, targeted VCG, deterministic backend, replayed
+  evidence, and five-state result channel without adding any AI judgment path.
++ Added sorted and capped ambiguous-selection candidates plus bounded missing,
+  invalid-path, and parse-failure tool errors.
++ Added versioned structured obligations, fixed status summaries, typed
+  counterexamples, recursive trace conditions, source locations, and referee
+  identity; repeated responses are byte-identical.
++ Production grew from 859 to 866 tests and every test is green.
+- Windows MSBuild still requires duplicate `Path`/`PATH` removal and a serial
+  link; the existing LNK4199 delay-load warning remains non-fatal.
+Evidence: focused MCP tests -> 25/25; exact/ambiguous/missing selection ->
+green; all five result states -> green; deterministic repeat -> green; full
+CodeSkeptic suite -> 866/866; reference suite -> 314/314; production commit ->
+`9d46aaf`; commit: this reference-ledger commit.
+Next: B3.0 (sidecar contract database expansion).

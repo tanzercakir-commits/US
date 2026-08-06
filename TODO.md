@@ -8,12 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **B2.4 - MCP `verify_function` referee surface**
+- [ ] **B3.0 - sidecar contract database expansion**
 
 ## Next
 
-- [ ] **B3.0 - sidecar contract database expansion**
 - [ ] **B3.1 - production sidecar loading and provenance**
+- [ ] **B3.2 - first value-semantic standard-library models**
+- [ ] **B3.3 - contract package versioning and distribution**
 
 ## Blockers / open questions
 
@@ -22,6 +23,7 @@
 
 ## Last updated
 
-2026-08-06 - B2.3 added versioned semantic-verification SARIF results while
-preserving legacy output bytes. CodeSkeptic is green at 859/859 and the
-reference suite at 314/314. Next is the MCP referee surface.
+2026-08-06 - B2.4 added the production `verify_function` MCP referee surface.
+Exact/ambiguous/missing selection and all five result states are covered;
+CodeSkeptic is green at 866/866 and the reference suite at 314/314. Next is
+the B3 sidecar expansion.
