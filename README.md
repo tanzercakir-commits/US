@@ -302,6 +302,11 @@ canonical JSONL telemetry:
     python tools/record_repair_metrics.py record source.cpp repair.bundle.json proposals.json repair-loop.json repair-metrics.jsonl --display-path project/source.cpp --max-iterations 3 --backend affine
     python tools/record_repair_metrics.py summary repair-metrics.jsonl
 
+Validate all twenty original violations, independent replays, and one-line
+verified repair oracles in the [E2 experiment corpus](docs/experiment_e2.md):
+
+    python tools/check_experiment_corpus.py benchmarks/experiment_e2/corpus
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

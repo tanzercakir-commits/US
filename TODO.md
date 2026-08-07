@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E2.1 - implement the seeded-bug experiment corpus**
+- [ ] **E2.2 - run the paired two-arm repair trials**
 
 ## Next
 
-- [ ] **E2.2 - run the paired two-arm repair trials**
 - [ ] **E2.3 - generate the honest paired experiment report**
+- [ ] **E3.0 - expand the assumption declaration stages**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - E2.0 expanded the experiment into a strict twenty-case corpus,
-forty paired trials, and an all-case exact report with bounded conclusions. The
-suite remains 549/549.
+2026-08-07 - E2.1 shipped the strict twenty-case seeded-bug corpus. All twenty
+violations replay and all twenty isolated one-line repairs verify. The suite is
+563/563.

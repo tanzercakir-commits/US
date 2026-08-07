@@ -1944,3 +1944,20 @@ Next: E2.0 - expand the consciousness experiment into bounded stages.
 + The immediately preceding E1.3 gate passed the full 549/549 suite.
 - No blockers.
 Next: E2.1 - implement the seeded-bug experiment corpus.
+
+## 2026-08-07 - E2.1: seeded-bug experiment corpus - DONE
+
++ Added a strict content-addressed corpus manifest with twenty unique standalone
+  supported-subset functions, compiler/test contexts, and separate repair
+  oracles.
++ Every original has one isolated concrete replayable postcondition violation;
+  every one-line non-contract oracle produces a complete all-verified result.
++ Arm-A contexts preserve line numbers while blanking all contracts and exclude
+  obligations, IR, bundles, counterexamples, and oracle records.
++ Added hash/path/schema/file-set/UTF-8/canonical-data negatives, relocation
+  stability, deterministic checker CLI behavior, and local LF enforcement.
+- No blockers.
+Evidence: corpus checker -> 20/20 violated, 20/20 independently replayed, and
+20/20 repaired/verified; focused corpus tests -> 14/14; full reference suite ->
+563/563 in 326.171 s; commit: this stage commit.
+Next: E2.2 - run the paired two-arm repair trials.
