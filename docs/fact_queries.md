@@ -119,3 +119,42 @@ Neither path invents facts, resolves limitations, or promotes trust.
 The reviewed primary-source profile is frozen in
 research/mcp_fact_query_evidence.json. It records the official 2026-07-28
 changelog, schema, stdio, discovery, and tools pages used by the adapter.
+## Compact fact context packs
+
+D2.3 produces codeskeptic.fact-context/v1 as compact, sorted-key ASCII JSON.
+The requested byte budget is also a conservative token upper bound because the
+artifact is ASCII and every token consumes at least one byte. The default and
+maximum are both 2000 bytes.
+
+Every pack has a mandatory envelope containing the exact root symbol, fact
+index identity/schema, stable source display path, source content hash,
+language, requested budget, and omission counts. If this envelope cannot fit,
+generation fails and reports the exact minimum budget instead of dropping root
+or provenance data.
+
+Candidate items come only from the exact D2 query graph through depth eight.
+They are ranked first by shortest graph distance. At a distance, root purity
+and explicit limitations lead; relations then prefer calls, mutations,
+ownership, uses, and definitions; non-root purity follows relations. Stable
+canonical bytes break ties. A relation carries the original edge and exact
+qualified-name labels. No source body, inferred edge, semantic guess, proof
+status, model output, wall clock, or randomness enters the pack.
+
+Selection keeps the longest ranked prefix that fits. Once the next item would
+exceed the budget, the entire lower-ranked suffix is omitted. The limitations,
+purity, relations, and total counters therefore describe exactly what was
+truncated from the ranked candidate window.
+
+Generate a pack with:
+
+    python tools/generate_fact_context.py INDEX SELECTOR OUTPUT
+
+Use a smaller valid budget with --budget. Check committed bytes without writing
+with:
+
+    python tools/generate_fact_context.py INDEX SELECTOR OUTPUT --check
+
+Generation returns 0 on success, 2 for selector/budget errors, and 3 for
+index/output errors. Check mode returns 1 for missing or stale output and never
+rewrites it. The frozen 2000-byte example is
+fixtures/fact_context/pipeline.context.json.

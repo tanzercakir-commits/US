@@ -199,6 +199,12 @@ Clients use server/discover, tools/list, and codeskeptic.query_facts; each
 request carries the current protocol version and client capabilities in
 params._meta.
 
+Generate or verify a deterministic fact-only AI context pack within the hard
+2000-byte ceiling with:
+
+    python tools/generate_fact_context.py fixtures/facts/expected/world.fact-index.json pipeline context.json
+    python tools/generate_fact_context.py fixtures/facts/expected/world.fact-index.json pipeline context.json --check
+
 Reproduce the frozen fact corpus with:
 
     python tools/regenerate_fact_fixtures.py --check

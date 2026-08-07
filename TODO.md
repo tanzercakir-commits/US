@@ -8,11 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **D2.3 - generate compact fact-based context packs**
+- [ ] **D3.0 - expand architectural-rule enforcement**
 
 ## Next
 
-- [ ] **D3.0 - expand architectural-rule enforcement**
+- [ ] **D3.1 - define allowed and forbidden dependency edges**
+- [ ] **D3.2 - enforce architectural rules with SARIF output**
 
 ## Blockers / open questions
 
@@ -21,7 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - D2.2 shipped a stateless MCP 2026-07-28 stdio endpoint with
-discovery, deterministic tool listing, all exact D2.1 queries, typed protocol
-and tool errors, and clean notification/EOF behavior. The suite is green at
-444/444. Next is the bounded context-pack generator.
+2026-08-07 - D2.3 shipped deterministic exact-fact context packs with a hard
+2000-byte ceiling, ranked prefix truncation, exact omission accounting, a
+1906-byte golden, and generate/check CLI modes. The suite is green at 454/454.
+Next is D3 architectural-rule expansion.

@@ -1679,3 +1679,35 @@ Next: D2.2 (MCP fact-query endpoint).
 Evidence: focused MCP tests -> 11/11; combined fact/MCP tests -> 52/52; full
 reference suite -> 444/444; commit: this stage commit.
 Next: D2.3 (compact fact-based context packs).
+
+## 2026-08-07 - D2.3: compact fact context packs - PARTIAL
++ Focused context tests pass 10/10; combined fact/context tests pass 62/62.
++ The frozen context pack is canonical and 1906/2000 bytes.
+- First full-suite process was externally terminated before its summary.
+- The retry reached 454 tests but tests/test_fixtures.py timed out while running
+  tools/regenerate_fixtures.py after 30 seconds; no D2.3 assertion failed.
+Resume: run python -m unittest tests.test_fixtures.FixtureInfrastructureTests.test_two_independent_regenerations_are_byte_identical -v, then rerun
+python -m unittest discover -s tests.
+
+## 2026-08-07 - D2.3: compact fact-based context packs - DONE
++ Added canonical codeskeptic.fact-context/v1 packs with an exact root and
+  content-addressed source/index provenance envelope.
++ Enforced a hard ASCII/UTF-8 byte ceiling equal to the requested conservative
+  token budget; the default and maximum are 2000 bytes.
++ Ranked only indexed purity, explicit limitations, and exact depth-eight graph
+  relations by distance and stable semantic priority.
++ Kept the longest ranked prefix that fits and reported exact omitted
+  limitation, purity, relation, and total counts.
++ Froze a 1906-byte golden containing pipeline purity and both direct callees.
++ Added deterministic generation and read-only check modes with distinct
+  selector/budget, stale-check, and input/output failures.
++ Exact minimum-envelope errors, repeated calls, exact-ID selectors, relocated
+  index files, and limitation/unknown trust paths are byte-stable.
+- No source reconstruction, inferred facts, proof promotion, model call, wall
+  clock, randomness, or unstable physical path enters a context pack.
++ The earlier PARTIAL fixture timeout was isolated as process contention; its
+  focused retry passed and the clean full-suite rerun passed.
+Evidence: focused context tests -> 10/10; combined fact/context tests -> 62/62;
+isolated fixture retry -> 1/1; full reference suite -> 454/454; commit: this
+stage commit.
+Next: D3.0 (architectural-rule enforcement expansion).
