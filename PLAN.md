@@ -1026,10 +1026,102 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase B4 — CI and adoption path
 
-- B4.0 — Expansion
-- B4.1 — CI gate mode: exit codes, baseline suppression (new violation ≠
-  historical debt — the adoption key)
-- B4.2 — Editor/report integration (SARIF consumers)
+#### B4.0 — CI and adoption path expansion
+
+- Goal: replace the coarse B4 headings with bounded stages that expose native
+  semantic verification through an opt-in production CI gate and make its
+  existing SARIF records stable for real editor/code-scanning consumers.
+- Output/exact file set: reference `PLAN.md`, `PROGRESS.md`, and `TODO.md` only.
+- Route decision: legacy CLI/rule defaults, finding baselines, and exit bytes
+  remain unchanged unless semantic verification is explicitly enabled. The
+  semantic gate owns a separate deterministic obligation baseline because a
+  legacy diagnostic key cannot safely identify a proof obligation. SARIF is
+  the first editor/host integration boundary; no custom editor extension is
+  introduced in B4.
+- DoD: B4.1-B4.2 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  semantic enablement, gate modes, exit precedence, baseline matching/status
+  escalation, SARIF fingerprints, consumer behavior, and rollout defaults are
+  explicit; full production/reference suites remain green.
+- Depends: B3.3.
+
+#### B4.1 — Opt-in semantic-verification CI gate
+
+- Goal: run the native referee from the normal CLI and packaged Action with a
+  gradual-adoption gate where historical semantic debt is recorded but a new
+  or worsened obligation cannot pass as verified.
+- Output: `--semantic-verify`; `--semantic-gate
+  report|violations|complete`; deterministic semantic baseline read/write;
+  console/SARIF summaries; Action inputs/outputs; and an end-to-end CI fixture.
+- Exact file set: CodeSkeptic `src/main.cpp`;
+  `src/config/{Config.h,Config.cpp}`; `src/core/ExitPolicy.h`;
+  `src/verification/{SemanticVerificationRule.h,
+  SemanticVerificationRule.cpp,VerificationResult.h,VerificationResult.cpp,
+  VerificationBaseline.h,VerificationBaseline.cpp}`;
+  `src/analyzer/{StaticAnalyzer.h,StaticAnalyzer.cpp}`;
+  `src/reporter/{ConsoleReporter.h,ConsoleReporter.cpp}`; `src/CMakeLists.txt`;
+  `tests/{CMakeLists.txt,ConfigTest.cpp,MacSdkPathTest.cpp,
+  SemanticVerificationGateTest.cpp,VerificationBaselineTest.cpp}`;
+  `tests/fixtures/semantic_gate/**`; `action.yml`;
+  `.github/workflows/action-selftest.yml`; `README.md`;
+  `docs/{usage.md,integrations.md}`; reference `PLAN.md`, `PROGRESS.md`, and
+  `TODO.md`.
+- Gate/exit decision: semantic verification is disabled by default. When
+  enabled, `report` never gates semantic statuses, `violations` gates only
+  replayed violations, and `complete` also gates unknown/unsupported results;
+  solver/checker errors always fail. After baseline classification, precedence
+  is solver error=3, incomplete proof or existing zero-coverage failure=2,
+  violation/legacy finding=1, clean=0. The Action remains report-only by
+  default and exposes the raw analyzer code plus status counts.
+- Baseline decision: `--write-semantic-baseline` writes sorted v1 entries for
+  non-verified results; `--semantic-baseline` affects gating only, never deletes
+  results from reports. Keys use a deterministic semantic fingerprint plus the
+  exact status, so line shifts and counterexample minimization do not create
+  churn while `unknown`/`unsupported` becoming `violated`, or any solver error,
+  resurfaces. A requested missing/malformed/incompatible baseline fails loud.
+- Boundaries: no implicit proof run, no AI judgment, no solver-result caching,
+  and no weakening of replay. JSON/HTML semantic rendering remains outside
+  this stage and must reject or explicitly identify unsupported combinations;
+  legacy invocations retain their current output and exit behavior.
+- DoD: CLI and Action report all five statuses; every gate-mode/status/baseline
+  row has an exit-code test; historical violations are visible but non-gating,
+  new/worsened violations gate, unknown/unsupported never become verified, and
+  solver errors are never baseline-suppressed; repeated baseline/summary/SARIF
+  bytes match; the packaged-binary CI fixture and full production/reference
+  suites pass.
+- Depends: B4.0.
+
+#### B4.2 — SARIF editor and code-scanning consumer integration
+
+- Goal: make semantic-verification SARIF actionable and stable in GitHub code
+  scanning and generic SARIF viewers without changing the legacy no-semantic
+  report contract.
+- Output: stable semantic rule descriptors and partial fingerprints; baseline
+  state/gate metadata; navigable counterexample code flows; a deterministic
+  SARIF consumer fixture/validator; Action upload/self-test coverage; and an
+  editor/code-scanning adoption guide.
+- Exact file set: CodeSkeptic
+  `src/reporter/{SarifReporter.h,SarifReporter.cpp}`;
+  `src/verification/{VerificationResult.h,VerificationResult.cpp}`;
+  `tests/{CMakeLists.txt,SarifReporterTest.cpp,
+  SemanticSarifConsumerTest.cpp}`; `tests/fixtures/semantic_sarif/**`;
+  `action.yml`; `.github/workflows/action-selftest.yml`; `README.md`;
+  `docs/{integrations.md,usage.md}`; reference `PLAN.md`, `PROGRESS.md`, and
+  `TODO.md`.
+- Boundaries: retain SARIF 2.1.0 and the versioned semantic property bag;
+  fingerprints identify the logical obligation rather than line number,
+  message text, solver model, or absolute checkout root. Verified remains a
+  `pass`; violated, unknown, unsupported, and solver-error records remain
+  visibly distinct and never masquerade as a passing result. No editor-specific
+  extension, network lookup, or report-time AI is added.
+- DoD: a pinned five-status fixture validates against the supported SARIF
+  consumer contract; GitHub-style fingerprints survive checkout relocation and
+  source-line shifts but change with obligation semantics; baseline status and
+  gate relevance are explicit; physical/logical locations and replay traces
+  navigate to source; the Action uploads the semantic SARIF and its self-test
+  asserts the expected violation/status counts; legacy empty-semantic SARIF is
+  byte-identical, repeated bytes match, and full production/reference suites
+  pass.
+- Depends: B4.1.
 
 ---
 

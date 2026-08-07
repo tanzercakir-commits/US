@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **B4.0 - CI and adoption path expansion**
+- [ ] **B4.1 - CI semantic-verification gate mode**
 
 ## Next
 
-- [ ] **B4.1 - CI semantic-verification gate mode**
 - [ ] **B4.2 - editor and SARIF consumer integration**
 - [ ] **C1.1 - offline AI contract proposal template**
+- [ ] **C1.2 - proposal validation and acceptance workflow**
 
 ## Blockers / open questions
 
@@ -23,7 +23,7 @@
 
 ## Last updated
 
-2026-08-07 - B3.3 moved native models into versioned, hash-checked offline
-contract packages and wired source, release, Docker, Action, CLI/config, and
-MCP layouts. CodeSkeptic is green at 884/884 and the reference suite at
-314/314. Next is the B4 CI/adoption expansion decision.
+2026-08-07 - B4.0 expanded the CI/adoption path into an opt-in semantic gate
+with a separate deterministic baseline and a stable SARIF consumer stage.
+CodeSkeptic remains green at 884/884 and the reference suite at 314/314. Next
+is B4.1 implementation.

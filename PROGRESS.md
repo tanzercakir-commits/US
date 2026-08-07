@@ -1236,3 +1236,21 @@ packaged native-Z3 MCP -> verified=6, all other states=0, repeated bytes equal;
 full reference suite -> 314/314; production commit -> `628c9d6`; commit: this
 reference-ledger commit.
 Next: B4.0 (CI and adoption path expansion).
+
+## 2026-08-07 - B4.0: CI and adoption path expansion - DONE
++ Inventoried the production CLI, rule engine, semantic result channel, exit
+  policy, legacy baseline, SARIF reporter, Action, and packaging seams.
++ Expanded B4.1 and B4.2 with exact file boundaries, dependencies, rollout
+  defaults, invariants, and executable definitions of done.
++ Froze legacy behavior unless semantic verification is explicitly enabled and
+  separated proof-obligation debt from the legacy diagnostic baseline.
++ Defined report/violations/complete gate modes, fail-closed exit precedence,
+  exact-status baseline escalation, logical fingerprints, and SARIF consumer
+  stability requirements.
++ Production remains unchanged and green at 884/884; the reference suite is
+  green at 314/314.
+- No blockers.
+Evidence: production commit `628c9d6` -> 884/884; reference suite -> 314/314;
+expanded B4 stage contracts and exact file sets -> present; commit: this
+planning commit.
+Next: B4.1 (opt-in semantic-verification CI gate).
