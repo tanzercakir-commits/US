@@ -1465,11 +1465,75 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase D2 — Query interface
 
-- D2.1 — CLI queries: `who-calls X`, `who-mutates Y`, `neighborhood X k=2`
-- D2.2 — Query endpoint as an MCP tool (the agents' map — the stage where the
-  "Semantic Compiler Interface" is born)
-- D2.3 — Context-pack generator (1c): given a symbol, emit a compact
-  fact-based context bundle for an AI session (target ≤2K tokens)
+#### D2.1 — Deterministic world-model queries and CLI
+
+- Goal: expose exact, deterministic navigation over one validated fact index.
+- Output: a pure query library plus a CLI for who-calls, who-mutates, and
+  undirected symbol neighborhood queries.
+- Exact file set: semantic_verifier/fact_queries.py; tools/query_facts.py;
+  tests/test_fact_queries.py; docs/fact_queries.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: load only codeskeptic.fact-index/v1 through the strict D1 loader.
+  Selectors are exact content IDs or qualified names; ambiguous names fail with
+  sorted typed candidates. who-calls accepts functions, who-mutates accepts
+  variable/parameter/field storage, and neighborhood uses only owned symbol,
+  call, definition, use, and mutation edges. Queries never infer missing edges,
+  resolve D1 limitations, join translation units heuristically, or create proof
+  trust. JSON/text output and errors are deterministic; empty exact results are
+  successful.
+- DoD: exact and ambiguous selector tests; caller and mutator answers with
+  source sites; k=0/1/2 neighborhood coverage and depth validation; canonical
+  result schemas/order/bytes; CLI JSON/text and exit-code tests over the frozen
+  corpus; focused and full suites pass.
+- Depends: D1.3.
+
+#### D2.2 — MCP fact-query endpoint
+
+- Goal: make the D2.1 map available to agents through a documented MCP tool.
+- Output: a dependency-free JSON-RPC stdio MCP server and thin launcher over
+  the exact D2.1 query API.
+- Exact file set: semantic_verifier/fact_mcp.py;
+  tools/fact_mcp_server.py; research/mcp_fact_query_evidence.json;
+  tests/test_fact_mcp.py; docs/fact_queries.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: freeze one current official MCP protocol version and the required
+  initialize, notifications/initialized, tools/list, and tools/call behavior
+  from primary specification evidence. The server reads one caller-supplied,
+  strictly validated fact index and exposes one read-only query tool. It uses
+  newline-delimited JSON-RPC on stdio, emits no logs on stdout, performs no
+  network/file mutation, and never invokes a model or referee. Unknown methods,
+  malformed parameters, ambiguous symbols, and invalid depth return protocol
+  errors or isError tool results without fabricated facts.
+- DoD: dated official evidence artifact; subprocess handshake and tool listing;
+  all three queries through tools/call; deterministic repeated responses;
+  notification/no-response behavior; malformed JSON/request/params and query
+  error coverage; stderr/stdout separation; clean EOF shutdown; focused and
+  full suites pass.
+- Depends: D2.1.
+
+#### D2.3 — Compact fact-based context packs
+
+- Goal: emit a useful symbol-centered AI context bundle within a hard
+  conservative 2K-token upper bound.
+- Output: deterministic relevance-ranked context-pack library/CLI and frozen
+  golden artifact.
+- Exact file set: semantic_verifier/fact_context.py;
+  tools/generate_fact_context.py; fixtures/fact_context/**;
+  tests/test_fact_context.py; docs/fact_queries.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: pack only facts present in one validated index. Include root
+  identity, purity/limitations, and nearest ownership/call/mutation/use facts
+  before farther neighborhood data. No source-body reconstruction, semantic
+  guess, model call, proof promotion, clock, or randomness. Canonical output is
+  ASCII JSON; a maximum UTF-8 byte count equal to the requested token budget is
+  a conservative token upper bound. Default and maximum budget are 2000.
+  Truncation is deterministic and reports omitted counts; the root/provenance
+  envelope must fit or generation fails explicitly.
+- DoD: frozen <=2000-byte golden; exact relevance/order and omission accounting;
+  minimum/invalid budget behavior; repeated/relocated byte stability; CLI
+  generate/check modes; no unstable paths or inferred facts; focused and full
+  suites pass.
+- Depends: D2.2.
 
 ### Phase D3 — Architectural rules (1b)
 

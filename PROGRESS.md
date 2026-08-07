@@ -1610,3 +1610,18 @@ Next: D1.3 (deterministic fact corpus).
 Evidence: focused corpus tests -> 9/9; combined fact tests -> 32/32; full
 reference suite -> 424/424; commit: this stage commit.
 Next: D2.1 (world-model CLI queries).
+
+## 2026-08-07 - plan: D2 query-interface expansion - DONE
++ Expanded D2.1 through D2.3 into bounded query, MCP, and context-pack stages
+  with exact file sets and executable definitions of done.
++ Defined exact ID/qualified-name selectors, explicit ambiguity, typed
+  who-calls/who-mutates boundaries, and fact-only neighborhoods.
++ Scoped D2.2 to one read-only stdio MCP tool over the pure query API, with the
+  protocol version deferred to dated official evidence in that stage.
++ Defined an ASCII/UTF-8 byte ceiling equal to the requested context token
+  budget, giving a conservative hard upper bound without a tokenizer package.
++ Kept every query and pack inside one validated D1 index; no heuristic
+  cross-TU join, missing-edge inference, model call, or proof promotion.
+- No query, MCP, or context-pack runtime behavior changes in this entry.
+Evidence: D1.3 commit hook baseline -> 424/424.
+Next: D2.1 (deterministic world-model queries and CLI).
