@@ -2058,3 +2058,16 @@ Evidence: focused assumption-manifest tests -> 14/14; frozen fixture summary ->
 1 contract, 1 test, 1 uncheckable; full reference suite -> 604/604 in 350.621 s;
 commit: this stage commit.
 Next: E3.2 - run the repository-local declaration-before-code pilot.
+
+## 2026-08-07 - E3.2: repository-local assumption pilot - PARTIAL
+
++ Froze the pilot declaration before authoring any resolving overlay, pilot
+  checker, or pilot evidence test.
++ Declaration `sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb`
+  snapshots five exact existing inputs and declares six assumptions.
++ Five assumptions intend repository tests; one external-model generalization
+  claim is explicitly intended to remain uncheckable.
+- Closure artifacts intentionally do not exist in this declaration sub-gate.
+Resume after this commit by creating `pilots/assumption_protocol/e3-pilot.resolution.json`,
+`tools/run_assumption_pilot.py`, and `tests/test_assumption_pilot.py` without
+changing the declaration bytes or ID.

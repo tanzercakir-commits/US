@@ -22,5 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - E3.1 shipped immutable assumption declarations and linked
-contract/test/uncheckable resolution overlays. The suite is 604/604.
+2026-08-07 - E3.2 declaration sub-gate froze six assumptions at manifest
+`sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb`.
+Resolution, pilot tool, and pilot evidence tests intentionally do not yet exist.
