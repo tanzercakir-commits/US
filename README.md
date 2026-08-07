@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 355 deterministic tests. The separately cloned
+The current suite contains 366 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -144,7 +144,13 @@ success report and a deterministic seeded-mismatch failure.
 
 The [C++26 contracts bridge decision](docs/cpp26_contracts_bridge.md) freezes
 the `pre`/`post`/`contract_assert` mapping, current compiler evidence, and
-the fail-closed C3.1 source-bridge boundary.
+the fail-closed C3.1 source-bridge boundary. The implemented bridge accepts the
+controlled standard spelling automatically. Its positive fixture is reproducible
+with:
+
+```powershell
+python -m semantic_verifier fixtures/cpp26_contracts/verified.cpp
+```
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

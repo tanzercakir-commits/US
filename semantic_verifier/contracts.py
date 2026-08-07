@@ -7,6 +7,11 @@ import re
 from typing import Mapping
 
 from .array_types import is_array_type
+from .cpp26_contracts import (
+    Cpp26FunctionContract,
+    expression_identifiers,
+    normalize_result_binding,
+)
 from .record_types import is_record_type, record_type
 from .integer_types import (
     I32,
@@ -501,6 +506,80 @@ def contracts_before(
             )
         )
     return tuple(contracts), frame, tuple(issues)
+
+def contracts_from_cpp26(
+    specs: tuple[Cpp26FunctionContract, ...],
+    line_map: LineMap,
+    parameter_types: Mapping[str, str],
+    return_type: str,
+    parameter_modes: Mapping[str, str],
+    const_value_parameters: frozenset[str],
+) -> tuple[tuple[Contract, ...], tuple[ContractIssue, ...]]:
+    """Lower extracted C++26 function contracts through the owned parser."""
+
+    contracts: list[Contract] = []
+    issues: list[ContractIssue] = []
+    for spec in specs:
+        location = line_map.location(spec.offset)
+        expression_text = spec.expression
+        symbols = dict(parameter_types)
+        if spec.kind == "ensures" and spec.result_name is not None:
+            if return_type == "void":
+                issues.append(
+                    ContractIssue(
+                        location,
+                        "a void function postcondition cannot bind a result",
+                    )
+                )
+                continue
+            if spec.result_name in parameter_types:
+                issues.append(
+                    ContractIssue(
+                        location,
+                        "post result binding conflicts with a parameter name",
+                    )
+                )
+                continue
+            expression_text = normalize_result_binding(
+                expression_text, spec.result_name
+            )
+            symbols["result"] = return_type
+        referenced = expression_identifiers(spec.expression)
+        mutable_values = sorted(
+            name
+            for name, mode in parameter_modes.items()
+            if mode == "value"
+            and name not in const_value_parameters
+            and name in referenced
+            and spec.kind == "ensures"
+        )
+        if mutable_values:
+            issues.append(
+                ContractIssue(
+                    location,
+                    "C++26 postcondition odr-uses non-const value parameter(s): "
+                    + ", ".join(mutable_values),
+                )
+            )
+            continue
+        try:
+            expression = parse_contract_expression(expression_text, symbols)
+            if expression.type != "bool":
+                raise ContractSyntaxError("contract expression must be boolean")
+        except ContractSyntaxError as error:
+            issues.append(ContractIssue(location, str(error)))
+            continue
+        contracts.append(
+            Contract(
+                kind=spec.kind,
+                expression=expression,
+                location=location,
+                text=f"{spec.kind} {expression_text}",
+                machine_proposed=False,
+            )
+        )
+    return tuple(contracts), tuple(issues)
+
 
 def invariants_before(
     source: str,

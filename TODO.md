@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C3.1 - accept standard syntax through the fail-closed bridge**
+- [ ] **C4.0 - expand the enforcement ladder**
 
 ## Next
 
-- [ ] **C4.0 - expand the enforcement ladder**
 - [ ] **C4.1 - generate property-test skeletons for unproven obligations**
+- [ ] **C4.2 - generate runtime assertions and the three-rung demo**
 
 ## Blockers / open questions
 
@@ -22,7 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - C3.0 froze the P2900 mapping and compiler evidence. GCC 16 reports
-experimental support; Clang reports P2900 unsupported, and local Clang 20.1.8
-rejects the feature. C3.1 is fully scoped as a byte-stable fail-closed bridge.
-The reference suite is green at 355/355.
+2026-08-07 - C3.1 shipped the byte-stable, fail-closed C++26 contracts bridge.
+The positive fixture verifies 6/6 obligations; the negative postcondition is
+replayed as a violation. Text/JSON/IR are byte-identical across repeated runs,
+and the reference suite is green at 366/366. Next is C4.0 expansion.

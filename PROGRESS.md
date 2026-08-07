@@ -1429,3 +1429,33 @@ Evidence: research matrix tests -> 4/4; official source set -> exact; local
 Clang probe -> exit=1 with missing macro and rejected declarator; full reference
 suite -> 355/355; commit: this stage commit.
 Next: C3.1 (fail-closed standard-syntax source bridge).
+## 2026-08-07 - C3.1: fail-closed C++26 contracts source bridge - DONE
++ Added a deterministic lexical bridge that recognizes controlled P2900
+  `pre`, `post`, and `contract_assert` forms while ignoring comments,
+  ordinary/raw strings, and preprocessing directives.
++ Private compiler input preserves the original UTF-8 byte count and newline
+  positions. AST/result locations remain on the original source, and temporary
+  bridge/header paths never enter reports.
++ Function contracts travel as side metadata into the existing strict contract
+  parser; no standard predicate bypasses the owned expression or type boundary.
++ `post(r: expression)` performs token-wise result binding without rewriting
+  same-spelled members. Postconditions without a result binding also work.
++ Enforced standard const-use and result-name rules plus the declared
+  first-and-only, non-virtual, attribute-free definition boundary.
++ `contract_assert` reaches the existing assertion IR/VC path through a private
+  declaration, so it is proved at its source point and then assumed.
++ Mixed standard/`cs:` contracts, attributes, malformed/unattached forms,
+  redeclarations, virtual/member definitions, binder conflicts, and non-const
+  post-parameter use all fail closed as explicit unsupported results.
++ Standard and existing fixtures have identical IR/obligation semantic
+  projections after source locations are removed.
++ The positive fixture yields verified=6 with all other statuses zero. The
+  seeded false postcondition yields verified=2, violated=1 with replay.
+- This is a controlled static-analysis bridge, not the complete C++26 grammar
+  or a runtime contract-evaluation implementation; native Clang contract AST
+  nodes remain the intended future replacement.
+Evidence: focused bridge tests -> 11/11; bridge/research/frontend regression
+set -> 51/51; positive CLI -> 6/6 verified; negative CLI -> exit=1 and replayed
+postcondition violation; repeated text/JSON/IR -> byte-identical; full reference
+suite -> 366/366; commit: this stage commit.
+Next: C4.0 (expand the enforcement ladder).

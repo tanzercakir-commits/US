@@ -80,3 +80,50 @@ ambiguity, or uncertain binding fail closed as unsupported.
 This bridge is removable. When Clang exposes stable native contract AST nodes,
 a later stage can replace extraction while keeping the owned mapping and
 verification conditions unchanged.
+## Implemented C3.1 bridge
+
+The bridge now runs automatically before the existing Clang C++17 JSON-AST
+parse. It removes accepted `pre`/`post` spans only from private compiler
+input, retains their predicates as side metadata, and changes
+`contract_assert` to the already-owned `assert(bool)` call shape. The main
+source's UTF-8 byte length and newline positions are unchanged, so AST offsets
+continue to map to original source locations. Temporary paths and the private
+assert declaration never enter reports.
+
+A complete supported example is committed at
+`fixtures/cpp26_contracts/verified.cpp`:
+
+```cpp
+int absolute_value(const int value)
+    pre(value != -2147483648)
+    post(result: result >= 0 && (result == value || result == -value))
+{
+    contract_assert(value != -2147483648);
+    if (value < 0) {
+        return -value;
+    }
+    return value;
+}
+```
+
+Run it through the ordinary referee:
+
+```powershell
+python -m semantic_verifier fixtures/cpp26_contracts/verified.cpp
+```
+
+The example produces six verified obligations and zero results in every other
+status. `violated.cpp` proves the negative path: its false postcondition
+produces two verified obligations plus one replayed violation and exit `1`.
+Equivalent standard and `cs:` fixtures lower to the same semantic projection.
+
+The implemented acceptance subset is attribute-free and definition-only. A
+contracted function must be its first and only declaration and otherwise fit
+the existing non-virtual frontend subset. A postcondition may omit the result
+binding; when it has one, the bridge renames only root identifier tokens to
+`result`, never same-spelled member names. Any non-reference parameter used by
+a postcondition must be const-qualified. Mixed standard/`cs:` contracts,
+attributes, malformed or unattached forms, redeclarations, virtual/member
+definitions, result-name conflicts, and const-rule violations produce explicit
+unsupported results. Text inside comments, ordinary/raw strings, and
+preprocessing directives is inert.

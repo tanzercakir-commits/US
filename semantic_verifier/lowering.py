@@ -8,7 +8,12 @@ import re
 from typing import Any, Iterable, Mapping
 
 from .array_types import array_type, is_array_type, parse_source_array_type
-from .contracts import contracts_before, invariants_before
+from .contracts import (
+    ContractIssue,
+    contracts_before,
+    contracts_from_cpp26,
+    invariants_before,
+)
 from .frontend import FrontendUnit
 from .integer_types import integer_type, is_fixed_integer_type
 from .record_types import RecordField, RecordType, is_record_type, record_type
@@ -329,6 +334,7 @@ class SemanticLowerer:
         self._record_types: dict[str, RecordType] = {}
         self._record_order: list[RecordType] = []
         self._consumed_contract_lines: set[int] = set()
+        self._consumed_cpp26_contract_offsets: set[int] = set()
 
     def lower(self) -> ModuleIR:
         functions: list[FunctionIR] = []
@@ -367,9 +373,18 @@ class SemanticLowerer:
                 and child.get("completeDefinition")
             )
         )
-        self._index_function_links(
+        function_nodes = [
             child for child in source_nodes if child.get("kind") == "FunctionDecl"
+        ]
+        indexed_ids = {str(child.get("id")) for child in function_nodes}
+        function_nodes.extend(
+            child
+            for child in children
+            if isinstance(child, dict)
+            and self._is_builtin_assert_declaration(child)
+            and str(child.get("id")) not in indexed_ids
         )
+        self._index_function_links(function_nodes)
         for child in source_nodes:
             kind = child.get("kind")
             if kind == "FunctionDecl":
@@ -395,6 +410,15 @@ class SemanticLowerer:
                         location,
                         "orphan cs: contract is not attached to a supported declaration "
                         "or while statement",
+                    )
+                )
+        for spec in self.unit.cpp26_contracts:
+            if spec.offset not in self._consumed_cpp26_contract_offsets:
+                unsupported.append(
+                    self._module_issue(
+                        self.unit.line_map.location(spec.offset),
+                        "orphan C++26 function contract is not attached to a "
+                        "supported first-and-only function definition",
                     )
                 )
         return ModuleIR(
@@ -784,7 +808,7 @@ class SemanticLowerer:
             (symbol.source_name or symbol.name): symbol.passing or "value"
             for symbol in parameters
         }
-        contracts, declared_frame, contract_issues = contracts_before(
+        comment_contracts, declared_frame, comment_issues = contracts_before(
             self.unit.source,
             begin_offset,
             self.unit.line_map,
@@ -792,13 +816,61 @@ class SemanticLowerer:
             return_type,
             parameter_modes,
         )
+        body_begin_offset: int | None = None
+        if body_node is not None:
+            body_begin_byte = declaration_begin_offset(body_node)
+            if body_begin_byte is not None:
+                body_begin_offset = self.unit.line_map.char_offset_from_byte_offset(
+                    body_begin_byte
+                )
+        cpp26_specs = tuple(
+            spec
+            for spec in self.unit.cpp26_contracts
+            if body_begin_offset is not None
+            and begin_offset <= spec.offset < body_begin_offset
+        )
+        self._consumed_cpp26_contract_offsets.update(
+            spec.offset for spec in cpp26_specs
+        )
+        const_value_parameters = frozenset(
+            str(parameter_node.get("name", ""))
+            for parameter_node, parameter_profile in zip(
+                parameter_nodes, profile.parameters
+            )
+            if parameter_profile.passing == "value"
+            and re.search(r"\bconst\b", _qual_type(parameter_node))
+        )
+        cpp26_contracts, cpp26_issues = contracts_from_cpp26(
+            cpp26_specs,
+            self.unit.line_map,
+            parameter_types,
+            return_type,
+            parameter_modes,
+            const_value_parameters,
+        )
+        contract_issues = comment_issues + cpp26_issues
+        contracts = comment_contracts + cpp26_contracts
+        if cpp26_specs and (comment_contracts or declared_frame is not None):
+            contract_issues += (
+                ContractIssue(
+                    self.unit.line_map.location(cpp26_specs[0].offset),
+                    "mixed C++26 and cs: function contracts are unsupported",
+                ),
+            )
+        if cpp26_specs and len(self._function_profiles.get(link_name, ())) != 1:
+            contract_issues += (
+                ContractIssue(
+                    self.unit.line_map.location(cpp26_specs[0].offset),
+                    "C++26 contracts require a first-and-only function definition",
+                ),
+            )
         self._consumed_contract_lines.update(
-            contract.location.line for contract in contracts
+            contract.location.line for contract in comment_contracts
         )
         if declared_frame is not None:
             self._consumed_contract_lines.add(declared_frame.location.line)
         self._consumed_contract_lines.update(
-            issue.location.line for issue in contract_issues
+            issue.location.line for issue in comment_issues
         )
         if contract_issues and initial_error is None:
             issue = contract_issues[0]

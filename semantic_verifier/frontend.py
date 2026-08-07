@@ -17,6 +17,11 @@ import subprocess
 import tempfile
 from typing import Any
 
+from .cpp26_contracts import (
+    Cpp26ContractBridgeError,
+    Cpp26FunctionContract,
+    bridge_cpp26_contracts,
+)
 from .integer_types import TARGET_PROFILE_ID, TARGET_PROFILE_PROBE
 from .locations import LineMap
 
@@ -32,6 +37,7 @@ class FrontendUnit:
     physical_path: str
     ast: dict[str, Any]
     line_map: LineMap
+    cpp26_contracts: tuple[Cpp26FunctionContract, ...] = ()
 
 
 def discover_clang(explicit: str | None = None) -> str:
@@ -121,7 +127,53 @@ class ClangJsonFrontend:
             source = source_path.read_bytes().decode("utf-8")
         except (OSError, UnicodeError) as error:
             raise FrontendError(f"cannot read {shown}: {error}") from error
+        try:
+            bridge = bridge_cpp26_contracts(source)
+        except Cpp26ContractBridgeError as error:
+            raise FrontendError(
+                f"unsupported C++26 contract bridge input: {error}"
+            ) from error
 
+        if not bridge.changed:
+            ast = self._parse_ast(source_path, shown)
+            physical_path = os.path.normcase(os.path.abspath(source_path))
+            return FrontendUnit(
+                source,
+                shown,
+                physical_path,
+                ast,
+                LineMap(source, shown),
+            )
+
+        with tempfile.TemporaryDirectory(
+            prefix="semantic-verifier-cpp26-"
+        ) as directory:
+            compiler_path = Path(directory) / (
+                "input" + (source_path.suffix or ".cpp")
+            )
+            compiler_path.write_bytes(bridge.compiler_source.encode("utf-8"))
+            include_path: Path | None = None
+            if bridge.assertion_count:
+                include_path = Path(directory) / "codeskeptic_contract_assert.hpp"
+                include_path.write_bytes(b"void assert(bool);\n")
+            ast = self._parse_ast(compiler_path, shown, include_path=include_path)
+            physical_path = os.path.normcase(os.path.abspath(compiler_path))
+            return FrontendUnit(
+                source,
+                shown,
+                physical_path,
+                ast,
+                LineMap(source, shown),
+                bridge.function_contracts,
+            )
+
+    def _parse_ast(
+        self,
+        source_path: Path,
+        shown: str,
+        *,
+        include_path: Path | None = None,
+    ) -> dict[str, Any]:
         command = [
             self.clang,
             "-Xclang",
@@ -131,8 +183,10 @@ class ClangJsonFrontend:
             "-fno-color-diagnostics",
             "-Wno-everything",
             "-std=c++17",
-            str(source_path),
         ]
+        if include_path is not None:
+            command.extend(["-include", str(include_path)])
+        command.append(str(source_path))
         flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
         try:
             completed = subprocess.run(
@@ -153,15 +207,22 @@ class ClangJsonFrontend:
                 str(source_path.resolve()),
                 source_path.resolve().as_posix(),
             }
+            if include_path is not None:
+                path_variants.update(
+                    {
+                        str(include_path),
+                        include_path.as_posix(),
+                        str(include_path.resolve()),
+                        include_path.resolve().as_posix(),
+                    }
+                )
             for path_variant in sorted(path_variants, key=len, reverse=True):
                 detail = detail.replace(path_variant, shown)
             raise FrontendError(f"Clang rejected the translation unit: {detail}")
         try:
-            ast = json.loads(completed.stdout)
+            return json.loads(completed.stdout)
         except json.JSONDecodeError as error:
             raise FrontendError(f"Clang returned invalid AST JSON: {error}") from error
-        physical_path = os.path.normcase(os.path.abspath(source_path))
-        return FrontendUnit(source, shown, physical_path, ast, LineMap(source, shown))
 
     def parse_source(
         self, source: str, display_path: str = "test.cpp"
