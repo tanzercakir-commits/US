@@ -1,0 +1,158 @@
+{
+  "contracts": [
+    {
+      "kind": "requires",
+      "location": {
+        "column": 4,
+        "file": "fixtures/repair_bundle/violated.cpp",
+        "line": 1
+      },
+      "machine_proposed": true,
+      "text": "requires value >= 0"
+    },
+    {
+      "kind": "ensures",
+      "location": {
+        "column": 4,
+        "file": "fixtures/repair_bundle/violated.cpp",
+        "line": 2
+      },
+      "machine_proposed": false,
+      "text": "ensures result == value"
+    }
+  ],
+  "id": "sha256:c30b90b9f4d48a70233cdaf17d59f10a3317c210bce53ff2f5528883e1b4763c",
+  "obligation": {
+    "assumptions": [
+      {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": ">=",
+        "type": "bool"
+      },
+      {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "2147483647"
+          }
+        ],
+        "kind": "binary",
+        "op": "<=",
+        "type": "bool"
+      },
+      {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": ">=",
+        "type": "bool"
+      }
+    ],
+    "conclusion": {
+      "args": [
+        {
+          "kind": "constant",
+          "type": "i32",
+          "value": "0"
+        },
+        {
+          "kind": "variable",
+          "type": "i32",
+          "value": "value#0"
+        }
+      ],
+      "kind": "binary",
+      "op": "==",
+      "type": "bool"
+    },
+    "description": "postcondition declared at line 2: ensures result == value",
+    "function": "broken",
+    "id": "ob00002",
+    "kind": "postcondition",
+    "location": {
+      "column": 3,
+      "file": "fixtures/repair_bundle/violated.cpp",
+      "line": 4
+    },
+    "mode": "validity"
+  },
+  "referee": "codeskeptic.affine/v1",
+  "result": {
+    "counterexample": {
+      "value": "1"
+    },
+    "function": "broken",
+    "kind": "postcondition",
+    "location": {
+      "column": 3,
+      "file": "fixtures/repair_bundle/violated.cpp",
+      "line": 4
+    },
+    "message": "violated: deterministic search found and replayed a concrete model; minimized from 1 to 1 bindings",
+    "obligation": "ob00002",
+    "status": "violated"
+  },
+  "schema": "codeskeptic.repair-bundle/v1",
+  "source": {
+    "file": "fixtures/repair_bundle/violated.cpp",
+    "sha256": "sha256:a72ef24c8e2158f1efcc9a58114a86490da167d37f4dc6dd0a3ef2b2b19c2b24"
+  },
+  "source_slice": {
+    "end_line": 5,
+    "lines": [
+      {
+        "number": 1,
+        "text": "// cs: ai requires value >= 0"
+      },
+      {
+        "number": 2,
+        "text": "// cs: ensures result == value"
+      },
+      {
+        "number": 3,
+        "text": "int broken(int value) {"
+      },
+      {
+        "number": 4,
+        "text": "  return 0;"
+      },
+      {
+        "number": 5,
+        "text": "}"
+      }
+    ],
+    "start_line": 1
+  },
+  "verification": {
+    "schema": "codeskeptic.semantic-verification/v6",
+    "sha256": "sha256:1a216f4b5ded99eedffd06dc4d8b86e232ee23ba737e9e1a13ea572dc3395f18"
+  }
+}

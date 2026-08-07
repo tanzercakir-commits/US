@@ -289,6 +289,13 @@ violated-obligation bundle with:
 
     python tools/generate_repair_bundle.py source.cpp repair.bundle.json --display-path project/source.cpp --backend affine
     python tools/generate_repair_bundle.py source.cpp repair.bundle.json --display-path project/source.cpp --backend affine --check
+
+Run or check a bounded offline scripted repair loop; only the verifier decides
+success:
+
+    python tools/run_repair_loop.py source.cpp repair.bundle.json proposals.json repair-loop.json --display-path project/source.cpp --max-iterations 3 --backend affine
+    python tools/run_repair_loop.py source.cpp repair.bundle.json proposals.json repair-loop.json --display-path project/source.cpp --max-iterations 3 --backend affine --check
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **E1.2 - implement the bounded repair harness**
+- [ ] **E1.3 - add append-only repair metrics telemetry**
 
 ## Next
 
-- [ ] **E1.3 - add append-only repair metrics telemetry**
 - [ ] **E2.0 - expand the consciousness experiment stages**
 ## Blockers / open questions
 
@@ -21,6 +20,6 @@
 
 ## Last updated
 
-2026-08-07 - E1.1 shipped strict replay-attested repair bundles with exact
-source/report/obligation/result links, contract provenance, JSON Schema, and
-affine/Z3 replay evidence. The suite is 524/524.
+2026-08-07 - E1.2 shipped the bounded untrusted-proposer harness with
+referee-only success, intent preservation, exact attempt logs, and non-mutating
+source behavior. The suite is 537/537.

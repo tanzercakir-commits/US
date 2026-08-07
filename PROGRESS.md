@@ -1895,3 +1895,21 @@ Evidence: focused repair-bundle tests -> 14/14 including installed Z3 replay;
 golden check -> exact; full reference suite -> 524/524 in 260.499 s; commit:
 this stage commit.
 Next: E1.2 - implement the bounded untrusted-proposer repair harness.
+
+## 2026-08-07 - E1.2: bounded untrusted-proposer repair harness - DONE
+
++ Added strict content-addressed line-edit proposals, offline proposal scripts,
+  attempt records, canonical loop logs, and a PatchProposer abstract seam.
++ Harness applies at most 1-8 in-memory proposals, re-verifies every candidate,
+  rebundles replayable violations, stops on first verified success, and logs
+  exactly N attempts on exhaustion.
++ Success requires a non-empty all-verified target result set, no module
+  failure, and byte-equivalent bundled contracts/provenance; deleting intent
+  cannot manufacture success.
++ Stale/range/UTF-8/no-op/reused/non-proposal/proposer-error and nonverified
+  candidates are rejected or referee-blocked without modifying the source file.
++ Froze first-shot success and two-attempt exhaustion plus CLI check behavior.
+- No blockers.
+Evidence: focused repair-loop tests -> 13/13; both frozen logs -> exact; full
+reference suite -> 537/537 in 267.047 s; commit: this stage commit.
+Next: E1.3 - add append-only repair metrics telemetry.

@@ -1,7 +1,7 @@
 # Referee-guided repair loop
 
-Status: E1.1 replay-attested repair bundles are implemented. The bounded
-proposal harness and telemetry stages follow in E1.2 and E1.3.
+Status: E1.1 bundles and the E1.2 bounded repair harness are implemented.
+Append-only telemetry follows in E1.3.
 
 ## Repair bundle v1
 
@@ -61,3 +61,51 @@ mismatch, and 2 means input/frontend/referee/schema/replay failure.
 fixtures/repair_bundle freezes a violated postcondition with one
 machine-proposed requires contract, one human ensures contract, exact source
 context, and an affine-replayed counterexample.
+
+## Bounded repair harness
+
+RepairHarness accepts a PatchProposer abstract seam and calls it at most N
+times, where N is from one through eight. The proposer is untrusted. The
+dependency-free CLI uses only a strict codeskeptic.patch-script/v1 document;
+there is no network or model package.
+
+A codeskeptic.patch-proposal/v1 value names the exact current UTF-8 source hash
+and one inclusive line range plus replacement lines. Proposal and loop content
+identities cover every field. Stale hashes, invalid ranges, invalid UTF-8,
+newline/NUL-bearing replacement lines, no-op edits, repeated proposal IDs,
+non-proposal returns, and proposer exceptions are logged and rejected.
+
+Every valid candidate is verified from memory with the admitted built-in
+referee. A candidate succeeds only when:
+
+- the exact target function still exists with every bundled contract unchanged,
+  including text and human/machine provenance;
+- its complete result set is non-empty and every result is verified;
+- no module-level lowering failure exists.
+
+Deleting or changing a contract can never manufacture success. If a candidate
+still has a concrete replayable violation, the harness builds the next E1.1
+bundle and continues from that candidate. Unknown, unsupported, solver-error,
+missing-target, or non-rebundleable candidates are referee-blocked and do not
+become the next source. The first verified candidate stops the loop; otherwise
+all N attempts are recorded and status is exhausted.
+
+codeskeptic.repair-loop/v1 records every proposal ID, candidate source hash,
+verification artifact hash, exact obligation statuses, diagnostic, and the
+accepted source/proposal only on verified success. It carries no time or random
+value. The original source file is never written.
+
+Run the offline harness:
+
+    python tools/run_repair_loop.py source.cpp repair.bundle.json \
+      proposals.json repair-loop.json \
+      --display-path project/source.cpp --max-iterations 3 \
+      --backend affine
+
+Add --check to compare exact log bytes without writing. Exit code 0 means the
+deterministic loop ran or matched, 1 means check mismatch, and 2 means strict
+input/frontend/referee error. Loop exhaustion is an honest output, not a tool
+error.
+
+fixtures/repair_loop freezes a first-shot verified repair and a two-attempt
+exhausted run.

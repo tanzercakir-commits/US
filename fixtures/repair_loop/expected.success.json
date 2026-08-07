@@ -1,0 +1,33 @@
+{
+  "accepted": {
+    "proposal": "sha256:d2d23e09039b30cec264e0b833c5104826c313e6a63202e90b5330245db87668",
+    "source": "// cs: ai requires value >= 0\n// cs: ensures result == value\nint broken(int value) {\n  return value;\n}",
+    "source_sha256": "sha256:9e2cea287fbad0b3be7b1bc6abc80ab00c3242f187460f58c91b330a7a779577"
+  },
+  "attempts": [
+    {
+      "candidate_source_sha256": "sha256:9e2cea287fbad0b3be7b1bc6abc80ab00c3242f187460f58c91b330a7a779577",
+      "diagnostic": "accepted by complete target-function verification",
+      "iteration": 1,
+      "proposal": "sha256:d2d23e09039b30cec264e0b833c5104826c313e6a63202e90b5330245db87668",
+      "results": [
+        {
+          "obligation": "ob00001",
+          "status": "verified"
+        },
+        {
+          "obligation": "ob00002",
+          "status": "verified"
+        }
+      ],
+      "status": "verified",
+      "verification_sha256": "sha256:9daf2555ec8505d5342cfddf0aa1100cdf61bd38031f48f7f5320ba5d4281533"
+    }
+  ],
+  "id": "sha256:8ec30c00c7739d2f31459cac77c7b82f9b10a4d83354d8dfb5e9b8cf9ecc40bc",
+  "initial_bundle": "sha256:c30b90b9f4d48a70233cdaf17d59f10a3317c210bce53ff2f5528883e1b4763c",
+  "initial_source_sha256": "sha256:a72ef24c8e2158f1efcc9a58114a86490da167d37f4dc6dd0a3ef2b2b19c2b24",
+  "max_iterations": 3,
+  "schema": "codeskeptic.repair-loop/v1",
+  "status": "verified"
+}

@@ -1,0 +1,17 @@
+{
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:a72ef24c8e2158f1efcc9a58114a86490da167d37f4dc6dd0a3ef2b2b19c2b24",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:d2d23e09039b30cec264e0b833c5104826c313e6a63202e90b5330245db87668",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "schema": "codeskeptic.patch-script/v1"
+}
