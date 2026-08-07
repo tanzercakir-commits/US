@@ -1,0 +1,29 @@
+{
+  "artifacts": {
+    "accepted": {
+      "path": "accepted.cpp",
+      "sha256": "sha256:7f0fbc70d5dfd27401c83fb2ea43e83e7b0d434bbc7be9c95551264b563a8363"
+    },
+    "implemented": {
+      "path": "implemented.cpp",
+      "sha256": "sha256:714c619df97add7789bdeb73f7363f08dac8da2d84361c48df5140223aaba1b7"
+    },
+    "proposed": {
+      "path": "proposed.cpp",
+      "sha256": "sha256:59c406988fa4b4ff97f309e1f41940ab56450ce2b1012d3947f7a8b2ec26c974"
+    }
+  },
+  "request": "Implement increment_checked for signed 32-bit values. For every input below INT_MAX, return exactly value + 1 without signed overflow.",
+  "schema": "codeskeptic.contract-first-task/v1",
+  "task_id": "increment_checked",
+  "verification": {
+    "expected_summary": {
+      "solver_error": 0,
+      "unknown": 0,
+      "unsupported": 0,
+      "verified": 3,
+      "violated": 0
+    },
+    "function": "increment_checked"
+  }
+}

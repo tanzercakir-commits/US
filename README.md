@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 338 deterministic tests. The separately cloned
+The current suite contains 347 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -125,6 +125,18 @@ python tools/contract_proposal.py `
 The [contract-proposal loop](docs/contract_proposal_loop.md) defines the v1
 request/response schemas, external-adapter boundary, logical identity, and
 mandatory `cs: ai` provenance.
+Run the frozen request → proposal → approval → implementation → verification
+workflow:
+
+```powershell
+python tools/contract_first_workflow.py `
+  --manifest fixtures/contract_first/task.json `
+  --check fixtures/contract_first/expected.run.json
+```
+
+The [contract-first workflow](docs/contract_first_workflow.md) and
+[task template](templates/contract_first_task.md) define the content-addressed
+transition and human/referee trust boundaries.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

@@ -1362,3 +1362,28 @@ validate against their JSON schemas; review and acceptance golden CLI checks ->
 exact match; relocation keeps review/audit identity, later source edit breaks
 matching; full reference suite -> 338/338; commit: this stage commit.
 Next: C2.1 (contract-first task template and end-to-end run).
+## 2026-08-07 - C2.1: executable contract-first task template - DONE
++ Added a versioned, dependency-free workflow checker and CLI for prose request
+  → `cs: ai` proposal → marker-free approval → implementation → verification.
++ Added a reusable Markdown task template and strict content-addressed manifest
+  with safe relative paths, exact SHA-256 pins, and five-status expectations.
++ Enforced proposal/approval marker separation, unchanged declarations and
+  contract kinds, and exact reuse of accepted contracts by the implementation.
++ Reused the ordinary frontend, VC generator, and checker; any violation,
+  unknown, unsupported result, solver error, empty proof set, or summary drift
+  prevents a complete workflow report.
++ The frozen `increment_checked` task verifies contract consistency, signed-add
+  safety, and its postcondition: verified=3 and every other status zero.
++ Relocating the full task directory preserves report bytes; repeated output
+  matches the golden run exactly.
++ The reference suite grew from 338 to 347 tests and every test is green.
+- Correction to the prior C1.3 evidence: review/acceptance validation used exact
+  versioned artifact shapes and frozen goldens, not standalone JSON Schema
+  resources; those files were intentionally outside the C1.3 declared scope.
+- Human reviewer identity and prose correctness remain external attestations;
+  the workflow proves artifact consistency and implementation obligations.
+Evidence: focused contract-first tests -> 9/9; transition/path/hash/marker/status
+negative matrix -> fail-closed; frozen workflow -> verified=3, all other
+statuses=0; repeated/golden bytes -> equal; full reference suite -> 347/347;
+commit: this stage commit.
+Next: C2.2 (contract-first pilot on the verifier project).

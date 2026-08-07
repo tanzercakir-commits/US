@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C2.1 - contract-first task template and end-to-end run**
+- [ ] **C2.2 - contract-first pilot on the verifier project**
 
 ## Next
 
-- [ ] **C2.2 - pilot the workflow on this project**
 - [ ] **C3.0 - research the C++26 contracts bridge**
+- [ ] **C3.1 - accept standard syntax when compiler support matures**
 
 ## Blockers / open questions
 
@@ -22,7 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - C1.3 shipped the explicit proposed/reviewable/accepted boundary,
-marker-preserving review export, separately edited-source validation, and
-stale-source audit hashes. The reference suite is green at 338/338. Next is
-C2.1 contract-first workflow.
+2026-08-07 - C2.1 shipped the content-addressed contract-first task template,
+workflow checker, negative transition matrix, and a 3/3-verified end-to-end
+run. The reference suite is green at 347/347. Next is the C2.2 project pilot.

@@ -1,0 +1,45 @@
+{
+  "accepted_contracts_sha256": "sha256:c558ccfc5e0ba0bc414e15c27a07a83c35ec2e2ac67d3293a70c54d565836124",
+  "artifact_hashes": {
+    "accepted": "sha256:7f0fbc70d5dfd27401c83fb2ea43e83e7b0d434bbc7be9c95551264b563a8363",
+    "implemented": "sha256:714c619df97add7789bdeb73f7363f08dac8da2d84361c48df5140223aaba1b7",
+    "proposed": "sha256:59c406988fa4b4ff97f309e1f41940ab56450ce2b1012d3947f7a8b2ec26c974"
+  },
+  "function": "increment_checked",
+  "human_attestation_required": true,
+  "request_sha256": "sha256:1c92a4e787cb25a54afb2840e5c9aab4028b0874ea75881c601c63d5aeec1298",
+  "schema": "codeskeptic.contract-first-run/v1",
+  "state": "complete",
+  "task_id": "increment_checked",
+  "transitions": [
+    {
+      "evidence_sha256": "sha256:59c406988fa4b4ff97f309e1f41940ab56450ce2b1012d3947f7a8b2ec26c974",
+      "name": "request_to_proposed",
+      "status": "verified"
+    },
+    {
+      "evidence_sha256": "sha256:c558ccfc5e0ba0bc414e15c27a07a83c35ec2e2ac67d3293a70c54d565836124",
+      "name": "proposed_to_accepted",
+      "status": "verified"
+    },
+    {
+      "evidence_sha256": "sha256:714c619df97add7789bdeb73f7363f08dac8da2d84361c48df5140223aaba1b7",
+      "name": "accepted_to_implementation",
+      "status": "verified"
+    },
+    {
+      "evidence_sha256": "sha256:83f89ae4aa5a7e7e8facda5d096ab3033d30af94ff4d968e8a64c87f6c9477e6",
+      "name": "implementation_to_verification",
+      "status": "verified"
+    }
+  ],
+  "verification_report_sha256": "sha256:83f89ae4aa5a7e7e8facda5d096ab3033d30af94ff4d968e8a64c87f6c9477e6",
+  "verification_summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 3,
+    "violated": 0
+  },
+  "workflow_id": "sha256:448aec40ce4f7f31f0bcec75163392091fa8dab94b026f40ef5e37e2e8ab7f64"
+}

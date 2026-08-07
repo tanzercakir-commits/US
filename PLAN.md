@@ -1198,10 +1198,50 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase C2 — Contract-first workflow (4a)
 
-- C2.1 — Task template: prose request → proposed contract set → approval →
-  code → verification; `docs/contract_first_workflow.md` + one end-to-end run
-- C2.2 — Pilot the workflow on this project itself (one A-phase stage run this
-  way; comparison note in PROGRESS)
+#### C2.1 — Executable contract-first task template
+
+- Goal: make prose request → proposed contracts → approval → code →
+  verification a deterministic, inspectable workflow.
+- Output: a versioned task manifest and Markdown template; a dependency-free
+  workflow checker/CLI; separate proposed, accepted, and implemented artifacts;
+  one frozen end-to-end run; operator documentation; and a golden run report.
+- Exact file set: `semantic_verifier/contract_first.py`;
+  `tools/contract_first_workflow.py`; `templates/contract_first_task.md`;
+  `fixtures/contract_first/**`; `tests/test_contract_first.py`;
+  `docs/contract_first_workflow.md`; `README.md`; `PLAN.md`, `PROGRESS.md`,
+  `TODO.md`, and `guardrails/test_baseline.txt`.
+- Boundaries: no model call, code generation, source-tree mutation, or simulated
+  human identity. Proposed contracts retain `cs: ai`; accepted contracts are a
+  separate operator-supplied artifact; the ordinary verifier alone decides the
+  implementation result. Every input and transition is content-addressed.
+- DoD: the template covers request, proposal, approval, implementation, and
+  verification evidence; the runner rejects missing markers, unapproved or
+  changed implementation contracts, path traversal, hash drift, unsupported,
+  unknown, violation, and solver error; the frozen task completes with every
+  obligation verified; repeated report bytes match the golden; focused and full
+  suites pass.
+- Depends: C1.3.
+
+#### C2.2 — Contract-first pilot on the verifier project
+
+- Goal: use the C2.1 workflow for one small A-style verification increment in
+  this repository and compare it with the earlier implementation-first process.
+- Output: a guarded-absolute-value pilot with prose task, proposed and accepted
+  contracts, implementation, frozen workflow report, and comparison note.
+- Exact file set: `pilots/contract_first/guarded_absolute/**`;
+  `tests/test_contract_first.py`; `docs/contract_first_workflow.md`;
+  `README.md`; `PROGRESS.md`, `TODO.md`, and
+  `guardrails/test_baseline.txt`.
+- Boundaries: no retrospective claim that the historical A stages used this
+  process; the pilot uses only already-owned verifier semantics and records the
+  human-attestation limitation. It does not alter the trusted checker.
+- DoD: the pilot starts from prose and marker-bearing proposals, records a
+  separate marker-free approval before implementation, verifies the final C++
+  through the ordinary referee with all statuses visible, detects a seeded
+  contract/code mismatch, reproduces byte-identically, and records a concise
+  artifact/defect-detection comparison in PROGRESS; focused and full suites
+  pass.
+- Depends: C2.1.
 
 ### Phase C3 — C++26 contracts bridge (far; expand via C3.0)
 
