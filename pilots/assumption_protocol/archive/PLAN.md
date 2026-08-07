@@ -2034,96 +2034,11 @@ infrastructure. Reference: prototype fixtures = the specification.
   focused and full suites pass; report states what the pilot cannot establish.
 - Depends: E3.1.
 
-#### E3.3 — Historical pilot snapshot replay (inserted during E4.0)
-
-- Goal: keep the immutable E3.2 declaration reproducible after declared live
-  inputs such as PLAN.md legitimately evolve in later stages.
-- Output: a repository-local byte-exact archive of the declaration snapshot and
-  current cited evidence, plus explicit split validation/execution roots in the
-  pilot CLI and tests.
-- Exact file set: PLAN.md; pilots/assumption_protocol/**;
-  tools/run_assumption_pilot.py; tests/test_assumption_pilot.py; README.md;
-  PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
-- Boundaries: the E3.2 manifest bytes and identity remain unchanged. Archive
-  exactly the five declared snapshot paths at declaration commit ad3667d and
-  the exact cited evidence path under canonical repository-relative names. The
-  validation root is the immutable archive; the execution root is the live
-  repository running the declared test command. Neither root may be inferred
-  from mutable process state. Missing, extra, stale, symlinked, or escaped
-  archive content fails closed. No git command at validation time, rewritten
-  declaration, weakened snapshot check, network call, clock, randomness, or
-  promotion of the uncheckable claim.
-- DoD: archived declaration paths match every manifest hash and the declaration
-  commit bytes; archived evidence matches the linked resolution hash/anchor;
-  live PLAN.md may evolve without invalidating historical validation; changing
-  any archived snapshot/evidence byte fails; relocation and repeated summary
-  bytes hold; CLI requires explicit validation and execution roots; focused and
-  full suites pass; E4.0 resumes only after this corrective commit.
-- Depends: E3.2.
 ### Phase E4 — Referee-guided search (5a)
 
-#### E4.0 — Bounded referee-guided search expansion
-
-- Goal: replace the coarse Best-of-N bullet with a frozen candidate/evaluation
-  contract and a non-model calibration measurement.
-- Output: detailed E4.1 contract in PLAN.md plus PROGRESS.md and TODO.md.
-- Exact file set: PLAN.md; PROGRESS.md; TODO.md.
-- Boundaries: planning only. Predeclare the existing twenty-case E2 corpus,
-  N=4, one original-source candidate batch per case, rank-1 single-shot arm,
-  exhaustive Best-of-4 arm, lowest-rank verified selector, and an exact absolute
-  success-rate uplift threshold of 2/5. Every one of the eighty candidates must
-  be independently checked from the same original source; no early stop,
-  sequential mutation, candidate-to-candidate state, timing, randomness, model
-  call, or proposer claim may affect selection. Candidate evidence is an
-  oracle-seeded recorded scripted proxy and cannot measure model behavior.
-- DoD: E4.1 declares Goal/Output/exact file set/Boundaries/DoD/Depends; incomplete
-  evaluation, early stopping, stale linkage, contract edits, status promotion,
-  false selection, arithmetic drift, and model-evidence promotion fail closed;
-  the immediately preceding full suite is green; ledger/TODO updated; stage
-  commit succeeds.
-- Depends: E3.2.
-
-#### E4.1 — Exhaustive Best-of-N referee search calibration
-
-- Goal: verify every untrusted patch in a fixed N-candidate set, select only a
-  referee-verified candidate, and measure exact success-rate uplift over the
-  identical rank-1 single-shot candidate.
-- Output: content-addressed codeskeptic.referee-search-candidates/v1 and
-  codeskeptic.referee-search-report/v1 artifacts, strict loaders/evaluator,
-  structural schemas, frozen twenty-case/four-candidate calibration, CLI,
-  tests, and an honest report.
-- Exact file set: semantic_verifier/referee_search.py;
-  semantic_verifier/referee_search_schema/v1/**; tools/run_referee_search.py;
-  benchmarks/referee_search/**; tests/test_referee_search.py;
-  docs/referee_guided_search.md; README.md; PROGRESS.md; TODO.md;
-  guardrails/test_baseline.txt.
-- Boundaries: the candidate artifact links the exact E2 corpus identity and has
-  exactly twenty sorted case rows, each with ranks 1..4 and four distinct
-  codeskeptic.patch-proposal/v1 values based on that case's unchanged original
-  source hash. Its provenance is recorded-oracle-seeded-scripted-proxy. The
-  evaluator rejects contract-line edits, no-ops, stale sources, duplicate ranks
-  or identities, and any cross-case link. It applies every candidate
-  independently to the original source and runs the ordinary affine referee for
-  all eighty candidates even when an earlier rank verifies. Unknown,
-  unsupported, violated, rejected, or checker error never becomes eligible.
-  The deterministic selector chooses the lowest-rank verified candidate or none;
-  rank 1 is the exact single-shot comparator. The report retains every
-  per-candidate status/evidence identity, exact integer counts and reduced
-  rational rates, and passes only when the absolute Best-of-4 minus single-shot
-  success-rate uplift is at least 2/5. No clock, random value, network/model
-  call, retry, skipped case, early stop, sequential candidate state, floating
-  point, or claim about model/consciousness/general behavior/causality.
-- DoD: frozen 20x4 candidate artifact; exactly eighty complete independent
-  evaluations in case/rank order; post-success ranks demonstrably evaluated;
-  selected proposal always lowest-rank verified and none otherwise; rank-1
-  comparator identity exact; exact reduced-rate/uplift/threshold arithmetic;
-  repeated and relocated generation/check bytes; strict schemas parse; missing,
-  extra, duplicate, reordered, stale corpus/source/proposal/report, contract
-  edit, no-op, early-stop, promoted status, false selection, arithmetic/outcome,
-  malformed JSON/UTF-8, and CLI error negatives; focused CLI check and full
-  suites pass; report states the oracle-seeded proxy cannot establish model
-  behavior or search uplift for a model proposer.
-- Depends: E4.0, E2.3.
+- E4.0 — Expansion
+- E4.1 — Best-of-N: N patch candidates → verify all → select the passing one;
+  measure uplift vs single-shot
 
 ### Phase E5 — RLVF design note (far; MEMO ONLY, no implementation)
 

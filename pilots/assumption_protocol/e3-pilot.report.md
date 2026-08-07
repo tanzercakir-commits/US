@@ -18,4 +18,4 @@ repository test runner.
 
 Reproduce the closure check:
 
-    python tools/run_assumption_pilot.py pilots/assumption_protocol/e3-pilot.manifest.json pilots/assumption_protocol/e3-pilot.resolution.json --root . --check pilots/assumption_protocol/e3-pilot.summary.json
+    python tools/run_assumption_pilot.py pilots/assumption_protocol/e3-pilot.manifest.json pilots/assumption_protocol/e3-pilot.resolution.json --root . --validation-root pilots/assumption_protocol/archive --check pilots/assumption_protocol/e3-pilot.summary.json

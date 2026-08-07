@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **E4.0 - expand the referee-guided search stage**
+- [ ] **E4.0 - finish and commit the referee-guided search expansion**
 
 ## Next
 
-- [ ] **E4.1 - implement and measure Best-of-N search**
+- [ ] **E4.1 - implement and measure exhaustive Best-of-4 search**
 - [ ] **E5.1 - write the RLVF design/data-schema note**
 
 ## Blockers / open questions
@@ -22,5 +22,5 @@
 
 ## Last updated
 
-2026-08-07 - E3.2 closure retained the declaration identity, resolved five
-checkable assumptions, and preserved one honest uncheckable boundary.
+2026-08-07 - E3.3 archived the declaration-commit snapshot and separated
+historical validation from live test execution.

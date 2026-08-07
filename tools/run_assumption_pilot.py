@@ -57,6 +57,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("manifest", type=Path)
     parser.add_argument("resolution", type=Path)
     parser.add_argument("--root", type=Path, required=True)
+    parser.add_argument("--validation-root", type=Path, required=True)
     parser.add_argument("--check", type=Path)
     arguments = parser.parse_args(argv)
     try:
@@ -67,7 +68,7 @@ def main(argv: list[str] | None = None) -> int:
             arguments.resolution.read_text(encoding="utf-8")
         )
         rendered = render_summary(
-            build_pilot_summary(manifest, resolution, arguments.root)
+            build_pilot_summary(manifest, resolution, arguments.validation_root)
         )
         completed = subprocess.run(
             [sys.executable, "-m", "unittest", "tests.test_assumption_pilot"],

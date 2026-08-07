@@ -2087,3 +2087,44 @@ Evidence: focused pilot tests -> 9/9; frozen pilot check -> 5 test, 1
 uncheckable; full reference suite -> 613/613 in 296.899 s; declaration commit
 `ad3667d` precedes this closure commit; commit: this stage commit.
 Next: E4.0 - expand the referee-guided search stage.
+
+## 2026-08-07 - E4.0: bounded referee-guided search expansion - DONE
+
++ Replaced the coarse search bullet with an exhaustive twenty-case, N=4
+  candidate/evaluation contract and exact rank-1 single-shot comparator.
++ Froze all-eighty independent checks, no early stop or sequential mutation,
+  lowest-rank verified selection, and an absolute uplift threshold of 2/5.
++ Classified the calibration as an oracle-seeded recorded scripted proxy that
+  cannot establish proposer-model behavior or causal search uplift.
++ The immediately preceding E3.2 commit hook passed 613/613 tests.
+- No blockers.
+Next: E4.1 - implement and measure exhaustive Best-of-4 search.
+## 2026-08-07 - E4.0: bounded referee-guided search expansion - PARTIAL
+
++ The detailed E4.1 contract and active TODO were authored within the declared
+  planning-only file set.
+- The mandatory hook exposed that the E3.2 pilot validates its historical
+  PLAN.md snapshot against the evolving live worktree; the suite failed 604/613
+  before E4.0 could commit.
+- No E4 implementation files were created. Insert corrective E3.3 before
+  resuming this stage; preserve the E3.2 declaration bytes and identity.
+Evidence: pre-commit full suite -> 604 passed, 1 setUp error in
+`tests.test_assumption_pilot.AssumptionPilotTests`; exact cause:
+`manifest snapshot hash is stale: PLAN.md`.
+Resume from PLAN.md by defining E3.3 historical snapshot replay, then update
+`tools/run_assumption_pilot.py` and `tests/test_assumption_pilot.py` only under
+that declared corrective stage.
+## 2026-08-07 - E3.3: historical pilot snapshot replay - DONE
+
++ Archived all five declaration-commit snapshot paths at their exact normalized
+  hashes without changing the E3.2 manifest bytes or identity.
++ Split immutable archive validation from live repository test execution through
+  explicit CLI roots; no validation-time git or mutable-root inference remains.
++ Archived the exact cited evidence file and retained all five evidence hashes/
+  anchors plus the honest uncheckable external-model boundary.
++ Added archive completeness, live-PLAN divergence, byte-tamper, relocation,
+  repeated-summary, and CLI-root coverage within the existing nine tests.
+- No blockers. This corrective gate resolves the E4.0 hook failure.
+Evidence: focused pilot tests -> 9/9; frozen pilot check -> exact; full reference
+suite -> 613/613 in 344.166 s; commit: this stage commit.
+Next: resume E4.0 and commit the already-authored search expansion.
