@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 415 deterministic tests. The separately cloned
+The current suite contains 424 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -184,6 +184,10 @@ calls, mutations, derived purity, and explicit limitations. D1.1 supplies the
 strict model/loader contract; D1.2 populates it from the existing real Clang
 JSON-AST frontend. Physical paths and frontend IDs are removed, unsupported
 dispatch/locations/forms stay explicit, and derived purity never becomes proof.
+
+Reproduce the frozen fact corpus with:
+
+    python tools/regenerate_fact_fixtures.py --check
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

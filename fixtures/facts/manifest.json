@@ -1,0 +1,22 @@
+{
+  "entries": [
+    {
+      "case": "cases/limitations.cpp",
+      "display_path": "fixtures/facts/cases/limitations.cpp",
+      "expected": "expected/limitations.fact-index.json",
+      "index_id": "sha256:f2fbddff76bb58293effe4037d1d11e44d02dd7fecd82036623bf484e04908df",
+      "output_sha256": "sha256:5c2386ddf9fa24166bc19581eec8c5c7e67b3be5bb5849ebee60b17e68e7dcc2",
+      "source_sha256": "sha256:211f04e6fa4ec66894be72387ad6c92dc3086eda04b0d2585c9fb38238e6e5fa"
+    },
+    {
+      "case": "cases/world.cpp",
+      "display_path": "fixtures/facts/cases/world.cpp",
+      "expected": "expected/world.fact-index.json",
+      "index_id": "sha256:7310957204b8457d6bc432f964db273a645e969f585842998fa4c5f122975ddb",
+      "output_sha256": "sha256:294ff9173d58a0112c31313a27edf88f1a399d144c859953b76813eca9baeb88",
+      "source_sha256": "sha256:21d85ec40c8385596b91d1dff82ffec1b32d32918f74d7fc3f1f57a310aafcd1"
+    }
+  ],
+  "manifest_id": "sha256:87e6e51000b8997feb848568170c9667034748f8f1235759cba2cccc536938df",
+  "schema": "codeskeptic.fact-fixture-corpus/v1"
+}

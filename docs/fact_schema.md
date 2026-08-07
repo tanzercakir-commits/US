@@ -187,3 +187,36 @@ Example API:
 Repeated extraction with the same source bytes and display path is
 byte-identical even though the private physical source path and Clang node IDs
 change.
+
+## D1.3 deterministic corpus
+
+The frozen corpus lives under fixtures/facts and has two main-file cases:
+
+| Case | Coverage |
+| --- | --- |
+| world.cpp | namespaces, overloads, shadowed locals, records/fields, direct call chains, local/parameter/global mutation, and pure/impure propagation |
+| limitations.cpp | indirect and virtual dispatch, macros, unsupported aliases, declaration-only callees, unresolved builtins, and unknown purity |
+
+Each case has exactly one expected/*.fact-index.json artifact. manifest.json uses
+codeskeptic.fact-fixture-corpus/v1 and records the case, stable display path,
+expected artifact, source hash, index identity, and output hash. Its own
+manifest identity covers the canonical schema and sorted entry list.
+
+Regenerate the corpus with:
+
+    python tools/regenerate_fact_fixtures.py
+
+Check committed bytes without writing with:
+
+    python tools/regenerate_fact_fixtures.py --check
+
+Generation refuses stale undeclared golden files rather than deleting them.
+Both modes enumerate cases and outputs in sorted order. The tool writes only
+fixtures/facts; regression evidence checks that verification-report fixtures
+remain byte-identical.
+
+Golden tests load every output through the strict D1.1 validator, require its
+canonical round trip, verify all hashes and graph references, and compare
+direct extraction from both original and relocated physical paths. The
+committed artifacts contain no checkout root, compiler path, temporary
+directory, Clang node ID, clock, duration, or randomness.

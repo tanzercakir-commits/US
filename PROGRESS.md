@@ -1589,3 +1589,24 @@ Next: D1.2 (Clang fact extraction v0).
 Evidence: focused extractor tests -> 11/11; combined fact tests -> 23/23; full
 reference suite -> 415/415; commit: this stage commit.
 Next: D1.3 (deterministic fact corpus).
+
+## 2026-08-07 - D1.3: deterministic fact corpus - DONE
++ Froze a two-case corpus for accepted world-model facts and explicit
+  fail-closed extraction limitations.
++ The world case covers namespaces, overloads, shadowed locals, records/fields,
+  direct call chains, local/global/parameter mutations, and purity propagation.
++ The limitation case covers indirect/virtual calls, macros, unsupported
+  aliases, declaration-only callees, unresolved builtins, and unknown purity.
++ Added canonical fact-index goldens and a content-hash manifest binding every
+  source, stable display path, index identity, and exact output bytes.
++ Added deterministic generation and read-only check modes with stale-golden
+  refusal and no deletion behavior.
++ Strict round-trip, resolved-edge, canonical-order, original/relocated input,
+  manifest-hash, and environment-exclusion tests all pass.
++ Generation is confined to fixtures/facts and leaves existing verification
+  report/IR fixtures byte-identical.
+- This corpus freezes D1 v0 extraction behavior; unsupported routes remain
+  limitations and do not become inferred facts or proof.
+Evidence: focused corpus tests -> 9/9; combined fact tests -> 32/32; full
+reference suite -> 424/424; commit: this stage commit.
+Next: D2.1 (world-model CLI queries).

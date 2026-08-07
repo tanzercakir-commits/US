@@ -1,0 +1,637 @@
+{
+  "calls": [
+    {
+      "callee": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9",
+      "caller": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786",
+      "id": "sha256:b707dd1931aa9f663dc62ac2fae2b6ce2048539c9624b1b97f8b5aba0718a206",
+      "kind": "direct",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 25
+      }
+    }
+  ],
+  "definitions": [
+    {
+      "context": null,
+      "id": "sha256:00b9d574ecbd2356d37506a70b41165559cd56a2db2a027d0817dc0b6ba2008e",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 15
+      },
+      "symbol": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9"
+    },
+    {
+      "context": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "id": "sha256:0124e4e55e441381f7e04f6a1429c7ac13442014e1ba28700df2a71ff1254af5",
+      "kind": "parameter",
+      "location": {
+        "column": 22,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 28
+      },
+      "symbol": "sha256:aabe6b37ebdb7edce5f277dd4be9e49f15889fe22ddc551041670f59f6f41222"
+    },
+    {
+      "context": null,
+      "id": "sha256:04f0d144c19bdd8a9946429d05b4fff0681a4ba9223d038f7a60f4c601902a48",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 24
+      },
+      "symbol": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786"
+    },
+    {
+      "context": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9",
+      "id": "sha256:07ad07cc826f508e0befefe2faa703a84152ca6d0c880a64ac3f82297c5c55b9",
+      "kind": "parameter",
+      "location": {
+        "column": 18,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 5
+      },
+      "symbol": "sha256:f4f132ce3d309e704c6ebe627da2200938264648a5ab0591da3d4d9a6dffcb4f"
+    },
+    {
+      "context": null,
+      "id": "sha256:1a2ed4f9d0f93e1ca696abc949c582985bf3d9598456aa4bdbd4e224d0aeb77c",
+      "kind": "declaration",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 5
+      },
+      "symbol": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9"
+    },
+    {
+      "context": null,
+      "id": "sha256:33d10fb63acf3b63cce7a9571e9728e5197d6a4ea67397fa1725463bbd4ee75f",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add"
+    },
+    {
+      "context": null,
+      "id": "sha256:3b1b338c793bd7fe6ed3203d61d02cea2c974488688807a97f2a0dace3442fb7",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 28
+      },
+      "symbol": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74"
+    },
+    {
+      "context": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786",
+      "id": "sha256:3f3fa1456378f5905544e2649f251c7b061ca570a173ae27709b22f99a397d22",
+      "kind": "parameter",
+      "location": {
+        "column": 26,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 24
+      },
+      "symbol": "sha256:73679dab6a46fe20ce7162b2b55e130f7de8979f0f042bbf94f5cea7f3283cb3"
+    },
+    {
+      "context": null,
+      "id": "sha256:4feca4b72caf18e75fc50af7600f92e94a2bb4ef3f82804e38dd64ebcbaec647",
+      "kind": "definition",
+      "location": {
+        "column": 8,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 11
+      },
+      "symbol": "sha256:89817a232f5dafe0c378025f8a6d5c592fef8ff136c8b5984a5b44fd62686422"
+    },
+    {
+      "context": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "id": "sha256:5edf559534c3c8d9a86a734d3338fdabe5824ce6045b17bbfffea9594a421ade",
+      "kind": "parameter",
+      "location": {
+        "column": 20,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "symbol": "sha256:7b29374b29493bca38c786e65ffef21f3d58eba8b45645f27ef1fbb17e7500fd"
+    },
+    {
+      "context": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9",
+      "id": "sha256:9917411c78543d72c730020f8ec727753f455001843533385c5eecbb5838fa80",
+      "kind": "parameter",
+      "location": {
+        "column": 18,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 15
+      },
+      "symbol": "sha256:aa3d29a931ec01d23c1fae83e0e54a2e738598c1d8a0d40e4a4e52f269ab7e41"
+    },
+    {
+      "context": null,
+      "id": "sha256:aba3eb964ac7cc6824c016ec9289a67fc1e009c6e7196b3fec89e39efe37d4be",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "symbol": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1"
+    },
+    {
+      "context": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add",
+      "id": "sha256:c5033f1570e5a4aca4725345dd0e0fb347714aa7057b736b9a2268858dad9eef",
+      "kind": "parameter",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:c11a60d3ac021313e86939c21d8c53062f2cd02b4b114fdd08a530d1cb876a30"
+    },
+    {
+      "context": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "id": "sha256:d96877e58c471eabca0d3c8f9bfb023a6c3ef95f4b88879cb07a2d4d6c7c1577",
+      "kind": "parameter",
+      "location": {
+        "column": 40,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "symbol": "sha256:7c8b7cd06aef0795cdbfc5be8f05a9532f62a8141a2a86e7297d530bc823d3ff"
+    }
+  ],
+  "id": "sha256:f2fbddff76bb58293effe4037d1d11e44d02dd7fecd82036623bf484e04908df",
+  "limitations": [
+    {
+      "code": "indirect_call",
+      "context": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 8
+      },
+      "message": "indirect calls are unsupported in fact extraction v0"
+    },
+    {
+      "code": "macro_location",
+      "context": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 20
+      },
+      "message": "ParenExpr uses a macro-expanded location"
+    },
+    {
+      "code": "unresolved_symbol",
+      "context": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 29
+      },
+      "message": "FunctionDecl __builtin_abs is outside the main-file index"
+    },
+    {
+      "code": "unresolved_symbol",
+      "context": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 29
+      },
+      "message": "direct callee __builtin_abs is outside the main-file index"
+    },
+    {
+      "code": "unsupported_ast",
+      "context": null,
+      "location": {
+        "column": 7,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 3
+      },
+      "message": "top-level TypeAliasDecl is unsupported"
+    },
+    {
+      "code": "unsupported_ast",
+      "context": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 5
+      },
+      "message": "function external has no main-file definition"
+    },
+    {
+      "code": "virtual_dispatch",
+      "context": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 16
+      },
+      "message": "virtual member dispatch is unsupported"
+    },
+    {
+      "code": "virtual_dispatch",
+      "context": "sha256:89817a232f5dafe0c378025f8a6d5c592fef8ff136c8b5984a5b44fd62686422",
+      "location": {
+        "column": 17,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 12
+      },
+      "message": "record member run is outside fact extraction v0"
+    }
+  ],
+  "mutations": [],
+  "purity": [
+    {
+      "function": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9",
+      "reasons": [
+        "unsupported_construct"
+      ],
+      "status": "unknown"
+    },
+    {
+      "function": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "reasons": [
+        "indirect_call"
+      ],
+      "status": "unknown"
+    },
+    {
+      "function": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9",
+      "reasons": [
+        "virtual_dispatch"
+      ],
+      "status": "unknown"
+    },
+    {
+      "function": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add",
+      "reasons": [
+        "unsupported_construct"
+      ],
+      "status": "unknown"
+    },
+    {
+      "function": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "reasons": [
+        "unresolved_call"
+      ],
+      "status": "unknown"
+    },
+    {
+      "function": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786",
+      "reasons": [
+        "unsupported_construct"
+      ],
+      "status": "unknown"
+    }
+  ],
+  "schema": "codeskeptic.fact-index/v1",
+  "source": {
+    "content_sha256": "sha256:211f04e6fa4ec66894be72387ad6c92dc3086eda04b0d2585c9fb38238e6e5fa",
+    "file": "fixtures/facts/cases/limitations.cpp",
+    "language": "c++17"
+  },
+  "symbols": [
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 5
+      },
+      "definition": null,
+      "id": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9",
+      "kind": "function",
+      "linkage": "external",
+      "name": "external",
+      "owner": null,
+      "qualified_name": "external",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "id": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "kind": "function",
+      "linkage": "external",
+      "name": "indirect",
+      "owner": null,
+      "qualified_name": "indirect",
+      "type": "int (int (*)(int), int)"
+    },
+    {
+      "declaration": {
+        "column": 26,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 24
+      },
+      "definition": {
+        "column": 26,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 24
+      },
+      "id": "sha256:73679dab6a46fe20ce7162b2b55e130f7de8979f0f042bbf94f5cea7f3283cb3",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786",
+      "qualified_name": "declaration_call::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 20,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "definition": {
+        "column": 20,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "id": "sha256:7b29374b29493bca38c786e65ffef21f3d58eba8b45645f27ef1fbb17e7500fd",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "function",
+      "owner": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "qualified_name": "indirect::function@parameter:0",
+      "type": "int (*)(int)"
+    },
+    {
+      "declaration": {
+        "column": 40,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "definition": {
+        "column": 40,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 7
+      },
+      "id": "sha256:7c8b7cd06aef0795cdbfc5be8f05a9532f62a8141a2a86e7297d530bc823d3ff",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "qualified_name": "indirect::value@parameter:1",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 15
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 15
+      },
+      "id": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9",
+      "kind": "function",
+      "linkage": "external",
+      "name": "invoke",
+      "owner": null,
+      "qualified_name": "invoke",
+      "type": "int (Base *)"
+    },
+    {
+      "declaration": {
+        "column": 8,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 11
+      },
+      "definition": {
+        "column": 8,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 11
+      },
+      "id": "sha256:89817a232f5dafe0c378025f8a6d5c592fef8ff136c8b5984a5b44fd62686422",
+      "kind": "record",
+      "linkage": "external",
+      "name": "Base",
+      "owner": null,
+      "qualified_name": "Base",
+      "type": "record Base"
+    },
+    {
+      "declaration": {
+        "column": 18,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 15
+      },
+      "definition": {
+        "column": 18,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 15
+      },
+      "id": "sha256:aa3d29a931ec01d23c1fae83e0e54a2e738598c1d8a0d40e4a4e52f269ab7e41",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "base",
+      "owner": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9",
+      "qualified_name": "invoke::base@parameter:0",
+      "type": "Base *"
+    },
+    {
+      "declaration": {
+        "column": 22,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 28
+      },
+      "definition": {
+        "column": 22,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 28
+      },
+      "id": "sha256:aabe6b37ebdb7edce5f277dd4be9e49f15889fe22ddc551041670f59f6f41222",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "qualified_name": "builtin_call::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 21,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 19
+      },
+      "definition": {
+        "column": 21,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 19
+      },
+      "id": "sha256:c11a60d3ac021313e86939c21d8c53062f2cd02b4b114fdd08a530d1cb876a30",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add",
+      "qualified_name": "macro_write::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 19
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 19
+      },
+      "id": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add",
+      "kind": "function",
+      "linkage": "external",
+      "name": "macro_write",
+      "owner": null,
+      "qualified_name": "macro_write",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 28
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 28
+      },
+      "id": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "kind": "function",
+      "linkage": "external",
+      "name": "builtin_call",
+      "owner": null,
+      "qualified_name": "builtin_call",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 24
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 24
+      },
+      "id": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786",
+      "kind": "function",
+      "linkage": "external",
+      "name": "declaration_call",
+      "owner": null,
+      "qualified_name": "declaration_call",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 18,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 5
+      },
+      "definition": {
+        "column": 18,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 5
+      },
+      "id": "sha256:f4f132ce3d309e704c6ebe627da2200938264648a5ab0591da3d4d9a6dffcb4f",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:404a93bead86d1f6e7d1b861e1892f6464dcad41149204383f0b96ff217308b9",
+      "qualified_name": "external::value@parameter:0",
+      "type": "int"
+    }
+  ],
+  "uses": [
+    {
+      "context": "sha256:dabd533add1fee25fea199c6826fcc380633dbc81049fda26c9db59373689a74",
+      "id": "sha256:02003eadc8570b0639b9bf4a92fff4069bfeceb2340bc986e08492d4b12d1209",
+      "kind": "read",
+      "location": {
+        "column": 26,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 29
+      },
+      "symbol": "sha256:aabe6b37ebdb7edce5f277dd4be9e49f15889fe22ddc551041670f59f6f41222"
+    },
+    {
+      "context": "sha256:d1409ab0b67110152f919bdaefac888f5bcf48e83570a4fd7c72daedfab41add",
+      "id": "sha256:18c69a17a0491a5f8588a5116ff31fed9662ea1ad76a060a60eb6633aa8e84db",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 21
+      },
+      "symbol": "sha256:c11a60d3ac021313e86939c21d8c53062f2cd02b4b114fdd08a530d1cb876a30"
+    },
+    {
+      "context": "sha256:81310c19728aa2628264f7e71a1a167a9cf685c3ec8d17c726ed3ed5ac2b1df9",
+      "id": "sha256:37d545aa8fa8d28e5ae1169d39a9f4fcf39cec392ca0226f0f8a4e1e871441c8",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 16
+      },
+      "symbol": "sha256:aa3d29a931ec01d23c1fae83e0e54a2e738598c1d8a0d40e4a4e52f269ab7e41"
+    },
+    {
+      "context": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "id": "sha256:b00d1399516afe6cd32051eb19c9dbb2353cd46dcddcd0270f10691bcdb750a5",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 8
+      },
+      "symbol": "sha256:7b29374b29493bca38c786e65ffef21f3d58eba8b45645f27ef1fbb17e7500fd"
+    },
+    {
+      "context": "sha256:f1ec4318b1c958830d913c4b708d688f61fc7dc089163bf19752f6cf64131786",
+      "id": "sha256:b70984ba7f4ad72f3294063c488be43c676c5ad771cb5e1b967b57b3da534c62",
+      "kind": "read",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 25
+      },
+      "symbol": "sha256:73679dab6a46fe20ce7162b2b55e130f7de8979f0f042bbf94f5cea7f3283cb3"
+    },
+    {
+      "context": "sha256:5d232dada7d97d578b8db2c179317d25eba4b830649eb0e9a961ca9b6ee93ad1",
+      "id": "sha256:bd17cfbe57e75904200d0ec13f58007522e0029a6e686945edd176837b060186",
+      "kind": "read",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/limitations.cpp",
+        "line": 8
+      },
+      "symbol": "sha256:7c8b7cd06aef0795cdbfc5be8f05a9532f62a8141a2a86e7297d530bc823d3ff"
+    }
+  ]
+}
