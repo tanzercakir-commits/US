@@ -1399,11 +1399,69 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase D1 — Fact extraction v0
 
-- D1.1 — Fact schema: symbols, def/use, call graph, mutation sets, purity
-  flags; deterministic JSON (same discipline as the IR schema)
-- D1.2 — Extractor v0: in the lab from Clang AST JSON (reuse the existing
-  frontend); in production from ASTContext (after B1)
-- D1.3 — Tests: determinism + golden files over an example corpus
+#### D1.1 — Deterministic fact schema
+
+- Goal: define an independent, versioned world-model contract for source
+  symbols, definitions, uses, direct calls, mutations, and derived purity.
+- Output: immutable Python value objects, a strict loader/validator, canonical
+  JSON serialization, a machine-readable JSON Schema, and a field reference.
+- Exact file set: semantic_verifier/facts.py;
+  semantic_verifier/fact_schema/v1/index.schema.json;
+  tests/test_fact_schema.py; docs/fact_schema.md; README.md; PLAN.md;
+  PROGRESS.md, TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: codeskeptic.fact-index/v1 is independent from verification-report
+  schema versions. IDs are content-addressed from canonical owned fields; file
+  separators and ordering are normalized; locations are one-based. Symbol,
+  definition/use, call, mutation, purity, and limitation kinds are closed
+  enums. References must resolve inside the index. Purity is derived tri-state
+  metadata, never a proof claim. Unknown fields, duplicate identities, dangling
+  references, malformed hashes/locations, and inconsistent ownership fail
+  closed. This stage performs no Clang extraction, query, caching, or proof.
+- DoD: strict JSON Schema and loader agree; immutable models round-trip;
+  differently ordered valid inputs serialize byte-identically; semantic
+  changes alter the index identity; invalid/unknown/dangling/duplicate cases
+  reject explicitly; focused and full suites pass.
+- Depends: C4.2.
+
+#### D1.2 — Clang fact extraction v0
+
+- Goal: populate the D1.1 schema from the existing Clang JSON-AST frontend.
+- Output: a deterministic extractor for main-file C++17 declarations and
+  expressions, with explicit coverage limitations.
+- Exact file set: semantic_verifier/fact_extractor.py;
+  tests/test_fact_extractor.py; docs/fact_schema.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: admit named functions, parameters, locals, globals, records and
+  fields; definitions, reads, writes, direct calls, and mutation targets.
+  Exclude compiler/system declarations and normalize frontend identities out of
+  public artifacts. Overloads and scopes must not collide. Indirect/virtual
+  dispatch, unresolved callees, macros without stable main-file locations, and
+  unsupported AST forms are explicit limitations, never silently inferred.
+  Purity is derived only when the admitted call/mutation surface is complete;
+  otherwise it is unknown. No verification status or proof trust is created.
+- DoD: representative main-file sources extract exact symbols, def/use edges,
+  direct call graph, mutation sets, and purity; overload/scope identities are
+  stable; unsupported constructs are visible; repeated extraction and fixed
+  display-path relocation are byte-identical; focused and full suites pass.
+- Depends: D1.1.
+
+#### D1.3 — Fact determinism corpus
+
+- Goal: freeze extractor behavior as reproducible evidence.
+- Output: a small C++ corpus, golden fact-index JSON, a regeneration/check tool,
+  and determinism/coverage tests.
+- Exact file set: tools/regenerate_fact_fixtures.py; fixtures/facts/**;
+  tests/test_fact_determinism.py; docs/fact_schema.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: the corpus covers scopes/overloads, call chains, local/global
+  mutation, and at least one explicit unsupported limitation. Golden artifacts
+  contain no checkout root, compiler path, clock, duration, random value, or
+  unstable Clang node ID. Regeneration never changes verification fixtures.
+- DoD: generate and check modes agree; every source has one declared golden;
+  repeated extraction and relocated checkout inputs are byte-identical under
+  the frozen display path; all edges resolve and arrays are canonically sorted;
+  focused and full suites pass.
+- Depends: D1.2.
 
 ### Phase D2 — Query interface
 

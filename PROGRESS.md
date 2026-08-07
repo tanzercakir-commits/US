@@ -1526,3 +1526,16 @@ Next: C4.2 (runtime wrappers and the three-rung demo).
 Evidence: runtime tests -> 11/11; combined enforcement tests -> 26/26; full
 reference suite -> 392/392; commit: this stage commit.
 Next: D1.1 (deterministic fact schema).
+
+## 2026-08-07 - plan: D1 fact-extraction expansion - DONE
++ Expanded D1.1 through D1.3 into bounded schema, extractor, and deterministic
+  corpus stages with exact file sets and executable definitions of done.
++ Kept the fact-index schema independent from verification results and made
+  derived purity explicitly non-proof metadata.
++ Required closed enums, content-addressed identities, resolved references,
+  canonical ordering, and explicit unsupported extraction limitations.
++ Reserved extraction for D1.2 and goldens for D1.3 so D1.1 remains a schema
+  contract rather than an implicit parser implementation.
+- No fact-index implementation or extraction behavior changes in this entry.
+Evidence: C4.2 commit hook baseline -> 392/392.
+Next: D1.1 (deterministic fact schema).
