@@ -1,7 +1,7 @@
 # E2 paired repair experiment
 
-Status: E2.1 seeded-bug corpus and E2.2 paired arm execution are implemented.
-The honest aggregate report follows in E2.3.
+Status: E2.1 corpus, E2.2 paired execution, and the E2.3 honest exact report
+are implemented.
 
 ## Evidence scope
 
@@ -87,3 +87,33 @@ Generation and an exact check exit 0, a check mismatch exits 1, and strict
 corpus/context/script/referee/result failures exit 2. The canonical
 codeskeptic.experiment-trials/v1 artifact embeds every repair-loop log and uses
 no timing, random value, network call, or hidden retry.
+## Honest paired report
+
+E2.3 recomputes codeskeptic.experiment-report/v1 from all forty strict trial
+rows. No failed case is removed: the four exhausted compiler_test rows remain
+in the primary population with score five.
+
+The predeclared result is:
+
+- compiler_test: 16 succeeded, 4 exhausted; exact median 7/2;
+- semantic_bundle: 20 succeeded, 0 exhausted; exact median 1;
+- median reduction: `(7/2 - 1) / (7/2) = 5/7`;
+- threshold: `2/5` (40 percent);
+- exact comparison: `5/7 >= 2/5` because `25 >= 14`;
+- frozen-protocol outcome: passed.
+
+The decision uses reduced rational arithmetic, not floating point. report.json
+cites the exact corpus and trials identities and, for every case, both trial and
+repair-loop identities plus both scores and their paired delta. Its content
+identity covers the complete report.
+
+Generate or reproduce-check the report:
+
+    python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json
+    python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json --check
+
+The result is deliberately narrow. This recorded-scripted-proxy pilot does not
+measure an independently sampled AI model. It does not establish consciousness,
+general model behavior, or causality. Only the frozen twenty-case corpus and
+exact proposal transcripts are in scope. A future model study must record its
+own immutable provenance and cannot inherit this outcome.

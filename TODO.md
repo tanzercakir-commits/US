@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E2.3 - generate the honest paired experiment report**
+- [ ] **E3.0 - expand the assumption declaration stages**
 
 ## Next
 
-- [ ] **E3.0 - expand the assumption declaration stages**
 - [ ] **E3.1 - implement the assumption manifest protocol**
+- [ ] **E3.2 - run the repository-local assumption pilot**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - E2.2 shipped forty strict paired repair trials. Raw outcomes are
-16/20 verified for compiler/test-only context and 20/20 for semantic bundles;
-the suite is 577/577.
+2026-08-07 - E2.3 shipped the exact honest all-case report. The frozen scripted
+protocol passes its 40% hypothesis at 5/7 median reduction, with conclusions
+strictly limited to that evidence class. The suite is 590/590.

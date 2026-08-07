@@ -312,6 +312,11 @@ Run or reproduce-check the forty frozen paired repair trials:
     python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json
     python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json --check
 
+Generate or reproduce-check the exact all-case E2 report:
+
+    python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json
+    python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json --check
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

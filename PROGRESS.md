@@ -2013,3 +2013,20 @@ Next: resume E2.2 from the protected stash.
 Evidence: focused paired-trial tests -> 14/14; frozen generate/check -> exact;
 full reference suite -> 577/577 in 358.904 s; commit: this stage commit.
 Next: E2.3 - generate the honest paired experiment report.
+
+## 2026-08-07 - E2.3: honest paired experiment report - DONE
+
++ Added strict codeskeptic.experiment-report/v1 recomputation from all forty
+  linked rows; the four exhausted trials remain scored at cap-plus-one.
++ Computed exact medians 7/2 and 1, exact semantic-bundle reduction 5/7, and the
+  predeclared 2/5 threshold using reduced rational arithmetic only.
++ The frozen recorded-scripted-proxy protocol passes because 5/7 >= 2/5; every
+  case cites both trial and repair-loop identities for raw traceability.
++ Documented that this result does not measure an independently sampled model
+  and cannot establish consciousness, general model behavior, or causality.
++ Added strict score/median/threshold/outcome/link/provenance/limitation tamper
+  negatives and deterministic generate/check CLI behavior.
+- No blockers.
+Evidence: focused report tests -> 13/13; frozen report check -> exact and passed;
+full reference suite -> 590/590 in 323.640 s; commit: this stage commit.
+Next: E3.0 - expand the assumption declaration stages.
