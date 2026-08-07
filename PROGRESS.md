@@ -1408,3 +1408,24 @@ Evidence: focused contract-first tests -> 13/13; successful pilot -> verified=6,
 all other statuses=0; seeded mismatch -> deterministic replayed postcondition
 violation and exit=2; full reference suite -> 351/351; commit: this stage commit.
 Next: C3.0 (research and expand the C++26 contracts bridge).
+## 2026-08-07 - C3.0: C++26 contracts research and bridge expansion - DONE
++ Froze a versioned, dated evidence matrix from WG21 working-draft/P2900 and
+  official Clang/GCC support sources; no web or compiler status enters logic.
++ Recorded the exact `pre`, `post`, and `contract_assert` grammar,
+  normal-exit postcondition scope, result binding, declaration/const rules,
+  attributes, and four runtime evaluation semantics.
++ Mapped `pre` to `requires`, `post` to `ensures`, and
+  `contract_assert` to the existing assertion IR without approximation.
++ Kept `invariant` and `modifies` explicitly unmapped because P2900 supplies
+  no loop-invariant or frame-condition spelling.
++ Official status evidence records GCC 16 experimental support and Clang's
+  current P2900 status as unsupported. The local Clang 20.1.8 `-std=c++2c`
+  probe independently lacked `__cpp_contracts` and rejected `pre`.
++ Chose a temporary fail-closed lexical bridge with byte/newline-stable compiler
+  text and side metadata; native Clang AST nodes remain the later replacement.
++ Expanded C3.1 with exact files, soundness boundaries, negative matrix, and DoD.
+- C3.0 changes no source acceptance or verification behavior; that is C3.1.
+Evidence: research matrix tests -> 4/4; official source set -> exact; local
+Clang probe -> exit=1 with missing macro and rejected declarator; full reference
+suite -> 355/355; commit: this stage commit.
+Next: C3.1 (fail-closed standard-syntax source bridge).

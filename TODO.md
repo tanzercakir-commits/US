@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C3.0 - research and expand the C++26 contracts bridge**
+- [ ] **C3.1 - accept standard syntax through the fail-closed bridge**
 
 ## Next
 
-- [ ] **C3.1 - accept standard syntax when compiler support matures**
 - [ ] **C4.0 - expand the enforcement ladder**
+- [ ] **C4.1 - generate property-test skeletons for unproven obligations**
 
 ## Blockers / open questions
 
@@ -22,7 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - C2.2 shipped the guarded-absolute contract-first pilot. The
-ordinary referee verifies 6/6 obligations, the seeded mismatch deterministically
-fails by replayed postcondition violation, and the full suite is green at
-351/351. Next is the C3.0 C++26 contracts research and rolling-wave expansion.
+2026-08-07 - C3.0 froze the P2900 mapping and compiler evidence. GCC 16 reports
+experimental support; Clang reports P2900 unsupported, and local Clang 20.1.8
+rejects the feature. C3.1 is fully scoped as a byte-stable fail-closed bridge.
+The reference suite is green at 355/355.

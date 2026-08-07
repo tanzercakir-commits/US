@@ -1243,10 +1243,66 @@ infrastructure. Reference: prototype fixtures = the specification.
   pass.
 - Depends: C2.1.
 
-### Phase C3 — C++26 contracts bridge (far; expand via C3.0)
+### Phase C3 — C++26 contracts bridge
 
-- C3.0 — Research: `pre`/`post`/`contract_assert` ↔ `cs:` mapping
-- C3.1 — Accept standard syntax when compiler support matures
+#### C3.0 — Research and bridge expansion
+
+- Goal: freeze the C++26 P2900 contract surface, current compiler evidence, and
+  a sound mapping decision for the existing `cs:`/IR trust boundary.
+- Output: a human-readable research note, machine-readable evidence matrix, and
+  a fully declared C3.1 implementation stage.
+- Exact file set: `docs/cpp26_contracts_bridge.md`;
+  `research/cpp26_contracts_bridge.json`;
+  `tests/test_cpp26_contracts_research.py`; `README.md`; `PLAN.md`;
+  `PROGRESS.md`, `TODO.md`, and `guardrails/test_baseline.txt`.
+- Boundaries: official WG21 working-draft/paper and compiler-project sources
+  only for normative/support claims; dated support evidence is not a runtime
+  dependency. This stage changes no parser, frontend, IR, VC, or checker
+  behavior and makes no claim that `cs: invariant` or `cs: modifies` has a
+  standard C++26 spelling.
+- DoD: record the exact `pre`, `post`, and `contract_assert` grammar and
+  evaluation boundary; map each form to an existing owned semantic concept;
+  distinguish result binding, postcondition normal-exit scope, attributes,
+  redeclarations, and evaluation semantics; record the SD-6 macro and both
+  Clang/GCC status; reproduce a local Clang probe; choose a fail-closed bridge
+  policy; expand C3.1 with exact files/boundaries/DoD; focused and full suites
+  pass.
+- Depends: C2.2.
+
+#### C3.1 — Accept standard syntax through a fail-closed source bridge
+
+- Goal: accept a controlled P2900 spelling subset now, while the Clang JSON-AST
+  frontend still lacks native contract nodes, and lower it to exactly the same
+  trusted contracts/assertions as the existing source forms.
+- Output: a deterministic lexical bridge for function `pre`/`post` and
+  statement `contract_assert`, integrated ahead of Clang and lowering, with
+  frozen positive/negative fixtures.
+- Exact file set: `semantic_verifier/cpp26_contracts.py`;
+  `semantic_verifier/frontend.py`; `semantic_verifier/lowering.py`;
+  `semantic_verifier/contracts.py`; `tests/test_cpp26_contracts.py`;
+  `fixtures/cpp26_contracts/**`; `docs/cpp26_contracts_bridge.md`;
+  `README.md`; `PROGRESS.md`, `TODO.md`, and
+  `guardrails/test_baseline.txt`.
+- Boundaries: bridge input is UTF-8 and compiler text remains byte/line stable;
+  comments, strings, raw strings, and preprocessing text are never recognized
+  as contracts. Only attribute-free contracts on an otherwise supported,
+  first-and-only non-virtual function definition are admitted. A postcondition
+  result binder is normalized token-wise to `result`; standard const-use
+  restrictions remain enforced. `contract_assert` maps to the existing source
+  assertion obligation, never to a loop invariant. Mixed standard and `cs:`
+  function contracts, attributes, malformed nesting, unsupported declarations,
+  or uncertain binding fail closed as unsupported. No approximation is allowed,
+  and native compiler runtime evaluation policy is outside static proof.
+- DoD: `pre`, `post` with/without result binding, and
+  `contract_assert` generate the same canonical IR/obligations/results as
+  equivalent existing forms; standard spelling verifies and violates through
+  the ordinary referee with replay; compiler source preserves length/newline
+  positions and reports original locations; result binding cannot capture or
+  rewrite member names; comment/string/preprocessor lookalikes are inert;
+  malformed, attributed, mixed, redeclared, virtual, and const-rule cases are
+  explicit unsupported results; repeated text/JSON/IR bytes match; the existing
+  suite and a focused bridge matrix pass.
+- Depends: C3.0.
 
 ### Phase C4 — Enforcement ladder (2b) — from contract to test
 
