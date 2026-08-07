@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **D2.1 - add world-model CLI queries**
+- [ ] **D2.2 - expose world-model queries through MCP**
 
 ## Next
 
-- [ ] **D2.2 - expose world-model queries through MCP**
 - [ ] **D2.3 - generate compact fact-based context packs**
+- [ ] **D3.0 - expand architectural-rule enforcement**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - D1.3 froze the two-case fact corpus, canonical golden indexes,
-content-hash manifest, relocation evidence, and deterministic generate/check
-tool. The suite is green at 424/424. Next is the world-model query interface.
+2026-08-07 - D2.1 shipped exact who-calls, who-mutates, and depth-bounded
+neighborhood queries with deterministic JSON/text CLI output and explicit
+selector ambiguity. The suite is green at 433/433. Next is the MCP endpoint.

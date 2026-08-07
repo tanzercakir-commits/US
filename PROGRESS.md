@@ -1625,3 +1625,24 @@ Next: D2.1 (world-model CLI queries).
 - No query, MCP, or context-pack runtime behavior changes in this entry.
 Evidence: D1.3 commit hook baseline -> 424/424.
 Next: D2.1 (deterministic world-model queries and CLI).
+
+## 2026-08-07 - D2.1: deterministic fact queries and CLI - DONE
++ Added pure who-calls, who-mutates, and neighborhood queries over one strictly
+  validated fact-index/v1 artifact.
++ Exact content IDs or qualified names select symbols; overloaded names fail
+  with deterministic typed candidate lists.
++ Caller answers preserve call IDs and sites; mutator answers preserve mutation
+  IDs, kinds, and sites. Empty exact answers succeed.
++ Neighborhood uses only owns, defines, uses, calls, and mutates edges, with
+  undirected BFS reachability and original edge direction retained in output.
++ Depth 0 through 8 is validated; each symbol carries its shortest distance and
+  all returned arrays/objects have deterministic ordering.
++ Relevant module/symbol limitations remain visible without becoming inferred
+  edges or answers.
++ Added canonical codeskeptic.fact-query-result/v1 JSON, deterministic text,
+  and a standalone CLI with distinct success/query/input exit codes.
+- Queries do not extract, infer missing relations, heuristically join TUs,
+  resolve limitations, call a model/referee, or create proof trust.
+Evidence: focused query/CLI tests -> 9/9; combined fact/query tests -> 41/41;
+full reference suite -> 433/433; commit: this stage commit.
+Next: D2.2 (MCP fact-query endpoint).
