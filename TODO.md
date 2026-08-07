@@ -21,6 +21,7 @@
 
 ## Last updated
 
-2026-08-07 - D3.0 expanded architecture work into a strict complete policy
-matrix followed by direct-call enforcement with deterministic JSON/text/SARIF
-and fail-closed unknowns. The baseline is green at 454/454. Next is D3.1.
+2026-08-07 - F2.3 raised only the fixture subprocess wait budget from 30 to
+120 seconds after a measured ~59-second cold run; all byte and determinism
+assertions remain intact. Fixture tests are 3/3 and the suite is 454/454.
+D3.1 resumes next.

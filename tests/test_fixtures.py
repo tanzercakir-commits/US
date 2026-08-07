@@ -8,6 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "fixtures"
+FIXTURE_PROCESS_TIMEOUT_SECONDS = 120
 
 
 class FixtureInfrastructureTests(unittest.TestCase):
@@ -46,7 +47,7 @@ class FixtureInfrastructureTests(unittest.TestCase):
                 cwd=directory,
                 capture_output=True,
                 text=True,
-                timeout=30,
+                timeout=FIXTURE_PROCESS_TIMEOUT_SECONDS,
                 check=False,
             )
 
@@ -67,7 +68,7 @@ class FixtureInfrastructureTests(unittest.TestCase):
                     ],
                     capture_output=True,
                     text=True,
-                    timeout=30,
+                    timeout=FIXTURE_PROCESS_TIMEOUT_SECONDS,
                     check=False,
                 )
                 self.assertEqual(completed.returncode, 0, completed.stderr)

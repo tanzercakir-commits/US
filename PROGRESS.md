@@ -1725,3 +1725,24 @@ Next: D3.0 (architectural-rule enforcement expansion).
 - No policy parser or architecture runtime behavior changes in this entry.
 Evidence: D2.3 commit hook and D3.0 baseline -> 454/454.
 Next: D3.1 (strict architectural dependency policy).
+
+## 2026-08-07 - D3.1: strict architectural dependency policy - PARTIAL
++ Policy model, canonical fixture, validation CLI, and focused tests pass 9/9.
+- The first 463-test DoD run hit two existing tests/test_fixtures.py
+  subprocess timeouts at their fixed 30-second limit; no D3.1 test failed.
+Resume: run python -m unittest tests.test_fixtures -v, then rerun
+python -m unittest discover -s tests from a clean process state.
+
+## 2026-08-07 - F2.3: calibrated fixture subprocess timeout - DONE
++ Measured one cold fixture regeneration at about 59 seconds after the original
+  30-second subprocess budget became a systematic false failure.
++ Replaced duplicated literals with one named 120-second test-only timeout,
+  providing at least 2x measured headroom while retaining a finite bound.
++ Preserved both independent-process executions, manifest/summary checks, exact
+  artifact comparison, expected bytes, and fixture generation behavior.
++ The previously failing fixture infrastructure tests pass 3/3.
+- No verifier, fixture, manifest, golden, pass criterion, or test count changed.
+Evidence: fixture infrastructure -> 3/3; full reference suite -> 454/454;
+commit: this stage commit.
+Next: resume D3.1 (strict architectural dependency policy) from
+stash wip/D3.1-before-F2.3.

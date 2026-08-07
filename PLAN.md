@@ -1671,6 +1671,21 @@ infrastructure. Reference: prototype fixtures = the specification.
 - F2.1 — `fixtures/` layout + regeneration script (`tools/`)
 - F2.2 — Determinism CI job: suite + fixtures twice, byte comparison
 
+#### F2.3 — Calibrated fixture subprocess timeout (inserted during D3.1)
+
+- Goal: restore a reliable fixture gate after measured cold Windows
+  regeneration exceeded the original fixed 30-second subprocess limit.
+- Output: a named 120-second fixture subprocess timeout with all determinism
+  and byte-comparison assertions unchanged.
+- Exact file set: tests/test_fixtures.py; PLAN.md; PROGRESS.md; TODO.md.
+- Boundaries: test infrastructure only. Do not change fixture generation,
+  manifests, expected bytes, verifier behavior, pass criteria, or guardrail
+  count. A timeout remains mandatory; 120 seconds provides at least 2x
+  headroom over the measured 59-second single regeneration.
+- DoD: fixture infrastructure tests pass 3/3 from a clean process state; both
+  independent outputs remain byte-identical; full suite passes.
+- Depends: F2.2.
+
 ### Phase F3 — Documentation upkeep
 
 - F3.1 — `docs/semantic_verification_prototype.md` updated at every phase
