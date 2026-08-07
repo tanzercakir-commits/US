@@ -13,7 +13,6 @@ from typing import Any
 from .checker import AffineChecker
 from .model import VerificationStatus
 from .pipeline import VerificationPipeline
-from .repair_bundle import RepairBundleBuilder, RepairBundleError
 
 
 EXPERIMENT_CORPUS_SCHEMA = "codeskeptic.experiment-corpus/v1"
@@ -493,36 +492,47 @@ def load_experiment_corpus(root: str | Path) -> ExperimentCorpus:
 def check_experiment_corpus(
     corpus: ExperimentCorpus,
 ) -> ExperimentCorpusCheck:
+    checker = AffineChecker()
+    pipeline = VerificationPipeline(checker=checker)
+    display_path = "benchmarks/experiment_e2/corpus/combined.cpp"
+    original_source = "\n".join(
+        case.source_text.rstrip("\n") for case in corpus.cases
+    ) + "\n"
+    report = pipeline.verify_source(original_source, display_path)
+    if report.module.unsupported:
+        raise ExperimentCorpusError(
+            "combined original corpus has unsupported lowering: "
+            + "; ".join(node.reason for node in report.module.unsupported)
+        )
+    expected_functions = {case.function for case in corpus.cases}
+    actual_functions = {
+        function.name
+        for function in report.module.functions
+        if function.has_body
+    }
+    if actual_functions != expected_functions:
+        raise ExperimentCorpusError(
+            "combined original corpus function set differs"
+        )
+
     original_violated = 0
     original_replayed = 0
-    repaired_verified = 0
     for case in corpus.cases:
-        checker = AffineChecker()
-        pipeline = VerificationPipeline(checker=checker)
-        report = pipeline.verify_source(case.source_text, case.display_path)
-        if report.module.unsupported:
-            raise ExperimentCorpusError(
-                f"original case {case.id} has unsupported lowering"
-            )
-        functions = [
-            function for function in report.module.functions
-            if function.name == case.function and function.has_body
-        ]
-        if len(functions) != 1 or len(report.module.functions) != 1:
-            raise ExperimentCorpusError(
-                f"original case {case.id} does not define exactly its target"
-            )
-        violated = [
+        target_results = [
             result
             for result in report.results
+            if result.function == case.function
+        ]
+        violated = [
+            result
+            for result in target_results
             if result.status == VerificationStatus.VIOLATED
             and result.counterexample
-            and result.function == case.function
             and result.kind == "postcondition"
         ]
         non_verified = [
             result
-            for result in report.results
+            for result in target_results
             if result.status != VerificationStatus.VERIFIED
         ]
         if len(violated) != 1 or non_verified != violated:
@@ -530,48 +540,59 @@ def check_experiment_corpus(
                 f"original case {case.id} is not one isolated violation"
             )
         original_violated += 1
-        try:
-            bundle = RepairBundleBuilder(checker=checker).build(
-                case.source_text,
-                case.display_path,
-                report,
-                violated[0].obligation_id,
+        obligations = [
+            obligation
+            for obligation in report.obligations
+            if obligation.id == violated[0].obligation_id
+        ]
+        if len(obligations) != 1:
+            raise ExperimentCorpusError(
+                f"original case {case.id} obligation is ambiguous"
             )
-        except RepairBundleError as error:
+        replay = checker.check(obligations[0])
+        if replay.to_dict() != violated[0].to_dict():
             raise ExperimentCorpusError(
-                f"original case {case.id} did not replay: {error}"
-            ) from error
-        if bundle.result["status"] != "violated":
-            raise ExperimentCorpusError(
-                f"original case {case.id} bundle is not violated"
+                f"original case {case.id} did not replay exactly"
             )
         original_replayed += 1
 
+    repaired_sources: list[str] = []
+    for case in corpus.cases:
         repaired = case.repaired_source()
         original_contracts = [
-            line for line in case.source_text.splitlines()
+            line
+            for line in case.source_text.splitlines()
             if re.match(r"^\s*//\s*cs:", line)
         ]
         repaired_contracts = [
-            line for line in repaired.splitlines()
+            line
+            for line in repaired.splitlines()
             if re.match(r"^\s*//\s*cs:", line)
         ]
         if original_contracts != repaired_contracts:
             raise ExperimentCorpusError(
                 f"repair oracle changes contracts for {case.id}"
             )
-        repaired_report = pipeline.verify_source(repaired, case.display_path)
+        repaired_sources.append(repaired.rstrip("\n"))
+    repaired_source = "\n".join(repaired_sources) + "\n"
+    repaired_report = pipeline.verify_source(repaired_source, display_path)
+    if repaired_report.module.unsupported:
+        raise ExperimentCorpusError(
+            "combined repaired corpus has unsupported lowering: "
+            + "; ".join(
+                node.reason for node in repaired_report.module.unsupported
+            )
+        )
+    repaired_verified = 0
+    for case in corpus.cases:
         target_results = [
-            result for result in repaired_report.results
+            result
+            for result in repaired_report.results
             if result.function == case.function
         ]
-        if (
-            repaired_report.module.unsupported
-            or not target_results
-            or any(
-                result.status != VerificationStatus.VERIFIED
-                for result in repaired_report.results
-            )
+        if not target_results or any(
+            result.status != VerificationStatus.VERIFIED
+            for result in target_results
         ):
             raise ExperimentCorpusError(
                 f"repair oracle is not fully verified for {case.id}"

@@ -1961,3 +1961,37 @@ Evidence: corpus checker -> 20/20 violated, 20/20 independently replayed, and
 20/20 repaired/verified; focused corpus tests -> 14/14; full reference suite ->
 563/563 in 326.171 s; commit: this stage commit.
 Next: E2.2 - run the paired two-arm repair trials.
+
+## 2026-08-07 - E2.2: paired two-arm repair trials - PARTIAL
+
++ Paired contexts, proposal transcripts, forty referee-run trial rows, CLI, and
+  14/14 focused tests are implemented.
+- Full discovery exposed order-dependent setup failures: e2-case-09's repaired
+  oracle was not fully verified, then e2-case-01 lacked one replayable target.
+- Resume by reproducing the test-order leak before tests.test_experiment_corpus
+  and tests.test_experiment_e2; do not stage or commit until 577/577 is green.
+Evidence: `python -m unittest discover -s tests` -> 549 executed with 2 setup
+errors in 437.196 s.
+
+## 2026-08-07 - E2.4: batched corpus frontend calibration - DONE
+
++ Replaced sixty repeated per-case frontend passes with one sorted combined
+  original pass and one sorted combined repaired pass.
++ Preserved all twenty isolated violation decisions and replayed each exact
+  obligation independently with the same affine referee.
++ Preserved every standalone source, content hash, diagnostic, oracle edit,
+  contract, and 20/20 repaired-verification outcome.
++ Added no retry, cache, approximation, timing, or skipped case.
+- No blockers.
+Evidence: focused corpus tests -> 14/14; full reference suite to be recorded by
+this stage gate; commit: this stage commit.
+Next: resume E2.2 from the protected `wip/e2.2-before-corpus-calibration` stash.
+
+## 2026-08-07 - E2.4: verification addendum - DONE
+
++ The isolated calibration worktree passed the complete ratcheted suite with no
+  recurrence of the prior order-dependent frontend failure.
+- No blockers.
+Evidence: focused corpus tests -> 14/14; full reference suite -> 563/563 in
+560.590 s; commit: this stage commit.
+Next: resume E2.2 from the protected stash.

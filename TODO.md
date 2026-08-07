@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - E2.1 shipped the strict twenty-case seeded-bug corpus. All twenty
-violations replay and all twenty isolated one-line repairs verify. The suite is
-563/563.
+2026-08-07 - E2.4 batched the corpus into two deterministic frontend passes
+while preserving 20/20 violations, replays, and verified repairs. E2.2 remains
+active and its work is protected for immediate restoration.

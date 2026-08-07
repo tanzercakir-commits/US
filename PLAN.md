@@ -1926,6 +1926,27 @@ infrastructure. Reference: prototype fixtures = the specification.
   focused and full suites pass.
 - Depends: E2.2.
 
+#### E2.4 — Batched corpus frontend calibration
+
+- Goal: remove repeated per-case frontend pressure exposed by the full-suite
+  order while preserving all twenty semantic violation, replay, and repair
+  decisions.
+- Output: one deterministic combined-original verification, exact independent
+  replay of each target obligation, and one combined-repaired verification.
+- Exact file set: semantic_verifier/experiment_corpus.py; PLAN.md; PROGRESS.md;
+  TODO.md.
+- Boundaries: verification infrastructure only. Keep all corpus files, hashes,
+  contexts, oracle edits, checker, outcomes, and checker JSON unchanged. Join
+  the twenty standalone translation units in sorted manifest order without
+  rewriting them; identify evidence by exact function name; replay every
+  obligation directly with the same affine referee; verify every repaired
+  target. Add no cache, retry, approximation, timing, or skipped case.
+- DoD: corpus checker still reports 20/20 isolated concrete violations, 20/20
+  exact independent replays, and 20/20 repaired targets; focused 14/14 and full
+  563/563 suites pass without the prior order-dependent frontend failure;
+  ledger/TODO updated; stage commit succeeds.
+- Depends: E2.1.
+
 ### Phase E3 — Assumption declaration protocol (2d)
 
 - E3.0 — Expansion
