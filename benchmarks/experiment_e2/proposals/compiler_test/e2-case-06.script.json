@@ -1,0 +1,59 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-06",
+  "context": "sha256:b7920b76c86425d5d3c56111c55c0688e4c9d380abadc27ab31b1d937b08cd28",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:3bc3f5843976c93f5826beff7cd94e07e5a3b2a5c9b3075f179d5aa936ba4263",
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:edcd75f8551893c49bdeb42b243afcf39bb6a3b4241fe59b1a59f929b44301c8",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 8 - 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:909171ff9200127fa43ac325b71e201187ea739f308e0f9881bc2cf5dde1875c",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:a6590ed0ba1555ac99d0ff3a20b481984dbd7c19dea0c589d410b2e0535a26f4",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 9 - 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:23b5f76aad1699374845e3ad603a8ce1c4d2fd6de8a1d9df03dcb3f6d0c320c7",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:17d7084f51c3bdf7f6b8cda0cab7924ec98592dcf91225c29efec5de8c300091",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 10 - 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:13b47a9149784134be7ca38d96c5116fa2cdb6be043cb9e76efeecc43ed6f849",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:edeff316c9775a84d877901a0aa245c9ca19aa5a4943040f6193d86d38c00e4f",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 7 - 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:1c7af0d22ee0346467311cb716ec9b02e2572116380e517d8ef1f5c94000a5e2",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-proposal-script/v1"
+}

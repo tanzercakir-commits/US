@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E2.2 - run the paired two-arm repair trials**
+- [ ] **E2.3 - generate the honest paired experiment report**
 
 ## Next
 
-- [ ] **E2.3 - generate the honest paired experiment report**
 - [ ] **E3.0 - expand the assumption declaration stages**
+- [ ] **E3.1 - implement the assumption manifest protocol**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - E2.4 batched the corpus into two deterministic frontend passes
-while preserving 20/20 violations, replays, and verified repairs. E2.2 remains
-active and its work is protected for immediate restoration.
+2026-08-07 - E2.2 shipped forty strict paired repair trials. Raw outcomes are
+16/20 verified for compiler/test-only context and 20/20 for semantic bundles;
+the suite is 577/577.

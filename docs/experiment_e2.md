@@ -1,7 +1,7 @@
 # E2 paired repair experiment
 
-Status: E2.1 seeded-bug corpus is implemented. Paired arm execution and the
-honest aggregate report follow in E2.2 and E2.3.
+Status: E2.1 seeded-bug corpus and E2.2 paired arm execution are implemented.
+The honest aggregate report follows in E2.3.
 
 ## Evidence scope
 
@@ -49,3 +49,41 @@ A successful check prints deterministic codeskeptic.experiment-corpus-check/v1
 JSON and exits 0. Structural, frontend, replay, or verification failure exits 2.
 No corpus operation uses a wall clock, randomness, network call, model package,
 or source mutation.
+## Paired trial protocol
+
+E2.2 freezes forty trials: one compiler_test row and one semantic_bundle row for
+each corpus case. Both arms use the same original source, target function,
+replay-attested initial bundle, affine referee, RepairHarness, PatchProposer
+seam, and maximum of four proposals.
+
+Arm-A context contains only the contract-redacted source identity and black-box
+test diagnostic described above. Arm-B context contains exactly the E1.1 repair
+bundle. Strict content identities link every context, recorded proposal script,
+proposal, initial bundle, repair-loop log, and trial row. Any context leak,
+cross-arm link, stale proposal chain, mixed proposer provenance, missing pair,
+or changed result fails closed.
+
+The proposal evidence class is codeskeptic.recorded-scripted-proxy/v1. These are
+frozen untrusted proposal transcripts used to exercise the paired protocol; no
+model is called by the reference runner. Every candidate is applied in memory
+and only the verifier can mark a loop successful. Exhaustion consumes all four
+proposals and receives censored score five.
+
+The frozen raw outcomes are:
+
+- compiler_test: 16 verified and 4 exhausted; scores
+  5,5,5,5,4,4,4,4,4,4,3,3,3,3,3,2,2,2,1,1;
+- semantic_bundle: 20 verified and 0 exhausted; every score is 1.
+
+These are raw protocol results, not yet the predeclared E2.3 statistical report.
+They do not establish behavior for an independently sampled AI model.
+
+Run or reproduce-check all forty trials:
+
+    python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json
+    python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json --check
+
+Generation and an exact check exit 0, a check mismatch exits 1, and strict
+corpus/context/script/referee/result failures exit 2. The canonical
+codeskeptic.experiment-trials/v1 artifact embeds every repair-loop log and uses
+no timing, random value, network call, or hidden retry.

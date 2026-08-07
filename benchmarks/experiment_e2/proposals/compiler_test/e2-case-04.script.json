@@ -1,0 +1,59 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-04",
+  "context": "sha256:5c55a85a4d139a58189e12c52347caa2653fb97162879e7f3f9acfc7e5e1c6cf",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:0650f6bd14cb8c8a3beb2a2834c6b20821d6b8b749e7d26fc3254400691ea34a",
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:689b8d65bf70fd5c9101c522e14805d612cdf3f41ff01129e35c96e86c57f02e",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 6 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:a53ed038f5b4a6aed53d2f5e7e2d078fd2ef4eb6275b9603acf2331dc0635e25",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:ffb0eaa5e5c111fdde65a91cc333bd63d1ac7a03d2b27ef77c4fc531baed7e95",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 7 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:017ae7b4d4ad2841f9227e6bf6ba08d4f034b14e65fbdd155b78db3fa2dece7d",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:18643320c0366570c2a21dc193dcbe3a6a4f9c5047d515fae93aa43a8545e934",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 8 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:1ba2793948b586fda07964b6389c9faefe3ed166019b55c541074f5adc125b83",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:be23a7aab5157bb5c00ad6809f5c6979eeffcd79771ead54c52ab983622f56c1",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 9 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:f11287b52726a305c6c9b5662ff8288b403884f8f46442b712e5ea73df6822a0",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-proposal-script/v1"
+}

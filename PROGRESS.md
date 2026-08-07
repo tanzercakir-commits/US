@@ -1995,3 +1995,21 @@ Next: resume E2.2 from the protected `wip/e2.2-before-corpus-calibration` stash.
 Evidence: focused corpus tests -> 14/14; full reference suite -> 563/563 in
 560.590 s; commit: this stage commit.
 Next: resume E2.2 from the protected stash.
+
+## 2026-08-07 - E2.2: paired two-arm repair trials - DONE
+
++ Added forty strict paired trial rows over the same twenty sources, affine
+  referee, repair harness, and fixed four-proposal cap.
++ Arm A exposes only contract-redacted source plus one black-box test failure;
+  arm B exposes exactly the replay-attested E1.1 bundle.
++ Frozen scripts carry one immutable recorded-scripted-proxy provenance class;
+  only complete verifier acceptance produces success, and exhaustion scores 5.
++ Embedded every repair-loop log and enforced exact corpus/context/script/
+  proposal/bundle/source links plus contamination and tamper negatives.
++ Raw outcomes are compiler_test 16/20 verified and semantic_bundle 20/20; E2.3
+  owns the predeclared median calculation and bounded conclusion.
+- No blockers. The earlier order-dependent frontend failure was resolved and
+  committed independently as E2.4 before this stage resumed.
+Evidence: focused paired-trial tests -> 14/14; frozen generate/check -> exact;
+full reference suite -> 577/577 in 358.904 s; commit: this stage commit.
+Next: E2.3 - generate the honest paired experiment report.

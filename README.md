@@ -307,6 +307,11 @@ verified repair oracles in the [E2 experiment corpus](docs/experiment_e2.md):
 
     python tools/check_experiment_corpus.py benchmarks/experiment_e2/corpus
 
+Run or reproduce-check the forty frozen paired repair trials:
+
+    python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json
+    python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json --check
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

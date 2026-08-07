@@ -1,0 +1,35 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-18",
+  "context": "sha256:9a25dbb1ccb28359c9a3063bbbcaff775669c70cda3c0f5af5e11164c1a8da49",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:9004885d268a7018656831c23b626f59cc5db1cb181345f27578f4f846270ede",
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 20 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:8a80f9368e800337786bd8fc29b7ee9aaf6cb3b7790b157a2114b899a7f618cf",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:ee0e39d8c8eacd6df1600b9e6e2bc58bf054c7873904a47e4ee51d158401e175",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 19 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:d88844a01d292760ec1a1d5ca53d7d594d740720efb397eaf668ed85773b2456",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-proposal-script/v1"
+}
