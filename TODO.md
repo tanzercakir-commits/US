@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C4.2 - generate runtime assertions and the three-rung demo**
+- [ ] **D1.1 - define the deterministic fact schema**
 
 ## Next
 
-- [ ] **D1.1 - define the deterministic fact schema**
 - [ ] **D1.2 - implement Clang fact extraction v0**
+- [ ] **D1.3 - freeze fact determinism and golden tests**
 
 ## Blockers / open questions
 
@@ -22,7 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - C4.1 shipped deterministic property-test skeleton generation.
-The affine fixture preserves verified=1 and unsupported=2 while producing one
-deduplicated, compilable, generated-unexecuted target. The suite is green at
-381/381. Next is the runtime-guard rung and combined demo.
+2026-08-07 - C4.2 shipped deterministic runtime guards and the combined
+three-rung manifest. Static, property, and runtime artifacts share exact target
+and contract identities; the original statuses remain unchanged. The suite is
+green at 392/392. Next is the deterministic fact schema.

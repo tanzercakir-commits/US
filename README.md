@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 381 deterministic tests. The separately cloned
+The current suite contains 392 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -165,6 +165,18 @@ python tools/generate_property_skeleton.py `
   --manifest fixtures/enforcement_ladder/property/expected.manifest.json `
   --check
 ```
+
+Reproduce and check the complete static/property/runtime provenance chain with:
+
+    python tools/enforcement_ladder_demo.py \
+      fixtures/enforcement_ladder/property/square_bounded.cpp \
+      --backend affine \
+      --property-skeleton fixtures/enforcement_ladder/property/expected.property.cpp \
+      --property-manifest fixtures/enforcement_ladder/property/expected.manifest.json \
+      --runtime-wrapper fixtures/enforcement_ladder/runtime/expected.runtime.cpp \
+      --runtime-manifest fixtures/enforcement_ladder/runtime/expected.runtime.manifest.json \
+      --demo-manifest fixtures/enforcement_ladder/runtime/expected.demo.manifest.json \
+      --check
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

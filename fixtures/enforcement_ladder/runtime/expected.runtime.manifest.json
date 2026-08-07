@@ -1,0 +1,61 @@
+{
+  "property_skeleton_sha256": "sha256:bd1189b5d2e13dd1b49a3a727853791bf1022dc03e554f8988e3d536c3af668c",
+  "property_workflow_id": "sha256:26bb28e7df5e351ebc9bf44ebe85f0ad384fd776f45b67c8ebd3b24a9c9243a9",
+  "report_sha256": "sha256:870c39c7d11490188133c7ac71add6499483a283730b12b898818a19ddfc3675",
+  "routes": [
+    {
+      "fallback": "none",
+      "function": "square_bounded",
+      "kind": "contract_consistency",
+      "line": 1,
+      "message": "verified: deterministic search found a satisfying contract input",
+      "obligation": "ob00001",
+      "original_status": "verified",
+      "runtime_fallback": "none",
+      "runtime_state": "static_verified",
+      "state": "static_verified"
+    },
+    {
+      "fallback": "property_test",
+      "function": "square_bounded",
+      "kind": "postcondition",
+      "line": 5,
+      "message": "unsupported: obligation is outside quantifier-free affine integer/boolean logic",
+      "obligation": "ob00003",
+      "original_status": "unsupported",
+      "runtime_fallback": "runtime_guard",
+      "runtime_state": "runtime_guarded",
+      "state": "property_generated_unexecuted",
+      "target_id": "sha256:9ebbc9a2cd7c8ff5d960a5c59a6dd593aa183ed3d2695121160f3a21fa1d1e87"
+    },
+    {
+      "fallback": "property_test",
+      "function": "square_bounded",
+      "kind": "unsupported_logic",
+      "line": 5,
+      "message": "unsupported: nonlinear integer multiplication",
+      "obligation": "ob00002",
+      "original_status": "unsupported",
+      "runtime_fallback": "runtime_guard",
+      "runtime_state": "runtime_guarded",
+      "state": "property_generated_unexecuted",
+      "target_id": "sha256:9ebbc9a2cd7c8ff5d960a5c59a6dd593aa183ed3d2695121160f3a21fa1d1e87"
+    }
+  ],
+  "runtime_targets": [
+    {
+      "contract_set_sha256": "sha256:ac2053540e0eb8e175d0cab19c2a14b5e43ae3d9386cbd186267a18ef967227d",
+      "function": "square_bounded",
+      "property_state": "property_generated_unexecuted",
+      "state": "runtime_guarded",
+      "target_id": "sha256:9ebbc9a2cd7c8ff5d960a5c59a6dd593aa183ed3d2695121160f3a21fa1d1e87",
+      "wrapper": "codeskeptic_checked_square_bounded_9ebbc9a2cd7c"
+    }
+  ],
+  "schema": "codeskeptic.runtime-assertions/v1",
+  "source_sha256": "sha256:73d60035d390c9153476068a673868b4c67082c31005880b2fced9c0e3691fe2",
+  "state": "runtime_guarded",
+  "workflow_id": "sha256:0539f6909a43da92212fabd5df88681222873d79be47586e9652733de9a79e67",
+  "wrapper_schema": "codeskeptic.runtime-wrapper/v1",
+  "wrapper_sha256": "sha256:dfa06b782664ec4c656f990e1275b40f193eac45fd635f7b80f8fca03f131e3b"
+}

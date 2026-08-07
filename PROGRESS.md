@@ -1504,3 +1504,25 @@ Evidence: focused generator/policy tests -> 15/15; affine fixture ->
 verified=1, unsupported=2, targets=1; golden CLI -> exact match; C++17 syntax
 compile -> pass; full reference suite -> 381/381; commit: this stage commit.
 Next: C4.2 (runtime wrappers and the three-rung demo).
+
+## 2026-08-07 - C4.2: runtime guards and three-rung demo - DONE
++ Generated content-addressed C++17 wrappers from the same strict callable
+  subset and fresh referee report used by the property fallback.
++ Every wrapper checks all requirements before exactly one original call,
+  checks all postconditions after normal return, and invokes an explicit
+  caller-defined failure hook.
++ Static, property, and runtime artifacts share exact target and contract-set
+  identities in one deterministic provenance manifest.
++ Preserved every original referee status and reason. Runtime enforcement is
+  recorded as runtime_guarded and never promotes a result to verified.
++ The affine fixture keeps verified=1 and unsupported=2 while its two eligible
+  unproven routes collapse to one property and one runtime target.
++ Golden wrapper/manifests, repeated generation, and source relocation are
+  byte-stable.
++ The generated wrapper compiles as C++17; a satisfying child exits 0 and
+  violated requirement/postcondition children reach the hook with exit 86.
+- Runtime guards are enforcement rather than proof and make no claim about
+  exceptional exits. Invariants, frames, and ineligible surfaces remain manual.
+Evidence: runtime tests -> 11/11; combined enforcement tests -> 26/26; full
+reference suite -> 392/392; commit: this stage commit.
+Next: D1.1 (deterministic fact schema).

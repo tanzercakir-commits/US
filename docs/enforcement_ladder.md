@@ -103,3 +103,33 @@ Missing/stale contract lines, proposed contracts, unsupported types/passing,
 frames, absent postconditions, malformed reports, and unreplayed violations
 cannot generate a target. Their original routes remain visible as manual,
 defect, or infrastructure outcomes.
+
+## C4.2 runtime wrapper and combined demo
+
+The runtime generator consumes the same source and fresh referee report as the
+property generator. Each emitted wrapper keeps the exact target_id and
+contract_set_sha256, checks all requirements before one original call, and
+checks all postconditions after its normal return. A caller must define the
+explicit codeskeptic_contract_failure hook; the generated code assigns no
+failure policy and makes no claim about exceptional exits.
+
+The combined manifest records the static status counts, property and runtime
+states, and hashes of all generated artifacts. The affine fixture contains one
+verified and two unsupported results. Its two eligible unproven routes collapse
+to one property target and one runtime target without changing either original
+status. A runtime target is runtime_guarded, never verified.
+
+    python tools/enforcement_ladder_demo.py \
+      fixtures/enforcement_ladder/property/square_bounded.cpp \
+      --backend affine \
+      --property-skeleton fixtures/enforcement_ladder/property/expected.property.cpp \
+      --property-manifest fixtures/enforcement_ladder/property/expected.manifest.json \
+      --runtime-wrapper fixtures/enforcement_ladder/runtime/expected.runtime.cpp \
+      --runtime-manifest fixtures/enforcement_ladder/runtime/expected.runtime.manifest.json \
+      --demo-manifest fixtures/enforcement_ladder/runtime/expected.demo.manifest.json \
+      --check
+
+The committed wrapper compiles as C++17. Child-process tests prove only its
+mechanics: a satisfying call exits normally, while violated preconditions and
+postconditions reach the supplied hook. Repeated generation and source
+relocation produce byte-identical artifacts.
