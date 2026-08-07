@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **E4.0 - finish and commit the referee-guided search expansion**
+- [ ] **E4.1 - implement and measure exhaustive Best-of-4 search**
 
 ## Next
 
-- [ ] **E4.1 - implement and measure exhaustive Best-of-4 search**
 - [ ] **E5.1 - write the RLVF design/data-schema note**
 
 ## Blockers / open questions
@@ -22,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - E3.3 archived the declaration-commit snapshot and separated
-historical validation from live test execution.
+2026-08-07 - E4.0 resumed after E3.3 and froze the full Best-of-4
+calibration contract without changing its predeclared threshold.

@@ -2128,3 +2128,14 @@ that declared corrective stage.
 Evidence: focused pilot tests -> 9/9; frozen pilot check -> exact; full reference
 suite -> 613/613 in 344.166 s; commit: this stage commit.
 Next: resume E4.0 and commit the already-authored search expansion.
+## 2026-08-07 - E4.0: bounded referee-guided search expansion - DONE (resumed)
+
++ Resumed only after E3.3 committed the historical-pilot correction and its
+  hook passed the complete 613-test suite.
++ The previously authored E4.1 contract remains unchanged: twenty cases, four
+  original-source candidates each, eighty mandatory checks, rank-1 comparator,
+  lowest-rank verified selection, and exact 2/5 absolute-uplift threshold.
++ No candidate, evaluator, result, or model evidence was created in this stage.
+- No blockers.
+Evidence: E3.3 full suite and commit hook -> 613/613; commit: this stage commit.
+Next: E4.1 - implement and measure exhaustive Best-of-4 search.
