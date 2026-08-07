@@ -1,0 +1,80 @@
+{
+  "dependencies": [
+    {
+      "decision": "allow",
+      "from": "orchestration",
+      "to": "orchestration"
+    },
+    {
+      "decision": "forbid",
+      "from": "orchestration",
+      "to": "storage"
+    },
+    {
+      "decision": "allow",
+      "from": "orchestration",
+      "to": "utility"
+    },
+    {
+      "decision": "forbid",
+      "from": "storage",
+      "to": "orchestration"
+    },
+    {
+      "decision": "allow",
+      "from": "storage",
+      "to": "storage"
+    },
+    {
+      "decision": "allow",
+      "from": "storage",
+      "to": "utility"
+    },
+    {
+      "decision": "forbid",
+      "from": "utility",
+      "to": "orchestration"
+    },
+    {
+      "decision": "forbid",
+      "from": "utility",
+      "to": "storage"
+    },
+    {
+      "decision": "allow",
+      "from": "utility",
+      "to": "utility"
+    }
+  ],
+  "id": "sha256:7c5e57f6216ce2c65be6d0d87ec2af143b168467d6ef4b66333e8cb5c0ef26a1",
+  "layers": [
+    {
+      "name": "orchestration",
+      "selectors": [
+        {
+          "kind": "qualified_name",
+          "value": "pipeline"
+        }
+      ]
+    },
+    {
+      "name": "storage",
+      "selectors": [
+        {
+          "kind": "qualified_name",
+          "value": "store"
+        }
+      ]
+    },
+    {
+      "name": "utility",
+      "selectors": [
+        {
+          "kind": "qualified_name_prefix",
+          "value": "math::"
+        }
+      ]
+    }
+  ],
+  "schema": "codeskeptic.architecture-policy/v1"
+}

@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **D3.1 - define allowed and forbidden dependency edges**
+- [ ] **D3.2 - enforce architectural rules with SARIF output**
 
 ## Next
 
-- [ ] **D3.2 - enforce architectural rules with SARIF output**
+- [ ] **D4 - add file-hash invalidation and changed-TU extraction**
 
 ## Blockers / open questions
 
@@ -21,7 +21,7 @@
 
 ## Last updated
 
-2026-08-07 - F2.3 raised only the fixture subprocess wait budget from 30 to
-120 seconds after a measured ~59-second cold run; all byte and determinism
-assertions remain intact. Fixture tests are 3/3 and the suite is 454/454.
-D3.1 resumes next.
+2026-08-07 - D3.1 shipped strict content-addressed layer policies, literal
+selectors, a complete explicit N-by-N decision matrix, ambiguity-preserving
+classification, and canonical validation CLI output. The suite is 463/463.
+Next is D3.2 enforcement and SARIF.

@@ -205,6 +205,13 @@ Generate or verify a deterministic fact-only AI context pack within the hard
     python tools/generate_fact_context.py fixtures/facts/expected/world.fact-index.json pipeline context.json
     python tools/generate_fact_context.py fixtures/facts/expected/world.fact-index.json pipeline context.json --check
 
+The [architectural dependency policy reference](docs/architecture_rules.md)
+defines strict literal layer selectors, a complete explicit allow/forbid
+matrix, canonical content identity, and fail-closed classification outcomes.
+Validate the frozen policy with:
+
+    python tools/validate_architecture_policy.py fixtures/architecture/policy.json
+
 Reproduce the frozen fact corpus with:
 
     python tools/regenerate_fact_fixtures.py --check

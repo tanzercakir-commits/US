@@ -1746,3 +1746,23 @@ Evidence: fixture infrastructure -> 3/3; full reference suite -> 454/454;
 commit: this stage commit.
 Next: resume D3.1 (strict architectural dependency policy) from
 stash wip/D3.1-before-F2.3.
+
+## 2026-08-07 - D3.1: strict architectural dependency policy - DONE
++ Added frozen, content-addressed codeskeptic.architecture-policy/v1 value
+  objects with canonical sorted-key ASCII JSON.
++ Defined literal exact qualified-name, qualified-name-prefix, and normalized
+  relative source-prefix selectors without glob/regex semantics.
++ Classification returns all zero/one/multiple matching layers in sorted policy
+  order; selector order never hides ambiguity.
++ Required one explicit allow/forbid decision for every ordered layer pair,
+  including self, with no default.
++ Strict loading rejects malformed JSON, duplicate object keys, non-finite
+  numbers, unknown/missing fields, invalid names/paths/kinds/decisions,
+  duplicate layers/selectors/pairs, incomplete matrices, and stale IDs.
++ Added a canonical three-layer policy fixture and validation CLI.
+- This stage defines policy only; it does not inspect calls, infer dependencies,
+  emit compliance, invoke a model/referee, or produce proof.
++ F2.3 resolved the earlier fixture timeout; the resumed clean DoD passed.
+Evidence: focused policy/CLI tests -> 9/9; full reference suite -> 463/463;
+commit: this stage commit.
+Next: D3.2 (fact-based enforcement and deterministic SARIF).
