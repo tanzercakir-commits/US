@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E3.0 - expand the assumption declaration stages**
+- [ ] **E3.1 - implement the assumption manifest protocol**
 
 ## Next
 
-- [ ] **E3.1 - implement the assumption manifest protocol**
 - [ ] **E3.2 - run the repository-local assumption pilot**
+- [ ] **E4.0 - expand the referee-guided search stage**
 
 ## Blockers / open questions
 
@@ -22,6 +22,5 @@
 
 ## Last updated
 
-2026-08-07 - E2.3 shipped the exact honest all-case report. The frozen scripted
-protocol passes its 40% hypothesis at 5/7 median reduction, with conclusions
-strictly limited to that evidence class. The suite is 590/590.
+2026-08-07 - E3.0 expanded the protocol into immutable declarations, linked
+resolutions, and a declaration-before-code pilot. The suite remains 590/590.

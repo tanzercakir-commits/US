@@ -1949,11 +1949,90 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase E3 — Assumption declaration protocol (2d)
 
-- E3.0 — Expansion
-- E3.1 — `assume-manifest` format: the agent dumps its assumptions before
-  coding; each is converted to a contract/test or explicitly marked
-  uncheckable
-- E3.2 — Pilot in our own sessions
+#### E3.0 — Bounded assumption-protocol expansion
+
+- Goal: replace the coarse assumption bullets with an immutable declaration and
+  linked resolution protocol that distinguishes checkable evidence from honest
+  uncheckable claims.
+- Output: detailed E3.1-E3.2 contracts in PLAN.md plus PROGRESS.md and TODO.md.
+- Exact file set: PLAN.md; PROGRESS.md; TODO.md.
+- Boundaries: planning only. Freeze declaration-before-implementation ordering,
+  content-addressed input snapshots, one resolution per assumption, exact
+  contract/test evidence hashes and anchors, and explicit uncheckable reasons.
+  A manifest or evidence link is never proof that a contract or test passed.
+  Do not create protocol artifacts or claim pilot results in this stage.
+- DoD: E3.1-E3.2 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  missing assumptions, post-hoc declarations, stale evidence, path escape,
+  duplicate resolution, and uncheckable-to-verified promotion fail closed; the
+  immediately preceding full suite is green; ledger/TODO updated; stage commit
+  succeeds.
+- Depends: E2.3.
+
+#### E3.1 — Immutable assumption manifest and resolution overlay
+
+- Goal: let an agent declare its concrete assumptions against an exact input
+  snapshot before implementation, then resolve every declaration to a contract,
+  test, or explicit uncheckable reason without rewriting history.
+- Output: codeskeptic.assumption-manifest/v1 declaration and
+  codeskeptic.assumption-resolution/v1 overlay models, strict loaders, JSON
+  Schemas, repository evidence validator/summary CLI, fixtures, tests, and docs.
+- Exact file set: semantic_verifier/assumption_manifest.py;
+  semantic_verifier/assumption_manifest_schema/v1/**;
+  tools/check_assumption_manifest.py; fixtures/assumption_manifest/**;
+  tests/test_assumption_manifest.py; docs/assumption_protocol.md; README.md;
+  PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
+- Boundaries: declarations are immutable content-addressed values with subject,
+  sorted non-empty UTF-8 input snapshot paths/hashes, and sorted unique
+  assumptions carrying ID, statement, scope, risk, and intended disposition of
+  contract, test, or uncheckable. Resolutions link one exact manifest and contain
+  exactly one row per declared ID. Contract/test rows require at least one
+  canonical repository-relative evidence path, exact normalized UTF-8 hash, and
+  non-empty anchor present in that artifact; their reason is null. Uncheckable
+  rows require no evidence and a concrete non-empty reason. They remain
+  uncheckable in every summary and never count as verified. Manifest creation
+  never reads or predicts later evidence. Linked resolution validation may read
+  only declared snapshot and cited evidence paths under the supplied root. No
+  timestamp, randomness, model call, mutable status, path escape, symlink
+  escape, inferred success, or package dependency.
+- DoD: frozen contract/test/uncheckable fixture; declaration identity unchanged
+  by resolution; exact snapshot/evidence/anchor checks; complete one-to-one
+  coverage and deterministic summary; missing/extra/duplicate/unknown/stale/
+  wrong-disposition/bool/noncanonical-path/path/symlink/UTF-8/hash/anchor and
+  uncheckable-evidence negatives; shuffled JSON key and resolution-row load
+  stability; relocation; matching JSON Schemas parse; CLI success/error exits;
+  focused and full suites pass.
+- Depends: E3.0.
+
+#### E3.2 — Repository-local declaration-before-code pilot
+
+- Goal: exercise E3.1 on a real bounded repository task while preserving proof
+  that assumptions were frozen before their resolving evidence was authored.
+- Output: a committed declaration sub-gate, later linked resolution overlay,
+  at least five project assumptions spanning semantic evidence, documentation,
+  and process boundaries, repository-local evidence tests, deterministic pilot
+  summary/check command, and an honest report.
+- Exact file set: pilots/assumption_protocol/**;
+  tools/run_assumption_pilot.py; tests/test_assumption_pilot.py;
+  docs/assumption_protocol.md; README.md; PROGRESS.md; TODO.md;
+  guardrails/test_baseline.txt.
+- Boundaries: first commit only the declaration manifest and snapshot inputs,
+  with a PARTIAL ledger entry naming the declaration ID; resolving test/tool/
+  overlay files must not exist in that commit. The closure commit must link that
+  unchanged declaration. Use at least five unique assumptions, resolve every
+  checkable claim to an exact test or contract artifact, and retain at least one
+  genuinely uncheckable claim with a bounded reason. The pilot checker validates
+  evidence hashes/anchors and runs the declared repository test command, but the
+  manifest itself never claims execution success. Existing evidence may be
+  cited only if it is part of the declaration snapshot. No rewritten manifest,
+  post-hoc omitted failure, external service, model call, clock, random value,
+  or uncheckable promotion.
+- DoD: declaration commit precedes closure commit; declaration bytes/ID remain
+  exact; >=5 complete resolutions with >=1 honest uncheckable; every contract/
+  test evidence hash and anchor validates; declared test command passes; stale
+  declaration/evidence, missing resolution, false uncheckable evidence, and
+  path escape fail; repeated/relocated summary bytes; CLI success/error exits;
+  focused and full suites pass; report states what the pilot cannot establish.
+- Depends: E3.1.
 
 ### Phase E4 — Referee-guided search (5a)
 

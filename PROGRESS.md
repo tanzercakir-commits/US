@@ -2030,3 +2030,15 @@ Next: E2.3 - generate the honest paired experiment report.
 Evidence: focused report tests -> 13/13; frozen report check -> exact and passed;
 full reference suite -> 590/590 in 323.640 s; commit: this stage commit.
 Next: E3.0 - expand the assumption declaration stages.
+
+## 2026-08-07 - E3.0: bounded assumption-protocol expansion - DONE
+
++ Replaced the coarse assumption bullets with immutable declaration, linked
+  resolution, and real declaration-before-code pilot stages.
++ Froze exact input snapshots, one-to-one dispositions, evidence path/hash/
+  anchor checks, and honest uncheckable reasons that never become verified.
++ Required a separate pilot declaration commit before any resolving tool, test,
+  or overlay artifact exists.
++ The immediately preceding E2.3 commit hook passed the full 590/590 suite.
+- No blockers.
+Next: E3.1 - implement the immutable assumption manifest and resolution overlay.
