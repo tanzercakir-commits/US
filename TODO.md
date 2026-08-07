@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **D3.2 - enforce architectural rules with SARIF output**
+- [ ] **D4 - add file-hash invalidation and changed-TU extraction**
 
 ## Next
 
-- [ ] **D4 - add file-hash invalidation and changed-TU extraction**
+- [ ] **D5.0 - expand verified-fact trust promotion**
 
 ## Blockers / open questions
 
@@ -21,7 +21,7 @@
 
 ## Last updated
 
-2026-08-07 - D3.1 shipped strict content-addressed layer policies, literal
-selectors, a complete explicit N-by-N decision matrix, ambiguity-preserving
-classification, and canonical validation CLI output. The suite is 463/463.
-Next is D3.2 enforcement and SARIF.
+2026-08-07 - D3.2 shipped exact direct-call architecture enforcement,
+fail-closed unknown precedence, canonical JSON/text, and deterministic SARIF
+with stable rules and source evidence. The suite is 473/473. Next is D4
+incremental extraction.

@@ -212,6 +212,12 @@ Validate the frozen policy with:
 
     python tools/validate_architecture_policy.py fixtures/architecture/policy.json
 
+Check every exact direct-call fact and emit deterministic JSON, text, or SARIF
+with fail-closed unknown precedence:
+
+    python tools/check_architecture.py fixtures/facts/expected/world.fact-index.json fixtures/architecture/policy.json
+    python tools/check_architecture.py fixtures/facts/expected/world.fact-index.json fixtures/architecture/policy.json --format sarif
+
 Reproduce the frozen fact corpus with:
 
     python tools/regenerate_fact_fixtures.py --check

@@ -79,3 +79,63 @@ An allow decision means only that a classified dependency is permitted by the
 declared policy. It is not semantic verification or proof. Unsupported or
 missing fact edges cannot be reconstructed from policy text. D3.2 must retain
 fact-index limitations and incomplete classification as unknown.
+## Fact-based enforcement
+
+D3.2 consumes one strictly validated fact-index/v1 artifact and one strict
+architecture-policy/v1 artifact. It checks every resolved direct call fact
+exactly once:
+
+1. Classify the indexed caller and callee independently.
+2. If either endpoint matches zero or multiple layers, record an explicit
+   unknown finding and do not invent a decision for that call.
+3. If both endpoints match exactly one layer, look up the required matrix entry
+   and record its allow or forbid decision with the call ID, caller/callee
+   symbols, layers, and exact source site.
+4. Convert every fact-index limitation into an unknown finding because the
+   indexed architecture graph may be incomplete.
+
+The canonical codeskeptic.architecture-result/v1 object contains all decided
+calls, sorted unknown findings, the index/policy content IDs, and summary counts
+for calls, decided, allowed, forbidden, undecided calls, and unknown findings.
+
+Aggregate status is deliberately fail-closed:
+
+| Condition | Status | Exit |
+| --- | --- | --- |
+| Any unknown finding | unknown | 2 |
+| Otherwise any forbid decision | violation | 1 |
+| Otherwise | clean | 0 |
+| Input/schema/I/O failure | no report | 3 |
+
+Unknown therefore takes precedence even when a known forbidden edge is also
+present. Clean means only that every indexed direct call is classified and
+allowed by this policy; it is not semantic proof.
+
+Run the checker with:
+
+    python tools/check_architecture.py FACT_INDEX POLICY
+    python tools/check_architecture.py FACT_INDEX POLICY --format text
+    python tools/check_architecture.py FACT_INDEX POLICY --format sarif
+
+JSON is the default. Successful report bytes go only to stdout; input errors go
+to stderr.
+
+## SARIF 2.1.0
+
+The SARIF adapter uses two stable rules:
+
+| Rule | Level | Meaning |
+| --- | --- | --- |
+| CSARCH001 | error | A classified direct call crosses a forbidden pair. |
+| CSARCH002 | warning | A limitation or incomplete classification blocks a clean decision. |
+
+Forbidden results use the exact call site and call fact ID. Unknown results use
+the limitation site or call site when available plus a content fingerprint of
+their evidence. Artifact URIs are normalized stable display paths relative to
+%SRCROOT%; regions are one-based. The run records index/policy IDs and aggregate
+status but no absolute path, timestamp, duration, random value, or model output.
+
+The frozen world-corpus result has two allowed calls and one forbidden
+orchestration-to-storage call. Its canonical result and SARIF artifacts are
+fixtures/architecture/expected.result.json and
+fixtures/architecture/expected.sarif.json.

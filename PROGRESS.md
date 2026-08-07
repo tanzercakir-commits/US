@@ -1766,3 +1766,24 @@ stash wip/D3.1-before-F2.3.
 Evidence: focused policy/CLI tests -> 9/9; full reference suite -> 463/463;
 commit: this stage commit.
 Next: D3.2 (fact-based enforcement and deterministic SARIF).
+
+## 2026-08-07 - D3.2: fact-based architecture enforcement and SARIF - DONE
++ Checked every resolved direct call exactly once against the complete D3.1
+  matrix and preserved allow/forbid decisions with exact call IDs and sites.
++ Added canonical codeskeptic.architecture-result/v1 JSON plus deterministic
+  text and SARIF 2.1.0 renderings.
++ The frozen world result decides all three calls: two allowed and one forbidden
+  orchestration-to-storage dependency.
++ Unclassified or multiply classified endpoints become explicit call-local
+  unknown findings without fabricated decisions.
++ Every fact-index limitation becomes an unknown finding; unknown takes
+  aggregate precedence over known violations, then violation over clean.
++ SARIF uses stable CSARCH001/CSARCH002 rules, normalized relative URIs,
+  one-based regions, exact/content fingerprints, and no unstable run state.
++ Added clean self-layer, forbidden, unclassified, ambiguous, limitation,
+  precedence, CLI exit, malformed input, repeated, and relocated tests.
+- Enforcement is limited to indexed resolved direct calls; clean architecture
+  status is policy compliance for that graph, not semantic verification/proof.
+Evidence: focused enforcement tests -> 10/10; combined architecture tests ->
+19/19; full reference suite -> 473/473; commit: this stage commit.
+Next: D4 (incremental fact extraction expansion).
