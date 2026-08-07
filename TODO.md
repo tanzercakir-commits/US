@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C4.1 - generate property-test skeletons for unproven obligations**
+- [ ] **C4.2 - generate runtime assertions and the three-rung demo**
 
 ## Next
 
-- [ ] **C4.2 - generate runtime assertions and the three-rung demo**
 - [ ] **D1.1 - define the deterministic fact schema**
+- [ ] **D1.2 - implement Clang fact extraction v0**
 
 ## Blockers / open questions
 
@@ -22,6 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - C4.0 froze all five status routes, the exact scalar property
-capability, artifact identity, and the no-status-promotion rule. C4.1 and C4.2
-now have exact scopes and DoD. The reference suite is green at 370/370.
+2026-08-07 - C4.1 shipped deterministic property-test skeleton generation.
+The affine fixture preserves verified=1 and unsupported=2 while producing one
+deduplicated, compilable, generated-unexecuted target. The suite is green at
+381/381. Next is the runtime-guard rung and combined demo.

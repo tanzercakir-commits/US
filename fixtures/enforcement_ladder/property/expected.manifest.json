@@ -1,0 +1,59 @@
+{
+  "property_targets": [
+    {
+      "contract_set_sha256": "sha256:ac2053540e0eb8e175d0cab19c2a14b5e43ae3d9386cbd186267a18ef967227d",
+      "contributing_obligations": [
+        "ob00002",
+        "ob00003"
+      ],
+      "function": "square_bounded",
+      "original_statuses": [
+        "unsupported"
+      ],
+      "state": "property_generated_unexecuted",
+      "symbol": "square_bounded_9ebbc9a2cd7c",
+      "target_id": "sha256:9ebbc9a2cd7c8ff5d960a5c59a6dd593aa183ed3d2695121160f3a21fa1d1e87"
+    }
+  ],
+  "report_sha256": "sha256:870c39c7d11490188133c7ac71add6499483a283730b12b898818a19ddfc3675",
+  "routes": [
+    {
+      "fallback": "none",
+      "function": "square_bounded",
+      "kind": "contract_consistency",
+      "line": 1,
+      "message": "verified: deterministic search found a satisfying contract input",
+      "obligation": "ob00001",
+      "original_status": "verified",
+      "state": "static_verified"
+    },
+    {
+      "fallback": "property_test",
+      "function": "square_bounded",
+      "kind": "postcondition",
+      "line": 5,
+      "message": "unsupported: obligation is outside quantifier-free affine integer/boolean logic",
+      "obligation": "ob00003",
+      "original_status": "unsupported",
+      "state": "property_generated_unexecuted",
+      "target_id": "sha256:9ebbc9a2cd7c8ff5d960a5c59a6dd593aa183ed3d2695121160f3a21fa1d1e87"
+    },
+    {
+      "fallback": "property_test",
+      "function": "square_bounded",
+      "kind": "unsupported_logic",
+      "line": 5,
+      "message": "unsupported: nonlinear integer multiplication",
+      "obligation": "ob00002",
+      "original_status": "unsupported",
+      "state": "property_generated_unexecuted",
+      "target_id": "sha256:9ebbc9a2cd7c8ff5d960a5c59a6dd593aa183ed3d2695121160f3a21fa1d1e87"
+    }
+  ],
+  "schema": "codeskeptic.enforcement-ladder/v1",
+  "skeleton_schema": "codeskeptic.property-skeleton/v1",
+  "skeleton_sha256": "sha256:bd1189b5d2e13dd1b49a3a727853791bf1022dc03e554f8988e3d536c3af668c",
+  "source_sha256": "sha256:73d60035d390c9153476068a673868b4c67082c31005880b2fced9c0e3691fe2",
+  "state": "property_generated_unexecuted",
+  "workflow_id": "sha256:26bb28e7df5e351ebc9bf44ebe85f0ad384fd776f45b67c8ebd3b24a9c9243a9"
+}

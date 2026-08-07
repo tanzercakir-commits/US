@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 370 deterministic tests. The separately cloned
+The current suite contains 381 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -155,6 +155,16 @@ python -m semantic_verifier fixtures/cpp26_contracts/verified.cpp
 The [enforcement-ladder policy](docs/enforcement_ladder.md) fixes how all five
 referee statuses route to proof completion, defect/infrastructure handling,
 property-test generation, runtime guarding, or an explicit manual boundary.
+Reproduce the committed property fallback with:
+
+```powershell
+python tools/generate_property_skeleton.py `
+  fixtures/enforcement_ladder/property/square_bounded.cpp `
+  --backend affine `
+  --skeleton fixtures/enforcement_ladder/property/expected.property.cpp `
+  --manifest fixtures/enforcement_ladder/property/expected.manifest.json `
+  --check
+```
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

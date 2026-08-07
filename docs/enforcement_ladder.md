@@ -67,3 +67,39 @@ The frozen machine policy is
 [`research/enforcement_ladder_policy.json`](../research/enforcement_ladder_policy.json).
 C4.1 and C4.2 implement this policy without changing the checker or its five
 statuses.
+## C4.1 property skeleton implementation
+
+The implemented generator takes source and a fresh referee report, validates
+one result per obligation and replay evidence for every violation, then emits:
+
+- `codeskeptic.enforcement-ladder/v1` canonical JSON with every original
+  status, reason, route, logical hash, and deduplicated contract target;
+- `codeskeptic.property-skeleton/v1` C++17 for eligible targets.
+
+The committed `square_bounded` fixture deliberately uses nonlinear
+multiplication. With the affine referee, contract consistency is verified while
+the multiplication safety and postcondition results are unsupported. Both
+unproven path results collapse into one property target; the verified result
+remains `static_verified`.
+
+```powershell
+python tools/generate_property_skeleton.py `
+  fixtures/enforcement_ladder/property/square_bounded.cpp `
+  --backend affine `
+  --skeleton fixtures/enforcement_ladder/property/expected.property.cpp `
+  --manifest fixtures/enforcement_ladder/property/expected.manifest.json `
+  --check
+```
+
+The generated template accepts a caller-owned fixed array of cases. It copies
+each parameter once, skips cases that do not satisfy every exact requirement,
+calls the original function once, binds `result`, and asserts every exact
+postcondition. It supplies no generator, seed, test count, or framework.
+
+Logical report hashing replaces source paths with `<source>`; relocating the
+same bytes leaves the skeleton and manifest unchanged. Changing a contract
+changes source, contract-set, target, skeleton, and workflow identities.
+Missing/stale contract lines, proposed contracts, unsupported types/passing,
+frames, absent postconditions, malformed reports, and unreplayed violations
+cannot generate a target. Their original routes remain visible as manual,
+defect, or infrastructure outcomes.

@@ -1479,3 +1479,28 @@ Next: C4.0 (expand the enforcement ladder).
 Evidence: policy tests -> 4/4; all five routes and eight states frozen; full
 reference suite -> 370/370; commit: this stage commit.
 Next: C4.1 (deterministic property-test skeleton generation).
+## 2026-08-07 - C4.1: property-test fallback generation - DONE
++ Added strict five-status routing over fresh reports with one result per
+  obligation and mandatory replay evidence for every violation.
++ Eligible unknown/unsupported results collapse by function/contract identity
+  into one content-addressed property target; verified path results stay
+  `static_verified`.
++ Generated framework-neutral C++17 accepts caller-supplied deterministic cases,
+  binds each parameter once, filters exact requirements, calls the function
+  once, and asserts every exact postcondition.
++ Added canonical manifest/source/report/contract/skeleton/workflow SHA-256
+  identities with source paths normalized out of logical report hashes.
++ Relocation preserves skeleton and manifest bytes; any contract change updates
+  the complete identity chain and exact generated predicate.
++ Verified, replayed violations, and solver errors never generate a fallback.
+  Ineligible or stale unknown/unsupported surfaces are explicit manual routes.
++ Malformed result coverage and unreplayed violations fail closed.
++ The frozen affine fixture routes one verified result plus two unsupported
+  results into one generated-unexecuted property target.
++ The committed skeleton compiles as C++17 and matches both golden artifacts.
+- Generated skeletons contain no cases or execution claim; passing caller cases
+  remains finite evidence and never promotes the original status to verified.
+Evidence: focused generator/policy tests -> 15/15; affine fixture ->
+verified=1, unsupported=2, targets=1; golden CLI -> exact match; C++17 syntax
+compile -> pass; full reference suite -> 381/381; commit: this stage commit.
+Next: C4.2 (runtime wrappers and the three-rung demo).
