@@ -1539,3 +1539,27 @@ Next: D1.1 (deterministic fact schema).
 - No fact-index implementation or extraction behavior changes in this entry.
 Evidence: C4.2 commit hook baseline -> 392/392.
 Next: D1.1 (deterministic fact schema).
+
+## 2026-08-07 - D1.1: deterministic fact schema - DONE
++ Added the independent codeskeptic.fact-index/v1 wire contract without
+  coupling it to verification-report schema versions.
++ Added immutable value objects and a strict JSON loader for symbols,
+  definitions, uses, direct calls, mutations, purity, and limitations.
++ Every symbol/relation and the complete index has a recomputed
+  content-addressed SHA-256 identity over canonical owned fields.
++ Canonically sort arrays, reason sets, and object keys; normalize display-path
+  separators and require one-based main-source locations.
++ Enforced graph closure, owner/context rules, mutable targets, duplicate
+  rejection, and exactly one purity row per function.
++ Froze derived purity as pure, impure, or unknown with closed reasons. It
+  creates no verified/proved claim.
++ Added a strict machine JSON Schema and a field/reference document matching
+  the loader's closed enum and object boundaries.
++ Negative tests reject unknown fields/schemas/enums, tampered identities,
+  dangling relations, duplicate facts, invalid paths/hashes/locations, bad
+  ownership, incomplete purity, and cross-source locations.
+- D1.1 defines and validates facts only; it performs no Clang extraction,
+  query, cache, or proof.
+Evidence: focused fact-schema tests -> 12/12; full reference suite -> 404/404;
+commit: this stage commit.
+Next: D1.2 (Clang fact extraction v0).

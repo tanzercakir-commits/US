@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **D1.1 - define the deterministic fact schema**
+- [ ] **D1.2 - implement Clang fact extraction v0**
 
 ## Next
 
-- [ ] **D1.2 - implement Clang fact extraction v0**
 - [ ] **D1.3 - freeze fact determinism and golden tests**
+- [ ] **D2.1 - add world-model CLI queries**
 
 ## Blockers / open questions
 
@@ -22,7 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - C4.2 shipped deterministic runtime guards and the combined
-three-rung manifest. Static, property, and runtime artifacts share exact target
-and contract identities; the original statuses remain unchanged. The suite is
-green at 392/392. Next is the deterministic fact schema.
+2026-08-07 - D1.1 shipped the independent fact-index/v1 model, strict loader,
+machine schema, content identities, graph validation, and derived tri-state
+purity boundary. The suite is green at 404/404. Next is Clang fact extraction.

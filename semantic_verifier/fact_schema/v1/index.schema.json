@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codeskeptic.fact-index/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "calls",
+    "definitions",
+    "id",
+    "limitations",
+    "mutations",
+    "purity",
+    "schema",
+    "source",
+    "symbols",
+    "uses"
+  ],
+  "properties": {
+    "calls": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/call"},
+      "uniqueItems": true
+    },
+    "definitions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/definition"},
+      "uniqueItems": true
+    },
+    "id": {"$ref": "#/$defs/hash"},
+    "limitations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/limitation"},
+      "uniqueItems": true
+    },
+    "mutations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/mutation"},
+      "uniqueItems": true
+    },
+    "purity": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/purity"},
+      "uniqueItems": true
+    },
+    "schema": {"const": "codeskeptic.fact-index/v1"},
+    "source": {"$ref": "#/$defs/source"},
+    "symbols": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/symbol"},
+      "uniqueItems": true
+    },
+    "uses": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/use"},
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["column", "file", "line"],
+      "properties": {
+        "column": {"type": "integer", "minimum": 1},
+        "file": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1}
+      }
+    },
+    "nullableLocation": {
+      "oneOf": [
+        {"$ref": "#/$defs/location"},
+        {"type": "null"}
+      ]
+    },
+    "nullableHash": {
+      "oneOf": [
+        {"$ref": "#/$defs/hash"},
+        {"type": "null"}
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_sha256", "file", "language"],
+      "properties": {
+        "content_sha256": {"$ref": "#/$defs/hash"},
+        "file": {"type": "string", "minLength": 1},
+        "language": {"const": "c++17"}
+      }
+    },
+    "symbol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declaration",
+        "definition",
+        "id",
+        "kind",
+        "linkage",
+        "name",
+        "owner",
+        "qualified_name",
+        "type"
+      ],
+      "properties": {
+        "declaration": {"$ref": "#/$defs/location"},
+        "definition": {"$ref": "#/$defs/nullableLocation"},
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {
+          "enum": ["field", "function", "parameter", "record", "variable"]
+        },
+        "linkage": {"enum": ["external", "internal", "none"]},
+        "name": {"type": "string", "minLength": 1},
+        "owner": {"$ref": "#/$defs/nullableHash"},
+        "qualified_name": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "minLength": 1}
+      }
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "id", "kind", "location", "symbol"],
+      "properties": {
+        "context": {"$ref": "#/$defs/nullableHash"},
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {
+          "enum": [
+            "assignment",
+            "declaration",
+            "definition",
+            "initialization",
+            "parameter"
+          ]
+        },
+        "location": {"$ref": "#/$defs/location"},
+        "symbol": {"$ref": "#/$defs/hash"}
+      }
+    },    "use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "id", "kind", "location", "symbol"],
+      "properties": {
+        "context": {"$ref": "#/$defs/hash"},
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {"enum": ["address", "read", "read_write", "write"]},
+        "location": {"$ref": "#/$defs/location"},
+        "symbol": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["callee", "caller", "id", "kind", "location"],
+      "properties": {
+        "callee": {"$ref": "#/$defs/hash"},
+        "caller": {"$ref": "#/$defs/hash"},
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {"const": "direct"},
+        "location": {"$ref": "#/$defs/location"}
+      }
+    },
+    "mutation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "id", "kind", "location", "target"],
+      "properties": {
+        "context": {"$ref": "#/$defs/hash"},
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {
+          "enum": [
+            "assignment",
+            "call_effect",
+            "compound_assignment",
+            "decrement",
+            "increment",
+            "initialization"
+          ]
+        },
+        "location": {"$ref": "#/$defs/location"},
+        "target": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "purity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function", "reasons", "status"],
+      "properties": {
+        "function": {"$ref": "#/$defs/hash"},
+        "reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "direct_impure_call",
+              "global_mutation",
+              "indirect_call",
+              "parameter_mutation",
+              "unresolved_call",
+              "unsupported_construct",
+              "virtual_dispatch"
+            ]
+          }
+        },
+        "status": {"enum": ["impure", "pure", "unknown"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "pure"}}},
+          "then": {"properties": {"reasons": {"maxItems": 0}}},
+          "else": {"properties": {"reasons": {"minItems": 1}}}
+        }
+      ]
+    },
+    "limitation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "context", "location", "message"],
+      "properties": {
+        "code": {
+          "enum": [
+            "indirect_call",
+            "macro_location",
+            "unsupported_ast",
+            "unresolved_symbol",
+            "virtual_dispatch"
+          ]
+        },
+        "context": {"$ref": "#/$defs/nullableHash"},
+        "location": {"$ref": "#/$defs/nullableLocation"},
+        "message": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
