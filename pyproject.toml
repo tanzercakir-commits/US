@@ -14,3 +14,9 @@ semantic-verify = "semantic_verifier.cli:main"
 
 [tool.setuptools]
 packages = ["semantic_verifier"]
+
+[tool.setuptools.package-data]
+semantic_verifier = [
+  "prompt_packs/contract_proposal/v1/*.json",
+  "prompt_packs/contract_proposal/v1/*.md",
+]

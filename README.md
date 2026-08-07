@@ -55,8 +55,8 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 314 deterministic tests. The separately cloned,
-unmodified CodeSkeptic reference also passes all 811 tests on this machine.
+The current suite contains 322 deterministic tests. The separately cloned
+CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
 ```powershell
@@ -89,6 +89,18 @@ Reproduce the isolated, proposal-only invariant-inference research artifact:
 ```powershell
 python tools/invariant_research.py --check
 ```
+Render or reproduce the deterministic offline contract-proposal prompt pack
+(no model or network call is made):
+
+```powershell
+python tools/contract_proposal.py `
+  --request fixtures/contract_proposals/request.json `
+  --check fixtures/contract_proposals/expected.prompt.json
+```
+
+The [contract-proposal loop](docs/contract_proposal_loop.md) defines the v1
+request/response schemas, external-adapter boundary, logical identity, and
+mandatory `cs: ai` provenance.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

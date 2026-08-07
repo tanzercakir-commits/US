@@ -1,0 +1,21 @@
+{
+  "context": {
+    "callee_contracts": [],
+    "existing_contracts": [],
+    "symbols": [
+      { "name": "result", "role": "result", "type": "i32" },
+      { "name": "value", "role": "parameter", "type": "i32" }
+    ]
+  },
+  "schema": "codeskeptic.contract-proposal-request/v1",
+  "source": {
+    "file": "C:/checkout/src/math.cpp",
+    "line": 40
+  },
+  "target": {
+    "body": "{\n  int result = value < 0 ? 0 : value;\n  return result;\n}",
+    "function": "clamp_nonnegative",
+    "language": "c++17",
+    "signature": "int clamp_nonnegative(int value)"
+  }
+}

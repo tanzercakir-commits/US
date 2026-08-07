@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C1.1 - offline AI contract proposal template**
+- [ ] **C1.2 - deterministic proposal pre-screening**
 
 ## Next
 
-- [ ] **C1.2 - proposal validation and acceptance workflow**
 - [ ] **C1.3 - human approval and accepted-intent flow**
+- [ ] **C2.1 - contract-first task template and end-to-end run**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - B4.2 shipped stable semantic SARIF descriptors, logical
-fingerprints, gate/baseline metadata, replay navigation, and a pinned consumer
-contract. CodeSkeptic is green at 914/914. Next is C1.1 proposal templating.
+2026-08-07 - C1.1 shipped the dependency-free offline contract-proposal prompt
+pack, strict request/response schemas, logical identities, and frozen golden
+fixture. The reference suite is green at 322/322. Next is C1.2 pre-screening.

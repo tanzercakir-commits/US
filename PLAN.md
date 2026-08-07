@@ -1129,13 +1129,72 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase C1 — `cs: ai` proposal loop
 
-- C1.1 — Proposal template: body → candidate contracts (offline prompt pack;
-  model calls live outside this repo, output format defined here)
-- C1.2 — Referee pre-screening: proposals pass satisfiability /
-  well-formedness checks before any human sees them (contradictory proposals
-  never reach the human)
-- C1.3 — Approval flow: `cs: ai` → human edits and removes the `ai` marker →
-  "accepted intent" (the mechanism of constitution #9)
+#### C1.1 — Offline contract-proposal prompt pack
+
+- Goal: turn a caller-supplied C++ function body and owned context into a
+  deterministic, vendor-neutral prompt pack for candidate contracts.
+- Output: versioned request/response JSON schemas; a self-contained system
+  prompt; a frozen request/prompt fixture; a dependency-free renderer and CLI;
+  and operator documentation for external model adapters.
+- Exact file set: `semantic_verifier/contract_proposals.py`;
+  `tools/contract_proposal.py`; `semantic_verifier/prompt_packs/contract_proposal/v1/**`;
+  `fixtures/contract_proposals/**`; `tests/test_contract_proposals.py`;
+  `docs/contract_proposal_loop.md`; `README.md`; `pyproject.toml`; `PLAN.md`, `PROGRESS.md`,
+  `TODO.md`, and `guardrails/test_baseline.txt`.
+- Boundaries: no network or model call, no source rewrite, no verifier verdict,
+  and no accepted-intent claim. Output contracts carry the `cs: ai` marker;
+  function bodies and context are data supplied by the caller, never guessed.
+- DoD: both schemas parse and reject undeclared fields by construction; the
+  frozen fixture renders byte-identically twice and matches its golden prompt;
+  request identity ignores checkout location but changes with signature, body,
+  or owned context; instructions and response schema preserve machine
+  provenance and cannot represent an accepted contract; the focused and full
+  suites pass.
+- Depends: A1.
+
+#### C1.2 — Deterministic proposal pre-screening
+
+- Goal: keep malformed, contradictory, unsupported, unknown, or solver-error
+  proposals away from the human review queue by running the normal referee.
+- Output: request/response parser; strict candidate-to-source overlay; ordinary
+  well-formedness/satisfiability pre-screen report; rejected/eligible fixtures;
+  and CLI/documentation updates.
+- Exact file set: `semantic_verifier/contract_proposals.py`;
+  `tools/contract_proposal.py`; `semantic_verifier/prompt_packs/contract_proposal/v1/**`;
+  `fixtures/contract_proposals/**`; `tests/test_contract_proposals.py`;
+  `docs/contract_proposal_loop.md`; `README.md`; `PROGRESS.md`, `TODO.md`, and
+  `guardrails/test_baseline.txt`.
+- Boundaries: the proposal remains `cs: ai`; pre-screening is deterministic and
+  offline, uses the ordinary parser/referee, never weakens replay, and never
+  changes rejected/unknown/unsupported/error outcomes into acceptance.
+- DoD: malformed and contradictory candidates are rejected before review;
+  only independently well-formed and satisfiable proposals become eligible;
+  unknown, unsupported, and solver-error outcomes remain distinct rejections;
+  overlays never mutate the input source; repeated reports are byte-identical;
+  focused and full suites pass.
+- Depends: C1.1.
+
+#### C1.3 — Human approval and accepted-intent boundary
+
+- Goal: make the constitution #9 transition explicit: an eligible `cs: ai`
+  proposal is review material until a human edits it and removes `ai`.
+- Output: deterministic review bundle and state checker; candidate-overlay
+  export; accepted-intent validation; audit metadata; fixtures, CLI, tests, and
+  workflow documentation.
+- Exact file set: `semantic_verifier/contract_proposals.py`;
+  `tools/contract_proposal.py`; `fixtures/contract_proposals/**`;
+  `tests/test_contract_proposals.py`; `docs/contract_proposal_loop.md`;
+  `README.md`; `PROGRESS.md`, `TODO.md`, and
+  `guardrails/test_baseline.txt`.
+- Boundaries: tooling may emit `cs: ai` overlays but never removes `ai` on a
+  human's behalf; accepted intent must be read back from separately edited
+  source, and proposal/pre-screen evidence is not proof of specification truth.
+- DoD: the state machine distinguishes proposed, rejected, reviewable, and
+  accepted; only a separately supplied source with edited marker-free contracts
+  can become accepted; stale or semantically changed approvals fail closed;
+  audit output is deterministic and location-independent; focused and full
+  suites pass.
+- Depends: C1.2.
 
 ### Phase C2 — Contract-first workflow (4a)
 

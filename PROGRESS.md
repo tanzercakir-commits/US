@@ -1299,3 +1299,21 @@ Evidence: focused SARIF/result tests -> 17/17; full CodeSkeptic suite ->
 reference suite -> 314/314; production commit -> `25f5065`; commit: this
 reference-ledger commit.
 Next: C1.1 (offline AI contract proposal template).
+## 2026-08-07 - C1.1: offline contract-proposal prompt pack - DONE
++ Added strict v1 request/response JSON schemas and bundled them as package
+  data with a vendor-neutral, self-contained system prompt.
++ Added a dependency-free renderer and CLI that make no model or network call
+  and produce canonical JSON with the complete response schema embedded.
++ Logical SHA-256 request identity excludes checkout path and line while
+  including the exact signature, body, symbols, and visible contract context.
++ The response contract permits only candidate/declined outcomes, requires
+  `cs: ai` on every proposed comment, and cannot encode accepted intent.
++ Added a frozen request/golden prompt pair plus strict-input, provenance,
+  relocation, semantic-change, CLI, and repeat-byte coverage.
++ The reference suite grew from 314 to 322 tests and every test is green.
+- External model execution is intentionally outside this repository; C1.2 will
+  reject unfit responses through the deterministic referee before review.
+Evidence: focused proposal tests -> 8/8; golden CLI check -> exact match;
+request id -> `sha256:8daa621ef4da277cb6b9361b54cfdb4cb234352c82164c0f76b0fbca04e4da5b`;
+full reference suite -> 322/322; commit: this stage commit.
+Next: C1.2 (deterministic proposal pre-screening).

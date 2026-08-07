@@ -1,0 +1,216 @@
+{
+  "messages": [
+    {
+      "content": "You propose candidate CodeSkeptic contracts; you never decide whether they are accepted or verified.\n\nUse only the supplied C++17 signature, body, symbols, existing contracts, and callee contracts. Never invent declarations, types, aliases, side effects, or environmental facts. A candidate must hold on every relevant path in the supplied body. Decline when the owned context is insufficient.\n\nReturn exactly one JSON object matching the supplied response_schema. Echo request_id exactly. Do not emit Markdown, prose outside JSON, accepted-intent claims, verifier outcomes, source patches, or marker-free contracts.\n\nEvery proposed comment must retain machine provenance and use one of these forms:\n- // cs: ai requires <boolean expression>\n- // cs: ai ensures <boolean expression>\n- // cs: ai modifies <comma-separated mutable-reference paths>\n- // cs: ai invariant <boolean expression>\n\nUse only the supported contract fragment: owned symbols and result; integer and Boolean literals; ==, !=, <, <=, >, >=; &&, ||, !; linear + and -; supported fixed-width operations already present in owned context; and explicit field/array paths already supplied. Do not approximate unsupported semantics. Function contracts use a function anchor. Invariants use a loop anchor and a one-based body line.\n\nRationale and evidence are review aids, not proof. The deterministic referee and a human reviewer remain authoritative.",
+      "role": "system"
+    },
+    {
+      "content": "Propose candidate contracts for the request below. Echo request_id exactly and return one JSON object matching response_schema.\n{\"request\":{\"context\":{\"callee_contracts\":[],\"existing_contracts\":[],\"symbols\":[{\"name\":\"result\",\"role\":\"result\",\"type\":\"i32\"},{\"name\":\"value\",\"role\":\"parameter\",\"type\":\"i32\"}]},\"schema\":\"codeskeptic.contract-proposal-request/v1\",\"source\":{\"file\":\"C:/checkout/src/math.cpp\",\"line\":40},\"target\":{\"body\":\"{\\n  int result = value < 0 ? 0 : value;\\n  return result;\\n}\",\"function\":\"clamp_nonnegative\",\"language\":\"c++17\",\"signature\":\"int clamp_nonnegative(int value)\"}},\"request_id\":\"sha256:8daa621ef4da277cb6b9361b54cfdb4cb234352c82164c0f76b0fbca04e4da5b\"}",
+      "role": "user"
+    }
+  ],
+  "request_id": "sha256:8daa621ef4da277cb6b9361b54cfdb4cb234352c82164c0f76b0fbca04e4da5b",
+  "response_schema": {
+    "$id": "codeskeptic.contract-proposal-response/v1",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "additionalProperties": false,
+    "allOf": [
+      {
+        "if": {
+          "properties": {
+            "outcome": {
+              "const": "candidate"
+            }
+          },
+          "required": [
+            "outcome"
+          ]
+        },
+        "then": {
+          "properties": {
+            "proposals": {
+              "minItems": 1
+            }
+          }
+        }
+      },
+      {
+        "if": {
+          "properties": {
+            "outcome": {
+              "const": "declined"
+            }
+          },
+          "required": [
+            "outcome"
+          ]
+        },
+        "then": {
+          "properties": {
+            "proposals": {
+              "maxItems": 0
+            }
+          }
+        }
+      }
+    ],
+    "properties": {
+      "notes": {
+        "items": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array",
+        "uniqueItems": true
+      },
+      "outcome": {
+        "enum": [
+          "candidate",
+          "declined"
+        ]
+      },
+      "proposals": {
+        "items": {
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "else": {
+                "properties": {
+                  "anchor": {
+                    "properties": {
+                      "kind": {
+                        "const": "function"
+                      }
+                    }
+                  }
+                }
+              },
+              "if": {
+                "properties": {
+                  "comment": {
+                    "pattern": "^// cs: ai invariant "
+                  }
+                },
+                "required": [
+                  "comment"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "anchor": {
+                    "properties": {
+                      "kind": {
+                        "const": "loop"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "anchor": {
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "else": {
+                    "not": {
+                      "required": [
+                        "body_line"
+                      ]
+                    }
+                  },
+                  "if": {
+                    "properties": {
+                      "kind": {
+                        "const": "loop"
+                      }
+                    },
+                    "required": [
+                      "kind"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "body_line"
+                    ]
+                  }
+                }
+              ],
+              "properties": {
+                "body_line": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "kind": {
+                  "enum": [
+                    "function",
+                    "loop"
+                  ]
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "type": "object"
+            },
+            "comment": {
+              "pattern": "^// cs: ai (?:(?:requires|ensures|invariant) .+|modifies(?: .*)?)$",
+              "type": "string"
+            },
+            "evidence": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "machine_proposed": {
+              "const": true
+            },
+            "rationale": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "anchor",
+            "comment",
+            "evidence",
+            "machine_proposed",
+            "rationale"
+          ],
+          "type": "object"
+        },
+        "maxItems": 16,
+        "type": "array",
+        "uniqueItems": true
+      },
+      "request_id": {
+        "pattern": "^sha256:[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "schema": {
+        "const": "codeskeptic.contract-proposal-response/v1"
+      }
+    },
+    "required": [
+      "notes",
+      "outcome",
+      "proposals",
+      "request_id",
+      "schema"
+    ],
+    "title": "CodeSkeptic untrusted contract proposal response v1",
+    "type": "object"
+  },
+  "schema": "codeskeptic.contract-proposal-prompt/v1",
+  "trust_boundary": {
+    "accepted_intent": false,
+    "generator": "untrusted",
+    "machine_marker": "cs: ai",
+    "referee_required": true
+  }
+}
