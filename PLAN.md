@@ -2196,11 +2196,120 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase F1 — Benchmark set (M6b)
 
-- F1.1 — Corpus: 30–50 curated functions (inside the supported subset, with a
-  difficulty ladder)
-- F1.2 — Runner: `verified/unknown/violated/unsupported` rates + timings →
-  `benchmarks/results/` (dated, append-only)
-- F1.3 — Trend tracking: run at every A-phase gate; regression = red
+#### F1.0 — Bounded benchmark/trend expansion
+
+- Goal: replace the coarse F1 bullets with a deterministic corpus, append-only
+  run evidence, and a fail-closed logical regression gate.
+- Output: detailed F1.1-F1.3 contracts in PLAN.md plus PROGRESS.md and TODO.md.
+- Exact file set: PLAN.md; PROGRESS.md; TODO.md.
+- Boundaries: planning only. Freeze forty standalone supported-lowering
+  functions in four ten-case difficulty tiers, one combined frontend run,
+  explicit expected per-function statuses, exact rates, injected monotonic
+  duration measurement isolated from decisions, append-only raw run rows, and
+  a >=3-point logical trend. Timing is informational and can never change a
+  status, identity ordering, pass/fail result, or regression decision. The first
+  three points are current-version calibration observations, not fabricated
+  historical A-gate measurements; every future A gate must append a real point.
+- DoD: F1.1-F1.3 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  omitted/reordered/stale corpus cases, unsupported status promotion, rewritten
+  run history, timing-based gates, cherry-picked points, false historical labels,
+  and logical regression promotion fail closed; the immediately preceding full
+  suite is green; ledger/TODO updated; stage commit succeeds.
+- Depends: E5.1.
+
+#### F1.1 — Curated supported-subset benchmark corpus
+
+- Goal: freeze a content-addressed 40-function benchmark that exercises a clear
+  supported-subset difficulty ladder with known referee outcomes.
+- Output: codeskeptic.benchmark-corpus/v1 strict manifest/loader/checker,
+  structural schema, one LF-only standalone-function translation unit, CLI,
+  tests, and benchmark documentation.
+- Exact file set: semantic_verifier/benchmark_corpus.py;
+  semantic_verifier/benchmark_corpus_schema/v1/**;
+  tools/check_benchmark_corpus.py; benchmarks/corpus/**;
+  tests/test_benchmark_corpus.py; docs/benchmark_suite.md; README.md;
+  PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
+- Boundaries: exactly forty sorted unique named functions and four sorted tiers
+  of ten: affine-basic verified, affine-counterexample violated, path-sensitive
+  verified, and nonlinear-frontier unknown. Every source function is declared
+  once; no undeclared helper, unsupported lowering, solver/checker error, path
+  escape, duplicate, or expected-status inference. The manifest snapshots exact
+  source bytes and declares each expected terminal status. The checker runs one
+  combined ordinary affine-referee pass, requires the exact function set and
+  complete result coverage, classifies only from raw obligation statuses, and
+  compares every function to its frozen expectation. Unknown remains unknown;
+  the corpus creates no verification claims beyond the reported rows. No clock,
+  random value, network/model call, retry, cache, package dependency, or timing.
+- DoD: 40 functions/4x10 tiers; exact expected aggregate is 20 verified, 10
+  violated, 10 unknown, 0 unsupported; all violated cases have concrete replayed
+  counterexamples; all unknown rows are checker unknown rather than unsupported
+  lowering; strict identity/schema/file-set/UTF-8/path/function/status checks;
+  missing/extra/duplicate/reordered/stale/undeclared/wrong-expectation/status-
+  promotion/malformed negatives; repeated and relocated check bytes; CLI
+  success/error exits; focused and full suites pass.
+- Depends: F1.0, A3.1.
+
+#### F1.2 — Append-only benchmark run evidence
+
+- Goal: record exact benchmark statuses/rates plus isolated operational timing
+  without allowing time to influence verification or pass/fail logic.
+- Output: codeskeptic.benchmark-run/v1 value/strict loader, append-only JSONL
+  ledger, record/summarize CLI, first explicit calibration observation, tests,
+  and documentation.
+- Exact file set: semantic_verifier/benchmark_results.py;
+  tools/record_benchmark_run.py; benchmarks/results/**;
+  tests/test_benchmark_results.py; docs/benchmark_suite.md; README.md;
+  PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
+- Boundaries: a run row links the exact corpus, explicit caller-supplied
+  observation label and source revision, referee/toolchain configuration,
+  complete sorted per-function statuses, exact counts/reduced rational rates,
+  and one non-negative monotonic batch duration in nanoseconds. Duration is
+  informational, excluded from all logical identities used for comparison and
+  from every acceptance/regression decision; tests inject the timer. Recording
+  appends one canonical LF JSON line and validates every prior byte/row first.
+  Existing rows are immutable, unique by content identity and observation label,
+  and never regenerated in place. No implicit date/wall clock, random value,
+  retry, dropped case, percentile claim, timing threshold, network/model call,
+  or package dependency.
+- DoD: one real current-version calibration row; exact 40-case statuses and
+  20/10/10/0 counts/rates; timing captured but perturbing it changes no logical
+  status/rate/decision; append preserves prefix bytes; strict duplicate/label/
+  corpus/config/case/count/rate/duration/JSON/UTF-8 and truncation negatives;
+  deterministic summary ignores timing for logic; relocation; CLI record/
+  summarize/error exits; focused and full suites pass.
+- Depends: F1.1.
+
+#### F1.3 — Three-point logical trend and red regression gate
+
+- Goal: derive an auditable >=3-point trend from complete append-only run rows
+  and make supported logical regressions fail closed.
+- Output: codeskeptic.benchmark-trend/v1 deterministic derived artifact,
+  generate/check CLI and red exit, two additional explicitly labeled current-
+  version calibration observations, tests, and prospective A-gate policy docs.
+- Exact file set: semantic_verifier/benchmark_trend.py;
+  tools/check_benchmark_trend.py; benchmarks/results/**;
+  tests/test_benchmark_trend.py; docs/benchmark_suite.md; README.md;
+  PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
+- Boundaries: trend points are all ledger rows in append order; no selection,
+  omission, reordering, rewrite, or timing filter. The initial three labels are
+  F1 calibration observations of the same current version and are explicitly
+  not historical A-gate results. Thereafter every A-phase gate must append one
+  real observation before completion. A regression is red when total/function
+  coverage changes, a previously verified function is not verified, a previously
+  violated function is not violated, or unknown/unsupported/solver-error
+  coverage increases; an unknown may become verified only in a new reviewed
+  baseline. Timing remains displayed but never gates. Unknown/unsupported/error
+  never promotes to green, and a changed baseline requires a future explicit
+  plan stage rather than self-approval.
+- DoD: ledger and trend contain >=3 complete unique points; all three initial
+  points are honestly labeled current-version calibration; generated/check
+  artifact is byte-identical after relocation; green current trend; synthetic
+  verified loss, violated promotion, unknown/unsupported increase, missing case,
+  omitted/reordered/cherry-picked point, stale identity, false label, and timing-
+  only change coverage (logic unchanged); CLI green=0, regression=1, strict
+  error=2; future A-gate rule documented; focused and full suites pass; F1
+  program success criterion is met.
+- Depends: F1.2.
 
 ### Phase F2 — Golden/fixture infrastructure
 

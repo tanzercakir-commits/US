@@ -2182,3 +2182,16 @@ Next: E5.1 - author the bounded referee-as-reward design memo.
 Evidence: full reference suite -> 624/624 in 335.750 s; no implementation/test
 files added; commit: this stage commit.
 Next: F1.0 - expand the benchmark corpus, runner, and trend gates.
+## 2026-08-07 - F1.0: bounded benchmark/trend expansion - DONE
+
++ Expanded F1 into a forty-function/four-tier corpus, append-only run evidence,
+  and an exact three-point logical trend with prospective A-gate policy.
++ Isolated monotonic batch timing as informational evidence that cannot affect
+  verification, rate arithmetic, trend selection, or red/green decisions.
++ Required three honestly labeled current-version calibration observations
+  rather than fabricating historical A-gate runs.
++ Froze red fail-closed transitions for verified loss, violated promotion,
+  increased unknown/unsupported/error coverage, and incomplete case/point data.
++ The immediately preceding E5.1 commit hook passed 624/624 tests.
+- No blockers.
+Next: F1.1 - build the curated supported-subset benchmark corpus.

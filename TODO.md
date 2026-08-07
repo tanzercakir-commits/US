@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **F1.0 - expand the benchmark corpus/trend stages**
+- [ ] **F1.1 - build the curated supported-subset benchmark corpus**
 
 ## Next
 
-- [ ] **F1.1 - build the curated supported-subset benchmark corpus**
 - [ ] **F1.2 - add the benchmark runner and append-only result snapshots**
 - [ ] **F1.3 - add three-point trend tracking and a red regression gate**
 
@@ -23,5 +22,5 @@
 
 ## Last updated
 
-2026-08-07 - E5.1 completed the non-executable referee-as-reward memo;
-there is no dataset, training run, model comparison, or implementation.
+2026-08-07 - F1.0 froze the 40-function corpus, append-only run evidence,
+and honest three-point logical trend contracts; timing is informational only.
