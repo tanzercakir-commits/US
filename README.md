@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 322 deterministic tests. The separately cloned
+The current suite contains 330 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -96,6 +96,14 @@ Render or reproduce the deterministic offline contract-proposal prompt pack
 python tools/contract_proposal.py `
   --request fixtures/contract_proposals/request.json `
   --check fixtures/contract_proposals/expected.prompt.json
+```
+Pre-screen an untrusted response without mutating source:
+
+```powershell
+python tools/contract_proposal.py `
+  --request fixtures/contract_proposals/screen.request.json `
+  --response fixtures/contract_proposals/eligible.response.json `
+  --check fixtures/contract_proposals/expected.pre-screen.json
 ```
 
 The [contract-proposal loop](docs/contract_proposal_loop.md) defines the v1

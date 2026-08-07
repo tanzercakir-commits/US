@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C1.2 - deterministic proposal pre-screening**
+- [ ] **C1.3 - human approval and accepted-intent boundary**
 
 ## Next
 
-- [ ] **C1.3 - human approval and accepted-intent flow**
 - [ ] **C2.1 - contract-first task template and end-to-end run**
+- [ ] **C2.2 - pilot the workflow on this project**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - C1.1 shipped the dependency-free offline contract-proposal prompt
-pack, strict request/response schemas, logical identities, and frozen golden
-fixture. The reference suite is green at 322/322. Next is C1.2 pre-screening.
+2026-08-07 - C1.2 shipped deterministic response parsing, in-memory overlays,
+ordinary-referee pre-screening, a six-state rejection matrix, and a versioned
+golden report. The reference suite is green at 330/330. Next is C1.3 approval.

@@ -7,17 +7,23 @@ import subprocess
 import sys
 import unittest
 
+from semantic_verifier.backend import CheckerBackend
 from semantic_verifier.contract_proposals import (
+    PRE_SCREEN_SCHEMA,
     PROMPT_SCHEMA,
     REQUEST_SCHEMA,
     RESPONSE_SCHEMA,
     ProposalInputError,
     build_prompt_pack,
+    candidate_overlay,
     load_request,
+    load_response_json,
+    pre_screen_response,
     read_request,
     render_prompt_pack,
     request_id,
 )
+from semantic_verifier.model import VerificationResult, VerificationStatus
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,8 +42,17 @@ class ContractProposalPromptTests(unittest.TestCase):
         response_schema = json.loads(
             (PACK / "response.schema.json").read_text(encoding="utf-8")
         )
+        pre_screen_schema = json.loads(
+            (PACK / "pre-screen.schema.json").read_text(encoding="utf-8")
+        )
         self.assertEqual(request_schema["$id"], REQUEST_SCHEMA)
         self.assertEqual(response_schema["$id"], RESPONSE_SCHEMA)
+        self.assertEqual(pre_screen_schema["$id"], PRE_SCREEN_SCHEMA)
+        self.assertFalse(pre_screen_schema["additionalProperties"])
+        self.assertFalse(
+            pre_screen_schema["properties"]["checks"]["items"]
+            ["additionalProperties"]
+        )
         self.assertFalse(request_schema["additionalProperties"])
         self.assertFalse(request_schema["properties"]["target"]["additionalProperties"])
         self.assertFalse(request_schema["properties"]["source"]["additionalProperties"])
@@ -86,13 +101,17 @@ class ContractProposalPromptTests(unittest.TestCase):
         baseline = request_id(load_request(original))
         variants = []
         signature = deepcopy(original)
-        signature["target"]["signature"] = "long clamp_nonnegative(long value)"  # type: ignore[index]
+        signature["target"][
+            "signature"
+        ] = "long clamp_nonnegative(long value)"  # type: ignore[index]
         variants.append(signature)
         body = deepcopy(original)
         body["target"]["body"] += "\n// changed"  # type: ignore[index,operator]
         variants.append(body)
         context = deepcopy(original)
-        context["context"]["callee_contracts"] = ["abs: ensures result >= 0"]  # type: ignore[index]
+        context["context"][
+            "callee_contracts"
+        ] = ["abs: ensures result >= 0"]  # type: ignore[index]
         variants.append(context)
         for variant in variants:
             with self.subTest(variant=variant):
@@ -147,6 +166,182 @@ class ContractProposalPromptTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("prompt matches", completed.stdout)
 
+
+class SolverErrorBackend(CheckerBackend):
+    name = "proposal-test-solver-error"
+
+    def check(self, obligation):
+        return VerificationResult(
+            obligation_id=obligation.id,
+            function=obligation.function,
+            kind=obligation.kind,
+            status=VerificationStatus.SOLVER_ERROR,
+            location=obligation.location,
+            message="solver error: injected proposal pre-screen failure",
+        )
+
+
+class ContractProposalPreScreenTests(unittest.TestCase):
+    def request(self):
+        return read_request(FIXTURES / "screen.request.json")
+
+    def response_text(self, name: str) -> str:
+        return (FIXTURES / f"{name}.response.json").read_text(encoding="utf-8")
+
+    def candidate_response(self, request, comment, anchor=None):
+        return json.dumps(
+            {
+                "notes": [],
+                "outcome": "candidate",
+                "proposals": [{
+                    "anchor": anchor or {"kind": "function"},
+                    "comment": comment,
+                    "evidence": ["Owned source evidence."],
+                    "machine_proposed": True,
+                    "rationale": "Untrusted intent candidate.",
+                }],
+                "request_id": request_id(request),
+                "schema": RESPONSE_SCHEMA,
+            },
+            sort_keys=True,
+        )
+
+    def test_fixture_matrix_preserves_every_rejection_status(self):
+        request = self.request()
+        expected = {
+            "eligible": ("eligible", "eligible"),
+            "contradictory": ("violated", "rejected"),
+            "unsupported": ("unsupported", "rejected"),
+            "unknown": ("unknown", "rejected"),
+            "malformed": ("malformed", "rejected"),
+            "declined": ("declined", "declined"),
+        }
+        for name, outcome in expected.items():
+            with self.subTest(name=name):
+                report = pre_screen_response(request, self.response_text(name))
+                self.assertEqual((report.status, report.outcome), outcome)
+                self.assertEqual(report.request_id, request_id(request))
+
+    def test_candidate_overlay_is_separate_and_keeps_ai_marker(self):
+        request = self.request()
+        before = request.to_dict()
+        response = load_response_json(self.response_text("eligible"), request_id(request))
+        overlay = candidate_overlay(request, response)
+        self.assertEqual(request.to_dict(), before)
+        self.assertIn("// cs: ai ensures result >= 0", overlay)
+        self.assertNotIn("// cs: ensures result >= 0", overlay)
+        self.assertIn(request.target.signature, overlay)
+
+    def test_body_violation_is_reviewable_intent_not_false_acceptance(self):
+        request = self.request()
+        report = pre_screen_response(
+            request,
+            self.candidate_response(request, "// cs: ai ensures result > 0"),
+        )
+        self.assertEqual(report.status, "eligible")
+        self.assertGreater(report.verification_summary["violated"], 0)
+        self.assertTrue(all("accepted" not in item for item in report.candidate_comments))
+
+    def test_stale_identity_and_marker_free_contract_fail_as_malformed(self):
+        request = self.request()
+        stale = self.response_text("eligible").replace(
+            request_id(request), "sha256:" + "0" * 64
+        )
+        stale_report = pre_screen_response(request, stale)
+        marker_report = pre_screen_response(request, self.response_text("malformed"))
+        self.assertEqual(stale_report.status, "malformed")
+        self.assertIn("does not match", stale_report.reason)
+        self.assertEqual(marker_report.status, "malformed")
+        self.assertIn("retain", marker_report.reason)
+
+    def test_solver_error_is_a_distinct_fail_closed_rejection(self):
+        request = self.request()
+        report = pre_screen_response(
+            request,
+            self.response_text("eligible"),
+            checker=SolverErrorBackend(),
+        )
+        self.assertEqual(report.status, "solver_error")
+        self.assertEqual(report.outcome, "rejected")
+        self.assertIn("injected proposal pre-screen failure", report.reason)
+
+    def test_invariant_requires_verified_entry_and_preservation(self):
+        request = load_request({
+            "schema": REQUEST_SCHEMA,
+            "target": {
+                "language": "c++17",
+                "function": "countdown",
+                "signature": "int countdown(int n)",
+                "body": (
+                    "{\n  int i = n;\n  while (i > 0) {\n"
+                    "    i = i - 1;\n  }\n  return i;\n}"
+                ),
+            },
+            "context": {
+                "symbols": [
+                    {"name": "n", "type": "i32", "role": "parameter"},
+                    {"name": "i", "type": "i32", "role": "local"},
+                    {"name": "result", "type": "i32", "role": "result"},
+                ],
+                "existing_contracts": ["// cs: requires n >= 0"],
+                "callee_contracts": [],
+            },
+            "source": {"file": "loop.cpp", "line": 1},
+        })
+        useful = pre_screen_response(
+            request,
+            self.candidate_response(
+                request,
+                "// cs: ai invariant i >= 0",
+                {"kind": "loop", "body_line": 3},
+            ),
+        )
+        false_entry = pre_screen_response(
+            request,
+            self.candidate_response(
+                request,
+                "// cs: ai invariant i > 0",
+                {"kind": "loop", "body_line": 3},
+            ),
+        )
+        self.assertEqual(useful.status, "eligible")
+        invariant_checks = [
+            check for check in useful.checks
+            if check.name.startswith("invariant_referee")
+        ]
+        self.assertEqual(
+            [check.status for check in invariant_checks], ["verified", "verified"]
+        )
+        self.assertEqual(false_entry.status, "violated")
+        self.assertEqual(false_entry.outcome, "rejected")
+
+    def test_pre_screen_bytes_match_golden_and_repeat(self):
+        request = self.request()
+        response = self.response_text("eligible")
+        first = pre_screen_response(request, response).to_json()
+        second = pre_screen_response(request, response).to_json()
+        expected = (FIXTURES / "expected.pre-screen.json").read_text(encoding="utf-8")
+        self.assertEqual(first, second)
+        self.assertEqual(first, expected)
+        self.assertEqual(json.loads(first)["schema"], PRE_SCREEN_SCHEMA)
+
+    def test_cli_pre_screen_golden_check(self):
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "tools" / "contract_proposal.py"),
+                "--request", str(FIXTURES / "screen.request.json"),
+                "--response", str(FIXTURES / "eligible.response.json"),
+                "--check", str(FIXTURES / "expected.pre-screen.json"),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            check=False,
+            text=True,
+            timeout=10,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("pre-screen matches", completed.stdout)
 
 if __name__ == "__main__":
     unittest.main()

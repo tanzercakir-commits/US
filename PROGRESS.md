@@ -1317,3 +1317,26 @@ Evidence: focused proposal tests -> 8/8; golden CLI check -> exact match;
 request id -> `sha256:8daa621ef4da277cb6b9361b54cfdb4cb234352c82164c0f76b0fbca04e4da5b`;
 full reference suite -> 322/322; commit: this stage commit.
 Next: C1.2 (deterministic proposal pre-screening).
+## 2026-08-07 - C1.2: deterministic proposal pre-screening - DONE
++ Added strict response parsing, logical request matching, canonical response
+  hashing, and a versioned deterministic pre-screen report schema.
++ Built candidate overlays only in memory; input requests and source remain
+  unchanged, and every retained comment keeps the `cs: ai` marker.
++ Reused the ordinary frontend, contract parser, VC generator, and checker for
+  fragment checks, jointly typed contract satisfiability, and source preview.
++ Contradictory requirements are rejected as violated; malformed, unknown,
+  unsupported, solver-error, and declined outcomes remain visibly distinct.
++ Machine-proposed invariants become eligible only when loop entry and
+  preservation are both independently verified.
++ A body-violating but well-formed/satisfiable postcondition remains reviewable
+  intent with violation counts visible; it is never called accepted or proved.
++ Added a six-state fixture matrix and byte-stable golden pre-screen artifact;
+  the reference suite grew from 322 to 330 tests and every test is green.
+- The dependency-free affine backend may conservatively return unknown; such a
+  proposal is rejected unless an operator reruns with the available Z3/both
+  referee and receives a definitive result.
+Evidence: focused proposal tests -> 16/16; fixture matrix -> eligible, violated,
+unsupported, unknown, malformed, and declined preserved; injected checker
+failure -> solver_error rejection; repeated/golden pre-screen bytes -> equal;
+full reference suite -> 330/330; commit: this stage commit.
+Next: C1.3 (human approval and accepted-intent boundary).

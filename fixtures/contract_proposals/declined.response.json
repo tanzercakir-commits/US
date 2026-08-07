@@ -1,0 +1,7 @@
+{
+  "notes": ["Owned context is insufficient."],
+  "outcome": "declined",
+  "proposals": [],
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "schema": "codeskeptic.contract-proposal-response/v1"
+}

@@ -1,0 +1,110 @@
+{
+  "$id": "codeskeptic.contract-proposal-pre-screen/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "outcome": { "const": "eligible" } },
+        "required": ["outcome"]
+      },
+      "then": {
+        "properties": { "status": { "const": "eligible" } },
+        "required": ["overlay_sha256"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "outcome": { "const": "declined" } },
+        "required": ["outcome"]
+      },
+      "then": { "properties": { "status": { "const": "declined" } } }
+    }
+  ],
+  "properties": {
+    "candidate_comments": {
+      "items": {
+        "pattern": "^// cs: ai (?:(?:requires|ensures|invariant) .+|modifies(?: .*)?)$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "checks": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "message": { "minLength": 1, "type": "string" },
+          "name": { "minLength": 1, "type": "string" },
+          "status": {
+            "enum": [
+              "malformed",
+              "solver_error",
+              "unknown",
+              "unsupported",
+              "verified",
+              "violated"
+            ]
+          }
+        },
+        "required": ["message", "name", "status"],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "outcome": { "enum": ["declined", "eligible", "rejected"] },
+    "overlay_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "reason": { "minLength": 1, "type": "string" },
+    "request_id": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "response_sha256": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema": {
+      "const": "codeskeptic.contract-proposal-pre-screen/v1"
+    },
+    "status": {
+      "enum": [
+        "declined",
+        "eligible",
+        "malformed",
+        "solver_error",
+        "unknown",
+        "unsupported",
+        "violated"
+      ]
+    },
+    "verification_summary": {
+      "additionalProperties": false,
+      "properties": {
+        "solver_error": { "minimum": 0, "type": "integer" },
+        "unknown": { "minimum": 0, "type": "integer" },
+        "unsupported": { "minimum": 0, "type": "integer" },
+        "verified": { "minimum": 0, "type": "integer" },
+        "violated": { "minimum": 0, "type": "integer" }
+      },
+      "required": ["solver_error", "unknown", "unsupported", "verified", "violated"],
+      "type": "object"
+    }
+  },
+  "required": [
+    "candidate_comments",
+    "checks",
+    "outcome",
+    "reason",
+    "request_id",
+    "response_sha256",
+    "schema",
+    "status",
+    "verification_summary"
+  ],
+  "title": "CodeSkeptic deterministic contract proposal pre-screen v1",
+  "type": "object"
+}

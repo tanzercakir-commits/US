@@ -1,0 +1,15 @@
+{
+  "notes": [],
+  "outcome": "candidate",
+  "proposals": [
+    {
+      "anchor": { "kind": "function" },
+      "comment": "// cs: ai ensures result == value * value",
+      "evidence": ["Untrusted nonlinear guess."],
+      "machine_proposed": true,
+      "rationale": "Exercise the unsupported-logic boundary."
+    }
+  ],
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "schema": "codeskeptic.contract-proposal-response/v1"
+}
