@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E1.1 - implement the replay-attested repair bundle**
+- [ ] **E1.2 - implement the bounded repair harness**
 
 ## Next
 
-- [ ] **E1.2 - implement the bounded repair harness**
 - [ ] **E1.3 - add append-only repair metrics telemetry**
+- [ ] **E2.0 - expand the consciousness experiment stages**
 ## Blockers / open questions
 
 - None. Production work continues on `codex/semantic-verification-native` in
@@ -21,6 +21,6 @@
 
 ## Last updated
 
-2026-08-07 - E1.0 expanded the repair loop into replay-attested bundle,
-bounded untrusted-proposer harness, and isolated append-only telemetry stages.
-The suite is 510/510.
+2026-08-07 - E1.1 shipped strict replay-attested repair bundles with exact
+source/report/obligation/result links, contract provenance, JSON Schema, and
+affine/Z3 replay evidence. The suite is 524/524.

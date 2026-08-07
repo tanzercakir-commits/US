@@ -1878,3 +1878,20 @@ Next: E1.0 - expand the repair-loop bullets into bounded implementation stages.
 + The immediately preceding D5.2 commit hook passed the full 510/510 suite.
 - No blockers.
 Next: E1.1 - implement the replay-attested repair bundle.
+
+## 2026-08-07 - E1.1: replay-attested repair bundle - DONE
+
++ Added strict codeskeptic.repair-bundle/v1 identities, loader, JSON Schema,
+  source/report cross-validation, and canonical obligation/result evidence.
++ Builder reproduces the complete report from source, then independently checks
+  the original obligation and requires the identical concrete violated result.
++ Bundles preserve bounded exact source lines plus human/machine provenance for
+  every related requires, ensures, and modifies contract.
++ Bound referee labels to exact built-in affine/Z3/cross-check implementations;
+  custom/mismatched checkers and every non-replayable state fail closed.
++ Added deterministic CLI generate/check behavior and a frozen violated golden.
+- No blockers.
+Evidence: focused repair-bundle tests -> 14/14 including installed Z3 replay;
+golden check -> exact; full reference suite -> 524/524 in 260.499 s; commit:
+this stage commit.
+Next: E1.2 - implement the bounded untrusted-proposer repair harness.

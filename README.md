@@ -283,6 +283,12 @@ Produce or check the one-parse referee-linked trust bundle with:
     python tools/promote_fact_trust.py source.cpp --display-path project/source.cpp --output-dir .codeskeptic/fact-trust --backend affine
     python tools/promote_fact_trust.py source.cpp --display-path project/source.cpp --output-dir .codeskeptic/fact-trust --backend affine --check
 
+The [repair-loop reference](docs/repair_loop.md) defines the strict
+replay-attested repair bundle and its referee boundary. Generate or check one
+violated-obligation bundle with:
+
+    python tools/generate_repair_bundle.py source.cpp repair.bundle.json --display-path project/source.cpp --backend affine
+    python tools/generate_repair_bundle.py source.cpp repair.bundle.json --display-path project/source.cpp --backend affine --check
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries
