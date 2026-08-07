@@ -2195,3 +2195,17 @@ Next: F1.0 - expand the benchmark corpus, runner, and trend gates.
 + The immediately preceding E5.1 commit hook passed 624/624 tests.
 - No blockers.
 Next: F1.1 - build the curated supported-subset benchmark corpus.
+## 2026-08-07 - F1.1: curated benchmark corpus - PARTIAL
+
++ Authored the initial forty-function translation unit and probed all raw
+  referee statuses before creating a manifest, loader, tests, or status claims.
+- The probe correctly showed nonlinear multiplication is affine-referee
+  `unsupported`, not the `unknown` required by the frozen F1.1 contract.
+- Stop before manifest/evidence authoring. Insert F1.4 to replace the planned
+  tier with supported deterministic-search-frontier cases; never relabel the
+  observed unsupported results.
+Evidence: initial batch -> 40 functions, 20 verified, 10 violated, 0 unknown,
+10 unsupported; representative six-parameter affine frontier probe ->
+contract-consistency unknown, postcondition verified, zero unsupported nodes.
+Resume after F1.4 by replacing only the ten untracked nonlinear source cases,
+then implement the declared F1.1 file set.

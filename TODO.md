@@ -8,10 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **F1.1 - build the curated supported-subset benchmark corpus**
+- [ ] **F1.4 - correct the unknown tier before corpus implementation**
 
 ## Next
 
+- [ ] **F1.1 - resume the curated supported-subset benchmark corpus**
 - [ ] **F1.2 - add the benchmark runner and append-only result snapshots**
 - [ ] **F1.3 - add three-point trend tracking and a red regression gate**
 
@@ -22,5 +23,5 @@
 
 ## Last updated
 
-2026-08-07 - F1.0 froze the 40-function corpus, append-only run evidence,
-and honest three-point logical trend contracts; timing is informational only.
+2026-08-07 - F1.4 inserted after the raw probe separated affine
+unsupported nonlinear logic from supported checker unknown.

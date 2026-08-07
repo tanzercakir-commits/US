@@ -2217,6 +2217,24 @@ infrastructure. Reference: prototype fixtures = the specification.
   suite is green; ledger/TODO updated; stage commit succeeds.
 - Depends: E5.1.
 
+#### F1.4 — Supported-unknown tier correction (inserted during F1.1)
+
+- Goal: correct the planned unknown tier before corpus implementation so affine-
+  unsupported nonlinear logic is never mislabeled as checker unknown.
+- Output: replace nonlinear-frontier with deterministic-search-frontier in the
+  F1.1 contract and record the interrupted implementation boundary.
+- Exact file set: PLAN.md; PROGRESS.md; TODO.md.
+- Boundaries: planning only. Unknown-tier functions remain entirely inside the
+  supported affine logic/lowering and reach deterministic checker `unknown`
+  because their satisfiable high-arity contract input lies beyond the fixed
+  search budget. They contain no nonlinear operation and no unsupported result.
+  Do not alter the 40/4x10 size, 20/10/10/0 aggregate, checker budget, status
+  taxonomy, or any implementation file in this correction commit.
+- DoD: one representative six-parameter affine contract produces one
+  contract-consistency unknown and a verified postcondition with zero
+  unsupported nodes; PLAN uses the corrected tier name; immediately preceding
+  624-test suite remains green; ledger/TODO updated; correction commit succeeds.
+- Depends: F1.0, A1.1.
 #### F1.1 — Curated supported-subset benchmark corpus
 
 - Goal: freeze a content-addressed 40-function benchmark that exercises a clear
@@ -2231,7 +2249,7 @@ infrastructure. Reference: prototype fixtures = the specification.
   PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
 - Boundaries: exactly forty sorted unique named functions and four sorted tiers
   of ten: affine-basic verified, affine-counterexample violated, path-sensitive
-  verified, and nonlinear-frontier unknown. Every source function is declared
+  verified, and deterministic-search-frontier unknown. Every source function is declared
   once; no undeclared helper, unsupported lowering, solver/checker error, path
   escape, duplicate, or expected-status inference. The manifest snapshots exact
   source bytes and declares each expected terminal status. The checker runs one
@@ -2247,7 +2265,7 @@ infrastructure. Reference: prototype fixtures = the specification.
   missing/extra/duplicate/reordered/stale/undeclared/wrong-expectation/status-
   promotion/malformed negatives; repeated and relocated check bytes; CLI
   success/error exits; focused and full suites pass.
-- Depends: F1.0, A3.1.
+- Depends: F1.0, F1.4, A3.1.
 
 #### F1.2 — Append-only benchmark run evidence
 
