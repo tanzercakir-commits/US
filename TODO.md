@@ -8,10 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **D5.0 - expand verified-fact trust promotion**
+- [ ] **D5.1 - implement the strict fact-trust overlay**
 
 ## Next
 
+- [ ] **D5.2 - implement referee-backed pure-claim promotion**
 ## Blockers / open questions
 
 - None. Production work continues on `codex/semantic-verification-native` in
@@ -19,6 +20,5 @@
 
 ## Last updated
 
-2026-08-07 - D4.1 shipped strict content-addressed TU caching, exact changed-TU
-extraction, fail-closed hit validation, atomic state, and no-write check mode.
-The suite is 485/485. Next is D5.0 trust-promotion expansion.
+2026-08-07 - D5.0 expanded verified facts into a strict trust overlay and a
+separate fail-closed referee promotion stage. The suite is 485/485.

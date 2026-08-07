@@ -1645,10 +1645,76 @@ infrastructure. Reference: prototype fixtures = the specification.
   intact; CLI exit and check-mode coverage; focused and full suites pass.
 - Depends: D4.0.
 
-### Phase D5 — Verified facts: trust labels (`derived` | `proved`); the
-  referee-provable subset of `pure` claims promotes to `proved` (expand via
-  D5.0)
+### Phase D5 — Verified facts
 
+#### D5.0 — Expansion
+
+- Goal: replace the trust-promotion placeholder with bounded schema and
+  referee-promotion stages before any derived fact can gain proof trust.
+- Output: detailed D5.1-D5.2 contracts in PLAN.md plus PROGRESS.md and TODO.md.
+- Boundaries: trust is a separate immutable overlay on D1 facts. Promotion is
+  monotone only from derived pure to proved pure and never changes a fact
+  value, hides a limitation, or treats an empty checker result as proof.
+- DoD: D5.1-D5.2 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  the full suite remains green.
+- Depends: D4.1.
+
+#### D5.1 — Strict fact-trust overlay schema
+
+- Goal: represent derived and proved trust without changing or duplicating the
+  D1 fact index.
+- Output: codeskeptic.fact-trust/v1 immutable value objects/strict loader,
+  canonical content/claim identities, JSON Schema, and reference docs.
+- Exact file set: semantic_verifier/fact_trust.py;
+  semantic_verifier/fact_trust_schema/v1/index.schema.json;
+  tests/test_fact_trust.py; docs/fact_trust.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: an overlay names one validated fact-index identity and contains
+  exactly one sorted claim for every D1 purity row. Claim function/value must
+  match that row. Trust is derived or proved; impure and unknown values can
+  only be derived. A proved pure claim requires the fixed
+  empty-frame-full-vc/v1 evidence shape: source hash, verification artifact
+  hash/schema, recognized referee ID, non-empty unique obligation IDs, exact
+  human-authored empty-frame location, and sorted proved direct-callee IDs.
+  Derived claims carry no proof evidence. Claim and overlay identities cover
+  every field. Unknown fields, duplicate JSON keys/items, stale identities,
+  non-finite values, dangling/missing claims, and evidence on derived facts
+  fail strict loading. The overlay never mutates D1 bytes and structural
+  validity alone does not independently establish that evidence was produced.
+- DoD: canonical derived/proved examples and JSON Schema parity; shuffled-input
+  byte stability; exact D1 cross-validation; all trust/value/evidence/identity/
+  duplicate/unknown/dangling/missing negatives; original fact-index bytes stay
+  unchanged; focused and full suites pass.
+- Depends: D5.0.
+
+#### D5.2 — Referee-backed pure-claim promotion
+
+- Goal: promote only the admitted, fully checked subset of derived pure claims
+  and emit replayable deterministic evidence.
+- Output: one-parse fact/trust verification pipeline and CLI plus frozen source,
+  fact-index, verification-report, and trust-overlay goldens.
+- Exact file set: semantic_verifier/fact_trust_promotion.py;
+  tools/promote_fact_trust.py; fixtures/fact_trust/**;
+  tests/test_fact_trust_promotion.py; docs/fact_trust.md; README.md;
+  PROGRESS.md, TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: parse exact UTF-8 source/display bytes once, then derive both D1
+  facts and Semantic IR from that FrontendUnit. Promotion requires a D1 pure
+  function definition, one exact IR match, an explicit non-machine-proposed
+  empty modifies frame, no module or contextual fact/IR limitation, a
+  non-empty complete function obligation/result set whose every status is
+  verified, and every indexed direct callee already proved in the same
+  fixed-point run. Evidence cites the canonical full verification report and
+  exact obligation IDs. Missing/ambiguous matches, absent/non-empty/machine
+  frames, zero obligations, external/unproved callees, recursion, violated,
+  unknown, unsupported, or solver-error results remain derived. No model call,
+  fact rewrite, synthetic true obligation, solver-status override, cross-TU
+  inference, or proof from derived callees is allowed.
+- DoD: proved leaf and proved call chain; all boundary negatives above;
+  impure/unknown values never promote; exact fact/report/evidence linkage;
+  canonical goldens and schema validation; repeated and relocated byte
+  stability under a frozen display path; CLI backend/error/exit coverage;
+  focused and full suites pass.
+- Depends: D5.1.
 ---
 
 ## 9. PROGRAM E — AI loop

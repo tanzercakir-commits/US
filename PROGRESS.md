@@ -1817,3 +1817,16 @@ Evidence: focused incrementality tests -> 12/12; frozen cache check -> current
 with 2/2 reused; full reference suite -> 485/485 in 348.319 s; commit: this
 stage commit.
 Next: D5.0 - expand referee-backed fact trust promotion.
+
+## 2026-08-07 - D5.0: verified-fact trust expansion - DONE
+
++ Split D5 into a strict D1-linked trust overlay and a separate referee-backed
+  promotion engine before introducing any proved label.
++ Froze proof eligibility around explicit human-authored empty frames, complete
+  non-empty verified VC sets, exact source/report evidence, and already-proved
+  direct callees.
++ Explicitly excluded synthetic true obligations, derived-callee trust,
+  incomplete results, cross-TU inference, and mutation of the D1 fact index.
++ The immediately preceding D4.1 commit hook passed the full 485/485 suite.
+- No blockers.
+Next: D5.1 - implement the strict fact-trust overlay.
