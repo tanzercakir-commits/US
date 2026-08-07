@@ -127,3 +127,63 @@ The machine-readable schema is:
 
 It has additionalProperties set to false at every object boundary and freezes
 the same enum sets as the Python loader.
+## D1.2 Clang extraction profile
+
+ClangFactExtractor reuses the existing ClangJsonFrontend and consumes its real
+C++17 JSON AST. extract_file accepts an optional caller-visible display path;
+extract_source uses a private temporary source while preserving the supplied
+display path. Neither physical path nor Clang node identity reaches the index.
+
+Extraction uses two passes. The first pass groups declarations by canonical
+scope, qualified name, and type, then creates content-addressed public symbols.
+The second resolves frontend references only against that owned symbol table and
+emits definitions, uses, direct calls, and mutations. Overloads remain distinct
+by canonical function type. Namespace scope and source location keep
+same-spelled declarations distinct.
+
+The v0 admitted surface includes:
+
+- main-file namespaces, free functions, parameters, locals, and globals;
+- named records and fields;
+- declaration, definition, parameter, initialization, and assignment facts;
+- read, write, read-write, and address uses;
+- direct calls whose callee resolves to an indexed free function;
+- local, parameter, global, and field mutation targets.
+
+System/header declarations are excluded before indexing. Static declarations
+retain internal linkage; owned parameters, locals, and fields use none linkage.
+Frontend IDs, mangled names, compiler paths, checkout roots, clocks, and random
+values are absent from public artifacts.
+
+Assignments to a field emit the exact field mutation and its indexed storage
+root. This lets who-mutates consumers see the field while derived purity still
+detects mutation through a parameter or global object. Local initialization is
+a definition and mutation but does not by itself make a function impure.
+
+Purity starts from direct syntax and reaches a deterministic call-graph
+fixed point. Global or parameter mutation is impure. A call to an impure
+function makes the caller impure. Indirect, virtual, unresolved, macro-expanded,
+unsupported, or declaration-only surfaces make affected functions unknown.
+Recursion without an observed effect or limitation remains derived pure; this
+is still navigation metadata rather than proof.
+
+The extractor records explicit limitations for indirect calls, virtual/member
+dispatch, unresolved external references, macro-expanded locations, unsupported
+top-level declarations, unsupported mutation targets, lambdas, allocation,
+overloaded operators, assembly, and graph-relevant global initializers that
+have no function caller context. It does not invent a callee, mutation, or
+purity claim for those forms.
+
+Example API:
+
+    from semantic_verifier.fact_extractor import ClangFactExtractor
+
+    index = ClangFactExtractor().extract_file(
+        "src/example.cpp",
+        display_path="src/example.cpp",
+    )
+    print(index.to_json())
+
+Repeated extraction with the same source bytes and display path is
+byte-identical even though the private physical source path and Clang node IDs
+change.

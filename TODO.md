@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **D1.2 - implement Clang fact extraction v0**
+- [ ] **D1.3 - freeze fact determinism and golden tests**
 
 ## Next
 
-- [ ] **D1.3 - freeze fact determinism and golden tests**
 - [ ] **D2.1 - add world-model CLI queries**
+- [ ] **D2.2 - expose world-model queries through MCP**
 
 ## Blockers / open questions
 
@@ -22,6 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - D1.1 shipped the independent fact-index/v1 model, strict loader,
-machine schema, content identities, graph validation, and derived tri-state
-purity boundary. The suite is green at 404/404. Next is Clang fact extraction.
+2026-08-07 - D1.2 shipped two-pass Clang JSON-AST fact extraction for owned
+symbols, def/use, direct calls, mutations, and derived purity. Unsupported
+dispatch, locations, and forms remain explicit. The suite is green at 415/415.
+Next is the deterministic fact corpus.

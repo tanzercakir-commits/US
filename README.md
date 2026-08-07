@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 404 deterministic tests. The separately cloned
+The current suite contains 415 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -181,8 +181,9 @@ Reproduce and check the complete static/property/runtime provenance chain with:
 The [fact-index v1 reference](docs/fact_schema.md) defines the independent,
 content-addressed world-model schema for symbols, definitions, uses, direct
 calls, mutations, derived purity, and explicit limitations. D1.1 supplies the
-strict model/loader contract; it does not yet extract facts from Clang and never
-turns derived purity into proof.
+strict model/loader contract; D1.2 populates it from the existing real Clang
+JSON-AST frontend. Physical paths and frontend IDs are removed, unsupported
+dispatch/locations/forms stay explicit, and derived purity never becomes proof.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

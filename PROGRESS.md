@@ -1563,3 +1563,29 @@ Next: D1.1 (deterministic fact schema).
 Evidence: focused fact-schema tests -> 12/12; full reference suite -> 404/404;
 commit: this stage commit.
 Next: D1.2 (Clang fact extraction v0).
+
+## 2026-08-07 - D1.2: Clang fact extraction v0 - DONE
++ Added a two-pass extractor over the existing real Clang JSON-AST frontend:
+  public symbols first, then resolved graph relations.
++ Indexed main-file namespaces, overloaded free functions, parameters, locals,
+  globals, records, and fields without persisting Clang IDs or physical paths.
++ Emitted deterministic definitions, read/write/address uses, direct calls,
+  and local/parameter/global/field mutation targets.
++ Field writes retain both the exact field and owned storage root, supporting
+  field queries and caller-visible mutation classification.
++ Derived pure/impure/unknown through a deterministic direct-call fixed point;
+  global/parameter effects propagate as impure and incomplete callees as
+  unknown. No proof trust or verification status is created.
++ Excluded system/header declarations and preserved internal/none/external
+  linkage plus scope/overload distinctions.
++ Made indirect/virtual/member calls, unresolved symbols, macro locations,
+  unsupported expressions/declarations, declaration-only functions, and
+  graph-relevant global initializers explicit limitations.
++ Repeated in-memory extraction with fixed source/display bytes is
+  byte-identical despite different temporary paths and frontend node IDs.
+- Indirect or virtual dispatch, methods, macros, allocation, lambdas,
+  overloaded operators, arrays, and unsupported mutation targets are not
+  approximated; affected function purity remains unknown.
+Evidence: focused extractor tests -> 11/11; combined fact tests -> 23/23; full
+reference suite -> 415/415; commit: this stage commit.
+Next: D1.3 (deterministic fact corpus).
