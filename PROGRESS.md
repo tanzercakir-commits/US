@@ -1830,3 +1830,18 @@ Next: D5.0 - expand referee-backed fact trust promotion.
 + The immediately preceding D4.1 commit hook passed the full 485/485 suite.
 - No blockers.
 Next: D5.1 - implement the strict fact-trust overlay.
+
+## 2026-08-07 - D5.1: strict fact-trust overlay - DONE
+
++ Added immutable codeskeptic.fact-trust/v1 claim and overlay identities linked
+  to one exact D1 fact-index identity and source hash.
++ Enforced one claim per D1 purity row, derived/proved value rules, fixed proof
+  evidence, exact proved direct-callee coverage, and acyclic proof dependency.
++ Added strict duplicate/unknown/value/evidence/identity/cross-index negatives,
+  canonical shuffled-input stability, and a matching Draft 2020-12 JSON Schema.
++ Documented that structural JSON validity is not proof that a referee ran and
+  that only D5.2 is the controlled proved-trust producer.
+- No blockers.
+Evidence: focused trust-overlay tests -> 11/11; schema JSON parse -> clean;
+full reference suite -> 496/496 in 372.714 s; commit: this stage commit.
+Next: D5.2 - implement referee-backed pure-claim promotion.

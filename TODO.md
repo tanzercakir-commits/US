@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **D5.1 - implement the strict fact-trust overlay**
+- [ ] **D5.2 - implement referee-backed pure-claim promotion**
 
 ## Next
 
-- [ ] **D5.2 - implement referee-backed pure-claim promotion**
+- [ ] **E1.1 - define the machine-readable repair bundle**
 ## Blockers / open questions
 
 - None. Production work continues on `codex/semantic-verification-native` in
@@ -20,5 +20,6 @@
 
 ## Last updated
 
-2026-08-07 - D5.0 expanded verified facts into a strict trust overlay and a
-separate fail-closed referee promotion stage. The suite is 485/485.
+2026-08-07 - D5.1 shipped the strict D1-linked derived/proved trust overlay,
+fixed proof evidence, exact acyclic proved-callee validation, and JSON Schema.
+The suite is 496/496. Next is D5.2 referee-backed promotion.

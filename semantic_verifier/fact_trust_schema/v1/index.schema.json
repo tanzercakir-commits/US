@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "claim": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/evidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "function": {
+          "$ref": "#/$defs/hash"
+        },
+        "id": {
+          "$ref": "#/$defs/hash"
+        },
+        "trust": {
+          "enum": [
+            "derived",
+            "proved"
+          ]
+        },
+        "value": {
+          "enum": [
+            "impure",
+            "pure",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "evidence",
+        "function",
+        "id",
+        "trust",
+        "value"
+      ],
+      "type": "object"
+    },
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "callees": {
+          "items": {
+            "$ref": "#/$defs/hash"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "frame": {
+          "$ref": "#/$defs/location"
+        },
+        "method": {
+          "const": "empty-frame-full-vc/v1"
+        },
+        "obligations": {
+          "items": {
+            "pattern": "^ob[0-9]{5,}$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "referee": {
+          "enum": [
+            "codeskeptic.affine/v1",
+            "codeskeptic.both/v1",
+            "codeskeptic.z3/v1"
+          ]
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "verification_schema": {
+          "const": "codeskeptic.semantic-verification/v6"
+        },
+        "verification_sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "callees",
+        "frame",
+        "method",
+        "obligations",
+        "referee",
+        "source_sha256",
+        "verification_schema",
+        "verification_sha256"
+      ],
+      "type": "object"
+    },
+    "hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "location": {
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "file": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "column",
+        "file",
+        "line"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://codeskeptic.dev/schemas/fact-trust/v1/index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/claim"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "fact_index": {
+      "$ref": "#/$defs/hash"
+    },
+    "id": {
+      "$ref": "#/$defs/hash"
+    },
+    "schema": {
+      "const": "codeskeptic.fact-trust/v1"
+    },
+    "source_sha256": {
+      "$ref": "#/$defs/hash"
+    }
+  },
+  "required": [
+    "claims",
+    "fact_index",
+    "id",
+    "schema",
+    "source_sha256"
+  ],
+  "title": "CodeSkeptic fact trust overlay v1",
+  "type": "object"
+}

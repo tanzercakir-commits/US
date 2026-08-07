@@ -229,6 +229,10 @@ check a project cache with:
     python tools/extract_facts_incremental.py translation-units.json --workspace project-root --cache-dir .codeskeptic/fact-cache
     python tools/extract_facts_incremental.py translation-units.json --workspace project-root --cache-dir .codeskeptic/fact-cache --check
 
+The [fact-trust reference](docs/fact_trust.md) defines the immutable D1-linked
+derived/proved overlay, strict proof-evidence shape, exact proved-callee
+dependencies, and the boundary between structural validation and referee
+production.
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The
 [result/schema reference](docs/result_schema.md) defines machine-readable
