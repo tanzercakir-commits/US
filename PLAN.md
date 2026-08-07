@@ -1819,11 +1819,112 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase E2 — The "consciousness experiment" (measurable hypothesis)
 
-- E2.1 — Seeded-bug corpus: ≥20 functions with known violations
-- E2.2 — Two arms: (a) compiler/test errors only, (b) the E1.1 repair bundle;
-  metric: iterations to a verified patch
-- E2.3 — Report: hypothesis "(b) median ≥40% lower"; whatever the outcome, it
-  is written honestly to PROGRESS + `docs/experiment_e2.md`
+#### E2.0 — Bounded consciousness-experiment expansion
+
+- Goal: replace the three coarse experiment bullets with a reproducible paired
+  protocol whose evidence cannot be mistaken for an AI or consciousness claim.
+- Output: detailed E2.1-E2.3 contracts in PLAN.md plus PROGRESS.md and TODO.md.
+- Exact file set: PLAN.md; PROGRESS.md; TODO.md.
+- Boundaries: planning only. Freeze twenty seeded cases, two isolated context
+  arms, a four-proposal cap, referee-only outcomes, censored failure scoring,
+  exact paired aggregation, immutable proposer provenance, and an explicit
+  evidence-scope label. Do not create corpus data, run trials, or claim an
+  outcome in this stage. External/model-produced proposals remain untrusted
+  frozen inputs; the reference implementation adds no network/model package.
+- DoD: E2.1-E2.3 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  arm contamination, survivor bias, missing/duplicate trials, result tampering,
+  and overclaiming are fail-closed; the immediately preceding full suite is
+  green; ledger/TODO updated; stage commit succeeds.
+- Depends: E1.3.
+
+#### E2.1 — Seeded-bug experiment corpus
+
+- Goal: freeze twenty individually addressable supported-subset functions with
+  known concrete violations and independently checkable repaired oracles.
+- Output: codeskeptic.experiment-corpus/v1 strict content-addressed manifest;
+  twenty standalone C++ sources; compiler/test-only diagnostics; hidden repair
+  oracle records; deterministic corpus checker; fixtures, tests, and docs.
+- Exact file set: semantic_verifier/experiment_corpus.py;
+  tools/check_experiment_corpus.py; benchmarks/experiment_e2/corpus/**;
+  tests/test_experiment_corpus.py; docs/experiment_e2.md; README.md; PROGRESS.md;
+  TODO.md; guardrails/test_baseline.txt.
+- Boundaries: exactly twenty unique case/function IDs and display paths. Every
+  original compiles and yields exactly one replayable violated validity
+  obligation with a concrete counterexample under the admitted affine referee;
+  every oracle is one non-contract line edit and yields a non-empty all-verified
+  target with unchanged human contracts. A compiler/test context preserves line
+  numbers but redacts every contract and contains only source plus one frozen
+  black-box failure diagnostic. Oracle edits and semantic evidence are never in
+  that context. The manifest cites all source/context/oracle hashes and rejects
+  missing, extra, relocated-escape, duplicate, stale, unknown, or non-canonical
+  data. No wall clock, randomness, model output, or package dependency.
+- DoD: corpus count exactly 20; all original violation/replay and repaired
+  verification checks; contract-redaction and oracle-isolation assertions;
+  unique identities; stale/hash/path/schema/unknown-field/duplicate/extra-file
+  negatives; shuffled manifest load stability; relocated corpus bytes and
+  checker output; CLI success/error exits; focused and full suites pass.
+- Depends: E2.0, E1.1.
+
+#### E2.2 — Paired two-arm repair trials
+
+- Goal: execute the same twenty cases under a fixed four-proposal protocol for
+  (a) compiler/test-only context and (b) the exact E1.1 semantic repair bundle.
+- Output: codeskeptic.experiment-context/v1 arm packages,
+  codeskeptic.experiment-trials/v1 strict forty-row result artifact, frozen
+  arm-specific proposal scripts with immutable proposer/evidence provenance,
+  deterministic runner, fixtures, tests, and docs.
+- Exact file set: semantic_verifier/experiment_e2.py;
+  tools/run_experiment_e2.py; benchmarks/experiment_e2/contexts/**;
+  benchmarks/experiment_e2/proposals/**;
+  benchmarks/experiment_e2/results/trials.json; tests/test_experiment_e2.py;
+  docs/experiment_e2.md; README.md; PROGRESS.md; TODO.md;
+  guardrails/test_baseline.txt.
+- Boundaries: arm A packages only the contract-redacted source, source target
+  hash, and frozen compiler/test diagnostic; obligation, contract, IR, bundle,
+  counterexample, oracle, and arm-B bytes are forbidden. Arm B packages exactly
+  one replay-attested E1.1 bundle and no oracle. Both use the same original,
+  target, affine referee, PatchProposer seam, RepairHarness, and cap of four.
+  Proposal scripts are recorded untrusted inputs, never proof; each cites its
+  exact context and proposer class. The runner produces exactly one row per
+  case/arm, records loop identity, verified/exhausted outcome, attempts, and a
+  censored score of iterations on success or cap+1 on exhaustion. Only replayed
+  all-verified loops count as success. No timing, randomization, network/model
+  call, hidden retry, or hand-edited result row.
+- DoD: 20 paired/40 total trials; exact corpus/context/proposal/loop links; both
+  success and exhaustion paths; same cap/referee/source enforcement; arm-A
+  forbidden-evidence and cross-arm contamination negatives; stale/reused/
+  missing/duplicate/tampered/mixed-provenance negatives; shuffled load and run
+  stability; source unchanged; repeated and relocated result bytes; CLI
+  generate/check/error exits; focused and full suites pass.
+- Depends: E2.1, E1.2.
+
+#### E2.3 — Honest paired experiment report
+
+- Goal: evaluate the predeclared hypothesis that arm B's median censored repair
+  score is at least 40 percent lower than arm A's, without dropping failures or
+  extending the evidence beyond the recorded proposer class.
+- Output: codeskeptic.experiment-report/v1 strict report and analyzer CLI;
+  frozen machine-readable report; complete human report in
+  docs/experiment_e2.md; tests, README, ledger, and handoff.
+- Exact file set: semantic_verifier/experiment_report.py;
+  tools/report_experiment_e2.py; benchmarks/experiment_e2/results/report.json;
+  tests/test_experiment_report.py; docs/experiment_e2.md; README.md; PROGRESS.md;
+  TODO.md; guardrails/test_baseline.txt.
+- Boundaries: primary population is all twenty predeclared paired cases. Each
+  exhausted arm retains score five; no survivor filtering. Compute exact medians
+  from sorted integer scores and improvement as a reduced rational before the
+  threshold comparison. Report per-arm success/exhaustion counts, score vectors,
+  medians, paired deltas, corpus/trial IDs, proposal provenance/evidence scope,
+  and the pass/fail outcome. State explicitly that a scripted or recorded pilot
+  cannot establish consciousness, general model behavior, or causality. No
+  post-hoc threshold, excluded case, floating-point decision, timing claim, or
+  prose-only arithmetic.
+- DoD: exact independent recomputation from all 40 rows; frozen threshold and
+  honest outcome; missing/duplicate/unpaired/corpus-mismatch/result-tamper/
+  wrong-score/wrong-threshold/unknown-field negatives; order-independent bytes;
+  CLI generate/check/error exits; documented limitations and raw traceability;
+  focused and full suites pass.
+- Depends: E2.2.
 
 ### Phase E3 — Assumption declaration protocol (2d)
 

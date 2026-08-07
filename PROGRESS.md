@@ -1930,3 +1930,17 @@ Next: E1.3 - add append-only repair metrics telemetry.
 Evidence: focused repair-metrics tests -> 12/12; full reference suite -> 549/549
 in 291.930 s; commit: this stage commit.
 Next: E2.0 - expand the consciousness experiment into bounded stages.
+
+## 2026-08-07 - E2.0: bounded consciousness-experiment expansion - DONE
+
++ Replaced the coarse experiment bullets with three executable stages covering
+  a twenty-case corpus, paired isolated-context trials, and exact reporting.
++ Froze the four-proposal cap, referee-only outcomes, cap-plus-one exhaustion
+  scoring, all-case medians, and reduced-rational threshold comparison.
++ Required strict context isolation, immutable proposal provenance, complete
+  paired traceability, and fail-closed contamination/tamper checks.
++ Limited conclusions to the recorded proposer evidence class; the protocol
+  cannot establish consciousness, general model behavior, or causality.
++ The immediately preceding E1.3 gate passed the full 549/549 suite.
+- No blockers.
+Next: E2.1 - implement the seeded-bug experiment corpus.

@@ -8,11 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E2.0 - expand the consciousness experiment stages**
+- [ ] **E2.1 - implement the seeded-bug experiment corpus**
 
 ## Next
 
-- [ ] **E2.1 - implement the seeded-bug experiment corpus**
+- [ ] **E2.2 - run the paired two-arm repair trials**
+- [ ] **E2.3 - generate the honest paired experiment report**
 
 ## Blockers / open questions
 
@@ -21,5 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - E1.3 shipped strict append-only repair metrics with isolated
-monotonic timing and exact aggregation. The suite is 549/549.
+2026-08-07 - E2.0 expanded the experiment into a strict twenty-case corpus,
+forty paired trials, and an all-case exact report with bounded conclusions. The
+suite remains 549/549.
