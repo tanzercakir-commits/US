@@ -1646,3 +1646,16 @@ Next: D2.1 (deterministic world-model queries and CLI).
 Evidence: focused query/CLI tests -> 9/9; combined fact/query tests -> 41/41;
 full reference suite -> 433/433; commit: this stage commit.
 Next: D2.2 (MCP fact-query endpoint).
+
+## 2026-08-07 - plan: align D2.2 with MCP 2026-07-28 - DONE
++ Replaced the removed initialize/notifications/initialized handshake with the
+  current stateless, per-request metadata contract.
++ Added required server/discover, resultType, server identity, and cache-field
+  coverage to the D2.2 boundary and definition of done.
++ Preserved newline-delimited JSON-RPC stdio framing and the read-only query
+  surface, both explicitly supported by the current specification.
+- This entry changes plan text only; the D2.2 endpoint remains to be built.
+Evidence: official MCP 2026-07-28 specification, changelog, stdio transport,
+discovery, tools, and schema pages reviewed on 2026-08-07; full suite baseline
+remains 433/433.
+Next: D2.2 (MCP fact-query endpoint).

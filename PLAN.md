@@ -1496,15 +1496,17 @@ infrastructure. Reference: prototype fixtures = the specification.
   tools/fact_mcp_server.py; research/mcp_fact_query_evidence.json;
   tests/test_fact_mcp.py; docs/fact_queries.md; README.md; PROGRESS.md,
   TODO.md, and guardrails/test_baseline.txt.
-- Boundaries: freeze one current official MCP protocol version and the required
-  initialize, notifications/initialized, tools/list, and tools/call behavior
-  from primary specification evidence. The server reads one caller-supplied,
+- Boundaries: freeze official MCP protocol version 2026-07-28 and the required
+  per-request metadata, server/discover, tools/list, tools/call, resultType,
+  and cache behavior from primary specification evidence. Do not implement the
+  removed initialize/notifications/initialized handshake. The server reads one
+  caller-supplied,
   strictly validated fact index and exposes one read-only query tool. It uses
   newline-delimited JSON-RPC on stdio, emits no logs on stdout, performs no
   network/file mutation, and never invokes a model or referee. Unknown methods,
   malformed parameters, ambiguous symbols, and invalid depth return protocol
   errors or isError tool results without fabricated facts.
-- DoD: dated official evidence artifact; subprocess handshake and tool listing;
+- DoD: dated official evidence artifact; subprocess discovery and tool listing;
   all three queries through tools/call; deterministic repeated responses;
   notification/no-response behavior; malformed JSON/request/params and query
   error coverage; stderr/stdout separation; clean EOF shutdown; focused and
