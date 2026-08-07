@@ -8,11 +8,9 @@
 
 ## Now (active stage)
 
-- [ ] **D4.1 - implement the strict incremental extraction cache**
+- [ ] **D5.0 - expand verified-fact trust promotion**
 
 ## Next
-
-- [ ] **D5.0 - expand verified-fact trust promotion**
 
 ## Blockers / open questions
 
@@ -21,5 +19,6 @@
 
 ## Last updated
 
-2026-08-07 - D4.0 expanded incrementality into one strict
-content-addressed translation-unit cache stage. The suite is 473/473.
+2026-08-07 - D4.1 shipped strict content-addressed TU caching, exact changed-TU
+extraction, fail-closed hit validation, atomic state, and no-write check mode.
+The suite is 485/485. Next is D5.0 trust-promotion expansion.

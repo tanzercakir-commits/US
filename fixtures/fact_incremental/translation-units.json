@@ -1,0 +1,13 @@
+{
+  "schema": "codeskeptic.translation-units/v1",
+  "units": [
+    {
+      "display_path": "project/src/alpha.cpp",
+      "source": "src/alpha.cpp"
+    },
+    {
+      "display_path": "project/src/beta.cpp",
+      "source": "src/beta.cpp"
+    }
+  ]
+}

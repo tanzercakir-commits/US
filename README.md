@@ -221,6 +221,13 @@ with fail-closed unknown precedence:
 Reproduce the frozen fact corpus with:
 
     python tools/regenerate_fact_fixtures.py --check
+The [incremental fact-extraction reference](docs/fact_incrementality.md)
+defines strict translation-unit declarations, content-addressed cache
+validation, atomic current-state updates, and check-mode exit codes. Update or
+check a project cache with:
+
+    python tools/extract_facts_incremental.py translation-units.json --workspace project-root --cache-dir .codeskeptic/fact-cache
+    python tools/extract_facts_incremental.py translation-units.json --workspace project-root --cache-dir .codeskeptic/fact-cache --check
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

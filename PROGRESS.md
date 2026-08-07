@@ -1798,3 +1798,22 @@ Next: D4 (incremental fact extraction expansion).
   reached its 298 s limit after unittest had printed OK.
 - No blockers.
 Next: D4.1 - implement and prove the incremental extraction cache.
+
+## 2026-08-07 - D4.1: content-addressed TU extraction cache - DONE
+
++ Added strict translation-unit declarations and content-addressed cache state
+  with canonical identities for the source, display path, fact schema, and
+  extractor contract.
++ Warm hits validate canonical manifest/index bytes, graph identity, source
+  hash, display path, and cache-key derivation before reuse; corruption fails
+  closed instead of becoming a miss.
++ Cold extraction, exact one-TU invalidation, add/remove accounting, relocated
+  byte stability, atomic current-state preservation, and no-write check mode
+  are frozen over a two-TU C++17 corpus.
++ CLI exit codes distinguish current, stale, and input/extraction error states;
+  documentation fixes the non-goals and operational contract.
+- No blockers.
+Evidence: focused incrementality tests -> 12/12; frozen cache check -> current
+with 2/2 reused; full reference suite -> 485/485 in 348.319 s; commit: this
+stage commit.
+Next: D5.0 - expand referee-backed fact trust promotion.

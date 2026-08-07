@@ -1,0 +1,24 @@
+{
+  "extractor_contract": "codeskeptic.clang-fact-extractor/v1",
+  "fact_schema": "codeskeptic.fact-index/v1",
+  "manifest_id": "sha256:8749c1cf279886cba34db777c7675a1bd2fa28cd2bafa228fd49a29a4e39be16",
+  "schema": "codeskeptic.fact-cache-manifest/v1",
+  "units": [
+    {
+      "cache_key": "sha256:517b9e7d9d3e5759c659fa859304aa69da1f9ee8aee7231bb9c05af187fd92c2",
+      "display_path": "project/src/alpha.cpp",
+      "fact_index_id": "sha256:f433c295ce01f72a129022ccd195d1bf6c1ef70a5d344b47371fbfafb7fb0570",
+      "index": "units/517b9e7d9d3e5759c659fa859304aa69da1f9ee8aee7231bb9c05af187fd92c2.fact-index.json",
+      "source": "src/alpha.cpp",
+      "source_sha256": "sha256:a257c7243d4d4836e29c5452fb79ec80992019cdda6eacf89e1b08d1848bffa4"
+    },
+    {
+      "cache_key": "sha256:8171e356b4afa46c3f879faad67d3585fa2178f69104b17b72d12b1bf2342ec3",
+      "display_path": "project/src/beta.cpp",
+      "fact_index_id": "sha256:c4c947b5be782253c7b59699720a67e25c1229d3af9b8bd9236c97f7bac2c692",
+      "index": "units/8171e356b4afa46c3f879faad67d3585fa2178f69104b17b72d12b1bf2342ec3.fact-index.json",
+      "source": "src/beta.cpp",
+      "source_sha256": "sha256:d3e28dc5c9bebc4f6edd91b5ee11f56ee8518c0abdf2c3ef24c0f2c19dfd652e"
+    }
+  ]
+}
