@@ -317,6 +317,11 @@ Generate or reproduce-check the exact all-case E2 report:
     python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json
     python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json --check
 
+Validate an immutable assumption declaration and its linked resolution overlay
+with the [assumption protocol](docs/assumption_protocol.md):
+
+    python tools/check_assumption_manifest.py manifest.json resolution.json --root .
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

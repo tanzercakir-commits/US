@@ -1,0 +1,34 @@
+{
+  "assumptions": [
+    {
+      "id": "asm-001",
+      "intended_disposition": "contract",
+      "risk": "high",
+      "scope": "increment contract",
+      "statement": "The increment result is exactly one greater than the input."
+    },
+    {
+      "id": "asm-002",
+      "intended_disposition": "test",
+      "risk": "medium",
+      "scope": "increment regression",
+      "statement": "The contract evidence remains covered by a repository test."
+    },
+    {
+      "id": "asm-003",
+      "intended_disposition": "uncheckable",
+      "risk": "high",
+      "scope": "external model behavior",
+      "statement": "The frozen fixture predicts external model repair behavior."
+    }
+  ],
+  "id": "sha256:f9f7d5c68889b536cf62155d7d10ee8212fcf9dbff730d3460e5b66d52eb1c71",
+  "schema": "codeskeptic.assumption-manifest/v1",
+  "snapshot": [
+    {
+      "path": "input.txt",
+      "sha256": "sha256:82d8552ebff66e7f05d39ce74ce0eb5b0b185ddf5f2fe486d6144128e6101290"
+    }
+  ],
+  "subject": "bounded increment implementation"
+}

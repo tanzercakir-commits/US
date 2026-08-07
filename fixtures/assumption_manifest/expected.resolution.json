@@ -1,0 +1,37 @@
+{
+  "id": "sha256:96927b11f75bf83c421b6b485280fcde778c48ccb24f5d6316405ad2406f9db4",
+  "manifest": "sha256:f9f7d5c68889b536cf62155d7d10ee8212fcf9dbff730d3460e5b66d52eb1c71",
+  "resolutions": [
+    {
+      "assumption": "asm-001",
+      "disposition": "contract",
+      "evidence": [
+        {
+          "anchor": "// cs: ensures result == value + 1",
+          "path": "contract_evidence.cpp",
+          "sha256": "sha256:eb158a3d812d795da0e6464381f95d6b1617784cf1ef4ffe9478c12a402bd7a0"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-002",
+      "disposition": "test",
+      "evidence": [
+        {
+          "anchor": "def test_increment_contract_link",
+          "path": "test_evidence.py",
+          "sha256": "sha256:913f141bd90dea13881113f39d5d6e4e5ab92729addf947e2f7f0c4d7c247d28"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-003",
+      "disposition": "uncheckable",
+      "evidence": [],
+      "reason": "No independently sampled external model or controlled model run is part of this fixture."
+    }
+  ],
+  "schema": "codeskeptic.assumption-resolution/v1"
+}

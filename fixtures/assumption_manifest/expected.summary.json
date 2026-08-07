@@ -1,0 +1,10 @@
+{
+  "contract": 1,
+  "declared": 3,
+  "manifest": "sha256:f9f7d5c68889b536cf62155d7d10ee8212fcf9dbff730d3460e5b66d52eb1c71",
+  "resolution": "sha256:96927b11f75bf83c421b6b485280fcde778c48ccb24f5d6316405ad2406f9db4",
+  "resolved_checkable": 2,
+  "schema": "codeskeptic.assumption-summary/v1",
+  "test": 1,
+  "uncheckable": 1
+}

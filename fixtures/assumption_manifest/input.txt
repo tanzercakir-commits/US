@@ -1,0 +1,1 @@
+Increment must preserve the declared bounded integer domain.

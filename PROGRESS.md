@@ -2042,3 +2042,19 @@ Next: E3.0 - expand the assumption declaration stages.
 + The immediately preceding E2.3 commit hook passed the full 590/590 suite.
 - No blockers.
 Next: E3.1 - implement the immutable assumption manifest and resolution overlay.
+
+## 2026-08-07 - E3.1: immutable assumption manifest and resolution - DONE
+
++ Added immutable content-addressed declaration manifests with exact normalized
+  UTF-8 input snapshots and risk/disposition-tagged assumptions.
++ Added a separately content-addressed one-to-one resolution overlay for exact
+  contract/test evidence paths, hashes, and anchors or honest uncheckable reasons.
++ Uncheckable rows reject evidence, never count as verified, and remain distinct
+  in deterministic summaries; evidence links never claim referee/test success.
++ Added strict path/root/symlink, snapshot/evidence/hash/anchor, coverage,
+  disposition, UTF-8, JSON, identity, relocation, and schema checks plus CLI.
+- No blockers.
+Evidence: focused assumption-manifest tests -> 14/14; frozen fixture summary ->
+1 contract, 1 test, 1 uncheckable; full reference suite -> 604/604 in 350.621 s;
+commit: this stage commit.
+Next: E3.2 - run the repository-local declaration-before-code pilot.
