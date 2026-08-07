@@ -1721,11 +1721,101 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase E1 — Repair loop (M5)
 
-- E1.1 — Repair-bundle format: obligation + counterexample + source slice +
-  related contracts (one machine-readable JSON)
-- E1.2 — Loop harness: bundle → model → patch → re-verify → (≤N iterations);
-  every step logged
-- E1.3 — Metrics log: iteration count, success, time per obligation
+#### E1.0 — Expansion
+
+- Goal: replace the three repair-loop bullets with bounded bundle, loop, and
+  telemetry contracts before a model can propose any patch.
+- Output: detailed E1.1-E1.3 contracts in PLAN.md plus PROGRESS.md and TODO.md.
+- Boundaries: the proposer is untrusted and never decides success. The existing
+  deterministic verifier/referee accepts or rejects every candidate; source
+  files are not mutated by the reference loop.
+- DoD: E1.1-E1.3 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  the full suite remains green.
+- Depends: D5.2.
+
+#### E1.1 — Replay-attested repair bundle
+
+- Goal: package one concrete violated obligation into a strict, useful,
+  machine-readable repair context without adding model interpretation.
+- Output: codeskeptic.repair-bundle/v1 immutable model/strict loader and JSON
+  Schema, deterministic builder/CLI, frozen violated golden, and reference docs.
+- Exact file set: semantic_verifier/repair_bundle.py;
+  semantic_verifier/repair_bundle_schema/v1/index.schema.json;
+  tools/generate_repair_bundle.py; fixtures/repair_bundle/**;
+  tests/test_repair_bundle.py; docs/repair_loop.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: input is exact UTF-8 source/display content and one complete
+  VerificationReport. Select one validity obligation whose unique result is
+  violated with a concrete counterexample. Recheck that original serialized
+  obligation through the same admitted built-in referee and require another
+  violated result before bundling; unsupported, unknown, solver error,
+  non-violated, missing/duplicate result, changed counterexample, or checker
+  mismatch fails closed. The bundle contains source/report hashes, canonical
+  obligation/result, bounded line-numbered source context around its exact
+  location, and every human/machine provenance-preserving contract attached to
+  that function. IDs cover every field. It contains no prompt, patch, inferred
+  intent, absolute path, time, randomness, or proof claim.
+- DoD: affine replayed violation golden and exact evidence linkage; optional Z3
+  referee path when installed; source-slice boundary cases; contract provenance
+  and canonical ordering; shuffled-input stability; duplicate/unknown/schema/
+  identity/source/report/result/replay negatives; relocated byte stability;
+  CLI backend/check/error exits; focused and full suites pass.
+- Depends: E1.0.
+
+#### E1.2 — Bounded untrusted-proposer repair harness
+
+- Goal: execute bundle to proposal to patch to re-verification for at most N
+  iterations while leaving every acceptance decision to the referee.
+- Output: codeskeptic.repair-loop/v1 proposal/edit/log value objects, strict
+  scripted proposer seam, deterministic line-edit applicator, harness/CLI,
+  frozen successful and exhausted logs, and reference docs.
+- Exact file set: semantic_verifier/repair_loop.py;
+  tools/run_repair_loop.py; fixtures/repair_loop/**;
+  tests/test_repair_loop.py; docs/repair_loop.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: PatchProposer is an abstract untrusted seam. The offline CLI reads
+  predeclared strict proposals only; no network/model dependency is added.
+  Each proposal names the current source hash and one non-overlapping,
+  line-bounded replacement. Stale hashes, invalid ranges/UTF-8, no-op edits,
+  proposal reuse, or proposer exceptions are logged as rejected and never
+  mutate disk. After each valid edit, rebuild the target bundle/report and run
+  the admitted referee. Success requires a non-empty complete target-function
+  result set with every result verified and no module failure; the model never
+  reports success. Stop at first success or exactly N attempts. The canonical
+  log records every proposal, candidate hash, verifier artifact hash, statuses,
+  diagnostic, and final accepted source/edit; no clock or random value enters
+  decisions or identities.
+- DoD: first-shot, later-shot, and N-exhausted runs; violated-to-verified repair;
+  stale/range/overlap/no-op/proposer-error/referee unknown/unsupported/error
+  negatives; exact N=1/max validation and early stop; every attempt logged and
+  deterministic; original file unchanged; relocated bytes; CLI check/error
+  exits; focused and full suites pass.
+- Depends: E1.1.
+
+#### E1.3 — Append-only repair metrics telemetry
+
+- Goal: record iteration count, success, and elapsed time per obligation without
+  allowing timing to affect proposals, verification, success, IDs, or ordering.
+- Output: codeskeptic.repair-metrics/v1 strict metric row and append-only JSONL
+  ledger, injected monotonic timing boundary, summary CLI, fixtures, and docs.
+- Exact file set: semantic_verifier/repair_metrics.py;
+  tools/record_repair_metrics.py; fixtures/repair_metrics/**;
+  tests/test_repair_metrics.py; docs/repair_loop.md; README.md; PROGRESS.md,
+  TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: the harness receives only start/stop duration values after its
+  deterministic result exists. Production CLI measures monotonic elapsed
+  nanoseconds at the orchestration boundary; tests/goldens inject exact integer
+  durations. Rows cite bundle/loop IDs and record obligation, iterations,
+  success/final status, and non-negative elapsed_ns. Timing never selects a
+  candidate or changes a loop artifact. Ledger writes append one canonical line,
+  preserve prior bytes, reject duplicate run IDs and malformed prior rows, and
+  use no wall-clock timestamp, random value, model call, or overwrite.
+- DoD: success/failure rows and exact aggregation; injected-duration stability;
+  monotonic boundary called exactly twice and only outside the loop; append and
+  prior-byte preservation; duplicate/malformed/negative/bool/unknown-field
+  negatives; shuffled load stability; CLI append/summary/error exits; focused
+  and full suites pass.
+- Depends: E1.2.
 
 ### Phase E2 — The "consciousness experiment" (measurable hypothesis)
 

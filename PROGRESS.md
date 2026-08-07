@@ -1866,3 +1866,15 @@ Evidence: focused promotion tests -> 14/14; frozen bundle check -> exact,
 proved=2 and derived=2; full reference suite -> 510/510 in 311.032 s; commit:
 this stage commit.
 Next: E1.0 - expand the repair-loop bullets into bounded implementation stages.
+
+## 2026-08-07 - E1.0: repair-loop expansion - DONE
+
++ Replaced the coarse E1 bullets with bounded replay-attested bundle, untrusted
+  proposer harness, and append-only telemetry stages.
++ Froze the original-obligation recheck, exact iteration cap, referee-only
+  success decision, non-mutating source policy, and complete attempt logging.
++ Isolated monotonic elapsed-time measurement at the orchestration boundary so
+  it cannot influence logic-path decisions, artifact IDs, or ordering.
++ The immediately preceding D5.2 commit hook passed the full 510/510 suite.
+- No blockers.
+Next: E1.1 - implement the replay-attested repair bundle.

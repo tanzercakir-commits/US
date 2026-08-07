@@ -8,11 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E1.0 - expand the repair loop into bounded stages**
+- [ ] **E1.1 - implement the replay-attested repair bundle**
 
 ## Next
 
-- [ ] **E1.1 - define the machine-readable repair bundle**
+- [ ] **E1.2 - implement the bounded repair harness**
+- [ ] **E1.3 - add append-only repair metrics telemetry**
 ## Blockers / open questions
 
 - None. Production work continues on `codex/semantic-verification-native` in
@@ -20,6 +21,6 @@
 
 ## Last updated
 
-2026-08-07 - D5.2 shipped one-parse fail-closed promotion with exact built-in
-referee binding and a linked 2-proved/2-derived golden bundle. The suite is
-510/510. Next is E1.0 repair-loop expansion.
+2026-08-07 - E1.0 expanded the repair loop into replay-attested bundle,
+bounded untrusted-proposer harness, and isolated append-only telemetry stages.
+The suite is 510/510.
