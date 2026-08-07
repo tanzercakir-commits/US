@@ -57,7 +57,6 @@ With neither `--output` nor `--check`, the canonical prompt JSON is written to
 standard output. Exit codes are `0` for success/match, `1` for a golden mismatch,
 and `2` for malformed input or I/O/resource failure.
 
-
 ## Deterministic pre-screen
 
 C1.2 parses the raw response with an exact-field validator, checks its logical
@@ -110,6 +109,50 @@ referee is available. Backend disagreement, launch failure, timeout, and
 unsupported logic remain fail-closed. The CLI writes only the pre-screen JSON;
 it does not export or apply the internal overlay.
 
+## Human approval boundary
+
+C1.3 turns an eligible pre-screen into a review bundle, not an automatic patch.
+The bundle contains the canonical `cs: ai` overlay, proposal IDs, hashes, and
+four explicit instructions. Rejected or declined responses contain no overlay,
+so contradictory proposals cannot leak into the human review queue.
+
+Export a review bundle and its still-machine-marked source:
+
+```powershell
+python tools/contract_proposal.py `
+  --request fixtures/contract_proposals/screen.request.json `
+  --response fixtures/contract_proposals/eligible.response.json `
+  --review `
+  --output review.json `
+  --overlay-output candidate.cpp
+```
+
+A human reviews `candidate.cpp`, edits only the proposed contract lines, removes
+`ai`, and saves a separate file. The tool never performs that edit. Supplying
+the separate file is the operator's human-attestation boundary:
+
+```powershell
+python tools/contract_proposal.py `
+  --request fixtures/contract_proposals/screen.request.json `
+  --response fixtures/contract_proposals/eligible.response.json `
+  --accepted-source fixtures/contract_proposals/accepted.cpp `
+  --check fixtures/contract_proposals/expected.acceptance.json
+```
+
+Acceptance is fail-closed. Every non-candidate source line must match the review
+overlay; otherwise the state is `stale`. Every proposed line must retain its
+anchor and contract kind, become marker-free, and pass a fresh C1.2 pre-screen
+after any human expression edit. A remaining `cs: ai` marker leaves the state
+`reviewable`; malformed or referee-rejected edits become `rejected`.
+
+The schemas `codeskeptic.contract-proposal-review/v1` and
+`codeskeptic.accepted-intent-audit/v1` are bundled with the other proposal
+schemas. The audit records logical request, response, review, accepted-source,
+and accepted-contract hashes without paths or timestamps. `accepted` means the
+mechanical boundary and referee checks passed; `human_attestation_required`
+remains true because software cannot prove who reviewed the intent. Any later
+source or contract change stops matching the recorded accepted-source hash and
+requires a new review/audit.
 ## External adapter contract
 
 An adapter may forward `messages` to a model and enforce the embedded

@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 330 deterministic tests. The separately cloned
+The current suite contains 338 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -89,6 +89,7 @@ Reproduce the isolated, proposal-only invariant-inference research artifact:
 ```powershell
 python tools/invariant_research.py --check
 ```
+
 Render or reproduce the deterministic offline contract-proposal prompt pack
 (no model or network call is made):
 
@@ -97,6 +98,7 @@ python tools/contract_proposal.py `
   --request fixtures/contract_proposals/request.json `
   --check fixtures/contract_proposals/expected.prompt.json
 ```
+
 Pre-screen an untrusted response without mutating source:
 
 ```powershell
@@ -104,6 +106,20 @@ python tools/contract_proposal.py `
   --request fixtures/contract_proposals/screen.request.json `
   --response fixtures/contract_proposals/eligible.response.json `
   --check fixtures/contract_proposals/expected.pre-screen.json
+```
+Export a `cs: ai` review overlay, then audit a separately human-edited source:
+
+```powershell
+python tools/contract_proposal.py `
+  --request fixtures/contract_proposals/screen.request.json `
+  --response fixtures/contract_proposals/eligible.response.json `
+  --review --overlay-output candidate.cpp --output review.json
+
+python tools/contract_proposal.py `
+  --request fixtures/contract_proposals/screen.request.json `
+  --response fixtures/contract_proposals/eligible.response.json `
+  --accepted-source fixtures/contract_proposals/accepted.cpp `
+  --check fixtures/contract_proposals/expected.acceptance.json
 ```
 
 The [contract-proposal loop](docs/contract_proposal_loop.md) defines the v1

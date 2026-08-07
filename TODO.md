@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C1.3 - human approval and accepted-intent boundary**
+- [ ] **C2.1 - contract-first task template and end-to-end run**
 
 ## Next
 
-- [ ] **C2.1 - contract-first task template and end-to-end run**
 - [ ] **C2.2 - pilot the workflow on this project**
+- [ ] **C3.0 - research the C++26 contracts bridge**
 
 ## Blockers / open questions
 
@@ -22,6 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - C1.2 shipped deterministic response parsing, in-memory overlays,
-ordinary-referee pre-screening, a six-state rejection matrix, and a versioned
-golden report. The reference suite is green at 330/330. Next is C1.3 approval.
+2026-08-07 - C1.3 shipped the explicit proposed/reviewable/accepted boundary,
+marker-preserving review export, separately edited-source validation, and
+stale-source audit hashes. The reference suite is green at 338/338. Next is
+C2.1 contract-first workflow.

@@ -21,6 +21,8 @@ REQUEST_SCHEMA = "codeskeptic.contract-proposal-request/v1"
 PROMPT_SCHEMA = "codeskeptic.contract-proposal-prompt/v1"
 RESPONSE_SCHEMA = "codeskeptic.contract-proposal-response/v1"
 PRE_SCREEN_SCHEMA = "codeskeptic.contract-proposal-pre-screen/v1"
+REVIEW_SCHEMA = "codeskeptic.contract-proposal-review/v1"
+ACCEPTANCE_SCHEMA = "codeskeptic.accepted-intent-audit/v1"
 _MACHINE_MARKER = "cs: ai"
 _PACK_PARTS = ("prompt_packs", "contract_proposal", "v1")
 _ALLOWED_ROLES = frozenset({"global", "local", "parameter", "result"})
@@ -887,4 +889,444 @@ def pre_screen_response(
         checks=tuple(checks),
         candidate_comments=comments,
         verification_summary=overlay_report.summary(),
+    )
+
+_ACCEPTED_COMMENT = re.compile(
+    r"^// cs: (?P<kind>requires|ensures|modifies|invariant)"
+    r"(?: (?P<expression>.*))?$"
+)
+_REVIEW_INSTRUCTIONS = (
+    "Edit only the listed cs: ai contract lines in candidate_overlay.",
+    "Remove ai from each reviewed contract; the tool never removes it.",
+    "Keep every non-candidate source line byte-for-byte equivalent.",
+    "Supply the separately edited source for a fresh referee check.",
+)
+
+
+@dataclass(frozen=True, slots=True)
+class ReviewProposal:
+    proposal_id: str
+    anchor: ProposalAnchor
+    comment: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "anchor": self.anchor.to_dict(),
+            "comment": self.comment,
+            "proposal_id": self.proposal_id,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class ReviewBundle:
+    request_id: str
+    response_sha256: str
+    review_id: str
+    state: str
+    reason: str
+    pre_screen_status: str
+    proposals: tuple[ReviewProposal, ...] = ()
+    candidate_overlay: str | None = None
+    overlay_sha256: str | None = None
+    instructions: tuple[str, ...] = ()
+
+    def to_dict(self) -> dict[str, Any]:
+        result: dict[str, Any] = {
+            "instructions": list(self.instructions),
+            "pre_screen_status": self.pre_screen_status,
+            "proposals": [proposal.to_dict() for proposal in self.proposals],
+            "reason": self.reason,
+            "request_id": self.request_id,
+            "response_sha256": self.response_sha256,
+            "review_id": self.review_id,
+            "schema": REVIEW_SCHEMA,
+            "state": self.state,
+            "transition": {
+                "from": "proposed" if self.state != "declined" else "declined",
+                "to": self.state,
+            },
+        }
+        if self.candidate_overlay is not None:
+            result["candidate_overlay"] = self.candidate_overlay
+        if self.overlay_sha256 is not None:
+            result["overlay_sha256"] = self.overlay_sha256
+        return result
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+
+@dataclass(frozen=True, slots=True)
+class AcceptedContract:
+    proposal_id: str
+    anchor: ProposalAnchor
+    comment: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "anchor": self.anchor.to_dict(),
+            "comment": self.comment,
+            "proposal_id": self.proposal_id,
+        }
+
+
+@dataclass(frozen=True, slots=True)
+class AcceptanceAudit:
+    request_id: str
+    response_sha256: str
+    review_id: str
+    audit_id: str
+    state: str
+    reason: str
+    referee_status: str
+    accepted_source_sha256: str
+    accepted_contracts: tuple[AcceptedContract, ...] = ()
+    verification_summary: Mapping[str, int] | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        summary = {status.value: 0 for status in VerificationStatus}
+        summary.update(self.verification_summary or {})
+        return {
+            "accepted_contracts": [
+                contract.to_dict() for contract in self.accepted_contracts
+            ],
+            "accepted_source_sha256": self.accepted_source_sha256,
+            "audit_id": self.audit_id,
+            "human_attestation_required": True,
+            "reason": self.reason,
+            "referee_status": self.referee_status,
+            "request_id": self.request_id,
+            "response_sha256": self.response_sha256,
+            "review_id": self.review_id,
+            "schema": ACCEPTANCE_SCHEMA,
+            "state": self.state,
+            "transition": {"from": "reviewable", "to": self.state},
+            "verification_summary": summary,
+        }
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+    def matches_source(self, source: str) -> bool:
+        return self.state == "accepted" and self.accepted_source_sha256 == _source_hash(
+            source
+        )
+
+
+def _proposal_logical_id(proposal: CandidateContract) -> str:
+    payload = {"anchor": proposal.anchor.to_dict(), "comment": proposal.comment}
+    return _sha256_text(_canonical_json(payload))
+
+
+def _review_id(
+    logical_request_id: str,
+    response_sha256: str,
+    state: str,
+    overlay_sha256: str | None,
+    proposals: tuple[ReviewProposal, ...],
+) -> str:
+    return _sha256_text(
+        _canonical_json(
+            {
+                "overlay_sha256": overlay_sha256,
+                "proposals": [proposal.to_dict() for proposal in proposals],
+                "request_id": logical_request_id,
+                "response_sha256": response_sha256,
+                "schema": REVIEW_SCHEMA,
+                "state": state,
+            }
+        )
+    )
+
+
+def build_review_bundle(
+    request: ContractProposalRequest,
+    response_text: str,
+    *,
+    checker: CheckerBackend | None = None,
+    clang: str | None = None,
+) -> ReviewBundle:
+    screen = pre_screen_response(
+        request, response_text, checker=checker, clang=clang
+    )
+    state = (
+        "reviewable"
+        if screen.outcome == "eligible"
+        else "declined"
+        if screen.outcome == "declined"
+        else "rejected"
+    )
+    proposals: tuple[ReviewProposal, ...] = ()
+    overlay: str | None = None
+    overlay_hash: str | None = None
+    instructions: tuple[str, ...] = ()
+    reason = screen.reason
+    if state == "reviewable":
+        try:
+            response = load_response_json(response_text, request_id(request))
+            overlay = candidate_overlay(request, response)
+        except ProposalInputError as error:
+            state = "rejected"
+            reason = str(error)
+        else:
+            proposals = tuple(
+                ReviewProposal(
+                    proposal_id=_proposal_logical_id(proposal),
+                    anchor=proposal.anchor,
+                    comment=proposal.comment,
+                )
+                for proposal in response.proposals
+            )
+            owned_candidate_lines = sorted(proposal.comment for proposal in proposals)
+            overlay_ai_lines = sorted(
+                line.strip()
+                for line in overlay.splitlines()
+                if line.strip().startswith("// cs: ai ")
+            )
+            if overlay_ai_lines != owned_candidate_lines:
+                state = "rejected"
+                reason = "review overlay contains machine proposals outside this response"
+                proposals = ()
+                overlay = None
+            else:
+                overlay_hash = _source_hash(overlay)
+                instructions = _REVIEW_INSTRUCTIONS
+    review_identifier = _review_id(
+        request_id(request),
+        screen.response_sha256,
+        state,
+        overlay_hash,
+        proposals,
+    )
+    return ReviewBundle(
+        request_id=request_id(request),
+        response_sha256=screen.response_sha256,
+        review_id=review_identifier,
+        state=state,
+        reason=reason,
+        pre_screen_status=screen.status,
+        proposals=proposals,
+        candidate_overlay=overlay,
+        overlay_sha256=overlay_hash,
+        instructions=instructions,
+    )
+
+
+def _canonical_source(source: str) -> str:
+    return "\n".join(source.splitlines()) + "\n"
+
+
+def _source_hash(source: str) -> str:
+    return _sha256_text(_canonical_source(source))
+
+
+def _audit_id(payload: Mapping[str, Any]) -> str:
+    return _sha256_text(_canonical_json(payload))
+
+
+def _acceptance_audit(
+    *,
+    review: ReviewBundle,
+    accepted_source: str,
+    state: str,
+    reason: str,
+    referee_status: str,
+    accepted_contracts: tuple[AcceptedContract, ...] = (),
+    verification_summary: Mapping[str, int] | None = None,
+) -> AcceptanceAudit:
+    source_hash = _source_hash(accepted_source)
+    identity = {
+        "accepted_contracts": [
+            contract.to_dict() for contract in accepted_contracts
+        ],
+        "accepted_source_sha256": source_hash,
+        "referee_status": referee_status,
+        "request_id": review.request_id,
+        "response_sha256": review.response_sha256,
+        "review_id": review.review_id,
+        "schema": ACCEPTANCE_SCHEMA,
+        "state": state,
+    }
+    return AcceptanceAudit(
+        request_id=review.request_id,
+        response_sha256=review.response_sha256,
+        review_id=review.review_id,
+        audit_id=_audit_id(identity),
+        state=state,
+        reason=reason,
+        referee_status=referee_status,
+        accepted_source_sha256=source_hash,
+        accepted_contracts=accepted_contracts,
+        verification_summary=verification_summary,
+    )
+
+
+def validate_accepted_source(
+    request: ContractProposalRequest,
+    response_text: str,
+    accepted_source: str,
+    *,
+    checker: CheckerBackend | None = None,
+    clang: str | None = None,
+) -> AcceptanceAudit:
+    review = build_review_bundle(
+        request, response_text, checker=checker, clang=clang
+    )
+    if review.state != "reviewable" or review.candidate_overlay is None:
+        return _acceptance_audit(
+            review=review,
+            accepted_source=accepted_source,
+            state="rejected",
+            reason=f"proposal is not reviewable: {review.reason}",
+            referee_status=review.pre_screen_status,
+        )
+
+    if "cs: ai" in accepted_source:
+        return _acceptance_audit(
+            review=review,
+            accepted_source=accepted_source,
+            state="reviewable",
+            reason="machine-proposed markers remain; human acceptance is incomplete",
+            referee_status="not_run",
+        )
+
+    candidate_lines = review.candidate_overlay.splitlines()
+    accepted_lines = accepted_source.splitlines()
+    if len(candidate_lines) != len(accepted_lines):
+        return _acceptance_audit(
+            review=review,
+            accepted_source=accepted_source,
+            state="stale",
+            reason="accepted source line count differs from the review overlay",
+            referee_status="not_run",
+        )
+
+    remaining = list(review.proposals)
+    positions: dict[int, ReviewProposal] = {}
+    for index, line in enumerate(candidate_lines):
+        match_index = next(
+            (
+                proposal_index
+                for proposal_index, proposal in enumerate(remaining)
+                if line.strip() == proposal.comment
+            ),
+            None,
+        )
+        if match_index is None:
+            continue
+        positions[index] = remaining.pop(match_index)
+    if remaining or len(positions) != len(review.proposals):
+        return _acceptance_audit(
+            review=review,
+            accepted_source=accepted_source,
+            state="rejected",
+            reason="review overlay no longer contains every owned proposal line",
+            referee_status="not_run",
+        )
+
+    accepted_contracts: list[AcceptedContract] = []
+    response = load_response_json(response_text, request_id(request))
+    by_proposal_id = {
+        _proposal_logical_id(proposal): proposal for proposal in response.proposals
+    }
+    edited_candidates: list[CandidateContract] = []
+    for index, (candidate_line, accepted_line) in enumerate(
+        zip(candidate_lines, accepted_lines)
+    ):
+        proposal = positions.get(index)
+        if proposal is None:
+            if candidate_line != accepted_line:
+                return _acceptance_audit(
+                    review=review,
+                    accepted_source=accepted_source,
+                    state="stale",
+                    reason=f"non-candidate source line {index + 1} changed",
+                    referee_status="not_run",
+                )
+            continue
+        indentation = candidate_line[: len(candidate_line) - len(candidate_line.lstrip())]
+        if not accepted_line.startswith(indentation):
+            accepted_match = None
+        else:
+            accepted_match = _ACCEPTED_COMMENT.fullmatch(
+                accepted_line[len(indentation) :]
+            )
+        original_match = _contract_match(proposal.comment, "review proposal")
+        if accepted_match is None:
+            return _acceptance_audit(
+                review=review,
+                accepted_source=accepted_source,
+                state="rejected",
+                reason=f"proposal line {index + 1} is not a marker-free contract",
+                referee_status="not_run",
+            )
+        if accepted_match.group("kind") != original_match.group("kind"):
+            return _acceptance_audit(
+                review=review,
+                accepted_source=accepted_source,
+                state="rejected",
+                reason=f"proposal line {index + 1} changed contract kind",
+                referee_status="not_run",
+            )
+        expression = (accepted_match.group("expression") or "").strip()
+        if accepted_match.group("kind") != "modifies" and not expression:
+            return _acceptance_audit(
+                review=review,
+                accepted_source=accepted_source,
+                state="rejected",
+                reason=f"proposal line {index + 1} has an empty expression",
+                referee_status="not_run",
+            )
+        accepted_comment = accepted_line[len(indentation) :]
+        accepted_contracts.append(
+            AcceptedContract(
+                proposal_id=proposal.proposal_id,
+                anchor=proposal.anchor,
+                comment=accepted_comment,
+            )
+        )
+        original = by_proposal_id[proposal.proposal_id]
+        edited_candidates.append(
+            CandidateContract(
+                anchor=original.anchor,
+                comment="// cs: ai " + accepted_comment.removeprefix("// cs: "),
+                evidence=original.evidence,
+                rationale=original.rationale,
+            )
+        )
+
+    edited_response = ContractProposalResponse(
+        request_id=response.request_id,
+        outcome="candidate",
+        proposals=tuple(edited_candidates),
+        notes=response.notes,
+    )
+    edited_screen = pre_screen_response(
+        request,
+        json.dumps(edited_response.to_dict(), ensure_ascii=False, sort_keys=True),
+        checker=checker,
+        clang=clang,
+    )
+    if edited_screen.outcome != "eligible":
+        return _acceptance_audit(
+            review=review,
+            accepted_source=accepted_source,
+            state="rejected",
+            reason="human-edited contracts failed referee pre-screen: "
+            + edited_screen.reason,
+            referee_status=edited_screen.status,
+            accepted_contracts=tuple(accepted_contracts),
+            verification_summary=edited_screen.verification_summary,
+        )
+    return _acceptance_audit(
+        review=review,
+        accepted_source=accepted_source,
+        state="accepted",
+        reason=(
+            "separately supplied marker-free contracts passed the deterministic "
+            "pre-screen; human attestation remains external"
+        ),
+        referee_status=edited_screen.status,
+        accepted_contracts=tuple(accepted_contracts),
+        verification_summary=edited_screen.verification_summary,
     )

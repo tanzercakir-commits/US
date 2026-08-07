@@ -9,12 +9,15 @@ import unittest
 
 from semantic_verifier.backend import CheckerBackend
 from semantic_verifier.contract_proposals import (
+    ACCEPTANCE_SCHEMA,
     PRE_SCREEN_SCHEMA,
     PROMPT_SCHEMA,
     REQUEST_SCHEMA,
     RESPONSE_SCHEMA,
+    REVIEW_SCHEMA,
     ProposalInputError,
     build_prompt_pack,
+    build_review_bundle,
     candidate_overlay,
     load_request,
     load_response_json,
@@ -22,6 +25,7 @@ from semantic_verifier.contract_proposals import (
     read_request,
     render_prompt_pack,
     request_id,
+    validate_accepted_source,
 )
 from semantic_verifier.model import VerificationResult, VerificationStatus
 
@@ -342,6 +346,146 @@ class ContractProposalPreScreenTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("pre-screen matches", completed.stdout)
+
+class ContractProposalApprovalTests(unittest.TestCase):
+    def request(self):
+        return read_request(FIXTURES / "screen.request.json")
+
+    def response_text(self, name: str = "eligible") -> str:
+        return (FIXTURES / f"{name}.response.json").read_text(encoding="utf-8")
+
+    def accepted_source(self) -> str:
+        return (FIXTURES / "accepted.cpp").read_text(encoding="utf-8")
+
+    def test_review_and_acceptance_artifacts_have_exact_versioned_shapes(self):
+        review = json.loads(
+            (FIXTURES / "expected.review.json").read_text(encoding="utf-8")
+        )
+        acceptance = json.loads(
+            (FIXTURES / "expected.acceptance.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(review["schema"], REVIEW_SCHEMA)
+        self.assertEqual(acceptance["schema"], ACCEPTANCE_SCHEMA)
+        self.assertEqual(set(review), {
+            "candidate_overlay", "instructions", "overlay_sha256",
+            "pre_screen_status", "proposals", "reason", "request_id",
+            "response_sha256", "review_id", "schema", "state", "transition",
+        })
+        self.assertEqual(set(acceptance), {
+            "accepted_contracts", "accepted_source_sha256", "audit_id",
+            "human_attestation_required", "reason", "referee_status",
+            "request_id", "response_sha256", "review_id", "schema", "state",
+            "transition", "verification_summary",
+        })
+
+    def test_state_machine_keeps_rejected_proposals_out_of_review(self):
+        request = self.request()
+        reviewable = build_review_bundle(request, self.response_text())
+        rejected = build_review_bundle(request, self.response_text("contradictory"))
+        declined = build_review_bundle(request, self.response_text("declined"))
+        self.assertEqual(reviewable.state, "reviewable")
+        self.assertEqual(reviewable.to_dict()["transition"], {
+            "from": "proposed", "to": "reviewable"
+        })
+        self.assertIn("// cs: ai ensures", reviewable.candidate_overlay)
+        self.assertEqual(rejected.state, "rejected")
+        self.assertIsNone(rejected.candidate_overlay)
+        self.assertEqual(rejected.proposals, ())
+        self.assertEqual(declined.state, "declined")
+
+    def test_marker_remains_reviewable_until_separate_source_removes_it(self):
+        request = self.request()
+        candidate = (FIXTURES / "candidate.overlay.cpp").read_text(encoding="utf-8")
+        incomplete = validate_accepted_source(request, self.response_text(), candidate)
+        accepted = validate_accepted_source(
+            request, self.response_text(), self.accepted_source()
+        )
+        self.assertEqual(incomplete.state, "reviewable")
+        self.assertIn("markers remain", incomplete.reason)
+        self.assertEqual(accepted.state, "accepted")
+        self.assertTrue(accepted.to_dict()["human_attestation_required"])
+        self.assertNotIn("cs: ai", accepted.accepted_contracts[0].comment)
+        self.assertTrue(accepted.matches_source(self.accepted_source()))
+
+    def test_non_candidate_source_change_is_stale_and_fails_closed(self):
+        request = self.request()
+        changed = self.accepted_source().replace("return value;", "return value + 1;")
+        audit = validate_accepted_source(request, self.response_text(), changed)
+        self.assertEqual(audit.state, "stale")
+        self.assertEqual(audit.referee_status, "not_run")
+        self.assertIn("non-candidate source line", audit.reason)
+
+    def test_human_contract_edit_is_re_screened_before_acceptance(self):
+        request = self.request()
+        unsupported = self.accepted_source().replace(
+            "// cs: ensures result >= 0",
+            "// cs: ensures result == value * value",
+        )
+        audit = validate_accepted_source(request, self.response_text(), unsupported)
+        self.assertEqual(audit.state, "rejected")
+        self.assertEqual(audit.referee_status, "unsupported")
+        self.assertIn("failed referee pre-screen", audit.reason)
+
+    def test_audit_identity_is_location_independent_and_detects_later_edits(self):
+        request = self.request()
+        payload = request.to_dict()
+        payload["source"] = {"file": "D:/relocated/math.cpp", "line": 900}
+        relocated = load_request(payload)
+        first_review = build_review_bundle(request, self.response_text())
+        second_review = build_review_bundle(relocated, self.response_text())
+        first = validate_accepted_source(
+            request, self.response_text(), self.accepted_source()
+        )
+        second = validate_accepted_source(
+            relocated, self.response_text(), self.accepted_source()
+        )
+        self.assertEqual(first_review.review_id, second_review.review_id)
+        self.assertEqual(first.audit_id, second.audit_id)
+        changed = self.accepted_source().replace("result >= 0", "result > 0")
+        self.assertFalse(first.matches_source(changed))
+
+    def test_review_and_acceptance_bytes_match_goldens(self):
+        request = self.request()
+        response = self.response_text()
+        review = build_review_bundle(request, response).to_json()
+        acceptance = validate_accepted_source(
+            request, response, self.accepted_source()
+        ).to_json()
+        self.assertEqual(
+            review,
+            (FIXTURES / "expected.review.json").read_text(encoding="utf-8"),
+        )
+        self.assertEqual(
+            acceptance,
+            (FIXTURES / "expected.acceptance.json").read_text(encoding="utf-8"),
+        )
+
+    def test_cli_review_and_acceptance_golden_checks(self):
+        common = [
+            sys.executable,
+            str(ROOT / "tools" / "contract_proposal.py"),
+            "--request", str(FIXTURES / "screen.request.json"),
+            "--response", str(FIXTURES / "eligible.response.json"),
+        ]
+        commands = [
+            common + ["--review", "--check", str(FIXTURES / "expected.review.json")],
+            common + [
+                "--accepted-source", str(FIXTURES / "accepted.cpp"),
+                "--check", str(FIXTURES / "expected.acceptance.json"),
+            ],
+        ]
+        for command in commands:
+            with self.subTest(command=command):
+                completed = subprocess.run(
+                    command,
+                    cwd=ROOT,
+                    capture_output=True,
+                    check=False,
+                    text=True,
+                    timeout=10,
+                )
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertIn("matches", completed.stdout)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,30 @@
+{
+  "candidate_overlay": "// cs: ai ensures result >= 0\nint clamp_nonnegative(int value) {\n  if (value < 0) {\n    return 0;\n  }\n  return value;\n}\n",
+  "instructions": [
+    "Edit only the listed cs: ai contract lines in candidate_overlay.",
+    "Remove ai from each reviewed contract; the tool never removes it.",
+    "Keep every non-candidate source line byte-for-byte equivalent.",
+    "Supply the separately edited source for a fresh referee check."
+  ],
+  "overlay_sha256": "sha256:57b7d99ce2f50e900efb0c916ae04547336e5ad5a65dc55c26d54ffecc4a3f12",
+  "pre_screen_status": "eligible",
+  "proposals": [
+    {
+      "anchor": {
+        "kind": "function"
+      },
+      "comment": "// cs: ai ensures result >= 0",
+      "proposal_id": "sha256:79cfbe3562a9ebc1ad5dd633837313a6a8e7093fe94347a41587fbb3e7a7ff53"
+    }
+  ],
+  "reason": "all deterministic proposal pre-screen checks passed",
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "response_sha256": "sha256:f92baf12642100f4271933d921922fb810c361c28cf9fabb7207ea98581dad48",
+  "review_id": "sha256:53e927a95001cf1219646375ec3cbfafedea8cb5bd1c80160ea6db860017fc87",
+  "schema": "codeskeptic.contract-proposal-review/v1",
+  "state": "reviewable",
+  "transition": {
+    "from": "proposed",
+    "to": "reviewable"
+  }
+}

@@ -1340,3 +1340,25 @@ unsupported, unknown, malformed, and declined preserved; injected checker
 failure -> solver_error rejection; repeated/golden pre-screen bytes -> equal;
 full reference suite -> 330/330; commit: this stage commit.
 Next: C1.3 (human approval and accepted-intent boundary).
+## 2026-08-07 - C1.3: human approval and accepted-intent boundary - DONE
++ Added versioned review-bundle and accepted-intent audit artifacts with explicit
+  proposed, rejected, reviewable, stale, and accepted state transitions.
++ Review export contains only the canonical `cs: ai` overlay; rejected and
+  declined responses expose no source overlay to a human reviewer.
++ Acceptance requires a separately supplied source where only owned proposal
+  lines may change and every reviewed contract has the `ai` marker removed.
++ Human-edited contract expressions are run through the complete C1.2
+  pre-screen again; incomplete or invalid edits remain rejected.
++ Any non-candidate source edit is stale, and every accepted audit pins the
+  canonical source/contracts so later semantic edits stop matching.
++ The tool never removes `ai`; accepted audits keep
+  `human_attestation_required=true` because reviewer identity is external.
++ Added deterministic candidate/accepted source fixtures and byte-stable review
+  and audit goldens; the suite grew from 330 to 338 tests and is fully green.
+- The mechanism verifies the review boundary and referee result, not whether a
+  particular person performed the edit; the operator supplies that attestation.
+Evidence: focused proposal/review tests -> 24/24; all review/acceptance states
+validate against their JSON schemas; review and acceptance golden CLI checks ->
+exact match; relocation keeps review/audit identity, later source edit breaks
+matching; full reference suite -> 338/338; commit: this stage commit.
+Next: C2.1 (contract-first task template and end-to-end run).

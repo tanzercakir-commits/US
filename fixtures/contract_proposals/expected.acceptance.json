@@ -1,0 +1,32 @@
+{
+  "accepted_contracts": [
+    {
+      "anchor": {
+        "kind": "function"
+      },
+      "comment": "// cs: ensures result >= 0",
+      "proposal_id": "sha256:79cfbe3562a9ebc1ad5dd633837313a6a8e7093fe94347a41587fbb3e7a7ff53"
+    }
+  ],
+  "accepted_source_sha256": "sha256:d5b6630a509df46e8f38c7eddbec00d6ee6156d9262a43fbbda16401664a3943",
+  "audit_id": "sha256:ddc9c7d0910f07552d1e8e7ced09d7fe6168c51b1dc3c4e0e2916a57e4904307",
+  "human_attestation_required": true,
+  "reason": "separately supplied marker-free contracts passed the deterministic pre-screen; human attestation remains external",
+  "referee_status": "eligible",
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "response_sha256": "sha256:f92baf12642100f4271933d921922fb810c361c28cf9fabb7207ea98581dad48",
+  "review_id": "sha256:53e927a95001cf1219646375ec3cbfafedea8cb5bd1c80160ea6db860017fc87",
+  "schema": "codeskeptic.accepted-intent-audit/v1",
+  "state": "accepted",
+  "transition": {
+    "from": "reviewable",
+    "to": "accepted"
+  },
+  "verification_summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 2,
+    "violated": 0
+  }
+}
