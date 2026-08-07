@@ -1913,3 +1913,20 @@ Next: E1.2 - implement the bounded untrusted-proposer repair harness.
 Evidence: focused repair-loop tests -> 13/13; both frozen logs -> exact; full
 reference suite -> 537/537 in 267.047 s; commit: this stage commit.
 Next: E1.3 - add append-only repair metrics telemetry.
+
+## 2026-08-07 - E1.3: append-only repair metrics telemetry - DONE
+
++ Added strict codeskeptic.repair-metrics/v1 rows linked to exact repair bundle,
+  loop, and obligation identities with content-addressed metric IDs.
++ Isolated monotonic nanosecond measurement immediately around the deterministic
+  harness call; injected durations cannot change proposals, decisions, or loop
+  artifacts.
++ Added canonical append-only JSONL validation that preserves prior bytes and
+  rejects duplicate loop/metric IDs or malformed existing ledgers before write.
++ Added exact order-independent aggregation, record/summary CLI behavior, and
+  frozen successful/exhausted metric rows.
++ Documented telemetry boundaries and usage.
+- No blockers.
+Evidence: focused repair-metrics tests -> 12/12; full reference suite -> 549/549
+in 291.930 s; commit: this stage commit.
+Next: E2.0 - expand the consciousness experiment into bounded stages.

@@ -1,7 +1,7 @@
 # Referee-guided repair loop
 
-Status: E1.1 bundles and the E1.2 bounded repair harness are implemented.
-Append-only telemetry follows in E1.3.
+Status: E1.1 bundles, the E1.2 bounded repair harness, and E1.3 append-only
+metrics telemetry are implemented.
 
 ## Repair bundle v1
 
@@ -109,3 +109,31 @@ error.
 
 fixtures/repair_loop freezes a first-shot verified repair and a two-attempt
 exhausted run.
+
+## Append-only metrics telemetry
+
+codeskeptic.repair-metrics/v1 records one completed loop's exact bundle and
+loop identities, obligation identity, iteration count, success flag, final
+status, and elapsed monotonic nanoseconds. The metric identity covers every
+field. Timing is measured only by the orchestration boundary immediately
+before and after the deterministic harness call; it never enters a proposal,
+verification decision, repair artifact, or ordering rule.
+
+Metric files are canonical JSONL. Appends first validate every existing row,
+reject malformed or non-canonical input, and reject duplicate metric or loop
+identities without changing prior bytes. Files contain no wall-clock
+timestamps or random values. Exact summaries report row, success, exhausted,
+iteration, and elapsed totals plus integer minimum and maximum values.
+
+Record a measured loop and append its metric row:
+
+    python tools/record_repair_metrics.py record source.cpp repair.bundle.json proposals.json repair-loop.json repair-metrics.jsonl --display-path project/source.cpp --max-iterations 3 --backend affine
+
+Summarize an existing metric log:
+
+    python tools/record_repair_metrics.py summary repair-metrics.jsonl
+
+The record command exits 0 after a successful append, including honestly
+exhausted loops, and 2 on strict input, verifier, clock, or append failure.
+fixtures/repair_metrics freezes one successful and one exhausted row plus their
+exact aggregate.

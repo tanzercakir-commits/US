@@ -296,6 +296,12 @@ success:
     python tools/run_repair_loop.py source.cpp repair.bundle.json proposals.json repair-loop.json --display-path project/source.cpp --max-iterations 3 --backend affine
     python tools/run_repair_loop.py source.cpp repair.bundle.json proposals.json repair-loop.json --display-path project/source.cpp --max-iterations 3 --backend affine --check
 
+Append one monotonic-time metric for a completed loop or summarize the
+canonical JSONL telemetry:
+
+    python tools/record_repair_metrics.py record source.cpp repair.bundle.json proposals.json repair-loop.json repair-metrics.jsonl --display-path project/source.cpp --max-iterations 3 --backend affine
+    python tools/record_repair_metrics.py summary repair-metrics.jsonl
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries
