@@ -83,3 +83,39 @@ Exit codes are:
 | 3 | Fact-index read, UTF-8, schema, or graph-validation error. |
 
 Diagnostics go to stderr and successful output goes to stdout.
+## MCP stdio endpoint
+
+D2.2 exposes the same pure FactWorld API through MCP protocol version
+2026-07-28. The server is stateless: clients do not send initialize or
+notifications/initialized. Every request instead carries these fields in
+params._meta:
+
+- io.modelcontextprotocol/protocolVersion: 2026-07-28
+- io.modelcontextprotocol/clientCapabilities: an object
+- io.modelcontextprotocol/clientInfo: an optional name/version object
+
+Start the newline-delimited UTF-8 JSON-RPC stdio server with:
+
+    python tools/fact_mcp_server.py INDEX
+
+The server implements server/discover, tools/list, and tools/call. Discovery
+advertises only the tools capability. List and discovery results include the
+required resultType, ttlMs, cacheScope, and server identity fields. Stdout is
+reserved for one protocol message per line; startup and transport diagnostics
+go to stderr; closing stdin causes a clean exit.
+
+The single tool is codeskeptic.query_facts. Its arguments are kind, selector,
+and optional depth for neighborhood only. Successful calls return the
+codeskeptic.fact-query-result/v1 object as structuredContent and the same
+canonical JSON in a text content block. The tool is read-only, idempotent,
+closed-world, and non-destructive.
+
+Missing or unsupported protocol metadata, unknown methods/tools, and malformed
+RPC parameters return typed JSON-RPC/MCP errors. Selector ambiguity, missing
+symbols, wrong symbol kinds, unsupported query kinds, and invalid neighborhood
+depth are tool-visible isError results so an agent can correct the request.
+Neither path invents facts, resolves limitations, or promotes trust.
+
+The reviewed primary-source profile is frozen in
+research/mcp_fact_query_evidence.json. It records the official 2026-07-28
+changelog, schema, stdio, discovery, and tools pages used by the adapter.

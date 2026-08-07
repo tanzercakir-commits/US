@@ -1,0 +1,78 @@
+{
+  "implementation_profile": {
+    "cache_scope": "public",
+    "messages": [
+      "server/discover",
+      "tools/list",
+      "tools/call"
+    ],
+    "removed_messages": [
+      "initialize",
+      "notifications/initialized"
+    ],
+    "transport": "stdio",
+    "wire_encoding": "newline-delimited UTF-8 JSON-RPC 2.0"
+  },
+  "protocol_version": "2026-07-28",
+  "requirements": [
+    {
+      "id": "stateless",
+      "requirement": "Every request carries protocol version and client capabilities in params._meta; initialize is removed.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/changelog"
+    },
+    {
+      "id": "discovery",
+      "requirement": "Servers implement server/discover and return supported versions, capabilities, identity, resultType, ttlMs, and cacheScope.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/server/discover"
+    },
+    {
+      "id": "stdio",
+      "requirement": "Each UTF-8 JSON-RPC message occupies one newline-delimited stdio line; stdout contains only MCP messages and EOF is graceful shutdown.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio"
+    },
+    {
+      "id": "tool-list",
+      "requirement": "tools/list returns deterministic definitions plus resultType, ttlMs, and cacheScope.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+    },
+    {
+      "id": "tool-call",
+      "requirement": "Tool-originated errors use isError results, while unknown tools and exceptional protocol conditions use MCP errors.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+    },
+    {
+      "id": "structured-content",
+      "requirement": "Structured tool data is accompanied by serialized JSON in a TextContent block.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+    },
+    {
+      "id": "version-error",
+      "requirement": "Unsupported protocol versions return code -32022 with requested and supported version data.",
+      "source": "https://modelcontextprotocol.io/specification/2026-07-28/schema"
+    }
+  ],
+  "reviewed_on": "2026-08-07",
+  "schema": "codeskeptic.mcp-fact-query-evidence/v1",
+  "sources": [
+    {
+      "title": "MCP 2026-07-28 key changes",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog"
+    },
+    {
+      "title": "MCP 2026-07-28 discovery",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/discover"
+    },
+    {
+      "title": "MCP 2026-07-28 schema reference",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/schema"
+    },
+    {
+      "title": "MCP 2026-07-28 stdio transport",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio"
+    },
+    {
+      "title": "MCP 2026-07-28 tools",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+    }
+  ]
+}

@@ -1659,3 +1659,23 @@ Evidence: official MCP 2026-07-28 specification, changelog, stdio transport,
 discovery, tools, and schema pages reviewed on 2026-08-07; full suite baseline
 remains 433/433.
 Next: D2.2 (MCP fact-query endpoint).
+## 2026-08-07 - D2.2: MCP fact-query endpoint - DONE
++ Froze the official MCP 2026-07-28 stateless protocol profile from dated
+  primary specification evidence.
++ Added a dependency-free newline-delimited UTF-8 JSON-RPC stdio server with
+  required per-request metadata, server/discover, resultType, cache fields,
+  and server identity.
++ Exposed one deterministic read-only codeskeptic.query_facts tool over the
+  exact D2.1 who-calls, who-mutates, and neighborhood API.
++ Successful calls return matching canonical text and structured content;
+  limitations remain explicit facts and never become inference or proof.
++ Protocol, version, method, tool, parameter, query, malformed JSON, non-finite
+  JSON, invalid UTF-8, notification, stdout/stderr, and clean EOF paths are
+  deterministic and fail closed.
++ Tool discovery declares read-only, idempotent, closed-world, non-destructive
+  behavior and returns in stable order.
+- Legacy initialize, HTTP transports, sessions, model calls, fact extraction,
+  file mutation, proof promotion, and inferred relations are out of scope.
+Evidence: focused MCP tests -> 11/11; combined fact/MCP tests -> 52/52; full
+reference suite -> 444/444; commit: this stage commit.
+Next: D2.3 (compact fact-based context packs).

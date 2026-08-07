@@ -190,7 +190,14 @@ Query an exact symbol map with:
     python tools/query_facts.py fixtures/facts/expected/world.fact-index.json neighborhood pipeline --depth 2
 
 The [fact query reference](docs/fact_queries.md) defines exact selectors,
-ambiguity errors, caller/mutator evidence, graph edges, and CLI exit codes.
+ambiguity errors, caller/mutator evidence, graph edges, CLI exit codes, and the
+stateless MCP 2026-07-28 adapter. Start the read-only stdio endpoint with:
+
+    python tools/fact_mcp_server.py fixtures/facts/expected/world.fact-index.json
+
+Clients use server/discover, tools/list, and codeskeptic.query_facts; each
+request carries the current protocol version and client capabilities in
+params._meta.
 
 Reproduce the frozen fact corpus with:
 
