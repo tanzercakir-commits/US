@@ -333,6 +333,10 @@ Run or reproduce-check the exhaustive
     python tools/run_referee_search.py benchmarks/experiment_e2/corpus benchmarks/referee_search/candidates.json benchmarks/referee_search/report.json
     python tools/run_referee_search.py benchmarks/experiment_e2/corpus benchmarks/referee_search/candidates.json benchmarks/referee_search/report.json --check
 
+The memo-only [referee-as-reward design](docs/rlvf_design.md) specifies a
+fail-closed draft event contract and research boundaries; it implements no
+training or model integration.
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

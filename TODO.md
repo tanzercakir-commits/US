@@ -8,11 +8,13 @@
 
 ## Now (active stage)
 
-- [ ] **E5.1 - write the bounded referee-as-reward design memo**
+- [ ] **F1.0 - expand the benchmark corpus/trend stages**
 
 ## Next
 
-- [ ] **F1.0 - expand the benchmark corpus/trend stages**
+- [ ] **F1.1 - build the curated supported-subset benchmark corpus**
+- [ ] **F1.2 - add the benchmark runner and append-only result snapshots**
+- [ ] **F1.3 - add three-point trend tracking and a red regression gate**
 
 ## Blockers / open questions
 
@@ -21,5 +23,5 @@
 
 ## Last updated
 
-2026-08-07 - E5.0 froze a memo-only reward-event design boundary; no
-training, model, collector, optimizer, executable schema, or code is allowed.
+2026-08-07 - E5.1 completed the non-executable referee-as-reward memo;
+there is no dataset, training run, model comparison, or implementation.

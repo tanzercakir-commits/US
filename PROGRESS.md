@@ -2167,3 +2167,18 @@ Next: E5.0 - expand the memo-only RLVF stage before E5.1.
 + The immediately preceding E4.1 commit hook passed 624/624 tests.
 - No blockers.
 Next: E5.1 - author the bounded referee-as-reward design memo.
+## 2026-08-07 - E5.1: referee-as-reward design and data-schema memo - DONE
+
++ Added a non-executable research memo with an explicit AI/proposer versus
+  deterministic-referee trust boundary and fail-closed terminal state table.
++ Specified a draft content-addressed reward-event field contract and canonical
+  illustrative example without creating an executable schema or collector.
++ Defined immutable ancestry-grouped splits, full candidate accounting,
+  append-only raw events, deterministic derivation, replay, and audit queries.
++ Covered contract/unsupported/timeout/retry/leakage/verifier/provenance/privacy
+  reward-hacking threats, mitigations, incident handling, and open decisions.
+- No blockers. No RLVF dataset, training/model run, optimizer, service, measured
+  reward-learning result, or production recommendation exists.
+Evidence: full reference suite -> 624/624 in 335.750 s; no implementation/test
+files added; commit: this stage commit.
+Next: F1.0 - expand the benchmark corpus, runner, and trend gates.
