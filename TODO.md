@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **B4.2 - editor and SARIF consumer integration**
+- [ ] **C1.1 - offline AI contract proposal template**
 
 ## Next
 
-- [ ] **C1.1 - offline AI contract proposal template**
 - [ ] **C1.2 - proposal validation and acceptance workflow**
+- [ ] **C1.3 - human approval and accepted-intent flow**
 
 ## Blockers / open questions
 
@@ -22,6 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - B4.1 shipped the opt-in native semantic gate, exact-status debt
-baseline, deterministic console/SARIF reporting, and Action status outputs.
-CodeSkeptic is green at 908/908. Next is B4.2 SARIF consumer integration.
+2026-08-07 - B4.2 shipped stable semantic SARIF descriptors, logical
+fingerprints, gate/baseline metadata, replay navigation, and a pinned consumer
+contract. CodeSkeptic is green at 914/914. Next is C1.1 proposal templating.

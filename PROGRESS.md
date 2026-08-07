@@ -1277,3 +1277,25 @@ suite -> 908/908; real Z3 fixture -> verified=1, violated=1; deterministic
 console/SARIF -> byte-identical; production commit -> `88c1bed`; reference
 suite -> 314/314; commit: this reference-ledger commit.
 Next: B4.2 (SARIF editor and code-scanning consumer integration).
+
+## 2026-08-07 - B4.2: SARIF editor and code-scanning integration - DONE
++ Added stable semantic rule descriptors, versioned logical partial
+  fingerprints, and explicit baseline/gate metadata for all five statuses.
++ Kept verified, violated, unknown, unsupported, and solver-error results
+  distinct in standard SARIF level/kind fields and the semantic property bag.
++ Added navigable physical/logical locations and ordered replay code flows with
+  obligation fingerprints attached to every trace step.
++ Added a pinned five-status consumer contract covering relocation and line-shift
+  stability, semantic-change invalidation, trace navigation, and byte stability.
++ Extended the Action self-test to upload semantic SARIF and assert status,
+  fingerprint, and gate metadata; documented the supported consumer contract.
++ A real native-Z3 CLI fixture emitted two semantic records with two partial
+  fingerprints; repeated SARIF output was byte-identical.
++ Production grew from 908 to 914 tests and every test is green.
+- A hosted GitHub Action runner was unavailable locally; both Action YAML files
+  parse and the hosted workflow contains the required assertions and upload.
+Evidence: focused SARIF/result tests -> 17/17; full CodeSkeptic suite ->
+914/914; real CLI -> semantic=2, fingerprints=2, repeated bytes equal; full
+reference suite -> 314/314; production commit -> `25f5065`; commit: this
+reference-ledger commit.
+Next: C1.1 (offline AI contract proposal template).
