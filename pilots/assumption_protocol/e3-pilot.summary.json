@@ -1,0 +1,11 @@
+{
+  "contract": 0,
+  "declared": 6,
+  "manifest": "sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb",
+  "resolution": "sha256:a6ec42de611d78ed93f22a46b8ef1b683503ea2eaf075f4fed991613c4b4d085",
+  "resolved_checkable": 5,
+  "schema": "codeskeptic.assumption-pilot/v1",
+  "test": 5,
+  "test_command": "python -m unittest tests.test_assumption_pilot",
+  "uncheckable": 1
+}

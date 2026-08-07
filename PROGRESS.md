@@ -2071,3 +2071,19 @@ Next: E3.2 - run the repository-local declaration-before-code pilot.
 Resume after this commit by creating `pilots/assumption_protocol/e3-pilot.resolution.json`,
 `tools/run_assumption_pilot.py`, and `tests/test_assumption_pilot.py` without
 changing the declaration bytes or ID.
+
+## 2026-08-07 - E3.2: repository-local assumption pilot - DONE
+
++ Preserved declaration `sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb`
+  byte-for-byte after its separately committed declaration sub-gate.
++ Linked five checkable assumptions to exact test evidence hashes and anchors;
+  all five pass through the declared repository test command.
++ Retained external-model generalization as one evidence-free uncheckable row;
+  it never contributes to a verified or resolved-checkable claim.
++ Added deterministic closure summary/check execution, relocation and stale-
+  evidence negatives, and an honest bounded pilot report.
+- No blockers.
+Evidence: focused pilot tests -> 9/9; frozen pilot check -> 5 test, 1
+uncheckable; full reference suite -> 613/613 in 296.899 s; declaration commit
+`ad3667d` precedes this closure commit; commit: this stage commit.
+Next: E4.0 - expand the referee-guided search stage.

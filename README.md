@@ -322,6 +322,11 @@ with the [assumption protocol](docs/assumption_protocol.md):
 
     python tools/check_assumption_manifest.py manifest.json resolution.json --root .
 
+Reproduce-check the frozen E3 repository pilot and read its bounded
+[report](pilots/assumption_protocol/e3-pilot.report.md):
+
+    python tools/run_assumption_pilot.py pilots/assumption_protocol/e3-pilot.manifest.json pilots/assumption_protocol/e3-pilot.resolution.json --root . --check pilots/assumption_protocol/e3-pilot.summary.json
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

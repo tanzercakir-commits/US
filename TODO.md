@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **E3.2 - run the repository-local assumption pilot**
+- [ ] **E4.0 - expand the referee-guided search stage**
 
 ## Next
 
-- [ ] **E4.0 - expand the referee-guided search stage**
 - [ ] **E4.1 - implement and measure Best-of-N search**
+- [ ] **E5.1 - write the RLVF design/data-schema note**
 
 ## Blockers / open questions
 
@@ -22,6 +22,5 @@
 
 ## Last updated
 
-2026-08-07 - E3.2 declaration sub-gate froze six assumptions at manifest
-`sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb`.
-Resolution, pilot tool, and pilot evidence tests intentionally do not yet exist.
+2026-08-07 - E3.2 closure retained the declaration identity, resolved five
+checkable assumptions, and preserved one honest uncheckable boundary.
