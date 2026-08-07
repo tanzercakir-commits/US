@@ -1,0 +1,1 @@
+contract-first error: implementation verification violated: postcondition: violated: deterministic search found and replayed a concrete model; minimized from 1 to 1 bindings

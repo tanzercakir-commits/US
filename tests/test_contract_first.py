@@ -21,6 +21,8 @@ from semantic_verifier.model import VerificationResult, VerificationStatus
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "fixtures" / "contract_first"
 MANIFEST = FIXTURE / "task.json"
+PILOT = ROOT / "pilots" / "contract_first" / "guarded_absolute"
+PILOT_MANIFEST = PILOT / "task.json"
 
 
 class StatusBackend(CheckerBackend):
@@ -177,6 +179,54 @@ class ContractFirstWorkflowTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("run matches", completed.stdout)
+
+    def test_guarded_absolute_pilot_matches_golden_repeatedly(self):
+        first = run_contract_first(PILOT_MANIFEST)
+        second = run_contract_first(PILOT_MANIFEST)
+        expected = (PILOT / "expected.run.json").read_text(encoding="utf-8")
+        self.assertEqual(first.to_json(), second.to_json())
+        self.assertEqual(first.to_json(), expected)
+        self.assertEqual(first.verification_summary, {
+            "solver_error": 0,
+            "unknown": 0,
+            "unsupported": 0,
+            "verified": 6,
+            "violated": 0,
+        })
+
+    def test_guarded_absolute_approval_records_the_human_edit(self):
+        proposed = (PILOT / "proposed.cpp").read_text(encoding="utf-8")
+        accepted = (PILOT / "accepted.cpp").read_text(encoding="utf-8")
+        implemented = (PILOT / "implemented.cpp").read_text(encoding="utf-8")
+        self.assertIn("cs: ai requires value > -2147483648", proposed)
+        self.assertIn("cs: requires value != -2147483648", accepted)
+        self.assertNotIn("cs: ai", accepted)
+        accepted_contracts = [
+            line for line in accepted.splitlines() if line.startswith("// cs:")
+        ]
+        implementation_contracts = [
+            line for line in implemented.splitlines() if line.startswith("// cs:")
+        ]
+        self.assertEqual(implementation_contracts, accepted_contracts)
+
+    def test_guarded_absolute_seeded_mismatch_fails_deterministically(self):
+        manifest = PILOT / "mismatch.task.json"
+        expected = (PILOT / "expected.mismatch.txt").read_text(
+            encoding="utf-8"
+        ).strip()
+        messages = []
+        for _ in range(2):
+            with self.assertRaises(ContractFirstInputError) as raised:
+                run_contract_first(manifest)
+            messages.append(f"contract-first error: {raised.exception}")
+        self.assertEqual(messages, [expected, expected])
+
+    def test_guarded_absolute_comparison_states_scope_and_tradeoff(self):
+        comparison = (PILOT / "comparison.md").read_text(encoding="utf-8")
+        self.assertIn("does not claim", comparison)
+        self.assertIn("implementation-first", comparison)
+        self.assertIn("six verified obligations", comparison)
+        self.assertIn("postcondition violation", comparison)
 
 
 if __name__ == "__main__":

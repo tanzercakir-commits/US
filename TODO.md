@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C2.2 - contract-first pilot on the verifier project**
+- [ ] **C3.0 - research and expand the C++26 contracts bridge**
 
 ## Next
 
-- [ ] **C3.0 - research the C++26 contracts bridge**
 - [ ] **C3.1 - accept standard syntax when compiler support matures**
+- [ ] **C4.0 - expand the enforcement ladder**
 
 ## Blockers / open questions
 
@@ -22,6 +22,7 @@
 
 ## Last updated
 
-2026-08-07 - C2.1 shipped the content-addressed contract-first task template,
-workflow checker, negative transition matrix, and a 3/3-verified end-to-end
-run. The reference suite is green at 347/347. Next is the C2.2 project pilot.
+2026-08-07 - C2.2 shipped the guarded-absolute contract-first pilot. The
+ordinary referee verifies 6/6 obligations, the seeded mismatch deterministically
+fails by replayed postcondition violation, and the full suite is green at
+351/351. Next is the C3.0 C++26 contracts research and rolling-wave expansion.

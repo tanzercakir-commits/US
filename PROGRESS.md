@@ -1387,3 +1387,24 @@ negative matrix -> fail-closed; frozen workflow -> verified=3, all other
 statuses=0; repeated/golden bytes -> equal; full reference suite -> 347/347;
 commit: this stage commit.
 Next: C2.2 (contract-first pilot on the verifier project).
+## 2026-08-07 - C2.2: contract-first verifier pilot - DONE
++ Applied the C2.1 workflow to an already-supported signed-i32
+  `guarded_absolute_value` verification increment without checker changes.
++ Started with prose and `cs: ai` proposals; human approval changed the
+  INT_MIN boundary from `value > -2147483648` to the clearer
+  `value != -2147483648` before any implementation artifact was recorded.
++ The marker-free accepted contracts were copied exactly into the implementation.
+  The ordinary referee produced verified=6 and zero in every other status.
++ A seeded implementation that returns negative inputs unchanged deterministically
+  fails with a replayed postcondition violation; two runs emitted the same error.
++ The frozen successful workflow report is byte-identical across repeated runs.
++ Compared with the earlier implementation-first process, the pilot adds an
+  explicit prose/proposal/approval/run evidence chain and catches contract/code
+  drift at a named transition, at the cost of three reviewed artifacts plus a
+  manifest and frozen report.
+- This pilot does not claim that historical A stages used contract-first, prove
+  real-world reviewer identity, or establish prose correctness.
+Evidence: focused contract-first tests -> 13/13; successful pilot -> verified=6,
+all other statuses=0; seeded mismatch -> deterministic replayed postcondition
+violation and exit=2; full reference suite -> 351/351; commit: this stage commit.
+Next: C3.0 (research and expand the C++26 contracts bridge).

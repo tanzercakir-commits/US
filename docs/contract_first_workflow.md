@@ -93,3 +93,22 @@ three artifacts, accepted contract set, four transitions, and final verifier
 report. It establishes artifact order and consistency, not real-world reviewer
 identity or the correctness of the prose itself. Those remain human inputs. The
 AI never becomes the referee.
+## C2.2 verifier pilot
+
+The committed `guarded_absolute_value` pilot applies the workflow to an
+already-supported A-style signed-i32 increment. During approval, the proposed
+`value > INT_MIN` precondition was deliberately rewritten as the clearer
+`value != INT_MIN` boundary before implementation. The correct implementation
+produces six verified obligations and zero results in every other status.
+
+```powershell
+python tools/contract_first_workflow.py `
+  --manifest pilots/contract_first/guarded_absolute/task.json `
+  --check pilots/contract_first/guarded_absolute/expected.run.json
+```
+
+`mismatch.task.json` keeps the accepted contracts but points at a seeded
+implementation that returns negative values unchanged. It deterministically
+fails with a replayed postcondition violation and exit `2`. The accompanying
+comparison records the added evidence and artifact cost without claiming that
+earlier implementation-first stages used this workflow.

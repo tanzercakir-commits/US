@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 347 deterministic tests. The separately cloned
+The current suite contains 351 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -137,6 +137,10 @@ python tools/contract_first_workflow.py `
 The [contract-first workflow](docs/contract_first_workflow.md) and
 [task template](templates/contract_first_task.md) define the content-addressed
 transition and human/referee trust boundaries.
+
+The [guarded absolute pilot](pilots/contract_first/guarded_absolute/comparison.md)
+applies that workflow to a verifier increment and freezes both the six-obligation
+success report and a deterministic seeded-mismatch failure.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The
