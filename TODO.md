@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **B4.1 - CI semantic-verification gate mode**
+- [ ] **B4.2 - editor and SARIF consumer integration**
 
 ## Next
 
-- [ ] **B4.2 - editor and SARIF consumer integration**
 - [ ] **C1.1 - offline AI contract proposal template**
 - [ ] **C1.2 - proposal validation and acceptance workflow**
 
@@ -23,7 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - B4.0 expanded the CI/adoption path into an opt-in semantic gate
-with a separate deterministic baseline and a stable SARIF consumer stage.
-CodeSkeptic remains green at 884/884 and the reference suite at 314/314. Next
-is B4.1 implementation.
+2026-08-07 - B4.1 shipped the opt-in native semantic gate, exact-status debt
+baseline, deterministic console/SARIF reporting, and Action status outputs.
+CodeSkeptic is green at 908/908. Next is B4.2 SARIF consumer integration.

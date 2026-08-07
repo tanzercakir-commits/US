@@ -1254,3 +1254,26 @@ Evidence: production commit `628c9d6` -> 884/884; reference suite -> 314/314;
 expanded B4 stage contracts and exact file sets -> present; commit: this
 planning commit.
 Next: B4.1 (opt-in semantic-verification CI gate).
+
+## 2026-08-07 - B4.1: opt-in semantic-verification CI gate - DONE
++ Added explicit CLI/config enablement with report, violations, and complete
+  gate modes while preserving every legacy invocation by default.
++ Added a deterministic v1 semantic-debt baseline keyed by logical obligation
+  SHA-256 plus exact status; matching changes only the gate and never hides a
+  result, while solver errors and worsened statuses always resurface.
++ Added fail-closed exit precedence, five-status deterministic console output,
+  strict JSON/HTML rejection, and normal-CLI native referee wiring.
++ Added Action inputs and five status-count outputs plus a hosted self-test
+  fixture that installs the external Z3 referee and exercises report-only
+  adoption with a raw violation exit.
++ The real native-Z3 fixture produced one verified and one replayed violated
+  obligation; report=0, violations=1, baseline write=0, baselined gate=0, and
+  missing baseline=3. Repeated console and SARIF bytes matched.
++ Production grew from 884 to 908 tests and every test is green.
+- A hosted Action runner was unavailable locally; both Action YAML files parse
+  and the workflow now pins the expected status-count assertions when hosted.
+Evidence: focused config/gate/baseline/summary tests -> 26/26; full CodeSkeptic
+suite -> 908/908; real Z3 fixture -> verified=1, violated=1; deterministic
+console/SARIF -> byte-identical; production commit -> `88c1bed`; reference
+suite -> 314/314; commit: this reference-ledger commit.
+Next: B4.2 (SARIF editor and code-scanning consumer integration).
