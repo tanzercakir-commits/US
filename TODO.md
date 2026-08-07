@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **E5.0 - expand the RLVF memo stage before authoring the memo**
+- [ ] **E5.1 - write the bounded referee-as-reward design memo**
 
 ## Next
 
-- [ ] **E5.1 - write the RLVF design/data-schema note**
+- [ ] **F1.0 - expand the benchmark corpus/trend stages**
 
 ## Blockers / open questions
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - E4.1 verified all 80 candidates: single-shot 4/20,
-Best-of-4 18/20, exact absolute uplift 7/10, bounded proxy only.
+2026-08-07 - E5.0 froze a memo-only reward-event design boundary; no
+training, model, collector, optimizer, executable schema, or code is allowed.

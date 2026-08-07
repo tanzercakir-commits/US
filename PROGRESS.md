@@ -2156,3 +2156,14 @@ Next: E4.1 - implement and measure exhaustive Best-of-4 search.
 Evidence: focused search tests -> 11/11; frozen generate/check -> exact, 80/80;
 full reference suite -> 624/624 in 302.480 s; commit: this stage commit.
 Next: E5.0 - expand the memo-only RLVF stage before E5.1.
+## 2026-08-07 - E5.0: bounded RLVF memo expansion - DONE
+
++ Replaced the coarse RLVF bullet with a memo-only design contract covering
+  categorical eligibility, immutable provenance/splits, and raw event audit.
++ Froze null reward for unknown/unsupported/error/partial/stale/unreplayed
+  evidence and retained the ordinary referee as the only acceptance authority.
++ Required selection-bias and reward-hacking threats, replay/audit rules,
+  limitations, and unresolved decisions without any claimed training result.
++ The immediately preceding E4.1 commit hook passed 624/624 tests.
+- No blockers.
+Next: E5.1 - author the bounded referee-as-reward design memo.

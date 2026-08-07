@@ -2127,7 +2127,60 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase E5 — RLVF design note (far; MEMO ONLY, no implementation)
 
-- E5.1 — Design/data-schema note on using the referee as a reward signal
+#### E5.0 — Bounded RLVF memo expansion
+
+- Goal: replace the coarse RLVF bullet with a reviewable design-note contract
+  while preserving the no-implementation boundary.
+- Output: detailed E5.1 contract in PLAN.md plus PROGRESS.md and TODO.md.
+- Exact file set: PLAN.md; PROGRESS.md; TODO.md.
+- Boundaries: planning only. Define categorical referee eligibility, a draft
+  reward-event data contract, immutable provenance/splits, append-only raw
+  evidence, anti-Goodhart controls, and explicit unresolved research questions.
+  Verified may be proposed as positive reward only after complete ordinary
+  referee acceptance; violated may be non-positive; unknown, unsupported,
+  solver/checker error, malformed, stale, contract-changing, or unreplayed
+  evidence is ineligible with null reward. No Python/C++, executable schema,
+  training loop, model/API call, optimizer, collector, dependency, benchmark
+  claim, or implementation artifact.
+- DoD: E5.1 declares Goal/Output/exact file set/Boundaries/DoD/Depends; the memo
+  must separate normative design from measured evidence, include a threat model
+  and fail-closed reward state machine, and state that no training result exists;
+  the immediately preceding full suite is green; ledger/TODO updated; stage
+  commit succeeds.
+- Depends: E4.1.
+
+#### E5.1 — Referee-as-reward design and data-schema memo
+
+- Goal: specify how a future research system could record deterministic referee
+  outcomes as a bounded reward signal without making the AI the referee or
+  promoting incomplete evidence.
+- Output: one English memo with a draft reward-event field table/example,
+  categorical eligibility/reward state machine, immutable dataset and split
+  protocol, candidate sampling/accounting rules, threat model, audit/replay
+  requirements, limitations, and open questions; README link.
+- Exact file set: docs/rlvf_design.md; README.md; PROGRESS.md; TODO.md.
+- Boundaries: memo only. The draft event records schema/version, content identity,
+  dataset/split/sample/candidate/proposal/source/config/referee identities,
+  complete sorted obligation statuses, replay evidence, eligibility, null-or-
+  rational reward, rejection reason, and immutable provenance. Positive reward
+  requires complete `verified` target evidence, preserved contracts, and any
+  counterexample/replay gates required by the ordinary referee. `violated` is
+  non-positive; `unknown`, `unsupported`, solver/checker error, malformed,
+  missing, stale, leaked, contract-changing, partial, or unreplayed evidence is
+  ineligible and reward null. Raw events are append-only; derived aggregates do
+  not rewrite them. Splits group related source/function identities before
+  sampling; all proposed candidates are retained to avoid success-only and
+  early-stop bias. No executable schema, code, test, fixture, training run,
+  model/service call, optimizer, reward shaping claim, dependency, production
+  recommendation, or claim of model improvement/consciousness/causality.
+- DoD: memo contains purpose/non-goals, trust boundary, draft event field table
+  and canonical example, state diagram/table covering every admitted terminal
+  class, exact identity/determinism/replay rules, split/leakage/selection-bias
+  protocol, anti-reward-hacking threat model with mitigations, retention/privacy
+  considerations, audit queries, failure handling, limitations and unresolved
+  decisions; README links it; no implementation files exist; full suite passes;
+  ledger/TODO updated; stage commit succeeds.
+- Depends: E5.0, E4.1, E3.1.
 
 ---
 
