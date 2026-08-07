@@ -327,6 +327,12 @@ Reproduce-check the frozen E3 repository pilot and read its bounded
 
     python tools/run_assumption_pilot.py pilots/assumption_protocol/e3-pilot.manifest.json pilots/assumption_protocol/e3-pilot.resolution.json --root . --validation-root pilots/assumption_protocol/archive --check pilots/assumption_protocol/e3-pilot.summary.json
 
+Run or reproduce-check the exhaustive
+[Best-of-4 calibration](docs/referee_guided_search.md):
+
+    python tools/run_referee_search.py benchmarks/experiment_e2/corpus benchmarks/referee_search/candidates.json benchmarks/referee_search/report.json
+    python tools/run_referee_search.py benchmarks/experiment_e2/corpus benchmarks/referee_search/candidates.json benchmarks/referee_search/report.json --check
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

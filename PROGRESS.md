@@ -2139,3 +2139,20 @@ Next: resume E4.0 and commit the already-authored search expansion.
 - No blockers.
 Evidence: E3.3 full suite and commit hook -> 613/613; commit: this stage commit.
 Next: E4.1 - implement and measure exhaustive Best-of-4 search.
+## 2026-08-07 - E4.1: exhaustive Best-of-N referee search calibration - DONE
+
++ Added content-addressed twenty-case/four-candidate artifacts with eighty unique
+  original-source proposals and explicit oracle-seeded scripted provenance.
++ Evaluated all eighty candidates in one deterministic referee batch, including
+  every rank after an earlier success; no early stop or sequential mutation.
++ Selected only the lowest-rank completely verified candidate: rank-1
+  single-shot succeeded 4/20 and exhaustive Best-of-4 succeeded 18/20.
++ Exact absolute uplift is 7/10 and passes the predeclared 2/5 threshold.
++ Added strict loaders/schemas, relocation/repetition, linkage, contract/no-op,
+  incomplete/false-selection/status-promotion/arithmetic/JSON/CLI negatives,
+  and an honest proxy-only report.
+- No blockers. The result is not model output and establishes no model search
+  uplift, general behavior, consciousness, or causality.
+Evidence: focused search tests -> 11/11; frozen generate/check -> exact, 80/80;
+full reference suite -> 624/624 in 302.480 s; commit: this stage commit.
+Next: E5.0 - expand the memo-only RLVF stage before E5.1.

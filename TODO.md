@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- [ ] **E4.1 - implement and measure exhaustive Best-of-4 search**
+- [ ] **E5.0 - expand the RLVF memo stage before authoring the memo**
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - E4.0 resumed after E3.3 and froze the full Best-of-4
-calibration contract without changing its predeclared threshold.
+2026-08-07 - E4.1 verified all 80 candidates: single-shot 4/20,
+Best-of-4 18/20, exact absolute uplift 7/10, bounded proxy only.

@@ -1,0 +1,2227 @@
+{
+  "arms": {
+    "best_of_n": {
+      "rate": {
+        "denominator": 10,
+        "numerator": 9
+      },
+      "successes": 18,
+      "total": 20
+    },
+    "single_shot": {
+      "rate": {
+        "denominator": 5,
+        "numerator": 1
+      },
+      "successes": 4,
+      "total": 20
+    }
+  },
+  "candidates": "sha256:6590d5ee03e357f23dcc6ff24aaca49d6c3c804c7a8c718dfbf53add5c6e29d6",
+  "cases": [
+    {
+      "case": "e2-case-01",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:7b47e046b5c1c1966ec816fabb8baf3ed8645e77043c0a90ebc791fba47c5f44",
+          "proposal": "sha256:75eb2e303d1582fa718b3bff54dd41f805f302a4187e78e5b8e766aeb575d5ce",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00001",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00002",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00003",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00004",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:eb082ea45454475eb1b714d71b7f1f27980366ae0ebf64825c5c9fb3ed85eb4e"
+        },
+        {
+          "candidate_source_sha256": "sha256:a63005f4281097bb4d75fb69eb872be029faf77ed51c2e744f2361184adc83ac",
+          "proposal": "sha256:fbce12b22d857a4b7147b9f88a2db2009fc6f09d7939a32d50f3154a3678d7f0",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00005",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00006",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00007",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:1111b984dfd637cb9b1f8fde0e033704845ad0c714485caa3697ab443844564b"
+        },
+        {
+          "candidate_source_sha256": "sha256:36ce653d45028c29759a7646baa2559c43c4eac289aed80d3dbfb119fac0b925",
+          "proposal": "sha256:2e91a71f66c04341717577351952e40d63e3176e83ac6b3c86e1c503cc13a9cf",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00008",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00009",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00010",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:b6997b93218e4b878d0d078f343b5fce3ea80a4e978d01f915483a3d7c695118"
+        },
+        {
+          "candidate_source_sha256": "sha256:bf9483f34b0176b72f33d088861f8d4842b4be1cbe5dbd82928acfd5dec54caa",
+          "proposal": "sha256:61dc07efc52a6086fa059096e9d08352bbae1b141fae82eac61a8087067d9657",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00011",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00012",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00013",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:488c7aca940499a2c03e0541eae4a1b191cb2e5c68055456edae1b8dbfbeb445"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:75eb2e303d1582fa718b3bff54dd41f805f302a4187e78e5b8e766aeb575d5ce",
+        "rank": 1
+      },
+      "single_shot_verified": true
+    },
+    {
+      "case": "e2-case-02",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:5f2c30bf7e74391d4b938f893823b1f710ce96a718c4efccb4b19f93b91d8683",
+          "proposal": "sha256:bfd3a436223f5fea65171a87e6b956f871298deb4cd36c5377f1a37aa5a0d58b",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00014",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00015",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00016",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:ef3d733af9846573e2c39cb5bd420792cb40ff539ab5fe78a7ef888a0c007125"
+        },
+        {
+          "candidate_source_sha256": "sha256:c623ce4c9a9129f28e4dae08c1efa5eb3710b77cbb33e3ebfa530da608e1fdd9",
+          "proposal": "sha256:32c01b16620cc34658166f1b7b9e7071cc72bb063a661bcf7955434c95309f61",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00017",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00018",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00019",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:41884f5acc79044516f0c61b0292e18f168322e5bcb5d8b231e08e68a0468def"
+        },
+        {
+          "candidate_source_sha256": "sha256:add319ecf423baa235c38916f7f8a57ad07ba17ae9790b3eb39828e401c3c9cd",
+          "proposal": "sha256:64ac714a553f71ce5d4dd0a36f055a79b940585b063e80663cbb046ba22587e1",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00020",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00021",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00022",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:f4c73b27a54204effd4a3e35b40eab07d24a193d47484c2f7a9f36252e0c5f37"
+        },
+        {
+          "candidate_source_sha256": "sha256:014853c5af193b04eef14056cd333332ad3814d55088d66a155480d0a6c30460",
+          "proposal": "sha256:e0476d506425e4867ac8c74c72b71544f780952a9bc466040448350942771f96",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00023",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00024",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00025",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:46249f4f46747f2f9bcaa6698b0efa6d169079a694f65233c7609117c5caf8a9"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:bfd3a436223f5fea65171a87e6b956f871298deb4cd36c5377f1a37aa5a0d58b",
+        "rank": 1
+      },
+      "single_shot_verified": true
+    },
+    {
+      "case": "e2-case-03",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:93070887a719a06beee06b2787e2a0d56f3519d7304194bad3c21741ed36569e",
+          "proposal": "sha256:4fcfb1941328d8fde2ae92e8cb05231733e145675f1f2ee89691442bcf20a6fd",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00026",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00027",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00028",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00029",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:d6a71c879ca2cd1e63745db96547b99f949f6287e44bad5721a2f4a8be2df95b"
+        },
+        {
+          "candidate_source_sha256": "sha256:407d75839e34d062b04a939e22ed1d0bb0d510a91dd48e6010ae7f488956960d",
+          "proposal": "sha256:8be732fbb02fca28e8dbdfcda54dd1696a1bed323c89f9aa7de3fffc095d8d68",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00030",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00031",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00032",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:34e93dba9a29f0e56f2492157d0dd1873c1d458efb084139d8fd2023dbb541ef"
+        },
+        {
+          "candidate_source_sha256": "sha256:af230738e9feae4f3895fe0f696ef65d9e1fb4aa57cc25b366f4d06fa47226eb",
+          "proposal": "sha256:f48e34d376d54f9c590349b673381487a67bd0266fd8d6a60b3d2a7272b8c148",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00033",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00034",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00035",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:ad65141ee0d366a388df467dd1dc200a2a960bcedfb6fccc321ce467c498cd76"
+        },
+        {
+          "candidate_source_sha256": "sha256:69d1f1290b30a87a7af46777dcc9c9869f6b3a69a9026f5e678187e5410c66d5",
+          "proposal": "sha256:0e8c32d7be081f9c17731296017b164e40ba5219b561e304d2b1b9eba8f42b36",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00036",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00037",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00038",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:eea76d466f147a5f52dc1f1df2e6d97f4c89f301a27fcaba4ca7b4fcf77ce37b"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:4fcfb1941328d8fde2ae92e8cb05231733e145675f1f2ee89691442bcf20a6fd",
+        "rank": 1
+      },
+      "single_shot_verified": true
+    },
+    {
+      "case": "e2-case-04",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:b224bb4ccfaca0552a743598ae45c2d5ecd74ce57e66816ad9663f05ef65c357",
+          "proposal": "sha256:92639e4b76def8cb4d74e5c58336fab6b3bbc129dd5a249be98acd04fc871a35",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00039",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00040",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00041",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00042",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:ecf74487d207e4d753ad485c0028c785f85852edef3c63f8d304fb16bd03aed3"
+        },
+        {
+          "candidate_source_sha256": "sha256:43d7a86572b97b0a13d4889230b13c75fef6f9abb08c594d44ffd262c82b7e5b",
+          "proposal": "sha256:735b7524b2bf651961372638932839d6447bd4be2d2a2597edbf0df07f1c5824",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00043",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00044",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00045",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:01de1024e6b518e28406abf4ad518ca04d25c9ef864e86217d05dca0276fdbdd"
+        },
+        {
+          "candidate_source_sha256": "sha256:e534945ba79620525abe05889c2920cb579e2aa3a6ed992904d928f666beeb21",
+          "proposal": "sha256:cad69dc054df83f6e0831efb967e649c05170bf9debd84d609210cda4ba6cefb",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00046",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00047",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00048",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:b2d22bfe995845218c6368fdebe88ac903380dd7d6b7070f56a3dd8f8601e2f2"
+        },
+        {
+          "candidate_source_sha256": "sha256:53fdf20f71948435b4997176f956395420138523fbe490a8734f1cc6f0a5fe6a",
+          "proposal": "sha256:3d91fa0a079494144b9861e09446647037ad993102cbd4959d97a727a2e62e6b",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00049",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00050",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00051",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:e176380d25e5732d51520fee2e10a947b4273bcfab3d1a8d5032a97dad38afee"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:92639e4b76def8cb4d74e5c58336fab6b3bbc129dd5a249be98acd04fc871a35",
+        "rank": 1
+      },
+      "single_shot_verified": true
+    },
+    {
+      "case": "e2-case-05",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:3211177de03d90299a2400250bbaf51bb58e6b5c37846f237deebab4dd9435dd",
+          "proposal": "sha256:cb10ad0a2e28470ea22c200fbecbe68a905946b3cc7d5068861dd22a001feb0f",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00052",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00053",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00054",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:a4807c5048dbae11e8ada425003c3f42d753d555f0a335338938d583d3cbfa26"
+        },
+        {
+          "candidate_source_sha256": "sha256:f38e057d561ae1bb3305d6ad86c9f18340d60bd905b212b9508e6ac5b4abd203",
+          "proposal": "sha256:0bd61b180a38458162ad93eb7272eb11957ea7840ed85e73b93a05e2ad1e41d4",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00055",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00056",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00057",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00058",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:b61da1c4d303f0f233d2c3875ee8e85d27ed7709d0f5c0fbc17455ca8a7012c7"
+        },
+        {
+          "candidate_source_sha256": "sha256:29cf45789c81561353f2c8eba4a720dc7f4b3f0e6a49b5055724f078e8b4d8d7",
+          "proposal": "sha256:25459fdb67d9a8d520fcaee25900918e4801dbde5def4ce143d50c1dae05b903",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00059",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00060",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00061",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:ceafdf0ba740d194527a86e25a015b238a5aea832d3682374e94afb47ffc7bfa"
+        },
+        {
+          "candidate_source_sha256": "sha256:27eb3aff391cc1a316d5ddfeaf4d7d6982d9edcbed5a7763368b5c0e5cac2db9",
+          "proposal": "sha256:350a03a6b86f1b518af5087b6e447135a0756c6891b45526485dadaf52d92b81",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00062",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00063",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00064",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:1ce928bc4a87a2c028f4dec29b9e7994fe06796d5dc2d4ed60c9e5eefba666ce"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:0bd61b180a38458162ad93eb7272eb11957ea7840ed85e73b93a05e2ad1e41d4",
+        "rank": 2
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-06",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:aa67f438895a99c40ea811307f6ee7232e3479f9c102868a4345c220b5517abb",
+          "proposal": "sha256:60219157962bce593e60bf3a9decdf13b4894e3774977ad0c57e56dba6aba7e1",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00065",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00066",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00067",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:7bbe714c896c8d84d4f06d6911ac3b1b64cffb62fb7202557f9712d2d6d7c69a"
+        },
+        {
+          "candidate_source_sha256": "sha256:51189b7c85b8f295a4b45f733130bd87dc6ff347d0b1632d5b3d9bc3bf68ad35",
+          "proposal": "sha256:dc4cc89189fc209829a3e2ae7cf179cd61613e8604a2dd1b0ba20a1e0a3ecb7d",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00068",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00069",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00070",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00071",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:c30272d5b7b7337a484069564222c537c8553efa248d09ff11e1902c069adb36"
+        },
+        {
+          "candidate_source_sha256": "sha256:99ea63c5a8335409554f63602fbf7960f358fe2f5e6ca42299bbc06b9b743b7a",
+          "proposal": "sha256:3e56ec12e615394d1e1d36836632efabf4dba7a6231d842685793067e35db2eb",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00072",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00073",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00074",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:53c07d9f55f901d926ef0c700368f7edd64c59ff4dc00bddf058bc6a3bf3ef5f"
+        },
+        {
+          "candidate_source_sha256": "sha256:7df4be96eb846e225cc4c289e333409ef5a9a8f85f9e171ed3f72333d8ae4be8",
+          "proposal": "sha256:682a058fc06927b8f8cfb8fe77fb83ca6e86ed21d2adeeb213ea26cf756f3bc4",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00075",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00076",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00077",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:712eb49b7bf1748a3490ca8667ca50ae66fcd62669b88b380a381c2175cfbda0"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:dc4cc89189fc209829a3e2ae7cf179cd61613e8604a2dd1b0ba20a1e0a3ecb7d",
+        "rank": 2
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-07",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:9010566c593eaf097aa7c9b94def393103003bc6be2186477532497bf008ee60",
+          "proposal": "sha256:0215581fbcaa148aca8e1e9e60c44c0e2299a4776b676a2bd55ab81e4e16d1d4",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00078",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00079",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00080",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:acb6cb8db21dc4897f76fb224419a3214719882b742adc9586dceee28d39e86a"
+        },
+        {
+          "candidate_source_sha256": "sha256:d6d6970e1bd376b98bda5ccc158bcdae131290e0db5f494bb219eb408d46e7a4",
+          "proposal": "sha256:dd2337d2e34cb105f7ec19c3422f347405d4404f703a7aa68cba6499c3a36356",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00081",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00082",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00083",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:36bb40853d1021ef6c0e5f2c15be3394396913ade50beeb8d6c8a2bb78588f5c"
+        },
+        {
+          "candidate_source_sha256": "sha256:5f024bb95aec84d297ea4de6a2fa999ce5837e1a407000670735789366650b93",
+          "proposal": "sha256:88feacf82f50720a547743760b566e233682c3239eaa6371adfffd1071e0f8ba",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00084",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00085",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00086",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:7283f694445066d525a0ccd7e15672ba91de7cee40fb2a430352dc4450d8d427"
+        },
+        {
+          "candidate_source_sha256": "sha256:25ce7e04b91d0b05ae7596f63e6c56e004837e88b5b36d16951f6c894ba817d0",
+          "proposal": "sha256:a82298226da6c192ace25dbb6c5495da992d2258c79f4e9dd69f4dfc766ed90a",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00087",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00088",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00089",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:0295f9fc19319a6c62d05933d4046ed339831ddb81350bc03e2d172612787497"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:dd2337d2e34cb105f7ec19c3422f347405d4404f703a7aa68cba6499c3a36356",
+        "rank": 2
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-08",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:655c37005a32830e5b9c74e615b8f9cbb63d2b62fd62740707a46e0fbbe72b4d",
+          "proposal": "sha256:f86d492cdad77db94a615029e5dac4559bab88529db1ba63af23506e628541cd",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00090",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00091",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00092",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:3561814bd464ea1743ffac63277b1908bcd1c1befd44470afb68c34c5f2009c2"
+        },
+        {
+          "candidate_source_sha256": "sha256:a529378f08cf4e7bd53c18a482d6eedf16377d221f592647ca9feec3f9956636",
+          "proposal": "sha256:06d2847b8405d12314f06b93d1faaa64981de57bd7a129d0a2774ffeb27b7969",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00093",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00094",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00095",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00096",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:50595f55f413b406ddc1b65dd170975ee4040b1cc7973c015b5ee650600a93fc"
+        },
+        {
+          "candidate_source_sha256": "sha256:22d49d91b35c6676e2230b36ca4d97d6cb890251d9167c053a5ee02135ece743",
+          "proposal": "sha256:61e1a9350b2549d55723a4e763a031d7130fea24437d9d0af7f0fa0a00aaca52",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00097",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00098",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00099",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:2c6e0a2ffc1ce50a746fe9911381d2a126b4f0b5a8e15be53413f26022bce826"
+        },
+        {
+          "candidate_source_sha256": "sha256:63aa530414a6440ca717cfe38f120e8ccea81114eb769b1f7c637ea18456038e",
+          "proposal": "sha256:9defb9a679cb6aa35983584079148981afc0afed1b81b37ca6d7855403cbda2d",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00100",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00101",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00102",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:cade4f576c30f1025a427a875d818c1060adb093c0f747d3962f2a111ba870e4"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:06d2847b8405d12314f06b93d1faaa64981de57bd7a129d0a2774ffeb27b7969",
+        "rank": 2
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-09",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:68fc0ee9707a23f885c0416b28b71780ec63cb76428ab38c056214fd6f4066b5",
+          "proposal": "sha256:3f4a9ac83af1bf93006db547db35a9b5b17dad028b1158a844591c6ba1d46429",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00103",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00104",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00105",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:e91ec3bebe31ab4521a218a0cd5e33ecb93b7cbdb80edf17504d70ac576ff42c"
+        },
+        {
+          "candidate_source_sha256": "sha256:dc233f08fc7b61fd3c42648df8e02d42e817bd62745e7eca8c9371beeab4e1e8",
+          "proposal": "sha256:13974cc0b74d072318072b7c4f55b2419b78df1a9b6833b95d461b7616987e29",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00106",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00107",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00108",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00109",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:c008305e614b51168121865470da6f0b2dfa6df301c14a4daf31dbd1dc59f82a"
+        },
+        {
+          "candidate_source_sha256": "sha256:5e313c8f4ac343b1062b1f2ce7c5836af2d82c0e9131375b9fbcb8db2274f66d",
+          "proposal": "sha256:bb260437842e1b14ae3355358df9cb0423f46e714a9160d5b626797dcae40d97",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00110",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00111",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00112",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:0a2d0e35db8616f8856113303fce9ea1fce9c20b468de122fd1a7be465d286c7"
+        },
+        {
+          "candidate_source_sha256": "sha256:2fa1ca37524c3de78676a9e39afaf14f862969c1266c51c5309a3534f8ece996",
+          "proposal": "sha256:110a2fa2b973e4b2eca7b479fc58f1cb104fedf5dd049501294cb3598bd2c3ba",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00113",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00114",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00115",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:97891741c24e5dc4a1320b3c503274d11db9cd8e5332489b89b843637e7a0190"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:13974cc0b74d072318072b7c4f55b2419b78df1a9b6833b95d461b7616987e29",
+        "rank": 2
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-10",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:70f394cf8bce7738874f1abb7f1d290db33e71f86f64f96aee65c8c0e9bda361",
+          "proposal": "sha256:cf2f18134cebd630e75c84e8461f6dcf89adbfe2f8a8d8af0f12f6a1b31e8d85",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00116",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00117",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00118",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:9f4f90cec6dfe036c74609628e874b2ed1e3b31095a8d31f267bbb4ef2017ab5"
+        },
+        {
+          "candidate_source_sha256": "sha256:a4de83b2e070f1ed4d67ea29f4b7619aad6ad6b3cbddc94bb46690ac71e3454f",
+          "proposal": "sha256:a73e3ad71d069565125ad5e0714ba595f3f66d9d2b5ce747070ebaefd05d16cb",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00119",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00120",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00121",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:29cfac3b76381bcdcd208393959f42462edcf85914ad0be6749149831b4772c0"
+        },
+        {
+          "candidate_source_sha256": "sha256:be11de99d5418c7f54a91bc97af0e582da61fec5d9df4f034edfd57d63d5fc1f",
+          "proposal": "sha256:ced43dc3b6a7a05e365f0a2b33149425e3c0e87ae64a98e4514adfb78b8ff6dd",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00122",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00123",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00124",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00125",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:3c86b7a333e5896ea4144da3649fbd0a8871bff5cf7ec9ca5d1f3faeb3a7824f"
+        },
+        {
+          "candidate_source_sha256": "sha256:b8bbe7cf022841ff6276ce892927cbe753bde5bba9becaffe4dc49c2820a4d60",
+          "proposal": "sha256:afcf7fa7c595e9c73b5f74c6f81014e95552907a6a45f24f963e69ab1f4bb99c",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00126",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00127",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00128",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:00b8aae49daf43e98e41a5f35ddc759e17849c3fdc848f89dcb06e5227aed6b0"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:ced43dc3b6a7a05e365f0a2b33149425e3c0e87ae64a98e4514adfb78b8ff6dd",
+        "rank": 3
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-11",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:96674f2d1d145e687378a48771b12fa493c669859456a45edd69f6150ae31423",
+          "proposal": "sha256:42dea55d02e2ced1a59808ee87fee6dbb908c8dd8be799f4736285be974a12ad",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00129",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00130",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00131",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:a7f1748fd8f02328565f39cf9127f10349c661ce9d30feb6841ee8e1d5a858f6"
+        },
+        {
+          "candidate_source_sha256": "sha256:91639828357694767ece5db980b7defd03dbcd828f84036b77f6771127701c84",
+          "proposal": "sha256:171093dcd249020eed8ac87ea3f137bb2536e5713f6402207c05c26a30ad9205",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00132",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00133",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00134",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:d8767748baef1927979290dfb46d60642b68a40fea70efc18b6327e5bc4b2cd6"
+        },
+        {
+          "candidate_source_sha256": "sha256:234c40f7b859d6b39de4fd5970f6d2dd1d0f45722dcfa1f1d68c897798d44c36",
+          "proposal": "sha256:e32013f59eb37a52d580aec0b1e66628e61d92dc161cdbf8e231d1b63b964bd8",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00135",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00136",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00137",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00138",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:1826f9563571312ff7346f290f0311d03cf1fafe17f5064c4942e1ef20cfb800"
+        },
+        {
+          "candidate_source_sha256": "sha256:0f3450c6c04f9ef107616e0e4c3f1b19c91ef16e6c575e8423f28051bf4afc6e",
+          "proposal": "sha256:7af89fcc8e06f910271093883896abeca40639a515c48137f2c6c3304f3e835f",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00139",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00140",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00141",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:7b5557c4dab86d231b08f354665ed180afd9433979d1aa10379418e6204a13a6"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:e32013f59eb37a52d580aec0b1e66628e61d92dc161cdbf8e231d1b63b964bd8",
+        "rank": 3
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-12",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:649ca0add26dfa7d52f1b70231a09681d9b547509cec0637a66acbdbf58e8b4b",
+          "proposal": "sha256:3a700c22cd4af07c9455449dbb3a5a0e9f0b95d874821cc151f0ff479174c8a0",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00142",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00143",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00144",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:248566e75f3304b4e2d8dca7d48f2c148c56ab3592fad8e7ce0376876031acee"
+        },
+        {
+          "candidate_source_sha256": "sha256:bc140f181f757db5cd2a44acb19bc26cd62c6d659d46a5f8a1b3ac8d8a828c50",
+          "proposal": "sha256:a2e79731a1ca79daea787ba3d67b705e8f0bafe138ad99cec5bbf9ce86940475",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00145",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00146",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00147",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:0f80e5cc630835a77010e7d523faf852301a3f3897ded3452e6e376a82624b20"
+        },
+        {
+          "candidate_source_sha256": "sha256:564b4ca2b25accee52ac2e1ea0dc492304b64c4154ee60e0f464150292eb52d3",
+          "proposal": "sha256:8f2b7cc0f0ee27f31919afff0438e76deb1663286d73083a3daa433fdf9189ec",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00148",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00149",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00150",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:8afc537a2acb42583443df8b3db1b09cd3c1261c4636d7b62f9e9b2468a07b12"
+        },
+        {
+          "candidate_source_sha256": "sha256:f6144f7c1aa6833abd0646f40f5b3d883178bf89c361a79ee8d7b7c67657ad2d",
+          "proposal": "sha256:b2d1806fa33b3c7c906c4920aadea7fbe61d28fe186b46bb64af41550608d008",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00151",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00152",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00153",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:9e09624b538ab62c9614af388be4484b65c1c7e0ac7e5c72101be7ba95b84bca"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:8f2b7cc0f0ee27f31919afff0438e76deb1663286d73083a3daa433fdf9189ec",
+        "rank": 3
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-13",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:074bd6cf9eb0d93fafac07812897cf4ea3965f569589e466252309c9120c0012",
+          "proposal": "sha256:67f78215c978a4c80d3ea3f30721643d5c9d61e96d09cc732950c5839833bc74",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00154",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00155",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00156",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:873b75ce00c2dbab39ee13358e5b2ceeb493376a7a4a191c05491557c829bb76"
+        },
+        {
+          "candidate_source_sha256": "sha256:f6ad8a9cc5d72aff4175acb4e0265c98d98d1e906d7f6e4773f6b11734a39d31",
+          "proposal": "sha256:542cdd5160214a417e72f168209b36ce55c147774b80a1cdd2868acefeac9631",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00157",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00158",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00159",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:1698235f1d80d3f917e7f3a8e4ebb9fb9b6c408a49f7f1f322521bd1369838af"
+        },
+        {
+          "candidate_source_sha256": "sha256:e3835d431eb8df1f447c3f1c10189bcb271e4479a0e91c01d71d703cca36db4a",
+          "proposal": "sha256:3b92662466aece9075d2dae8b6cf56c29cf8f845c5c6daa43e9ec2b2f3d4406a",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00160",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00161",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00162",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00163",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:69bdd8e05c3633f6cf6be00a792cff7f88840378ea6a08f58cf3d1e40cb0670d"
+        },
+        {
+          "candidate_source_sha256": "sha256:efdabe1b2c67c8a55c67a88a78a11d742e2827bcac9e1bf55e858ac02b9f0ef7",
+          "proposal": "sha256:f2fec3dc57bb5e8b53e93fefae75e962c9965be2fd8e22105cfe50f5fc0d0c30",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00164",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00165",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00166",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:47dcfb05dfb5f35f1c942988cc4e65b5e6c078130f8578b1de6731eaec2fc5ee"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:3b92662466aece9075d2dae8b6cf56c29cf8f845c5c6daa43e9ec2b2f3d4406a",
+        "rank": 3
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-14",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:d594262aeafdb59804ff6ce61d1033f9e94db354b8a2bf7509491a308a15ee5d",
+          "proposal": "sha256:9ffc132118a90dac881e43506a671eabe9fe47c74b72461bcf04b33be94fc879",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00167",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00168",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00169",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:2c0cb87faea0c008a723a0814baec30981550815076f8d92dcb6dbda365c15ab"
+        },
+        {
+          "candidate_source_sha256": "sha256:051502ca7a0f46629ba294e397f4f05f79e1b60e3cd6233c1e893cc4c85e0b63",
+          "proposal": "sha256:77ae182aa36ae0a5d4a49580b2138e14b3be6e069a07f4ca1e3db3e44695d7cd",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00170",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00171",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00172",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:916fd514b96688444bc53b72c89acc1ad7dbf1cb0c7e9c8252db5c1c5b9d3fdb"
+        },
+        {
+          "candidate_source_sha256": "sha256:5e09ea12055c03841a815bd5674a6cebfd617c4140e30a2089089ff09e26bce2",
+          "proposal": "sha256:c43a14aaf713c88268a24a3110f8a2eda91833c99a52723c819e9ffa985b4cbe",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00173",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00174",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00175",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00176",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:31516040be63d25d09de9e8b274161660bcb80e04fbc99dff7655e9cb693cea9"
+        },
+        {
+          "candidate_source_sha256": "sha256:fecd627166277a8d791726b06f37e848f4d64bea05fd038755a2199e931232c2",
+          "proposal": "sha256:b22fb41523f0002910d95ab2b8aa3e99e3fa72c17ed4742ca0990ec98fbd9edc",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00177",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00178",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00179",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:ea42d535aa73ccd7bee87cd59e841b7f690cd6e49d88a95cf20651ebfe5722ac"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:c43a14aaf713c88268a24a3110f8a2eda91833c99a52723c819e9ffa985b4cbe",
+        "rank": 3
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-15",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:a147fbf7d774ce3e7a7a05d074e573e0e9008c6698512662d2b8838eb2c7f0f6",
+          "proposal": "sha256:bd08908329cd850b456facd0f4a432dd703ab64e3d6e1fbffed1c6aba7951b72",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00180",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00181",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00182",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:37894dba966aae8602639d17c8c8edbe885a385f3886b854ca1b1a4ebd5969be"
+        },
+        {
+          "candidate_source_sha256": "sha256:1fbf02e3efb41c26d5c7723620a2870c975aff25a542c7b2ddf367195547fbd7",
+          "proposal": "sha256:c6861e255217244f4273c0e4f5eb0f9ed1fc67493390927a5d1e6c1562d62be1",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00183",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00184",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00185",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:97ffe305059d2b3331fd7b8b12e3810859b7b6c5c28381e1978bf45e4256310a"
+        },
+        {
+          "candidate_source_sha256": "sha256:2f10e70bced2342a1e9f121daae5278a5e0770cf79e31cec9f68148d3b799039",
+          "proposal": "sha256:a8aef7adff9a19be80ae00f5311f1f1f40fc440f036202b4b443e59714f96a1c",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00186",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00187",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00188",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:447ba0afe15375c623f5e25a4fdf75b593fa4f1a2873c0bfe27e66f8b5e38f52"
+        },
+        {
+          "candidate_source_sha256": "sha256:f1686fd81af92d3dbcc622d78ca7723b885f25eef1ce3db1e2a1535bde008ab3",
+          "proposal": "sha256:859b5bbd72162475d3869cf2576097b59bde62236bd4cef3090c094207fbcd68",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00189",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00190",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00191",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00192",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:c03654948125a99ba7e88c3ea061b4efc639f33059145e1ccaa7d460d5c7beb8"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:859b5bbd72162475d3869cf2576097b59bde62236bd4cef3090c094207fbcd68",
+        "rank": 4
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-16",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:7f52089dceda40942f6d96fbafdba49229b6eab86c6519e9ebe8c511f3752be6",
+          "proposal": "sha256:e2e660185247e915691dd993e2f841390be6de3bb06f582131b8f9ee6712c430",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00193",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00194",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00195",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:aef2f0d3d5fed4f1d0b8b48c8432a8a8dca24dfad662b6769c094c69351b0adf"
+        },
+        {
+          "candidate_source_sha256": "sha256:0f91ac5114d557e1f83c6bddc1b8bd31c11a66fab6705e81f9b100c77480dbe5",
+          "proposal": "sha256:051028b2f03c5df86d06a203faad29f24f981ac1384a497d63116455580e75b5",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00196",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00197",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00198",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:453c6975cdd64c2f0ee92c2b2da7c5ee42ca2dd1077552dcc3f3a5a14938c74b"
+        },
+        {
+          "candidate_source_sha256": "sha256:f39e991f34579f4fa7a1a378b6f502e32641ec00ec20fb3d7ed527b2e231a786",
+          "proposal": "sha256:ab4e8c60ba92e5b9f116c17292f01c70e0e2e2b1867ea50852c6b85c186f5722",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00199",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00200",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00201",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:409189dffb66af3de54c2863d65466cb8eae72ae6405bb38e3d4111acdc88874"
+        },
+        {
+          "candidate_source_sha256": "sha256:70017673f14155097e41e4807ca6d1dde143ca63d4b66fbe9a9f55baa92d0a2f",
+          "proposal": "sha256:18380099f4ce6aed2655251ec73fffd84ae1a57ef7517ac7e1a0ef7201927841",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00202",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00203",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00204",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00205",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:e1647c0105735d73b9178a5fe180158ceb9204fbc3da06c9a28b7370a31b7a7b"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:18380099f4ce6aed2655251ec73fffd84ae1a57ef7517ac7e1a0ef7201927841",
+        "rank": 4
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-17",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:6313189bddd12855e828df2f631f7706beb890aa38c03c398aa238ca79221b7e",
+          "proposal": "sha256:bfc3688a5272ce797d8d1989ded0fec2bd13b23a470a7e2ad2df55402b963100",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00206",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00207",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00208",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:400eeda907ad7fca0eb9cee6e53b6ac49c8eb0c7a24dff7df48c2a74c95da9dc"
+        },
+        {
+          "candidate_source_sha256": "sha256:7ebd6bc17fe529eb00da1cf11b38c2c89c8fa4ef31c6511fd79d24ac5114fa70",
+          "proposal": "sha256:334d4950111901f0cee0cf4b470f155e5b430ce7fd50a3ed2eed72f9c715fbd7",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00209",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00210",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00211",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:52098be8e2de0de3bc4416bc3a33c107a9a7a36b834bff0b84f5f3c5adee4043"
+        },
+        {
+          "candidate_source_sha256": "sha256:710bbef7d12f0626d76e0aa21900489b5a41330bbb2e8017d39a4496450e7767",
+          "proposal": "sha256:387fbb3c7f12807daf9653cbe6cf9b4b32434fa80754607419fcdd8fe5a0aa15",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00212",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00213",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00214",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:08844d0bbc3527ad9b133ca4492c00130c9bbe5e8668797e4f76fe58e8588512"
+        },
+        {
+          "candidate_source_sha256": "sha256:d81798c33b2c9d6fb5f9f5ee40b499b892ad372df281cf5a81103135fa989739",
+          "proposal": "sha256:17299bf79f03da5d1a4554ff2207b4430ee7ff315fe0b052f54b5c60b90f1984",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00215",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00216",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00217",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:cce3429d251b72e85ddb668a77d64f3209b25f15531ab15306e82a9cd8c86fdd"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:17299bf79f03da5d1a4554ff2207b4430ee7ff315fe0b052f54b5c60b90f1984",
+        "rank": 4
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-18",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:8769d37a94adaa324024e03ec2a8e5109c22dbe4cb3f980faa017935622ee3c5",
+          "proposal": "sha256:af858f67024e9549c1f586f81faf9d127fa0b7cffe99fa343301af6b21185d80",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00218",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00219",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00220",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:8809516bbdcade3999f608e0b1fd51f2e7d870dc23bb6bd844502916b74d1f33"
+        },
+        {
+          "candidate_source_sha256": "sha256:3759b039b885df696e7c45121a01692e4719491db20c17e83ec907db6e83abe5",
+          "proposal": "sha256:39e97f0dd8db34447d26d297719dbf6668f08eae4c1809b21bd8bdc1a5158dbd",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00221",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00222",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00223",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:91e514d5b35d7748d984a8a670e32f3e3a79791b3129add24fa69b874275dd92"
+        },
+        {
+          "candidate_source_sha256": "sha256:09756ce7654b777a0dd002cc844b11b998d4cde1b409ac586808c98023a1bb63",
+          "proposal": "sha256:4ddaaf38185a0967bf5c690f1b62cb9d90573ac4af9503b05e029e5f96fe420e",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00224",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00225",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00226",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:02740b362f8c85dc4d55c82fde90d39fb752153b2dcc5ef0fa545a6479b5a1d2"
+        },
+        {
+          "candidate_source_sha256": "sha256:7a7da7f4e9cf39d1812fc3c4ba7016f12fc6df62978cc7ffb1ed1426592043d4",
+          "proposal": "sha256:42e82883c0901bbf0d3a3b46c2bd7edbfd220f1ef96eb22e54ffd05a507970a0",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00227",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00228",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00229",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00230",
+              "status": "verified"
+            }
+          ],
+          "status": "verified",
+          "verification_sha256": "sha256:7dd73b19aa26e8174b3297f31ca2c9e8fcc939259b898a1c970d66f6d82a3e22"
+        }
+      ],
+      "selected": {
+        "proposal": "sha256:42e82883c0901bbf0d3a3b46c2bd7edbfd220f1ef96eb22e54ffd05a507970a0",
+        "rank": 4
+      },
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-19",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:837a7f4db8797ea87410caa3525f72c0bc780a1e2fa41191a621fa8f7479b74f",
+          "proposal": "sha256:57d1d6a3d206e71452763f42e81813abb9177de57c6668f52531cca2126797ff",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00231",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00232",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00233",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:67e60dccd0f6c2f9fe89b28df9e20a43f7234b38e53bed69344be04b7f8ea29d"
+        },
+        {
+          "candidate_source_sha256": "sha256:0ff29477832a0beb398022553b3a00d0e21cad3582e3b2f27b4d975a4befe1a4",
+          "proposal": "sha256:f05a5841a189900ea3c2844251505cd1e6df9a9487e4f59117e80834bd2cc312",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00234",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00235",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00236",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:1f75a9e3cc275ae2d93561ec8dfe8c8e8e9db4de0dee83561b5d9e84604d82c9"
+        },
+        {
+          "candidate_source_sha256": "sha256:1c6c0bca98ad58634cd703fd080dcbc1d067352986933e057b6144867739028d",
+          "proposal": "sha256:ca682fa33e7588b1101a4375463278f5117f76a9d79f53a738f6eb0e36407d2d",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00237",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00238",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00239",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:c637d9d85bd8b03ebcdf967d672f17c431a2a40b047df29516cce6cdbc96f739"
+        },
+        {
+          "candidate_source_sha256": "sha256:a1d85e48d328915d8f12e10827dc277428b2d79a2693937b8ff40d011f2c7235",
+          "proposal": "sha256:b5b9d31be35fc917562543747ef11c9c012eaccaee12826f7c492370f8089899",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00240",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00241",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00242",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:5c632b0e769f3a9e75725f38ac851b5038a02c95b284a382c31ce8d8762a5224"
+        }
+      ],
+      "selected": null,
+      "single_shot_verified": false
+    },
+    {
+      "case": "e2-case-20",
+      "evaluations": [
+        {
+          "candidate_source_sha256": "sha256:fd4666abbc880379ca546a1ab77db41b4a949939cfa6330e9614beb4723ea2fa",
+          "proposal": "sha256:7aa932316f91079adcd606c2b6fda6d5760a3fd8496b36765a65a3fc2e5879a1",
+          "rank": 1,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00243",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00244",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00245",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:fa7791356798a3f964399bc6b6fa0729d6721ba3fbab09ab2525f5e346e4b423"
+        },
+        {
+          "candidate_source_sha256": "sha256:f824cf93824c5c5feb438865534dda77000be23b84118a4e055e62e11002efc1",
+          "proposal": "sha256:43c3e8eb700470852d97ea2187a0879d6d08853af188b32d20420cab13c37c65",
+          "rank": 2,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00246",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00247",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00248",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:2a4e9920e8139371e0e70207d6a2a0095f5d949e016e9e290b8daeef70e88ce7"
+        },
+        {
+          "candidate_source_sha256": "sha256:084c85082414547474d36bdc97f3d68347d75a976cf1c06e7fe4c29274b00d2c",
+          "proposal": "sha256:8941730aefeac39029fd57c85f0417c7fd59b0d660ebaf266fab89f776a73ddb",
+          "rank": 3,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00249",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00250",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00251",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:4f4ef7ef7c22b61324fc4484dc85eaa38c5564d683e168b0a8a1c9339a83930c"
+        },
+        {
+          "candidate_source_sha256": "sha256:98e6623bf93c3ea488def9863989cf2d499bd11c1224bd04530b1105f5f23e35",
+          "proposal": "sha256:bac1561043e8645bfb3f81805e19b2a7a608fb68ba34999e41a4f1bf72635387",
+          "rank": 4,
+          "results": [
+            {
+              "kind": "contract_consistency",
+              "obligation": "ob00252",
+              "status": "verified"
+            },
+            {
+              "kind": "signed_overflow",
+              "obligation": "ob00253",
+              "status": "verified"
+            },
+            {
+              "kind": "postcondition",
+              "obligation": "ob00254",
+              "status": "violated"
+            }
+          ],
+          "status": "violated",
+          "verification_sha256": "sha256:64255659f767de10b99c8cdd689fcbed7ef4fbff91c9ad8cb7ee80f5e5ab8fad"
+        }
+      ],
+      "selected": null,
+      "single_shot_verified": false
+    }
+  ],
+  "corpus": "sha256:a6cfd5325fdd746517f5a7f9a16f7f69adcbaf83f4faa79d77777e196883f73d",
+  "evaluated": 80,
+  "id": "sha256:f218c6cf39946deed9aa15b578424981c482bcada44f1d7e47b8a50359ebce50",
+  "limitations": [
+    "The candidates are an oracle-seeded recorded scripted proxy, not model output.",
+    "The result does not establish model-proposer or general model behavior.",
+    "The calibration does not establish consciousness, causality, or model search uplift."
+  ],
+  "n": 4,
+  "outcome": "passed",
+  "provenance": "recorded-oracle-seeded-scripted-proxy",
+  "schema": "codeskeptic.referee-search-report/v1",
+  "threshold": {
+    "denominator": 5,
+    "numerator": 2
+  },
+  "uplift": {
+    "denominator": 10,
+    "numerator": 7
+  }
+}
