@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- [ ] **D4 - add file-hash invalidation and changed-TU extraction**
+- [ ] **D4.1 - implement the strict incremental extraction cache**
 
 ## Next
 
@@ -21,7 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - D3.2 shipped exact direct-call architecture enforcement,
-fail-closed unknown precedence, canonical JSON/text, and deterministic SARIF
-with stable rules and source evidence. The suite is 473/473. Next is D4
-incremental extraction.
+2026-08-07 - D4.0 expanded incrementality into one strict
+content-addressed translation-unit cache stage. The suite is 473/473.

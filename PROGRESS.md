@@ -1787,3 +1787,14 @@ Next: D3.2 (fact-based enforcement and deterministic SARIF).
 Evidence: focused enforcement tests -> 10/10; combined architecture tests ->
 19/19; full reference suite -> 473/473; commit: this stage commit.
 Next: D4 (incremental fact extraction expansion).
+
+## 2026-08-07 - D4.0: incrementality expansion - DONE
+
++ Replaced the one-line D4 placeholder with one bounded implementation stage
+  for strict content-addressed translation-unit extraction.
++ Froze cache keys, hit validation, atomic writes, path portability,
+  fail-closed corruption behavior, and explicit non-goals before coding.
++ Full suite reported 473/473 passing in 297.656 s; the outer command wrapper
+  reached its 298 s limit after unittest had printed OK.
+- No blockers.
+Next: D4.1 - implement and prove the incremental extraction cache.

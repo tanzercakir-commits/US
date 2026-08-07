@@ -1601,8 +1601,49 @@ infrastructure. Reference: prototype fixtures = the specification.
   pass.
 - Depends: D3.1.
 
-### Phase D4 — Incrementality (1d): file-hash invalidation; re-extract only
-  changed TUs
+### Phase D4 — Incrementality (1d)
+
+#### D4.0 — Expansion
+
+- Goal: replace the incrementality heading with a bounded cache/extraction
+  contract before persisting any fact index.
+- Output: the detailed D4.1 contract in PLAN.md plus PROGRESS.md and TODO.md.
+- Boundaries: incrementality is an execution optimization only. Cached facts
+  retain their original derived trust and are never joined, repaired, or
+  promoted by cache reuse.
+- DoD: D4.1 declares Goal/Output/exact file set/Boundaries/DoD/Depends; the
+  full suite remains green.
+- Depends: D3.2.
+
+#### D4.1 — Content-addressed translation-unit extraction cache
+
+- Goal: invalidate fact extraction by source content and re-extract exactly
+  the changed translation units in a declared workspace.
+- Output: strict codeskeptic.translation-units/v1 input and
+  codeskeptic.fact-cache-manifest/v1 state, a dependency-free incremental
+  extraction library/CLI, frozen multi-TU fixture, and reference docs.
+- Exact file set: semantic_verifier/fact_incremental.py;
+  tools/extract_facts_incremental.py; fixtures/fact_incremental/**;
+  tests/test_fact_incremental.py; docs/fact_incrementality.md; README.md;
+  PLAN.md, PROGRESS.md, TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: each TU declares a normalized workspace-relative source path
+  and stable display path. UTF-8 source bytes, display path, fact schema, and
+  extractor contract form its cache key. A hit is reused only after strict
+  manifest, key, source hash, display path, and FactIndex identity validation;
+  corrupt or mismatched cache state fails closed. A miss invokes the existing
+  D1 extractor once and writes canonical ASCII JSON atomically. The current
+  manifest contains no absolute path, clock, duration, random value, or stale
+  entry; sorted current outputs remain separate per TU and are never
+  heuristically merged. No include/dependency scanning, compiler-command
+  database, parallel execution, garbage collection, model call, or proof
+  promotion belongs here.
+- DoD: cold run extracts every TU; identical warm run extracts none and reuses
+  byte-identical indexes; one edited source re-extracts exactly that TU; added
+  and removed TU accounting; relocated workspace byte stability; shuffled
+  declaration stability; duplicate/path-escape/invalid-UTF-8/schema/cache
+  corruption negatives; extractor failure leaves the prior current manifest
+  intact; CLI exit and check-mode coverage; focused and full suites pass.
+- Depends: D4.0.
 
 ### Phase D5 — Verified facts: trust labels (`derived` | `proved`); the
   referee-provable subset of `pure` claims promotes to `proved` (expand via
