@@ -8,12 +8,12 @@
 
 ## Now (active stage)
 
-- [ ] **C4.0 - expand the enforcement ladder**
+- [ ] **C4.1 - generate property-test skeletons for unproven obligations**
 
 ## Next
 
-- [ ] **C4.1 - generate property-test skeletons for unproven obligations**
 - [ ] **C4.2 - generate runtime assertions and the three-rung demo**
+- [ ] **D1.1 - define the deterministic fact schema**
 
 ## Blockers / open questions
 
@@ -22,7 +22,6 @@
 
 ## Last updated
 
-2026-08-07 - C3.1 shipped the byte-stable, fail-closed C++26 contracts bridge.
-The positive fixture verifies 6/6 obligations; the negative postcondition is
-replayed as a violation. Text/JSON/IR are byte-identical across repeated runs,
-and the reference suite is green at 366/366. Next is C4.0 expansion.
+2026-08-07 - C4.0 froze all five status routes, the exact scalar property
+capability, artifact identity, and the no-status-promotion rule. C4.1 and C4.2
+now have exact scopes and DoD. The reference suite is green at 370/370.

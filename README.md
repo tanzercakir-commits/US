@@ -55,7 +55,7 @@ Run the tests:
 python -m unittest discover -s tests -v
 ```
 
-The current suite contains 366 deterministic tests. The separately cloned
+The current suite contains 370 deterministic tests. The separately cloned
 CodeSkeptic production track also passes all 914 tests on this machine.
 Committed verifier fixtures are checked with:
 
@@ -151,6 +151,10 @@ with:
 ```powershell
 python -m semantic_verifier fixtures/cpp26_contracts/verified.cpp
 ```
+
+The [enforcement-ladder policy](docs/enforcement_ladder.md) fixes how all five
+referee statuses route to proof completion, defect/infrastructure handling,
+property-test generation, runtime guarding, or an explicit manual boundary.
 
 See [the design document](docs/semantic_verification_prototype.md) for the
 implemented boundary, examples, and limitations. The

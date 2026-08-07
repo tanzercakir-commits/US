@@ -1306,11 +1306,90 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase C4 — Enforcement ladder (2b) — from contract to test
 
-- C4.0 — Expansion
-- C4.1 — Unproven obligation → auto-generated property-test skeleton (what
-  cannot be proven does not silently vanish; it steps one rung down)
-- C4.2 — Runtime assert generation (last rung); end-to-end demo that all
-  three rungs derive from one `cs:` source
+#### C4.0 — Enforcement-ladder policy and expansion
+
+- Goal: define a deterministic, fail-closed routing policy from referee status
+  to static completion, defect handling, property-test fallback, runtime
+  fallback, manual handling, or infrastructure repair.
+- Output: a human-readable decision record, machine-readable policy matrix, and
+  fully declared C4.1/C4.2 implementation stages.
+- Exact file set: `docs/enforcement_ladder.md`;
+  `research/enforcement_ladder_policy.json`;
+  `tests/test_enforcement_ladder_policy.py`; `README.md`; `PLAN.md`;
+  `PROGRESS.md`, `TODO.md`, and `guardrails/test_baseline.txt`.
+- Boundaries: no source, IR, checker, report, or exit-code behavior changes in
+  this stage. `verified` stops at rung 1; `violated` remains a replayed
+  defect; `solver_error` remains an infrastructure failure. Only exact,
+  callable contract surfaces from `unknown`/`unsupported` results may descend
+  to generated enforcement. No fallback result ever promotes to `verified`.
+- DoD: freeze all five status routes and eligible/ineligible capability routes;
+  define stable identity/provenance for generated artifacts; define the
+  no-randomness, no-approximation, no-status-promotion rules; distinguish
+  generated, executed, passed, guarded, manual, defect, and infrastructure
+  states; declare C4.1/C4.2 exact files/boundaries/DoD; focused and full suites
+  pass.
+- Depends: C3.1.
+
+#### C4.1 — Unproven obligation to property-test skeleton
+
+- Goal: make eligible `unknown`/`unsupported` function contracts descend one
+  rung into deterministic, framework-neutral C++ property-test skeletons while
+  keeping the referee status visible.
+- Output: a versioned enforcement manifest, generator library/CLI, and frozen
+  positive/negative property-skeleton fixtures.
+- Exact file set: `semantic_verifier/enforcement_ladder.py`;
+  `tools/generate_property_skeleton.py`;
+  `fixtures/enforcement_ladder/property/**`;
+  `tests/test_enforcement_ladder.py`; `docs/enforcement_ladder.md`;
+  `README.md`; `PROGRESS.md`, `TODO.md`, and
+  `guardrails/test_baseline.txt`.
+- Boundaries: eligible targets are otherwise-supported, non-void functions with
+  fixed scalar by-value parameters, no frame contract, at least one exact
+  `ensures`, and predicates renderable without approximation. Generated C++17
+  accepts caller-supplied deterministic cases, filters exact `requires`, calls
+  the original function once, and checks exact `ensures`. It contains no
+  random generator and claims only `generated_unexecuted`. Duplicate path
+  obligations collapse by semantic contract identity. `verified`,
+  `violated`, and `solver_error` never generate a fallback; ineligible
+  `unknown`/`unsupported` entries become explicit `manual_required`.
+- DoD: strict input/status validation; content-addressed source/report/skeleton
+  identities; deterministic sorted route entries; compilable C++17 skeleton
+  for eligible scalar contracts; exact requires/ensures preservation and
+  single function evaluation; status/reason provenance in manifest and source;
+  duplicate collapse; explicit verified/defect/infrastructure/manual routes;
+  relocation and repeated-byte stability; malformed/stale input fails closed;
+  focused and full suites pass.
+- Depends: C4.0.
+
+#### C4.2 — Runtime guard generation and three-rung demo
+
+- Goal: generate the last-rung runtime wrapper from the same accepted `cs:`
+  contracts and demonstrate static, property, and runtime artifacts as one
+  provenance chain.
+- Output: runtime-wrapper library/CLI, a combined demo command, and a frozen
+  source whose static report, property skeleton, and runtime guard share one
+  contract identity.
+- Exact file set: `semantic_verifier/enforcement_ladder.py`;
+  `semantic_verifier/runtime_assertions.py`;
+  `tools/generate_runtime_assertions.py`;
+  `tools/enforcement_ladder_demo.py`;
+  `fixtures/enforcement_ladder/runtime/**`;
+  `tests/test_runtime_assertions.py`; `docs/enforcement_ladder.md`;
+  `README.md`; `PROGRESS.md`, `TODO.md`, and
+  `guardrails/test_baseline.txt`.
+- Boundaries: runtime wrappers use the same C4.1 scalar/value/no-frame contract
+  subset, evaluate each argument/function call once, check every `requires`
+  before the call and every `ensures` after normal return, and invoke an
+  explicit failure hook. No `invariant`/`modifies` approximation, exception
+  claim, randomness, checker change, or `verified` promotion is allowed.
+  Runtime guarding is recorded as `runtime_guarded`, not proof.
+- DoD: deterministic content-addressed wrapper and three-rung manifest; exact
+  contract identity shared by static report, property skeleton, and runtime
+  wrapper; generated C++17 compiles; satisfying calls return normally and a
+  violated require/ensure reaches the failure hook in child-process tests;
+  no double evaluation; all statuses and skipped/manual reasons remain visible;
+  repeated output/relocation is byte-stable; focused and full suites pass.
+- Depends: C4.1.
 
 *(C5 — RuleDSL bridge: deliberately PARKED. Not opened before A/B mature.)*
 

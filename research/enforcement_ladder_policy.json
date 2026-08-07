@@ -1,0 +1,110 @@
+{
+  "artifact_identity": {
+    "algorithm": "sha256",
+    "excludes": [
+      "checkout_root",
+      "generated_at",
+      "random_seed",
+      "tool_executable"
+    ],
+    "includes": [
+      "schema",
+      "logical_source",
+      "referee_report",
+      "contract_set",
+      "route",
+      "generated_bytes"
+    ]
+  },
+  "capability": {
+    "eligible": {
+      "frame_contract": false,
+      "function_shape": "non_void_first_order",
+      "parameter_passing": "value",
+      "parameter_types": [
+        "bool",
+        "i32",
+        "u32",
+        "i64",
+        "u64"
+      ],
+      "required_contract": "ensures"
+    },
+    "ineligible_route": "manual_required",
+    "predicate_policy": "exact_owned_expression_only"
+  },
+  "invariants": [
+    "fallback_never_promotes_to_verified",
+    "unsupported_is_never_approximated",
+    "violations_remain_replayed_defects",
+    "solver_errors_remain_infrastructure_failures",
+    "generated_tests_use_caller_supplied_deterministic_cases",
+    "logic_path_has_no_clock_or_randomness",
+    "serialization_is_canonical_and_sorted"
+  ],
+  "routes": {
+    "solver_error": {
+      "fallback": "none",
+      "state": "infrastructure_error",
+      "terminal_for_generation": true
+    },
+    "unknown": {
+      "eligible_fallback": "property_test",
+      "ineligible_fallback": "manual_required",
+      "state": "unproven",
+      "terminal_for_generation": false
+    },
+    "unsupported": {
+      "eligible_fallback": "property_test",
+      "ineligible_fallback": "manual_required",
+      "state": "unproven",
+      "terminal_for_generation": false
+    },
+    "verified": {
+      "fallback": "none",
+      "state": "static_verified",
+      "terminal_for_generation": true
+    },
+    "violated": {
+      "fallback": "none",
+      "requires_replay": true,
+      "state": "defect_replayed",
+      "terminal_for_generation": true
+    }
+  },
+  "schema": "codeskeptic.enforcement-ladder-policy/v1",
+  "states": {
+    "defect_replayed": {
+      "claims_verified": false,
+      "meaning": "The referee found and replayed a counterexample."
+    },
+    "infrastructure_error": {
+      "claims_verified": false,
+      "meaning": "The referee or solver failed; repair or retry is required."
+    },
+    "manual_required": {
+      "claims_verified": false,
+      "meaning": "No exact automated fallback exists for this surface."
+    },
+    "property_executed_passed": {
+      "claims_verified": false,
+      "meaning": "Supplied cases passed; this is finite evidence, not proof."
+    },
+    "property_generated_unexecuted": {
+      "claims_verified": false,
+      "meaning": "A deterministic skeleton exists but has not run."
+    },
+    "runtime_guarded": {
+      "claims_verified": false,
+      "meaning": "Exact predicates are checked at runtime on executed calls."
+    },
+    "static_verified": {
+      "claims_verified": true,
+      "meaning": "The deterministic referee verified the obligation."
+    },
+    "unproven": {
+      "claims_verified": false,
+      "meaning": "The referee returned unknown or unsupported."
+    }
+  }
+}

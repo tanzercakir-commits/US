@@ -1459,3 +1459,23 @@ set -> 51/51; positive CLI -> 6/6 verified; negative CLI -> exit=1 and replayed
 postcondition violation; repeated text/JSON/IR -> byte-identical; full reference
 suite -> 366/366; commit: this stage commit.
 Next: C4.0 (expand the enforcement ladder).
+## 2026-08-07 - C4.0: enforcement-ladder policy and expansion - DONE
++ Froze an exact five-status routing matrix: verified stops as static proof;
+  replayed violations remain defects; solver errors remain infrastructure
+  failures; only eligible unknown/unsupported surfaces may descend.
++ Defined the initial callable capability as non-void fixed-scalar by-value
+  functions with no frame contract and at least one exact postcondition.
++ Ineligible unknown/unsupported results route to `manual_required`; no
+  placeholder or weakened predicate is permitted.
++ Distinguished unproven, generated-unexecuted, finite passed, runtime-guarded,
+  manual, defect, infrastructure, and static-verified states.
++ Only `static_verified` claims verification. Every fallback preserves the
+  original status and reason.
++ Fixed SHA-256 identity inputs and excluded checkout roots, clocks, executable
+  paths, seeds, and randomness from logical/generated artifacts.
++ Expanded C4.1 and C4.2 with exact files, deterministic C++17 outputs,
+  provenance requirements, negative boundaries, compile/run checks, and DoD.
+- C4.0 changes no source, IR, checker, report, or exit-code behavior.
+Evidence: policy tests -> 4/4; all five routes and eight states frozen; full
+reference suite -> 370/370; commit: this stage commit.
+Next: C4.1 (deterministic property-test skeleton generation).
