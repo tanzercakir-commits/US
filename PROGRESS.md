@@ -1711,3 +1711,17 @@ Evidence: focused context tests -> 10/10; combined fact/context tests -> 62/62;
 isolated fixture retry -> 1/1; full reference suite -> 454/454; commit: this
 stage commit.
 Next: D3.0 (architectural-rule enforcement expansion).
+
+## 2026-08-07 - D3.0: architectural-rule expansion - DONE
++ Split D3 into a strict policy-schema stage and a fact-based enforcement/SARIF
+  stage with exact file sets and executable definitions of done.
++ Defined a complete ordered layer-pair matrix with no implicit allow/forbid
+  default and deterministic exact/prefix classification.
++ Limited enforceable dependencies to resolved direct D1 call facts.
++ Made unclassified/ambiguous endpoints and every fact-index limitation
+  explicit unknown findings, with unknown taking aggregate precedence.
++ Fixed actionable evidence, stable SARIF rule/location requirements, and
+  clean/violation/unknown/error CLI exit semantics.
+- No policy parser or architecture runtime behavior changes in this entry.
+Evidence: D2.3 commit hook and D3.0 baseline -> 454/454.
+Next: D3.1 (strict architectural dependency policy).

@@ -8,11 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **D3.0 - expand architectural-rule enforcement**
+- [ ] **D3.1 - define allowed and forbidden dependency edges**
 
 ## Next
 
-- [ ] **D3.1 - define allowed and forbidden dependency edges**
 - [ ] **D3.2 - enforce architectural rules with SARIF output**
 
 ## Blockers / open questions
@@ -22,7 +21,6 @@
 
 ## Last updated
 
-2026-08-07 - D2.3 shipped deterministic exact-fact context packs with a hard
-2000-byte ceiling, ranked prefix truncation, exact omission accounting, a
-1906-byte golden, and generate/check CLI modes. The suite is green at 454/454.
-Next is D3 architectural-rule expansion.
+2026-08-07 - D3.0 expanded architecture work into a strict complete policy
+matrix followed by direct-call enforcement with deterministic JSON/text/SARIF
+and fail-closed unknowns. The baseline is green at 454/454. Next is D3.1.

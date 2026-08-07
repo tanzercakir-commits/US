@@ -1539,9 +1539,67 @@ infrastructure. Reference: prototype fixtures = the specification.
 
 ### Phase D3 — Architectural rules (1b)
 
-- D3.0 — Expansion
-- D3.1 — Dependency rule definition (allowed/forbidden edges between layers)
-- D3.2 — Enforcement as a CodeSkeptic rule + SARIF report
+#### D3.0 — Expansion
+
+- Goal: replace the architectural-rule heading with bounded policy and
+  enforcement stages before accepting any rule syntax.
+- Output: detailed D3.1–D3.2 contracts in PLAN.md plus PROGRESS.md and TODO.md.
+- Boundaries: direct, resolved D1 call facts are the only enforceable
+  dependency edges. Missing classification and every fact-index limitation
+  remain explicit unknowns; architecture compliance is not proof.
+- DoD: D3.1–D3.2 each declare Goal/Output/exact file set/Boundaries/DoD/Depends;
+  the full suite remains green.
+- Depends: D2.3.
+
+#### D3.1 — Strict architectural dependency policy
+
+- Goal: define a deterministic, reviewable layer classifier and complete
+  allowed/forbidden dependency matrix without implementation defaults.
+- Output: strict content-addressed codeskeptic.architecture-policy/v1 value
+  objects/loader, validation CLI, frozen policy fixture, and reference docs.
+- Exact file set: semantic_verifier/architecture_policy.py;
+  tools/validate_architecture_policy.py; fixtures/architecture/policy.json;
+  tests/test_architecture_policy.py; docs/architecture_rules.md; README.md;
+  PROGRESS.md, TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: layers use non-empty exact qualified-name, qualified-name-prefix,
+  or normalized source-prefix selectors. Duplicate layers/selectors, unknown
+  fields, unknown decisions, missing/duplicate ordered layer pairs, and stale
+  policy IDs fail strict loading. Every ordered layer pair, including self,
+  has exactly one allow or forbid decision. A symbol matching zero or multiple
+  layers is preserved as an explicit classification outcome for D3.2; selector
+  order never breaks ties. No glob/regex, source inference, fact extraction,
+  model call, or proof/referee behavior belongs here.
+- DoD: valid canonical round-trip and content ID; shuffled-input byte stability;
+  exact/prefix/source selector coverage; complete matrix lookup; all strict
+  schema/identity/duplicate/missing-pair negatives; validation CLI success and
+  input-error exit; focused and full suites pass.
+- Depends: D3.0.
+
+#### D3.2 — Fact-based enforcement and deterministic SARIF
+
+- Goal: decide every indexed direct call against D3.1 and expose actionable,
+  source-located violations without treating an incomplete graph as clean.
+- Output: codeskeptic.architecture-result/v1 enforcer, text/JSON/SARIF CLI,
+  frozen result and SARIF goldens over the D1 world corpus.
+- Exact file set: semantic_verifier/architecture.py;
+  tools/check_architecture.py; fixtures/architecture/**;
+  tests/test_architecture.py; docs/architecture_rules.md; README.md;
+  PROGRESS.md, TODO.md, and guardrails/test_baseline.txt.
+- Boundaries: consume one strictly validated fact index and one strict policy.
+  Resolved direct call facts are checked exactly once. An allow rule is clean;
+  a forbid rule records caller/callee symbols, layers, exact call ID/site, and
+  policy decision. Zero/multiple endpoint classifications and every D1
+  limitation produce sorted unknown findings, never an allowed edge or proof.
+  Aggregate precedence is unknown, then violation, then clean; CLI exit codes
+  are 2, 1, and 0 respectively, with 3 for input/checker errors. SARIF 2.1.0
+  uses stable rule IDs, normalized artifact URIs, exact one-based regions, and
+  no clock, absolute path, run timing, or model-generated content.
+- DoD: allowed, forbidden, self-layer, unclassified, ambiguous, and limitation
+  cases; violation/unknown aggregate precedence and exit codes; exact evidence
+  and deterministic ordering; canonical result and SARIF goldens; repeated and
+  relocated byte stability; malformed input failure; focused and full suites
+  pass.
+- Depends: D3.1.
 
 ### Phase D4 — Incrementality (1d): file-hash invalidation; re-extract only
   changed TUs
