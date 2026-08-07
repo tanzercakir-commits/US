@@ -1,7 +1,6 @@
 # Fact trust overlay
 
-Status: the strict codeskeptic.fact-trust/v1 model is implemented in D5.1.
-Referee-backed production of proved claims is implemented separately in D5.2.
+Status: the strict overlay and referee-backed promotion pipeline are implemented.
 
 ## Trust is an overlay
 
@@ -42,7 +41,9 @@ A missing, derived, dangling, self-dependent, or cyclic callee prevents a valid
 proved overlay.
 
 The accepted referee IDs are codeskeptic.affine/v1, codeskeptic.z3/v1, and
-codeskeptic.both/v1. A derived claim carries null evidence.
+codeskeptic.both/v1. The producer derives that ID from the exact built-in
+checker type and rejects custom or mismatched implementations. A derived claim
+carries null evidence.
 
 A structurally valid JSON document is not by itself proof that a referee ran.
 D5.2 is the trusted producer: it links one frontend parse, the D1 index, the
@@ -60,3 +61,58 @@ evidence, and source/frame mismatches.
 
 Serialization contains no absolute physical path, time, randomness, model
 output, or mutable state.
+
+## Referee-backed producer
+
+FactTrustPromotionPipeline owns one ClangFactExtractor and parses the exact
+source/display path once. The same FrontendUnit is passed to D1 fact extraction
+and Semantic IR lowering. The checker processes the complete generated
+obligation set, and the resulting full verification report is retained beside
+the fact index and trust overlay.
+
+A derived pure claim promotes only when all of these conditions hold:
+
+1. the D1 function has an exact definition and one unambiguous IR body match;
+2. no module-level or function-context fact/IR limitation exists;
+3. the function has an explicit empty modifies frame that was not marked
+   machine-proposed;
+4. the function has at least one obligation, exactly one result per obligation,
+   and every result is verified;
+5. every exact D1 direct callee has already promoted in the same acyclic
+   fixed-point run.
+
+No obligation is created merely to make purity promotable. A function with zero
+obligations remains derived. Missing or non-empty frames, machine-proposed
+frames, external or derived callees, ambiguous overloads, recursion, incomplete
+checker output, and violated, unknown, unsupported, or solver-error results all
+remain derived. impure and unknown D1 values are never candidates.
+
+Each proved claim cites the SHA-256 of verification.json and its exact
+obligation IDs. fact-index.json, verification.json, fact-trust.json, and
+promotion-run.json therefore form one deterministic audit bundle.
+
+## Promotion CLI
+
+Generate the four linked artifacts with:
+
+    python tools/promote_fact_trust.py source.cpp \
+      --display-path project/source.cpp \
+      --output-dir .codeskeptic/fact-trust \
+      --backend affine
+
+Use --backend z3 or --backend both with the normal Z3 configuration when those
+referees are required. Check frozen artifacts without writing:
+
+    python tools/promote_fact_trust.py source.cpp \
+      --display-path project/source.cpp \
+      --output-dir .codeskeptic/fact-trust \
+      --backend affine --check
+
+Exit code 0 means generation succeeded or every checked byte matched. Exit code
+1 means check-mode mismatch or a stale undeclared artifact. Exit code 2 means a
+strict input, frontend, filesystem, backend-configuration, or generation error.
+A solver status recorded inside a valid verification report does not fabricate
+proof; the affected claim stays derived.
+
+The fixture in fixtures/fact_trust freezes a proved leaf and proved direct-call
+chain together with no-frame and zero-obligation derived cases.

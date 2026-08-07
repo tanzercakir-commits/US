@@ -1845,3 +1845,24 @@ Next: D5.1 - implement the strict fact-trust overlay.
 Evidence: focused trust-overlay tests -> 11/11; schema JSON parse -> clean;
 full reference suite -> 496/496 in 372.714 s; commit: this stage commit.
 Next: D5.2 - implement referee-backed pure-claim promotion.
+
+## 2026-08-07 - D5.2: referee-backed pure-claim promotion - DONE
+
++ Added a one-parse pipeline that derives the D1 index and Semantic IR from the
+  same FrontendUnit, retains the full verification report, and emits a linked
+  trust overlay.
++ Proved promotion requires an exact definition/IR match, an explicit
+  human-authored empty frame, a complete non-empty all-verified result set, no
+  relevant limitation, and already-proved exact direct callees.
++ Zero/incomplete, violated, unknown, unsupported, solver-error, impure,
+  unknown-purity, external-callee, overload, machine-frame, non-empty-frame,
+  and module-limitation cases remain derived.
++ Bound referee IDs to exact built-in checker implementations; custom or
+  mismatched checker labels are rejected before artifact production.
++ Froze a 2-proved/2-derived four-artifact bundle, relocation stability, atomic
+  writes, exact check mode, stale-artifact detection, and CLI exit behavior.
+- No blockers.
+Evidence: focused promotion tests -> 14/14; frozen bundle check -> exact,
+proved=2 and derived=2; full reference suite -> 510/510 in 311.032 s; commit:
+this stage commit.
+Next: E1.0 - expand the repair-loop bullets into bounded implementation stages.

@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- [ ] **D5.2 - implement referee-backed pure-claim promotion**
+- [ ] **E1.0 - expand the repair loop into bounded stages**
 
 ## Next
 
@@ -20,6 +20,6 @@
 
 ## Last updated
 
-2026-08-07 - D5.1 shipped the strict D1-linked derived/proved trust overlay,
-fixed proof evidence, exact acyclic proved-callee validation, and JSON Schema.
-The suite is 496/496. Next is D5.2 referee-backed promotion.
+2026-08-07 - D5.2 shipped one-parse fail-closed promotion with exact built-in
+referee binding and a linked 2-proved/2-derived golden bundle. The suite is
+510/510. Next is E1.0 repair-loop expansion.

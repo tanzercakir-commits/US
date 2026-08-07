@@ -1,0 +1,389 @@
+{
+  "calls": [
+    {
+      "callee": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "caller": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:ce3914eb9614d70f5386af3c67ec8265fa9723e4baf23e8ac08a6a2d2cea05d4",
+      "kind": "direct",
+      "location": {
+        "column": 22,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 10
+      }
+    }
+  ],
+  "definitions": [
+    {
+      "context": null,
+      "id": "sha256:09ca22646cc3cce6ee5874bd0f1864c97d76318d3f534ac4a722e12ac26592e3",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 20
+      },
+      "symbol": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48"
+    },
+    {
+      "context": null,
+      "id": "sha256:16e0c7b24310d9f694974a971073abc4c9010d40a151dc1559204af8a7d46fa5",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 3
+      },
+      "symbol": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf"
+    },
+    {
+      "context": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:493f6e70d4109e9047f7159d98a56feacf21d5b1424685e83d865e2b68f62d9f",
+      "kind": "initialization",
+      "location": {
+        "column": 7,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 10
+      },
+      "symbol": "sha256:31ba695bb6d9d6afe1f5b53f4174baac248e76fa47b37cec24bfd4f429dfeaa2"
+    },
+    {
+      "context": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48",
+      "id": "sha256:4f75e70bb1173fc62fa073d6224522ee86889dfa0a8bab5d365b13064649b8b2",
+      "kind": "parameter",
+      "location": {
+        "column": 26,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 20
+      },
+      "symbol": "sha256:3cb18fdf7087b3a40543b191e4606c5bc6317e35ca4aed1346d640f06cf56500"
+    },
+    {
+      "context": null,
+      "id": "sha256:782890b1cd2ec2c0aca56c9d8629d5381d217b27c6bb32260206b7dc74fef5c3",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 15
+      },
+      "symbol": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3"
+    },
+    {
+      "context": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:8a205532bab395bec0b35751aaa8cf9c9a3b1cb55f27580eebf5199b028a1176",
+      "kind": "parameter",
+      "location": {
+        "column": 16,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 9
+      },
+      "symbol": "sha256:3dc740fd449609eb6f72359610a6fe261f495be0b0fcdbbbb64bc536b80732e9"
+    },
+    {
+      "context": null,
+      "id": "sha256:e154e003106b711a49e8d9c892e4ff59b3042201fdc0dead2424aef7203baa96",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 9
+      },
+      "symbol": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0"
+    },
+    {
+      "context": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "id": "sha256:fa7a15fdfd0cd0e51b92fb5e60dc9d7ce520cf1e15b8d60a2332080655d196bf",
+      "kind": "parameter",
+      "location": {
+        "column": 14,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 3
+      },
+      "symbol": "sha256:f72b9710d0ee5c02bef620c077e8ba9b77e3a0e9a84d206103c6d2d21d1d2734"
+    },
+    {
+      "context": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3",
+      "id": "sha256:fca577a1e89f333c277e8fd62143e695d127d013d216f981402a28afb142c5ea",
+      "kind": "parameter",
+      "location": {
+        "column": 18,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 15
+      },
+      "symbol": "sha256:880d804af8ad2355658c070c6e1e82d7e4d5d1ec5cf4caade9932292cfe51450"
+    }
+  ],
+  "id": "sha256:366c2b6ef99f44d853c83b8d6ece337e73f00c2aa8fd1d834a0823a8503f6829",
+  "limitations": [],
+  "mutations": [
+    {
+      "context": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:97e8775dff98654a2a19def7cd714d5d68f61dd970307e0a0e4131676b271215",
+      "kind": "initialization",
+      "location": {
+        "column": 7,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 10
+      },
+      "target": "sha256:31ba695bb6d9d6afe1f5b53f4174baac248e76fa47b37cec24bfd4f429dfeaa2"
+    }
+  ],
+  "purity": [
+    {
+      "function": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48",
+      "reasons": [],
+      "status": "pure"
+    },
+    {
+      "function": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3",
+      "reasons": [],
+      "status": "pure"
+    },
+    {
+      "function": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "reasons": [],
+      "status": "pure"
+    },
+    {
+      "function": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "reasons": [],
+      "status": "pure"
+    }
+  ],
+  "schema": "codeskeptic.fact-index/v1",
+  "source": {
+    "content_sha256": "sha256:4b2c1c80ff0fe2961f9a4b0a76a7064a575e0c467c4b24389501620f43141f90",
+    "file": "fixtures/fact_trust/source.cpp",
+    "language": "c++17"
+  },
+  "symbols": [
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 20
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 20
+      },
+      "id": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48",
+      "kind": "function",
+      "linkage": "external",
+      "name": "zero_obligations",
+      "owner": null,
+      "qualified_name": "zero_obligations",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 7,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 10
+      },
+      "definition": {
+        "column": 7,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 10
+      },
+      "id": "sha256:31ba695bb6d9d6afe1f5b53f4174baac248e76fa47b37cec24bfd4f429dfeaa2",
+      "kind": "variable",
+      "linkage": "none",
+      "name": "result_value",
+      "owner": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "qualified_name": "caller::result_value@10:7",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 26,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 20
+      },
+      "definition": {
+        "column": 26,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 20
+      },
+      "id": "sha256:3cb18fdf7087b3a40543b191e4606c5bc6317e35ca4aed1346d640f06cf56500",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48",
+      "qualified_name": "zero_obligations::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 16,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 9
+      },
+      "definition": {
+        "column": 16,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 9
+      },
+      "id": "sha256:3dc740fd449609eb6f72359610a6fe261f495be0b0fcdbbbb64bc536b80732e9",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "qualified_name": "caller::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 15
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 15
+      },
+      "id": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3",
+      "kind": "function",
+      "linkage": "external",
+      "name": "no_frame",
+      "owner": null,
+      "qualified_name": "no_frame",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 18,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 15
+      },
+      "definition": {
+        "column": 18,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 15
+      },
+      "id": "sha256:880d804af8ad2355658c070c6e1e82d7e4d5d1ec5cf4caade9932292cfe51450",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3",
+      "qualified_name": "no_frame::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 9
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 9
+      },
+      "id": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "kind": "function",
+      "linkage": "external",
+      "name": "caller",
+      "owner": null,
+      "qualified_name": "caller",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 3
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 3
+      },
+      "id": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "kind": "function",
+      "linkage": "external",
+      "name": "leaf",
+      "owner": null,
+      "qualified_name": "leaf",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 14,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 3
+      },
+      "definition": {
+        "column": 14,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 3
+      },
+      "id": "sha256:f72b9710d0ee5c02bef620c077e8ba9b77e3a0e9a84d206103c6d2d21d1d2734",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "qualified_name": "leaf::value@parameter:0",
+      "type": "int"
+    }
+  ],
+  "uses": [
+    {
+      "context": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3",
+      "id": "sha256:2b6b1a4c78c56dbb9e56ea6229a53cd9e88d8fae5bb7782f316c1a0a85b9e7de",
+      "kind": "read",
+      "location": {
+        "column": 10,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 16
+      },
+      "symbol": "sha256:880d804af8ad2355658c070c6e1e82d7e4d5d1ec5cf4caade9932292cfe51450"
+    },
+    {
+      "context": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "id": "sha256:4ab88ee2bde42ac4646bb00adc4f0c04edd45438f85b665791635facb0ead434",
+      "kind": "read",
+      "location": {
+        "column": 10,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 4
+      },
+      "symbol": "sha256:f72b9710d0ee5c02bef620c077e8ba9b77e3a0e9a84d206103c6d2d21d1d2734"
+    },
+    {
+      "context": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48",
+      "id": "sha256:6734e17cbb8a89d30c297f3d5f729902e2256c52a33c1f97a7f5baef5542148f",
+      "kind": "read",
+      "location": {
+        "column": 10,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 21
+      },
+      "symbol": "sha256:3cb18fdf7087b3a40543b191e4606c5bc6317e35ca4aed1346d640f06cf56500"
+    },
+    {
+      "context": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:79c7cde24c63df556dd6dc3661b20033cb018ae6d1f4f20eeff4b77d46da1a10",
+      "kind": "read",
+      "location": {
+        "column": 27,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 10
+      },
+      "symbol": "sha256:3dc740fd449609eb6f72359610a6fe261f495be0b0fcdbbbb64bc536b80732e9"
+    },
+    {
+      "context": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:9566cdbd0bba661d476ca308310ca482b24612835ed40c996e670c5b45c03288",
+      "kind": "read",
+      "location": {
+        "column": 10,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 11
+      },
+      "symbol": "sha256:31ba695bb6d9d6afe1f5b53f4174baac248e76fa47b37cec24bfd4f429dfeaa2"
+    }
+  ]
+}

@@ -278,6 +278,11 @@ and negative evidence for the complete operator table; run all BV examples with
 `--backend z3`. The [integer operations runbook](docs/integer_operations.md)
 freezes the capability matrix and A6.12 gate commands.
 
+Produce or check the one-parse referee-linked trust bundle with:
+
+    python tools/promote_fact_trust.py source.cpp --display-path project/source.cpp --output-dir .codeskeptic/fact-trust --backend affine
+    python tools/promote_fact_trust.py source.cpp --display-path project/source.cpp --output-dir .codeskeptic/fact-trust --backend affine --check
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries
