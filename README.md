@@ -128,4 +128,4 @@ git config core.hooksPath .githooks
 
 The pre-commit hook runs the full test suite, protects the test-count ratchet,
 and requires progress records for implementation changes. See
-[`CLAUDE.md`](CLAUDE.md) for the full contribution protocol.
+[`AGENTS.md`](AGENTS.md) for the full contribution protocol.

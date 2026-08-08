@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- None. F5.2 is merged, published, and synchronized locally.
+- None. F5.3 migrated the protocol to tracked `AGENTS.md`.
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - PR #1 merged at `796a1dd`; local `main` is synchronized and
-the final 652-test baseline is green.
+2026-08-08 - F5.3 completed the byte-identical `CLAUDE.md` to `AGENTS.md`
+migration; current documentation links resolve and historical evidence is intact.

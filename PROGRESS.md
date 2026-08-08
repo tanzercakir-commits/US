@@ -2419,3 +2419,18 @@ Evidence: PR https://github.com/tanzercakir-commits/US/pull/1; merge commit
 success; final pull-request run 31255570007 -> success; local baseline ->
 652/652 in 644.270 s.
 Next: none.
+
+## 2026-08-08 - F5.3: tool-neutral session protocol filename - DONE
+
++ Replaced tracked `CLAUDE.md` with tracked `AGENTS.md`; the protocol bytes are
+  identical, so no governance, dependency, technical note, or guardrail changed.
++ Updated every live README/PLAN protocol link and verified all local links in
+  those files resolve. Historical ledger and archived-plan mentions remain
+  unchanged as records of their original filenames.
++ Kept the 652-test ratchet and all verifier artifacts unchanged.
+- No blockers.
+Evidence: former and current protocol SHA-256 ->
+`c5d74c3c1edf226975affd9e3c9f1f560e81639332e53fd61ae0ce1aecfe0bf5`;
+`CLAUDE.md` -> absent; live link scan -> pass; focused docs tests -> 2/2;
+guarded commit -> this stage commit.
+Next: none.

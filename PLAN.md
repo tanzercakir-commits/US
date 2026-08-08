@@ -7,7 +7,7 @@
 
 This file is the project's **single roadmap**. It carries NO status — the only
 source of truth for "done" is [PROGRESS.md](PROGRESS.md); the current work item
-lives in [TODO.md](TODO.md). Session protocol: [CLAUDE.md](CLAUDE.md).
+lives in [TODO.md](TODO.md). Session protocol: [AGENTS.md](AGENTS.md).
 
 ---
 
@@ -20,7 +20,7 @@ lives in [TODO.md](TODO.md). Session protocol: [CLAUDE.md](CLAUDE.md).
 | PLAN.md | Hierarchical roadmap (program → phase → stage) | Rarely; extend/cancel only. Never carries status. |
 | PROGRESS.md | Append-only ledger: finished stages + evidence | Entries are APPENDED every session, never deleted. |
 | TODO.md | Active set (≤7 items): now + next + blockers | Updated at the end of every session. |
-| CLAUDE.md | Session protocol (auto-loaded) | Rarely. |
+| AGENTS.md | Session protocol (auto-loaded) | Rarely. |
 
 ### 0.2 Resume protocol — when the model/session drops
 
@@ -2413,6 +2413,22 @@ infrastructure. Reference: prototype fixtures = the specification.
   runs are green at the same head; draft PR #1 is marked ready and merged into
   main without bypassing checks.
 - Depends: F5.1, A6.12.
+
+#### F5.3 — Tool-neutral session protocol filename
+
+- Goal: remove the vendor-specific protocol filename without losing repository
+  governance or changing any rule.
+- Output: tracked `AGENTS.md` containing the exact former `CLAUDE.md` bytes;
+  live README/PLAN links target the new name and `CLAUDE.md` is absent.
+- Exact file set: `AGENTS.md`; deletion of `CLAUDE.md`; `README.md`; `PLAN.md`;
+  `PROGRESS.md`; `TODO.md`.
+- Boundaries: documentation and filename migration only. Protocol content stays
+  byte-identical. Historical PROGRESS entries and archived pilot plans remain
+  immutable even where they mention the filename used at that time.
+- DoD: the pre-migration and post-migration protocol SHA-256 values match; all
+  live links resolve; no current operational reference depends on `CLAUDE.md`;
+  full 652-test suite, guarded commit, push, and main Determinism run are green.
+- Depends: F5.2.
 
 ---
 
