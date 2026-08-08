@@ -1,0 +1,3165 @@
+{
+  "corpus": "sha256:a6cfd5325fdd746517f5a7f9a16f7f69adcbaf83f4faa79d77777e196883f73d",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:99ac34e61ca35728da3b972027b1c4fa377c4f49b6f296093cd0a4e0467fc7fb",
+  "max_proposals": 4,
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "referee": "codeskeptic.affine/v1",
+  "schema": "codeskeptic.experiment-trials/v1",
+  "trials": [
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:1408d7a4ca8400fd81cb0b6e5dffdc0003c1b389f17e25112e4898612456c314",
+      "case": "e2-case-01",
+      "context": "sha256:06b55282f99697d12fd67e5d0f474c4d58d200ec545d7aac77a72d049ca05dc0",
+      "id": "sha256:cf33aa84261a4fc158d42d9010c40e478326bcc12ab9925ec87bc2e4b6e2bc62",
+      "loop": {
+        "accepted": null,
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:27d5a1a649431ba7267a5d32d0cc953dbe39e1ff84dcfc7b8b988c009e17336e",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:ceb0773d45cd55864660f9146c39fe8f014be35a9117f53c8816f7e8dbb65e04",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:2f2aee1329decc654bc7f41c782263d50581ada45e002c62dc4b23669a394e5d"
+          },
+          {
+            "candidate_source_sha256": "sha256:f14021b2263f79d9e870d6d2a9d8c303bc489771e2e650a330475148a2500b84",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:8cfdb7fa1f7f60202d6b543c90f5cce736e6c14d6c0bf165c1a06f08aedaaa75",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:6acff117866f3595dab719535f0790986a114bbe7bf9e15616eafb89bf6f8e10"
+          },
+          {
+            "candidate_source_sha256": "sha256:8a13bf61e7cff5451ea074178446cfd3cea9afe4eeb157d3e967800aaaf39477",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:0a95eacc1271a819c7659d2d06332257ee64ab50c6f7b9b32a1795c67c0a530a",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:33a4dc0f0c6b4f0c830d4b8f7aa76a9e183a46ff5514615ce41e91f3b59f1ccc"
+          },
+          {
+            "candidate_source_sha256": "sha256:7624771b5f6ac8339653f53b492a1978b58013048d16b7b3ecc2e33e98f914c2",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 4,
+            "proposal": "sha256:b4f8555170e08f17dacbcbc66887c5d67e2aca972088d53e5e15785194123c9e",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:911a7d9e2250824e8fb0e6f3c17d93f61cdbdd0daea94f7c51efeca4dd61ed57"
+          }
+        ],
+        "id": "sha256:fd31178c55a8ad3035c9f4e4d3b88fbe1cb6a3f06015041adc7be36c353f3761",
+        "initial_bundle": "sha256:1408d7a4ca8400fd81cb0b6e5dffdc0003c1b389f17e25112e4898612456c314",
+        "initial_source_sha256": "sha256:4227327f9d93e2a59a80a8b0dc175b382f4f0295405e8446f83829e3590513e1",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "exhausted"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 5,
+      "script": "sha256:16b8983e0d16440f41cdffa4ec17451c9c984394d528ca56f5ccc0cffb4f047b",
+      "status": "exhausted"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:1408d7a4ca8400fd81cb0b6e5dffdc0003c1b389f17e25112e4898612456c314",
+      "case": "e2-case-01",
+      "context": "sha256:72338a706e60295521a8a14dc9d318e20811a4a7d7af41e07cf06faf0bc09942",
+      "id": "sha256:4095d915ba53b6268af704fb38f2359538a0b4c489ea8f2acb9ca9a374a5ef2e",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:75eb2e303d1582fa718b3bff54dd41f805f302a4187e78e5b8e766aeb575d5ce",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 2 - 1\nint e2_case_01(int value) {\n  return value * 2 - 1;\n}\n",
+          "source_sha256": "sha256:7b47e046b5c1c1966ec816fabb8baf3ed8645e77043c0a90ebc791fba47c5f44"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:7b47e046b5c1c1966ec816fabb8baf3ed8645e77043c0a90ebc791fba47c5f44",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:75eb2e303d1582fa718b3bff54dd41f805f302a4187e78e5b8e766aeb575d5ce",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:1af38be5cf4e8a4195a081dd9a2866f8fd6be7b1f3b00d9797439bbde6164162"
+          }
+        ],
+        "id": "sha256:bd408685b57f32c979334a6eda0aff9f5c7bb657c8deda6dd11590b03fd16e12",
+        "initial_bundle": "sha256:1408d7a4ca8400fd81cb0b6e5dffdc0003c1b389f17e25112e4898612456c314",
+        "initial_source_sha256": "sha256:4227327f9d93e2a59a80a8b0dc175b382f4f0295405e8446f83829e3590513e1",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:4baf8beb1f8931757334dd2c42e7cb5fc050b4f272e95be9ca404f9cff6d35f7",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:df1b7990d2a0c53a5e2900ba68cdb2883b80e4bbd9b090a1c24f2ba899d9f948",
+      "case": "e2-case-02",
+      "context": "sha256:b91fd10e26894c3c4ee905a2e3b9bda39eecb08e40bd0e1bf83e0ce02a6c92ec",
+      "id": "sha256:188e6989361d3694e519d75c196b55ee96ef05950875cbce177bb1c1c7862159",
+      "loop": {
+        "accepted": null,
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:186270047b79b33fe662348da0b31ccafcdd587645817ef33c8ff239ad7e71bc",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:22ca6c5771fdd40b03328b8eb0a9fc4654bce7080b20c25466a7bb085a87f9fa",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:30a4e4564e2cd112f95d7b20c31ad079f4dfa280f62167f27e27e25826ca39f6"
+          },
+          {
+            "candidate_source_sha256": "sha256:d71d77771eeadb10b111606ac60c6e65837b174c7861de6bce302cde144327c7",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:b4d5871e2c13e048124d6a70137cb3e45e2fcaf1463de1a5c45fa95020303b2f",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:eeb4b79d301537f29ccb72625595551ef8cf47d27e70dd056da35875b4b25179"
+          },
+          {
+            "candidate_source_sha256": "sha256:4824d587052e855258c8cdf5399c2d4de40b88fcf7c0a046be2ea318af58af5f",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:db2055faad4ebd2c38f92e021467c0f559d5906647bf7fd11fad11ccec560b24",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:c763f775e4f813c7b6a62c199a6d44563f2872c8c9f4e11d9f1e928bebe1f2b5"
+          },
+          {
+            "candidate_source_sha256": "sha256:031a072ac225a023163affe2112ca952f299cd70fb86927ed4e870e0d95d8cbe",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 4,
+            "proposal": "sha256:370a792964fd6fece814948fb022f4933a19bd6e421b8833f7dcb08f986d9096",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:bbb2ec508788c7cc612fdbc76e6997b2c11dda6905e5fa517066b02b77e75cfe"
+          }
+        ],
+        "id": "sha256:fd77768322698398b10317484d3a54b4d6cb5b73c7b92cfdea4606d5967b3edc",
+        "initial_bundle": "sha256:df1b7990d2a0c53a5e2900ba68cdb2883b80e4bbd9b090a1c24f2ba899d9f948",
+        "initial_source_sha256": "sha256:6230199c61e1c94cea988a4bcdb8c71e225ca33832419a7c59027b5b177a7838",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "exhausted"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 5,
+      "script": "sha256:a863785a94346a3385829d256ac8879bb30ee5399b8c859495562921372cddb4",
+      "status": "exhausted"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:df1b7990d2a0c53a5e2900ba68cdb2883b80e4bbd9b090a1c24f2ba899d9f948",
+      "case": "e2-case-02",
+      "context": "sha256:dd1762ed612cfc6960abe7a1016f90e65b8b0cf37cf8b0ef185fbf88a1025552",
+      "id": "sha256:6d0886ea558e2e9b61e1c4f7e201867fba23378e8c87623d3f2440a65e9132fc",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:bfd3a436223f5fea65171a87e6b956f871298deb4cd36c5377f1a37aa5a0d58b",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 3\nint e2_case_02(int value) {\n  return value * 3;\n}\n",
+          "source_sha256": "sha256:5f2c30bf7e74391d4b938f893823b1f710ce96a718c4efccb4b19f93b91d8683"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:5f2c30bf7e74391d4b938f893823b1f710ce96a718c4efccb4b19f93b91d8683",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:bfd3a436223f5fea65171a87e6b956f871298deb4cd36c5377f1a37aa5a0d58b",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:8918b631a064efd007418f6ee50e9021dd5e7c05c0ac350d53ba71ea45787e2f"
+          }
+        ],
+        "id": "sha256:7468c5ad58ac9187ea0e336e9a6f2221186365281f7b003872071f0e4b2915f7",
+        "initial_bundle": "sha256:df1b7990d2a0c53a5e2900ba68cdb2883b80e4bbd9b090a1c24f2ba899d9f948",
+        "initial_source_sha256": "sha256:6230199c61e1c94cea988a4bcdb8c71e225ca33832419a7c59027b5b177a7838",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:ea6789b8efb1543cc45dfd777938b1e72b5a7f95508663438762727b0ca99236",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:0e253b6915d538c6c983dabfaac6732119e83e0c4dd17177949ab0d7b0601a65",
+      "case": "e2-case-03",
+      "context": "sha256:b218595b6f5df83103ce66dd7b8ed1c2256b610f02406b9421e5c89fc7aff076",
+      "id": "sha256:731f4df7511729da6ff84c6a44feeefcc0906d004986e37da2b48654028c7a48",
+      "loop": {
+        "accepted": null,
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:772102daaada8986491a28564921d271b36173cfc29e5f33a76211035c02d4d6",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:ec93bafa2cba33a5aba5760d10992d3d35ce22136e7b2b77425339fb682281ad",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:27fe12c9fe46af3b2e71e187470e277456d4a5392bf8f803f7648f096623bd43"
+          },
+          {
+            "candidate_source_sha256": "sha256:8f6f7c9d4da35167c926b216ec208becd4ca60d47475dc10082cfb8032224e4d",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:80cc5540015bead668dab6f0691ea01803a6b7be69a347e17706108dd91f710d",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:3d12afd63253012da79cc1c4777ef802ba6d7a7268c227ac4376c2a7bb77c2a8"
+          },
+          {
+            "candidate_source_sha256": "sha256:1c4752be8bb84a6244269242bc0391c99589d00d1db4254eb35948c618772f23",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:bfba67ff4a8381f57bdb2fd58e0a40861637da767fa42520609e64b88839adb9",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:353b9503cb4cd534882920a77df3f6bc35df1107e435b853565ab85096081ee3"
+          },
+          {
+            "candidate_source_sha256": "sha256:5fb71faf6ecc1574b8ce0b5d147aa00326ebe00bfadf28dbc87280da0eae60cc",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 4,
+            "proposal": "sha256:d786f8402994116d28fd9b52ee3fff8d5f90d0c7844d31f5b76f9a7340c707e7",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:a5131d5a02b8bd707ab5189ea248e8a5d85b98a2430e36b0fdff19ace3ca45b7"
+          }
+        ],
+        "id": "sha256:317c3bafd04b940ba030d68e75aac5af070bcbd9b34a62abc3b0bc3fa3ea6c0b",
+        "initial_bundle": "sha256:0e253b6915d538c6c983dabfaac6732119e83e0c4dd17177949ab0d7b0601a65",
+        "initial_source_sha256": "sha256:73c3c9645aa6dfef54fe1d875436f831868f4c181314a6dd1a093a4fdfa0c88d",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "exhausted"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 5,
+      "script": "sha256:e7dd359cbcaedac52b5275672b53842416888f6e390e93e7210670a1208aa4ca",
+      "status": "exhausted"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:0e253b6915d538c6c983dabfaac6732119e83e0c4dd17177949ab0d7b0601a65",
+      "case": "e2-case-03",
+      "context": "sha256:031c6a22be0b8291778247519d88011bd51b87cdd4cc4ff6d0cb11e6bbdab361",
+      "id": "sha256:a1d24d24a2b2c60a44c2111690d5063861dbafb9a1158ceab4e3d375c61b8c15",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:4fcfb1941328d8fde2ae92e8cb05231733e145675f1f2ee89691442bcf20a6fd",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 4 + 1\nint e2_case_03(int value) {\n  return value * 4 + 1;\n}\n",
+          "source_sha256": "sha256:93070887a719a06beee06b2787e2a0d56f3519d7304194bad3c21741ed36569e"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:93070887a719a06beee06b2787e2a0d56f3519d7304194bad3c21741ed36569e",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:4fcfb1941328d8fde2ae92e8cb05231733e145675f1f2ee89691442bcf20a6fd",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:74079000135793564e509c721818e790cf4a942ba6980915ddf5c34a18f0025e"
+          }
+        ],
+        "id": "sha256:81d0f986298cfb684cf33167284f6cec4ab3c28f784ad11354d797638b14fa05",
+        "initial_bundle": "sha256:0e253b6915d538c6c983dabfaac6732119e83e0c4dd17177949ab0d7b0601a65",
+        "initial_source_sha256": "sha256:73c3c9645aa6dfef54fe1d875436f831868f4c181314a6dd1a093a4fdfa0c88d",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:e7e598370b111a02f84c2dfb75883cb5e21f3665962d1c166dddc4a163084c83",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:a333987a50aaf53271dde574b8a86f558c2b6ed76f16098afaa367de72fe4c0e",
+      "case": "e2-case-04",
+      "context": "sha256:5c55a85a4d139a58189e12c52347caa2653fb97162879e7f3f9acfc7e5e1c6cf",
+      "id": "sha256:b4960d64d5d8add9869672364d8801ca31214ea2a66f2c79caee2c3664b9fa20",
+      "loop": {
+        "accepted": null,
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:ffb0eaa5e5c111fdde65a91cc333bd63d1ac7a03d2b27ef77c4fc531baed7e95",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:a53ed038f5b4a6aed53d2f5e7e2d078fd2ef4eb6275b9603acf2331dc0635e25",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:55e5041346d2e4d7ae7eba6b5da02de1c7023719fadea9ef83291106267acdec"
+          },
+          {
+            "candidate_source_sha256": "sha256:18643320c0366570c2a21dc193dcbe3a6a4f9c5047d515fae93aa43a8545e934",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:017ae7b4d4ad2841f9227e6bf6ba08d4f034b14e65fbdd155b78db3fa2dece7d",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:edc38622495dc4a1793cc82eabc9dbe0794f13fbbb362c465b0064a0bf03daf5"
+          },
+          {
+            "candidate_source_sha256": "sha256:be23a7aab5157bb5c00ad6809f5c6979eeffcd79771ead54c52ab983622f56c1",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:1ba2793948b586fda07964b6389c9faefe3ed166019b55c541074f5adc125b83",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:ad71e7f2560b4e6decd09dc8a899e217a8ce35544ada4de27bdd7d62721e4250"
+          },
+          {
+            "candidate_source_sha256": "sha256:7749a42c7854b04c908fd383344c5c3f56e16a433ad341c5abc11d69c754091b",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 4,
+            "proposal": "sha256:f11287b52726a305c6c9b5662ff8288b403884f8f46442b712e5ea73df6822a0",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:f80db89682cd59aaa9b0e7d548b0fd628fe65868111b8606ca1d30e8ec7a9feb"
+          }
+        ],
+        "id": "sha256:991be981d7caf57d74e30ad26cfd70e326e1f3b3df944db357a9f77dd25cc7c9",
+        "initial_bundle": "sha256:a333987a50aaf53271dde574b8a86f558c2b6ed76f16098afaa367de72fe4c0e",
+        "initial_source_sha256": "sha256:689b8d65bf70fd5c9101c522e14805d612cdf3f41ff01129e35c96e86c57f02e",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "exhausted"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 5,
+      "script": "sha256:0650f6bd14cb8c8a3beb2a2834c6b20821d6b8b749e7d26fc3254400691ea34a",
+      "status": "exhausted"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:a333987a50aaf53271dde574b8a86f558c2b6ed76f16098afaa367de72fe4c0e",
+      "case": "e2-case-04",
+      "context": "sha256:e39090e67e4f3d6973c642cab8da7d246358eea11b21063644c9ff94a23d547c",
+      "id": "sha256:15cc555284d5d7f613307cc154c5b8fc0a83bb794c63b1c14da33fd66b4a19d1",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:92639e4b76def8cb4d74e5c58336fab6b3bbc129dd5a249be98acd04fc871a35",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 5 + 2\nint e2_case_04(int value) {\n  return value * 5 + 2;\n}\n",
+          "source_sha256": "sha256:b224bb4ccfaca0552a743598ae45c2d5ecd74ce57e66816ad9663f05ef65c357"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:b224bb4ccfaca0552a743598ae45c2d5ecd74ce57e66816ad9663f05ef65c357",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:92639e4b76def8cb4d74e5c58336fab6b3bbc129dd5a249be98acd04fc871a35",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:f6ef9c7435c84afc44b3300d9915b195e9c4a77eec3438ec32a4f29d6754a8df"
+          }
+        ],
+        "id": "sha256:b8019e75ca8392274bf46ecab0d28a6692a1d2b513294b3651a5f70f9802b52f",
+        "initial_bundle": "sha256:a333987a50aaf53271dde574b8a86f558c2b6ed76f16098afaa367de72fe4c0e",
+        "initial_source_sha256": "sha256:689b8d65bf70fd5c9101c522e14805d612cdf3f41ff01129e35c96e86c57f02e",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:4bacc349f2fa34281e5e34b48166ed6122a533c46132282fae9bf6188447d2df",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:a0c84301a77c9efe9e429dabd317c058b9e4b26a47fb2ad4f5cef3a7242c02ff",
+      "case": "e2-case-05",
+      "context": "sha256:6d0a666ab64e510494c80aa324264739672a5c31d51cc5472c529c188698fd69",
+      "id": "sha256:1372ade506bc0cce2c47a37d796de168cfbae1abc404672c8517bdb43a6387cd",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:0e4dd98286a258e7b3db5564c7d0a2f82e5405ff5f367a8da81ddf6278e1f2b5",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 6 - 2\nint e2_case_05(int value) {\n  return value * 6 - 2;\n}\n",
+          "source_sha256": "sha256:f38e057d561ae1bb3305d6ad86c9f18340d60bd905b212b9508e6ac5b4abd203"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:6e9aa0ddffcafb46fe72cd76212ce469fa0e3d374edd7c4137ba42f5ff07f489",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:e11cf0515e82d16ea964eb5ea868704518472d42741ca54c3a8fe8cc76504a29",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:a5a7886108ac22e10c18636b90a61660f68e4df3c45b314690b91207a60ee8c8"
+          },
+          {
+            "candidate_source_sha256": "sha256:facac21458725ca8240520452af4c09b962da35eee07be8d80f22900b5241a3c",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:84960b10ac26fd81b589e8bf2ab0ff7460645d6f061e4ea7d95d2f81c67a7fd1",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:8dcfa23f190764f6441618b1151dd0387f850bca707499f022b6144b9f7206ee"
+          },
+          {
+            "candidate_source_sha256": "sha256:90266a6369440848f784d4b21395c0d0dd310e9d06cd2fc8b03d4ce954506a56",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:2763852acc03c7803b4d5fae5d6ba745c099d660247d2ebd45b754c284e38426",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:f32a955d7fe0bcf1d7afbe33d5ca1646b434bccae3ee5dd14b74889a1c6114bf"
+          },
+          {
+            "candidate_source_sha256": "sha256:f38e057d561ae1bb3305d6ad86c9f18340d60bd905b212b9508e6ac5b4abd203",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 4,
+            "proposal": "sha256:0e4dd98286a258e7b3db5564c7d0a2f82e5405ff5f367a8da81ddf6278e1f2b5",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:c6cba50fbea810c0be3eb198b1356f3723d169bcef34c5e9a50572a1ba5d364e"
+          }
+        ],
+        "id": "sha256:ec55744cbad7737b1f4b97d13d54f9d0bde30917ea6bd72a505091cfd5a1121e",
+        "initial_bundle": "sha256:a0c84301a77c9efe9e429dabd317c058b9e4b26a47fb2ad4f5cef3a7242c02ff",
+        "initial_source_sha256": "sha256:2a8113b38915291dd02ec7a0e6d13c8779a167f218b51b5d01e8bb9203df746c",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 4,
+      "script": "sha256:6f3ca8ee2d0b583513a248724c8fd326d6fc92a3ac83842cad2911a62cdde0e5",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:a0c84301a77c9efe9e429dabd317c058b9e4b26a47fb2ad4f5cef3a7242c02ff",
+      "case": "e2-case-05",
+      "context": "sha256:4f6faa374087d227faa1d0c20a1e013cd8298c1cf6ea76f3e73fbb1138c54df4",
+      "id": "sha256:df587ecddd58aa949eff6d9b034fd7f32b3eb09b5286c2dd0e6d6a424d2ec018",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:0bd61b180a38458162ad93eb7272eb11957ea7840ed85e73b93a05e2ad1e41d4",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 6 - 2\nint e2_case_05(int value) {\n  return value * 6 - 2;\n}\n",
+          "source_sha256": "sha256:f38e057d561ae1bb3305d6ad86c9f18340d60bd905b212b9508e6ac5b4abd203"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:f38e057d561ae1bb3305d6ad86c9f18340d60bd905b212b9508e6ac5b4abd203",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:0bd61b180a38458162ad93eb7272eb11957ea7840ed85e73b93a05e2ad1e41d4",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:c6cba50fbea810c0be3eb198b1356f3723d169bcef34c5e9a50572a1ba5d364e"
+          }
+        ],
+        "id": "sha256:29bdf6a6adc147f419f2902cc0f52c5fb92284c7c6be6941509160507dde36ff",
+        "initial_bundle": "sha256:a0c84301a77c9efe9e429dabd317c058b9e4b26a47fb2ad4f5cef3a7242c02ff",
+        "initial_source_sha256": "sha256:2a8113b38915291dd02ec7a0e6d13c8779a167f218b51b5d01e8bb9203df746c",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:eb87ae5cdc02dffd69283cbb8d0dcf1018c5057991429f47074b2a87b264a1d2",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:6676f17c453dbe6abfc0a0b01df563ed7ab00da662b815a38e37f924a6b71af2",
+      "case": "e2-case-06",
+      "context": "sha256:b7920b76c86425d5d3c56111c55c0688e4c9d380abadc27ab31b1d937b08cd28",
+      "id": "sha256:1d7da321b57924b1aae9456ec532b96332b78d36b3d87654975a7fa5008d4591",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:1c7af0d22ee0346467311cb716ec9b02e2572116380e517d8ef1f5c94000a5e2",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 7 - 1\nint e2_case_06(int value) {\n  return value * 7 - 1;\n}\n",
+          "source_sha256": "sha256:51189b7c85b8f295a4b45f733130bd87dc6ff347d0b1632d5b3d9bc3bf68ad35"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:a6590ed0ba1555ac99d0ff3a20b481984dbd7c19dea0c589d410b2e0535a26f4",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:909171ff9200127fa43ac325b71e201187ea739f308e0f9881bc2cf5dde1875c",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:851636e95e2595fef15ff5a86f012e4faa41524d5ae5066ab28a6466f6742337"
+          },
+          {
+            "candidate_source_sha256": "sha256:17d7084f51c3bdf7f6b8cda0cab7924ec98592dcf91225c29efec5de8c300091",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:23b5f76aad1699374845e3ad603a8ce1c4d2fd6de8a1d9df03dcb3f6d0c320c7",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:3fc09ee3811c92a2d426dec2fbc00caabb9db162bd923cf95cad4060e0d653db"
+          },
+          {
+            "candidate_source_sha256": "sha256:edeff316c9775a84d877901a0aa245c9ca19aa5a4943040f6193d86d38c00e4f",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:13b47a9149784134be7ca38d96c5116fa2cdb6be043cb9e76efeecc43ed6f849",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:b85c87a0058f9d1125a0bc33a15659b7ea9064260c19d2307b3fabcca5f24dda"
+          },
+          {
+            "candidate_source_sha256": "sha256:51189b7c85b8f295a4b45f733130bd87dc6ff347d0b1632d5b3d9bc3bf68ad35",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 4,
+            "proposal": "sha256:1c7af0d22ee0346467311cb716ec9b02e2572116380e517d8ef1f5c94000a5e2",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:8c9ac1fffe72ffa222d6e3adaee6bd23e07550c8d78c4d11491567775fe8ff0d"
+          }
+        ],
+        "id": "sha256:da77a5ea113809a1bbd8bd1ad4a0b3729103b3a4747926066fef524b18451b38",
+        "initial_bundle": "sha256:6676f17c453dbe6abfc0a0b01df563ed7ab00da662b815a38e37f924a6b71af2",
+        "initial_source_sha256": "sha256:edcd75f8551893c49bdeb42b243afcf39bb6a3b4241fe59b1a59f929b44301c8",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 4,
+      "script": "sha256:3bc3f5843976c93f5826beff7cd94e07e5a3b2a5c9b3075f179d5aa936ba4263",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:6676f17c453dbe6abfc0a0b01df563ed7ab00da662b815a38e37f924a6b71af2",
+      "case": "e2-case-06",
+      "context": "sha256:781716430d494d2c3f79c0e8a70db13862cbd5ea8b8c2ff234973b90059c6a79",
+      "id": "sha256:df6e9d5af295d1ed9ca176c34b33b3ae5b8ed758f6046076754ca19d6edd452b",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:dc4cc89189fc209829a3e2ae7cf179cd61613e8604a2dd1b0ba20a1e0a3ecb7d",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 7 - 1\nint e2_case_06(int value) {\n  return value * 7 - 1;\n}\n",
+          "source_sha256": "sha256:51189b7c85b8f295a4b45f733130bd87dc6ff347d0b1632d5b3d9bc3bf68ad35"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:51189b7c85b8f295a4b45f733130bd87dc6ff347d0b1632d5b3d9bc3bf68ad35",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:dc4cc89189fc209829a3e2ae7cf179cd61613e8604a2dd1b0ba20a1e0a3ecb7d",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:8c9ac1fffe72ffa222d6e3adaee6bd23e07550c8d78c4d11491567775fe8ff0d"
+          }
+        ],
+        "id": "sha256:a06236fcf84507c1cf3faa3bb1d2d2bb0df3242363645c6e015bfdfa473bb00d",
+        "initial_bundle": "sha256:6676f17c453dbe6abfc0a0b01df563ed7ab00da662b815a38e37f924a6b71af2",
+        "initial_source_sha256": "sha256:edcd75f8551893c49bdeb42b243afcf39bb6a3b4241fe59b1a59f929b44301c8",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:bc7216799208467fb9e9f92ded1f643b1a571042598d5d0b25e6bae47bcbc510",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:8fd601c881bff16a5a1cce66a04ca70ba7a15a41022bab4f65f811c2705aa9f4",
+      "case": "e2-case-07",
+      "context": "sha256:2a811d3d3df45390c2035bdb9c18835aed0a6ed7f0bbb4c4de398bf0323619e2",
+      "id": "sha256:e21835946f96eca5e5d9932c3990f49e94461b5067fe198124b99b680566991b",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:db93bfbb360b17f50c75e700f90c43d66cb5ec7096ee101df8be771cc39b0fab",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 8\nint e2_case_07(int value) {\n  return value * 8;\n}\n",
+          "source_sha256": "sha256:d6d6970e1bd376b98bda5ccc158bcdae131290e0db5f494bb219eb408d46e7a4"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:ffe2f11cd6bb82ec56f266342033e3892915dbb1ca757cc7710f9ca399c8f22d",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:3b5f32e2698630701a2c7c33436f519f76be8a920ee31aed26b4c63d2cf64b1b",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:eb0e19b3ea1b657c2980d2fd5071f2aa2a86bf7db7875c6cd21c2eac2fbb4916"
+          },
+          {
+            "candidate_source_sha256": "sha256:10a61fe9c9cad15867f2f37d4e1249b6d59818c4da69aecc8aa6c1464ee4c483",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:d409f241e1753dcfe251e09c0121128aca1b9eb2b91cc2a086cd2c5ac357196c",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:203070fdfe7a5cba2829f07d38ab9115d1050a4bb416382a911e22ef9c8d9859"
+          },
+          {
+            "candidate_source_sha256": "sha256:5801122366e61875ca086a4d58382314ec04ea90bdc154574040e82251bcd08a",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:8a1b4598ef10db261253604470b55dc32e82659a4b7a95d4416ae71a30142dd8",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:15801341cd7b85e1d818c8979a1678f0f892b93a308acf580ab4d0b5c0a64e42"
+          },
+          {
+            "candidate_source_sha256": "sha256:d6d6970e1bd376b98bda5ccc158bcdae131290e0db5f494bb219eb408d46e7a4",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 4,
+            "proposal": "sha256:db93bfbb360b17f50c75e700f90c43d66cb5ec7096ee101df8be771cc39b0fab",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:8fe2a45b9328f71f8775ad574057b516984a764b5ec770edadc5c46675b14810"
+          }
+        ],
+        "id": "sha256:8a950f04521aed6f153c81655809a9d2ac567fbff30627ef1f34d21380d6a2c2",
+        "initial_bundle": "sha256:8fd601c881bff16a5a1cce66a04ca70ba7a15a41022bab4f65f811c2705aa9f4",
+        "initial_source_sha256": "sha256:2d328db0a79b4f9811ae2747d0659d9ef70639c7b848d608f85acaf424660e01",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 4,
+      "script": "sha256:9d906dd10224b1850f20871dd9252d5c9565a725498fe730ee80a34382db8878",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:8fd601c881bff16a5a1cce66a04ca70ba7a15a41022bab4f65f811c2705aa9f4",
+      "case": "e2-case-07",
+      "context": "sha256:5d1e6994a6fd007219c395bda48fcf66660b90e77084af6108081de646e3db03",
+      "id": "sha256:56d377b79ce9004efbb22fb134a88cfc8471e6bd4b72c414efc1db57174846b7",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:dd2337d2e34cb105f7ec19c3422f347405d4404f703a7aa68cba6499c3a36356",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 8\nint e2_case_07(int value) {\n  return value * 8;\n}\n",
+          "source_sha256": "sha256:d6d6970e1bd376b98bda5ccc158bcdae131290e0db5f494bb219eb408d46e7a4"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:d6d6970e1bd376b98bda5ccc158bcdae131290e0db5f494bb219eb408d46e7a4",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:dd2337d2e34cb105f7ec19c3422f347405d4404f703a7aa68cba6499c3a36356",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:8fe2a45b9328f71f8775ad574057b516984a764b5ec770edadc5c46675b14810"
+          }
+        ],
+        "id": "sha256:d15c23ea0192124ca1383b26e2824f1339c904899bb77d04a2fecd4ab54e3534",
+        "initial_bundle": "sha256:8fd601c881bff16a5a1cce66a04ca70ba7a15a41022bab4f65f811c2705aa9f4",
+        "initial_source_sha256": "sha256:2d328db0a79b4f9811ae2747d0659d9ef70639c7b848d608f85acaf424660e01",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:0ff35e1b8f006ede2e5f375d35adcb0c4bd839f39b00189a996ca06b78e79640",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:a4852e2d63681819078acbf557e759b311f627fb9dc03a1543e16303d03bc507",
+      "case": "e2-case-08",
+      "context": "sha256:a300407e501b0bb496167afb708e4a33292fa8a03e97787ee5f6df010cc23931",
+      "id": "sha256:182025831458723f5677c28ccbe9fb4fe6c194c8cea11e0a542fc02d4870ce68",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:8192a34ccab38ca70905fc3e7fe684295337d3b7217ac864bb7ecc91d785d17a",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 9 + 1\nint e2_case_08(int value) {\n  return value * 9 + 1;\n}\n",
+          "source_sha256": "sha256:a529378f08cf4e7bd53c18a482d6eedf16377d221f592647ca9feec3f9956636"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:890c0359fa8a54428ef8b5ad53cbce3ecaa42f36c0ca6dac8563bf0a5dd8b6d8",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:ddab667a7e5d56700a747054480601453c7a94043d7629360424b5dd6a3135bc",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:b60586625c8d55c363a52fa65a8f6dfbbd83f43160a71753b85f861f5b379dd3"
+          },
+          {
+            "candidate_source_sha256": "sha256:90659d8abb4ccccd37e5538b20a0bd08288013dc66aee07f1d47760eea503c57",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:5632bc34da5e70f4dd1e62ebe3a0345d8100dcbc8d0c4984a7b54d884f9f2be0",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:99747b4f43ab4e141233283e795e317c7349b2ecabe1dbe4c7cc484f524798bd"
+          },
+          {
+            "candidate_source_sha256": "sha256:390831a6b3f7bc89ccc4548c3123bc018f2aa7a8eb8c26bc1390061560a33deb",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:5b976f66e1c46761ef12e78228e01e1498b66fd7909cc7a99994e0611ec3e644",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:736955800e6cd6ff9e58b801ea2273ef4a1260f598595b860faccfb78a6099c4"
+          },
+          {
+            "candidate_source_sha256": "sha256:a529378f08cf4e7bd53c18a482d6eedf16377d221f592647ca9feec3f9956636",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 4,
+            "proposal": "sha256:8192a34ccab38ca70905fc3e7fe684295337d3b7217ac864bb7ecc91d785d17a",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:5de125852fd229c95952eb00b0459046af120ddb5b57d4bfa6b5545deea5d283"
+          }
+        ],
+        "id": "sha256:b0e303aeb6001de4fc64f2b9c3fb85b8bde4717b3c9f8a3d35846fc9f0de4156",
+        "initial_bundle": "sha256:a4852e2d63681819078acbf557e759b311f627fb9dc03a1543e16303d03bc507",
+        "initial_source_sha256": "sha256:225b96abc5b3410b67e8c55ae2387a4a471dcd95e4e90207787397f4ad86fe4e",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 4,
+      "script": "sha256:54644056a9200f8e5c93c947599a8ca54bb94250ae791669070a12537134b80b",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:a4852e2d63681819078acbf557e759b311f627fb9dc03a1543e16303d03bc507",
+      "case": "e2-case-08",
+      "context": "sha256:2fea405107a8f8eafd2c455e263e40c83cb34fa5de06464c2f2d2d9ba0317b9e",
+      "id": "sha256:4c84c31df72151d9fea99516c17c12aa5050ddb1c0244ebb5cbf6789bdc2c20f",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:06d2847b8405d12314f06b93d1faaa64981de57bd7a129d0a2774ffeb27b7969",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 9 + 1\nint e2_case_08(int value) {\n  return value * 9 + 1;\n}\n",
+          "source_sha256": "sha256:a529378f08cf4e7bd53c18a482d6eedf16377d221f592647ca9feec3f9956636"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:a529378f08cf4e7bd53c18a482d6eedf16377d221f592647ca9feec3f9956636",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:06d2847b8405d12314f06b93d1faaa64981de57bd7a129d0a2774ffeb27b7969",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:5de125852fd229c95952eb00b0459046af120ddb5b57d4bfa6b5545deea5d283"
+          }
+        ],
+        "id": "sha256:7d43500583ee23f6df4586723375917e9a14aa8318d36aa6f1e3f46e634c4409",
+        "initial_bundle": "sha256:a4852e2d63681819078acbf557e759b311f627fb9dc03a1543e16303d03bc507",
+        "initial_source_sha256": "sha256:225b96abc5b3410b67e8c55ae2387a4a471dcd95e4e90207787397f4ad86fe4e",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:d343e855c6f1e12cc367da3af16c1143577580fd2c793d22c1e1e5cece51691e",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:ee0b729b99f952c76bb5eb8d04c38c417a80ae030dbdc5b0525505b309cbe6e8",
+      "case": "e2-case-09",
+      "context": "sha256:07f47f88020d4b94a1487b0272e97eeb5290c585db02125f05ffa892b9e050e0",
+      "id": "sha256:c59b471a9f951f6f84b39298ff85fac2b7e9d51876ebfce4264f99a60d628f97",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:1fb81da55d02fe10ea99aa493b9214422681dc2284865037c2780e5808bba067",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 10 + 2\nint e2_case_09(int value) {\n  return value * 10 + 2;\n}\n",
+          "source_sha256": "sha256:dc233f08fc7b61fd3c42648df8e02d42e817bd62745e7eca8c9371beeab4e1e8"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:eb5fafa239d44d2edea2e417f49b6434a202413057647554d913fd8b48fff6b0",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:e0f797b6084814ad2f0d4e713f7ada970ac15d5c203edc35394959a6cafa1251",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:0a31a88e0ff2b450db2c64328b0a93a631cf8e818bcc7d73540dd7a8c8e31535"
+          },
+          {
+            "candidate_source_sha256": "sha256:99765a5b5b4dc3a33ef1f3a855255a8ef36124446c82e41a22e7e6163fbe420f",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:f8caebf50e03eb5803aa2ae04d0b3f928d4a56f33504644a70d5193ece40ef85",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:53d4857a1b36e87e7066296499dc9b04596d67778856023425aeec45b8531777"
+          },
+          {
+            "candidate_source_sha256": "sha256:2db062be186667594d128f2a4adcb8073192444a71f2acb14d5876e56ddaaa7e",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:b505eafd0327374f7f0b4378976190fe7c6368b15f56ebe7a030677a9c0d9cf2",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:c0a402ceb5cf5ad7fc5371ced294cd71a080c695a939ae89f868bfb194e70039"
+          },
+          {
+            "candidate_source_sha256": "sha256:dc233f08fc7b61fd3c42648df8e02d42e817bd62745e7eca8c9371beeab4e1e8",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 4,
+            "proposal": "sha256:1fb81da55d02fe10ea99aa493b9214422681dc2284865037c2780e5808bba067",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:dd277b4e27987d1733c99392f953caa4f60862994b6776268f2bb54a9b4deab8"
+          }
+        ],
+        "id": "sha256:29b46020ed7faf328630a056b0171deb6abd94b89869996438b82872ed6a368c",
+        "initial_bundle": "sha256:ee0b729b99f952c76bb5eb8d04c38c417a80ae030dbdc5b0525505b309cbe6e8",
+        "initial_source_sha256": "sha256:b24a39405f74a846fd063db97fb7384c7a9376f7fd9bcde237234e60cae35963",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 4,
+      "script": "sha256:db3b0713f214190761a33e2d8553730193c5f8811f306492d0808275ef242d3c",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:ee0b729b99f952c76bb5eb8d04c38c417a80ae030dbdc5b0525505b309cbe6e8",
+      "case": "e2-case-09",
+      "context": "sha256:f38a31afc0ef0684d8af63423d74e392ccb3d9f2ab58f88873b5496acc484371",
+      "id": "sha256:c260dc24ffb73bc9f34c29fff8460a9bade0f88fdba8a31c4d2acd437e298358",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:13974cc0b74d072318072b7c4f55b2419b78df1a9b6833b95d461b7616987e29",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 10 + 2\nint e2_case_09(int value) {\n  return value * 10 + 2;\n}\n",
+          "source_sha256": "sha256:dc233f08fc7b61fd3c42648df8e02d42e817bd62745e7eca8c9371beeab4e1e8"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:dc233f08fc7b61fd3c42648df8e02d42e817bd62745e7eca8c9371beeab4e1e8",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:13974cc0b74d072318072b7c4f55b2419b78df1a9b6833b95d461b7616987e29",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:dd277b4e27987d1733c99392f953caa4f60862994b6776268f2bb54a9b4deab8"
+          }
+        ],
+        "id": "sha256:60902d41c4bae86a01a076e8de6c23fd48166e517514cb32f1acf3bddc505d53",
+        "initial_bundle": "sha256:ee0b729b99f952c76bb5eb8d04c38c417a80ae030dbdc5b0525505b309cbe6e8",
+        "initial_source_sha256": "sha256:b24a39405f74a846fd063db97fb7384c7a9376f7fd9bcde237234e60cae35963",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:d9b4fa6a4ce79d083b074355e2f2d4b39453128bd8fda49bf10c242eef42f707",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 4,
+      "bundle": "sha256:20305a83ed667c99f629639bfb62a1a0da49e2fd3ade22c0611fe0d466afd984",
+      "case": "e2-case-10",
+      "context": "sha256:3f2682009852f81e70830aaf8dfd2d9beeffbe8b64ce515d349fa799fff8ecd3",
+      "id": "sha256:452939dac63cf49f89ac3327ef0f0df294105552ee4114bd19c97b27e8408cd6",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:fd923b844cbad6ed4922e324d4bd60179f1e2ae4f97f29c81fd24b306dc75988",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 11 - 2\nint e2_case_10(int value) {\n  return value * 11 - 2;\n}\n",
+          "source_sha256": "sha256:be11de99d5418c7f54a91bc97af0e582da61fec5d9df4f034edfd57d63d5fc1f"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:64f2d22c424b851f88308c3c5dc611375d483043d43156858cff678e47db4458",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:49e6af30e267115ffd11b00ccb3a1221d0f6a7d49f1e92fcb25b0f7ec1555b60",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:706a7e64fa8034a48a3dd13fe677e3f0c1408bf730f38215ddf172163d3b09f0"
+          },
+          {
+            "candidate_source_sha256": "sha256:1127427adb7451cc990d6f1aa37c87062e581751ea702510e6687c243a292386",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:27efa20f9969c5dfcc261e3ec00b5f663f6310ee8e5dd6b8bac0ee34e071a8fb",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:f91bc3c64cb8091e5d431ab7c3a2124405b6df6b786bc16551a781de56424675"
+          },
+          {
+            "candidate_source_sha256": "sha256:8e49485bd721fb4f5bf3f60ef11df3eec3f4a77aebc6db328241d5adf0e473d1",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 3,
+            "proposal": "sha256:b06e9ecc6b2537b2c0f04a3287fbd048e98b3601e78a761256e4f5b1c2090bda",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:2d57a1cd01fec0c12b8e57f12cf5e438406fb071e991acf38659b5a9dd9ccea3"
+          },
+          {
+            "candidate_source_sha256": "sha256:be11de99d5418c7f54a91bc97af0e582da61fec5d9df4f034edfd57d63d5fc1f",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 4,
+            "proposal": "sha256:fd923b844cbad6ed4922e324d4bd60179f1e2ae4f97f29c81fd24b306dc75988",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:e3e8e3b4d0dd1b7baca480b7fcd6ddb03b38ab486417caf37f68ce577b828d8e"
+          }
+        ],
+        "id": "sha256:63522d33a3ffedd5218df2b3416eff92555bfccd31c4a8f6072ee713ff2c4e84",
+        "initial_bundle": "sha256:20305a83ed667c99f629639bfb62a1a0da49e2fd3ade22c0611fe0d466afd984",
+        "initial_source_sha256": "sha256:1b45b1737d6e4465e33b77c16a4114b0f093c0759fd7c8161b12522a6686a832",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 4,
+      "script": "sha256:95ecd607a67dae0c4ade6f0f60251c607d25e9f926021c5ab1aafd326eef2d6b",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:20305a83ed667c99f629639bfb62a1a0da49e2fd3ade22c0611fe0d466afd984",
+      "case": "e2-case-10",
+      "context": "sha256:ade683651c8f2390a9c93902763921421329f722a14f8d17e4fc8466373650bb",
+      "id": "sha256:459a596d6a06dd6f31944b782604a251cdff953e9550e1bd3f63478c109d5325",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:ced43dc3b6a7a05e365f0a2b33149425e3c0e87ae64a98e4514adfb78b8ff6dd",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 11 - 2\nint e2_case_10(int value) {\n  return value * 11 - 2;\n}\n",
+          "source_sha256": "sha256:be11de99d5418c7f54a91bc97af0e582da61fec5d9df4f034edfd57d63d5fc1f"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:be11de99d5418c7f54a91bc97af0e582da61fec5d9df4f034edfd57d63d5fc1f",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:ced43dc3b6a7a05e365f0a2b33149425e3c0e87ae64a98e4514adfb78b8ff6dd",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:e3e8e3b4d0dd1b7baca480b7fcd6ddb03b38ab486417caf37f68ce577b828d8e"
+          }
+        ],
+        "id": "sha256:03b7363ac34f6428a16a5c574ee2e5d0c44825d49545b1f590ebca90d5be07ba",
+        "initial_bundle": "sha256:20305a83ed667c99f629639bfb62a1a0da49e2fd3ade22c0611fe0d466afd984",
+        "initial_source_sha256": "sha256:1b45b1737d6e4465e33b77c16a4114b0f093c0759fd7c8161b12522a6686a832",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:9acec80e9d3d69b3dbe83d1fc190af05c5878a107c6374530b88a962454a38f1",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 3,
+      "bundle": "sha256:9921c4ec2ec576ba5b14d787faf74fc09eafc2227fafaff1bab543841259540d",
+      "case": "e2-case-11",
+      "context": "sha256:fe14027f6176faab1a694451e78c743c10fe5e6b4434a3f78eec4b3280c37d43",
+      "id": "sha256:f4ddbdb038bfa59baa34c6da017bbf75d3af5b25cfd06db7db3376183c770a06",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:9b677da3fa14848f2c3dbf35ccab7bfdc7ed7f7af4439701c6ce0118e217f92f",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 12 - 1\nint e2_case_11(int value) {\n  return value * 12 - 1;\n}\n",
+          "source_sha256": "sha256:234c40f7b859d6b39de4fd5970f6d2dd1d0f45722dcfa1f1d68c897798d44c36"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:015852d1ca2fc4bda0db175df6616e304194901ea71a6af0fdfbc97abfcf7492",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:7b601e72ce6c7653d9a05e1f8bb7b0dab4e230883d5bfb8a1a9d2e7b54428c89",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:181c5c2b5e111d737c3a1a7cbb2283a2f0ec45ea14d772f428b36fda25cd8593"
+          },
+          {
+            "candidate_source_sha256": "sha256:c5eb218fff0d91abd25143ee7c15f63bb77a9cb93d00242b66e79a447da092a5",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:4e4dedea03eb534532703198a72c140ba0e5c7e6b97bd4a239de93f0275e6eff",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:e1843435cead34d70869b39170d1cc28f5e91f03cb040fb6b7231fbda3e63f14"
+          },
+          {
+            "candidate_source_sha256": "sha256:234c40f7b859d6b39de4fd5970f6d2dd1d0f45722dcfa1f1d68c897798d44c36",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 3,
+            "proposal": "sha256:9b677da3fa14848f2c3dbf35ccab7bfdc7ed7f7af4439701c6ce0118e217f92f",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:b1301b212a667c8c94e49c79231cbd7d8f8b807e338f43c41a6211cfb61d5c6f"
+          }
+        ],
+        "id": "sha256:4d080b7c85c8e3bf3eb348011a9fe2dc3be8cc34a6f9febd118ed43ca1e71011",
+        "initial_bundle": "sha256:9921c4ec2ec576ba5b14d787faf74fc09eafc2227fafaff1bab543841259540d",
+        "initial_source_sha256": "sha256:7b11fe1500047927076cbbfa3939e0c78b7b9c3d67d8790912cf4d4a2b407689",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 3,
+      "script": "sha256:ae017244db9197a2c6b9055d499328c1d9de861404da2e4e03fccbfdc195aea5",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:9921c4ec2ec576ba5b14d787faf74fc09eafc2227fafaff1bab543841259540d",
+      "case": "e2-case-11",
+      "context": "sha256:aef3fdadeb800ae79bb306b1496a1c5745a611e575e7f1a6dd53f053dbe3c3c7",
+      "id": "sha256:16beea621cd93f2002a8174e8fb62574033e115a2c1598f4d49a9b9b17f036e1",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:e32013f59eb37a52d580aec0b1e66628e61d92dc161cdbf8e231d1b63b964bd8",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 12 - 1\nint e2_case_11(int value) {\n  return value * 12 - 1;\n}\n",
+          "source_sha256": "sha256:234c40f7b859d6b39de4fd5970f6d2dd1d0f45722dcfa1f1d68c897798d44c36"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:234c40f7b859d6b39de4fd5970f6d2dd1d0f45722dcfa1f1d68c897798d44c36",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:e32013f59eb37a52d580aec0b1e66628e61d92dc161cdbf8e231d1b63b964bd8",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:b1301b212a667c8c94e49c79231cbd7d8f8b807e338f43c41a6211cfb61d5c6f"
+          }
+        ],
+        "id": "sha256:384a1e4dbf494414b7b1dda11cddab45989b99795fb7ce007ed7e0a0b37b9e02",
+        "initial_bundle": "sha256:9921c4ec2ec576ba5b14d787faf74fc09eafc2227fafaff1bab543841259540d",
+        "initial_source_sha256": "sha256:7b11fe1500047927076cbbfa3939e0c78b7b9c3d67d8790912cf4d4a2b407689",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:9022d9d08748ebd905d9958052f0898ba1a9bd4defa978b3c973f74e3fcdd1e3",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 3,
+      "bundle": "sha256:e8b932a6f44b3f09353254a817a1943b1c94f2c2ff2f219f4c40d5e638ff6a6a",
+      "case": "e2-case-12",
+      "context": "sha256:260c6014c1465f52f9a5514c4e2d0a8a8f386f0ab8d6af643d1a81edf6a9c7e5",
+      "id": "sha256:814d5e0983a330cbc45394b7ac4990f242527934729760248949ad1ff145980b",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:ba07c38afc368682f2aa19cd11299d2e04743888f8f3b723a24e42fd5e16a31e",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 13\nint e2_case_12(int value) {\n  return value * 13;\n}\n",
+          "source_sha256": "sha256:564b4ca2b25accee52ac2e1ea0dc492304b64c4154ee60e0f464150292eb52d3"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:241a6139bd954f4879bf7b1ab04ce1cc55b38a763f18186d87804907ca89cb83",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:e7529b564d9635ef528eb0a2a478712cbb81118dd4d966cbad7ddcea27de39ac",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:c344e639a1c8766625f6b448849f58253b7ff396bea6632489652e007a4a90f7"
+          },
+          {
+            "candidate_source_sha256": "sha256:ab295f2ae2e66d6281291072cb93d4255604c177ac041a834df1e16588f3e2de",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:d5eec7b331d465a6e8ddffbfe25369570d3bcb73243dd515f618f91ca1e79e34",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:78349b59f1a9febae9d5af30abbefcaab2a2b3f33dccfb68a87bdea01b77b89f"
+          },
+          {
+            "candidate_source_sha256": "sha256:564b4ca2b25accee52ac2e1ea0dc492304b64c4154ee60e0f464150292eb52d3",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 3,
+            "proposal": "sha256:ba07c38afc368682f2aa19cd11299d2e04743888f8f3b723a24e42fd5e16a31e",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:3c709038351655cf8e0251dd183ea04303e69045d3f921e81101665acb0479a5"
+          }
+        ],
+        "id": "sha256:b12e89c8b216cb5e83cf7f6ed039cede1b8e45a702c5ea900cad6cb0ffe6f2fb",
+        "initial_bundle": "sha256:e8b932a6f44b3f09353254a817a1943b1c94f2c2ff2f219f4c40d5e638ff6a6a",
+        "initial_source_sha256": "sha256:3ec1a82f7460d8427e36b8b274ca387ed31a4fcddae6c2fe8e624afd8757dca8",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 3,
+      "script": "sha256:418c146e4e7c7e260044038c60a5a10c7763ca3a54a36a3d525553ca8bb06eb5",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:e8b932a6f44b3f09353254a817a1943b1c94f2c2ff2f219f4c40d5e638ff6a6a",
+      "case": "e2-case-12",
+      "context": "sha256:b12632dcdcb5aaaa9349fc825f0f4be5b6e0bcb60507994e7827fb103222a44d",
+      "id": "sha256:9c9a263864937360eaa049504eb3fb37fc6165d56a00578fe1c01223379a0f50",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:8f2b7cc0f0ee27f31919afff0438e76deb1663286d73083a3daa433fdf9189ec",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 13\nint e2_case_12(int value) {\n  return value * 13;\n}\n",
+          "source_sha256": "sha256:564b4ca2b25accee52ac2e1ea0dc492304b64c4154ee60e0f464150292eb52d3"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:564b4ca2b25accee52ac2e1ea0dc492304b64c4154ee60e0f464150292eb52d3",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:8f2b7cc0f0ee27f31919afff0438e76deb1663286d73083a3daa433fdf9189ec",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:3c709038351655cf8e0251dd183ea04303e69045d3f921e81101665acb0479a5"
+          }
+        ],
+        "id": "sha256:3c698bbcf7f8bdffde6a81b4e97bd6251d893ab2e7be4ba897834b9a9c6156e2",
+        "initial_bundle": "sha256:e8b932a6f44b3f09353254a817a1943b1c94f2c2ff2f219f4c40d5e638ff6a6a",
+        "initial_source_sha256": "sha256:3ec1a82f7460d8427e36b8b274ca387ed31a4fcddae6c2fe8e624afd8757dca8",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:c26164be7bc29a73027cc8448c3802e026a34cb5f90e42ddc771129cc5fc31c1",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 3,
+      "bundle": "sha256:69386780c342afc3dd0302c8c39d10ca6f84a3e57e14bf4a4dd67e2127b7b65c",
+      "case": "e2-case-13",
+      "context": "sha256:e9a02874ea3dbee712169026a561e00d1b64e3affb881b30e8824fa053519bf6",
+      "id": "sha256:5f65468fb6ac5fcb5050f569ae2e284da9f39b2dfefa1a27de270abb8c5f309d",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:d8e0a7595d3d7fd84405d2376be615ae956fe50ecdf6f599e6a38cbd332c3e53",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 14 + 1\nint e2_case_13(int value) {\n  return value * 14 + 1;\n}\n",
+          "source_sha256": "sha256:e3835d431eb8df1f447c3f1c10189bcb271e4479a0e91c01d71d703cca36db4a"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:99899159330cd32cab4f32af6f500662c790caa4d168b4dccf39f1a31d2cd2b5",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:738fb48eafa3fdcd54f873b795add8cdb2c1e5dc9c8f79414f44a563328def04",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:877b17e680c07f3013ac6f62910e38f0b6b66b49f0bda5e63f52c536b38a2c4d"
+          },
+          {
+            "candidate_source_sha256": "sha256:85a40aa3aa09c668f2d8e2a29ce69eee9c24d7f18b71add1d86913eef04eafb2",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:df1528f60a4bebc3de560b3458a4f1b4b783b96e90a7fece6cb261bacf8e4095",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:488ed1e9f6bc1699513cda6cf9a79a5b46f38ff625b2a2f3188a0ca3261f13d1"
+          },
+          {
+            "candidate_source_sha256": "sha256:e3835d431eb8df1f447c3f1c10189bcb271e4479a0e91c01d71d703cca36db4a",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 3,
+            "proposal": "sha256:d8e0a7595d3d7fd84405d2376be615ae956fe50ecdf6f599e6a38cbd332c3e53",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:6d062891c038149a559c9fb6025c39c11ec2928d78f8a98020aaf2ac43ee0a03"
+          }
+        ],
+        "id": "sha256:de863117f68bfc410cf0c485d8fd34ff202fe31552b439a2ad35ba1478f0ef02",
+        "initial_bundle": "sha256:69386780c342afc3dd0302c8c39d10ca6f84a3e57e14bf4a4dd67e2127b7b65c",
+        "initial_source_sha256": "sha256:12b5fdf099c982453ac3266bfa9f5334ec1c7041cc500617d41555775f4832cd",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 3,
+      "script": "sha256:80d53269f9f47c9a46f549a7b71ff485f5092b9c893b2d005d6ae0d5c7d91634",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:69386780c342afc3dd0302c8c39d10ca6f84a3e57e14bf4a4dd67e2127b7b65c",
+      "case": "e2-case-13",
+      "context": "sha256:1160b26655eb8847c36bda525c95b6f745b5ca36bc433c23110d48ca81694f4f",
+      "id": "sha256:eb00e41c463613ad46bad738ac25f016b91f0233fb58f7a5c8dad89df7581b1e",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:3b92662466aece9075d2dae8b6cf56c29cf8f845c5c6daa43e9ec2b2f3d4406a",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 14 + 1\nint e2_case_13(int value) {\n  return value * 14 + 1;\n}\n",
+          "source_sha256": "sha256:e3835d431eb8df1f447c3f1c10189bcb271e4479a0e91c01d71d703cca36db4a"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:e3835d431eb8df1f447c3f1c10189bcb271e4479a0e91c01d71d703cca36db4a",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:3b92662466aece9075d2dae8b6cf56c29cf8f845c5c6daa43e9ec2b2f3d4406a",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:6d062891c038149a559c9fb6025c39c11ec2928d78f8a98020aaf2ac43ee0a03"
+          }
+        ],
+        "id": "sha256:2058e1510e8bd7560a6aa0f110d117727511e758981d766b0ddd72950b590b85",
+        "initial_bundle": "sha256:69386780c342afc3dd0302c8c39d10ca6f84a3e57e14bf4a4dd67e2127b7b65c",
+        "initial_source_sha256": "sha256:12b5fdf099c982453ac3266bfa9f5334ec1c7041cc500617d41555775f4832cd",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:84a613f48b5c5ae8ac4647a68cdd578ff860bf3efe0e187a044d4e88aab2f17e",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 3,
+      "bundle": "sha256:88d2454b2f64c7ae34fe3f80bd3ab0a3a571ef159d03f8cfedb8f0c876cf0a9a",
+      "case": "e2-case-14",
+      "context": "sha256:b3e24a16804eada5b59c17b4bbb63c41d0ec55c01e4a0d3ac478c2ada70179d9",
+      "id": "sha256:b58fe5128e7f05d8582233385bbbd62a5bbc8c28a19dec2e79a2657e293652d1",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:0f517ba68d2cf0bb7468fd6849ded6ee375ac13526474e46e56df740f949c89d",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 15 + 2\nint e2_case_14(int value) {\n  return value * 15 + 2;\n}\n",
+          "source_sha256": "sha256:5e09ea12055c03841a815bd5674a6cebfd617c4140e30a2089089ff09e26bce2"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:960fb42d34bed84e7980f351fd185c6d64f3e880263fe54d511bf2baaa13a35e",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:8365991a248fdf5b8d843a92b4c4639891a92b4c929fa592e8e4e8297a07f780",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:e291e03977a7b2377a7a637e90bffb0058fd20eb16e902b6f6bd2f8ee10ac5cd"
+          },
+          {
+            "candidate_source_sha256": "sha256:156a016b5b0d76880da7106fd3553fc1c39a0393a76365d36a8793e5f54d1d8d",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:1b9a42b76151063a4d9953cfa8b338d239a36e844b68f4dac7f993f1c3afe249",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:095d1f84f34a71822821ceb4e0d472cd086767e669f277240b0ce5af1ec22d0a"
+          },
+          {
+            "candidate_source_sha256": "sha256:5e09ea12055c03841a815bd5674a6cebfd617c4140e30a2089089ff09e26bce2",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 3,
+            "proposal": "sha256:0f517ba68d2cf0bb7468fd6849ded6ee375ac13526474e46e56df740f949c89d",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:b5d9a7ac2c83a91f555c63dd8d2d0e56fd9aa52ab4c02b32621481a79b473ba2"
+          }
+        ],
+        "id": "sha256:0d8b484738601f67cd16c173e90f3c8a018906209685426bd3d4e9bf625a1352",
+        "initial_bundle": "sha256:88d2454b2f64c7ae34fe3f80bd3ab0a3a571ef159d03f8cfedb8f0c876cf0a9a",
+        "initial_source_sha256": "sha256:de057ebf11b620c5c4c8119552fddfb3c0d07d4f35276fa5e75d610330e5f0f0",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 3,
+      "script": "sha256:d5cc07c15620a99a49219aa8b8889bc89046b659c033000685d48effa19a2bfd",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:88d2454b2f64c7ae34fe3f80bd3ab0a3a571ef159d03f8cfedb8f0c876cf0a9a",
+      "case": "e2-case-14",
+      "context": "sha256:36dfe3a26257092161191afea1b5b17e892ca2f7928ee6c75bddf3269cd724de",
+      "id": "sha256:5f0f728d56cb637def42ef5198702cd3847e7e39c7c1cae09c8539cc92b455c1",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:c43a14aaf713c88268a24a3110f8a2eda91833c99a52723c819e9ffa985b4cbe",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 15 + 2\nint e2_case_14(int value) {\n  return value * 15 + 2;\n}\n",
+          "source_sha256": "sha256:5e09ea12055c03841a815bd5674a6cebfd617c4140e30a2089089ff09e26bce2"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:5e09ea12055c03841a815bd5674a6cebfd617c4140e30a2089089ff09e26bce2",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:c43a14aaf713c88268a24a3110f8a2eda91833c99a52723c819e9ffa985b4cbe",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:b5d9a7ac2c83a91f555c63dd8d2d0e56fd9aa52ab4c02b32621481a79b473ba2"
+          }
+        ],
+        "id": "sha256:3b11d2596a8df216bdb351b76308f92b520e3855aa8741f6f0e70e1bfbb6279d",
+        "initial_bundle": "sha256:88d2454b2f64c7ae34fe3f80bd3ab0a3a571ef159d03f8cfedb8f0c876cf0a9a",
+        "initial_source_sha256": "sha256:de057ebf11b620c5c4c8119552fddfb3c0d07d4f35276fa5e75d610330e5f0f0",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:62f5054863e387605ed78e45784f42c387724382aafc6b38c02166da9bcfbe2f",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 3,
+      "bundle": "sha256:d1c05c8c062cadb913e2c3579d52a162503948209646d57ac33ade6d79c1f1e7",
+      "case": "e2-case-15",
+      "context": "sha256:ffe493380823dc9f43af72487760c04a88fbd8c87a2bd699da8fb67a6ad6336d",
+      "id": "sha256:ede9a65a7c1c3ca74ff424a9562601e94bbba3c9ed1a0492df62f66923519004",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:c285796e356d25492e3313bba159282006f428e52655f7b66d97ba4124a4ef20",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 16 - 2\nint e2_case_15(int value) {\n  return value * 16 - 2;\n}\n",
+          "source_sha256": "sha256:f1686fd81af92d3dbcc622d78ca7723b885f25eef1ce3db1e2a1535bde008ab3"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:dbb2a0a11dd1103f71e82cc83f65fbfdebbf73702ed6c1ddc4a6349e4207408b",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:61fba18008e5a12485dbc6c4e931f21d1c4ac4f043ab4e43f85638b0505ae15e",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:a5b32260cc9f53be57f99a62fb2abd80f4f9af51f1a10fdb2c03964de8d8a2ed"
+          },
+          {
+            "candidate_source_sha256": "sha256:1480b3ced8b5c6904dad1c78d70868f8d6821cb57441bfef17f42ed40b62535b",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 2,
+            "proposal": "sha256:85fde70d117ac5ab0c05d40a61dddb4b97363bcab5ecf0fb3fa680b1dc25810f",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:1439a3b861ccbe2bb508653832c098f279eebfb151925e19f6f86666bf9c7650"
+          },
+          {
+            "candidate_source_sha256": "sha256:f1686fd81af92d3dbcc622d78ca7723b885f25eef1ce3db1e2a1535bde008ab3",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 3,
+            "proposal": "sha256:c285796e356d25492e3313bba159282006f428e52655f7b66d97ba4124a4ef20",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:2b7927b20bd7a4cb472e92346e23e0b90189fa2b5be285413a31ae8072323977"
+          }
+        ],
+        "id": "sha256:17bfc98a03abfa2f044bd6d2b612808be6a22a123948ba3794420ae76b22a181",
+        "initial_bundle": "sha256:d1c05c8c062cadb913e2c3579d52a162503948209646d57ac33ade6d79c1f1e7",
+        "initial_source_sha256": "sha256:df2f242cfe2b674aed4aa0d94adea66fafeb3d2a2925a8cb1ebf37821afb7e1b",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 3,
+      "script": "sha256:03f6b724d61380ec95dda1da7694916548a8abcce6f368e74d555a044dbd7542",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:d1c05c8c062cadb913e2c3579d52a162503948209646d57ac33ade6d79c1f1e7",
+      "case": "e2-case-15",
+      "context": "sha256:d79eb8a788d7a9bc6a44d645847e51ddd1b72f1ecaf29551d9b1e6bd0c87c525",
+      "id": "sha256:d709914e29fb102866972bd783bf8ab3f21e3b239310ed1a2470997d1db1f8c2",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:859b5bbd72162475d3869cf2576097b59bde62236bd4cef3090c094207fbcd68",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 16 - 2\nint e2_case_15(int value) {\n  return value * 16 - 2;\n}\n",
+          "source_sha256": "sha256:f1686fd81af92d3dbcc622d78ca7723b885f25eef1ce3db1e2a1535bde008ab3"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:f1686fd81af92d3dbcc622d78ca7723b885f25eef1ce3db1e2a1535bde008ab3",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:859b5bbd72162475d3869cf2576097b59bde62236bd4cef3090c094207fbcd68",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:2b7927b20bd7a4cb472e92346e23e0b90189fa2b5be285413a31ae8072323977"
+          }
+        ],
+        "id": "sha256:efdb9ec444219309a7daedfe56b4c609e6c95f3f72a83f8260fd2818b864c99b",
+        "initial_bundle": "sha256:d1c05c8c062cadb913e2c3579d52a162503948209646d57ac33ade6d79c1f1e7",
+        "initial_source_sha256": "sha256:df2f242cfe2b674aed4aa0d94adea66fafeb3d2a2925a8cb1ebf37821afb7e1b",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:ab10c470de19844623bf62b2f77e6fd04c13b56b6ef76fa93a0562263becc0a2",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 2,
+      "bundle": "sha256:9394509de34bca0cd95e3724690835b16477c01f4c32a19c74f8bda0ff7e4168",
+      "case": "e2-case-16",
+      "context": "sha256:7a6acdd87cb6bdf46589389486623f27a851da9b3e1711bd69cce1025dccb31e",
+      "id": "sha256:71e19a9b2dad8574e37daf9fb61cccadcd2c48059a6f341498d4067f6b4f5a28",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:19c3172fedcdb07d2d4b465821e3841b53cb6cd181534a5518ef44d6665f53b1",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 17 - 1\nint e2_case_16(int value) {\n  return value * 17 - 1;\n}\n",
+          "source_sha256": "sha256:70017673f14155097e41e4807ca6d1dde143ca63d4b66fbe9a9f55baa92d0a2f"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:f2258f579c866f03eeafdb1a24857ca8b8668e8b6e7af1a4362cb41e9880eaa3",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:fb44feae90223c973024f2df3aa33d72c36556a312a5ab5c963ef70ecd535dd2",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:2edf00166c46ed8e1516cbeb410a69d2189976fe2ee3966c5e44c8ad642c563f"
+          },
+          {
+            "candidate_source_sha256": "sha256:70017673f14155097e41e4807ca6d1dde143ca63d4b66fbe9a9f55baa92d0a2f",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 2,
+            "proposal": "sha256:19c3172fedcdb07d2d4b465821e3841b53cb6cd181534a5518ef44d6665f53b1",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:c4e1caaaaac352dc4d73c2233b2fa22a330d14868ac99a20a435abd6836d8b15"
+          }
+        ],
+        "id": "sha256:7e75f7976b45d649ea491cd669e94ea8ab63dd590357720148c135fe69dee98c",
+        "initial_bundle": "sha256:9394509de34bca0cd95e3724690835b16477c01f4c32a19c74f8bda0ff7e4168",
+        "initial_source_sha256": "sha256:2e25576782908cb5f983283950bc373f784c14a4648fb4580d0ce36c0972bd77",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 2,
+      "script": "sha256:510bee92082498bf1bf840a374da9a2a05373aa8af6fc7c9c96f8fd106aae2ca",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:9394509de34bca0cd95e3724690835b16477c01f4c32a19c74f8bda0ff7e4168",
+      "case": "e2-case-16",
+      "context": "sha256:87a21c14304f9ec2a4fc0f1a12ae2ff4e1a0f0a5d82cb7bbb6e344fd9e4f80e9",
+      "id": "sha256:fe64448fc18d4df438cfbce1bcaf0cd6167f98050d09a0e948c0f29cf2ed3993",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:18380099f4ce6aed2655251ec73fffd84ae1a57ef7517ac7e1a0ef7201927841",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 17 - 1\nint e2_case_16(int value) {\n  return value * 17 - 1;\n}\n",
+          "source_sha256": "sha256:70017673f14155097e41e4807ca6d1dde143ca63d4b66fbe9a9f55baa92d0a2f"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:70017673f14155097e41e4807ca6d1dde143ca63d4b66fbe9a9f55baa92d0a2f",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:18380099f4ce6aed2655251ec73fffd84ae1a57ef7517ac7e1a0ef7201927841",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:c4e1caaaaac352dc4d73c2233b2fa22a330d14868ac99a20a435abd6836d8b15"
+          }
+        ],
+        "id": "sha256:7a26d943cec662a5eebb12c9ef9e62332fa6dd7e857be424a2de78270b7ed039",
+        "initial_bundle": "sha256:9394509de34bca0cd95e3724690835b16477c01f4c32a19c74f8bda0ff7e4168",
+        "initial_source_sha256": "sha256:2e25576782908cb5f983283950bc373f784c14a4648fb4580d0ce36c0972bd77",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:f489f2bbc4b5e62abd790a6022b6b35067c85f9dd97b92f83cdd3bcc3ffbf7c6",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 2,
+      "bundle": "sha256:d932008ccb41f79929a8ced28ac4ec32de6982f1c594c35de4652f86229329d2",
+      "case": "e2-case-17",
+      "context": "sha256:ce5cd912f804ef965be38c970f7327c055b3557198188104d82e5cfdcdf630a6",
+      "id": "sha256:e5533388b81e70588af9f07ca08fca6ebe33b36a9b7a3926ec06bd62f8267c13",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:46d7bf077ed45c31aad33cd618205832e6d1b5956fb5349054381a12492b3915",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 18\nint e2_case_17(int value) {\n  return value * 18;\n}\n",
+          "source_sha256": "sha256:d81798c33b2c9d6fb5f9f5ee40b499b892ad372df281cf5a81103135fa989739"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:25406915c54f3bd3e3cfd1cb694d569f504d6774cd04c465d57055b485197378",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:1fc132ab793b93c5253c593f61ab63f6701a10cbd37ece9298db351dd71e34b0",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:201321b0708ed0e4dbebedf458a4b384250f5edf73f3f3dde6e9d6069b2a63dd"
+          },
+          {
+            "candidate_source_sha256": "sha256:d81798c33b2c9d6fb5f9f5ee40b499b892ad372df281cf5a81103135fa989739",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 2,
+            "proposal": "sha256:46d7bf077ed45c31aad33cd618205832e6d1b5956fb5349054381a12492b3915",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:9f5b65aa07ea7eb8dd0de7aa50e62f12c9299817faa5fb6082bfab5d313e47bf"
+          }
+        ],
+        "id": "sha256:6af9aaec4f2e66bc2ed87b32eff15f9fb692ebcb03f6af58f2a64291110614f9",
+        "initial_bundle": "sha256:d932008ccb41f79929a8ced28ac4ec32de6982f1c594c35de4652f86229329d2",
+        "initial_source_sha256": "sha256:b6e1840ce276259864b5d15baa7dda376dddf33ae3ebc22c4e4f0ccf02c32858",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 2,
+      "script": "sha256:3c8b348026c2a20cce3a14e941215e7a9b2168d23e06acfdac62b7acb30cb75d",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:d932008ccb41f79929a8ced28ac4ec32de6982f1c594c35de4652f86229329d2",
+      "case": "e2-case-17",
+      "context": "sha256:fee8e4af4b4513ebf48e79c9420974e664551c72af58cbf975bfc441c16536c7",
+      "id": "sha256:ea35f3fb2f32d284f5a1e7504b7a40f7fd0465e0ab51a58001a14927288cd792",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:17299bf79f03da5d1a4554ff2207b4430ee7ff315fe0b052f54b5c60b90f1984",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 18\nint e2_case_17(int value) {\n  return value * 18;\n}\n",
+          "source_sha256": "sha256:d81798c33b2c9d6fb5f9f5ee40b499b892ad372df281cf5a81103135fa989739"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:d81798c33b2c9d6fb5f9f5ee40b499b892ad372df281cf5a81103135fa989739",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:17299bf79f03da5d1a4554ff2207b4430ee7ff315fe0b052f54b5c60b90f1984",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:9f5b65aa07ea7eb8dd0de7aa50e62f12c9299817faa5fb6082bfab5d313e47bf"
+          }
+        ],
+        "id": "sha256:3af07bd9154cf43c6266f10ba351be36bcbfd2a3309072dd1d5e01952daaa291",
+        "initial_bundle": "sha256:d932008ccb41f79929a8ced28ac4ec32de6982f1c594c35de4652f86229329d2",
+        "initial_source_sha256": "sha256:b6e1840ce276259864b5d15baa7dda376dddf33ae3ebc22c4e4f0ccf02c32858",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:77671fe4e7ff2aa7c450a5f130185ffea5022d3705bf8f83dce9ba493d1b33ee",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 2,
+      "bundle": "sha256:24ee60a5294bc245ef67d5944fb127c31c8aa79317023a9d43ccd457bda13857",
+      "case": "e2-case-18",
+      "context": "sha256:9a25dbb1ccb28359c9a3063bbbcaff775669c70cda3c0f5af5e11164c1a8da49",
+      "id": "sha256:f733684dc55b02e7b7617041d024b8e0263d4866cf331e5e965ff0f2755fa4be",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:d88844a01d292760ec1a1d5ca53d7d594d740720efb397eaf668ed85773b2456",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 19 + 1\nint e2_case_18(int value) {\n  return value * 19 + 1;\n}\n",
+          "source_sha256": "sha256:7a7da7f4e9cf39d1812fc3c4ba7016f12fc6df62978cc7ffb1ed1426592043d4"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:ee0e39d8c8eacd6df1600b9e6e2bc58bf054c7873904a47e4ee51d158401e175",
+            "diagnostic": "replayed violation remains; continuing",
+            "iteration": 1,
+            "proposal": "sha256:8a80f9368e800337786bd8fc29b7ee9aaf6cb3b7790b157a2114b899a7f618cf",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "violated"
+              }
+            ],
+            "status": "violated",
+            "verification_sha256": "sha256:ed424220a28f14f215e2017123c322ce4b2cf080429a84cc68e3149be6d64515"
+          },
+          {
+            "candidate_source_sha256": "sha256:7a7da7f4e9cf39d1812fc3c4ba7016f12fc6df62978cc7ffb1ed1426592043d4",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 2,
+            "proposal": "sha256:d88844a01d292760ec1a1d5ca53d7d594d740720efb397eaf668ed85773b2456",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:fc378a55c2adb8bf4c2a00575fd91e33a943f0a3fe89d4bbabd37150779a5051"
+          }
+        ],
+        "id": "sha256:78c302af34942227bf0b2b467d8b2e5fdf9cb6d39dbd012766bc975b0e64891c",
+        "initial_bundle": "sha256:24ee60a5294bc245ef67d5944fb127c31c8aa79317023a9d43ccd457bda13857",
+        "initial_source_sha256": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 2,
+      "script": "sha256:9004885d268a7018656831c23b626f59cc5db1cb181345f27578f4f846270ede",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:24ee60a5294bc245ef67d5944fb127c31c8aa79317023a9d43ccd457bda13857",
+      "case": "e2-case-18",
+      "context": "sha256:e6992cbd131ea37c809120625033d06ac00fa22473bfdb68d129624a3df5a9c6",
+      "id": "sha256:cca9b46f964036a0f9ca1f9f09ab942f90bcaa46a23fb226853c8798a6b9d229",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:42e82883c0901bbf0d3a3b46c2bd7edbfd220f1ef96eb22e54ffd05a507970a0",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 19 + 1\nint e2_case_18(int value) {\n  return value * 19 + 1;\n}\n",
+          "source_sha256": "sha256:7a7da7f4e9cf39d1812fc3c4ba7016f12fc6df62978cc7ffb1ed1426592043d4"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:7a7da7f4e9cf39d1812fc3c4ba7016f12fc6df62978cc7ffb1ed1426592043d4",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:42e82883c0901bbf0d3a3b46c2bd7edbfd220f1ef96eb22e54ffd05a507970a0",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:fc378a55c2adb8bf4c2a00575fd91e33a943f0a3fe89d4bbabd37150779a5051"
+          }
+        ],
+        "id": "sha256:e100dd3795e4bd9b740fdf81b916d33d316766950e5a78a37286b7658b5588ce",
+        "initial_bundle": "sha256:24ee60a5294bc245ef67d5944fb127c31c8aa79317023a9d43ccd457bda13857",
+        "initial_source_sha256": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:2e9956374d710f9025e45479667460d3901974b23fe05bb061c3814a5b430f30",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 1,
+      "bundle": "sha256:36ac2e9f430b81a241420c09f888d3d10bb390527e0283eda3ec8c5890e2b82c",
+      "case": "e2-case-19",
+      "context": "sha256:78c6a74612c0f20ad483acee2fed046f1274c2952a6913d5e5490076e3f8a7e2",
+      "id": "sha256:293f474d191e58a2c1ab69b406739d4886c1e195e3fbe3012df8b2995997d64f",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:9e9dab011bf7a2c58dfb39ff0bdd1e2a8439245998c288af5f759eadf3ecaa4a",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 20 + 2\nint e2_case_19(int value) {\n  return value * 20 + 2;\n}\n",
+          "source_sha256": "sha256:8965f6d255140c889d3726ca5b0d4078a9027ca9f9e103e183cf79664bebc478"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:8965f6d255140c889d3726ca5b0d4078a9027ca9f9e103e183cf79664bebc478",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:9e9dab011bf7a2c58dfb39ff0bdd1e2a8439245998c288af5f759eadf3ecaa4a",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:7efc41384cb55aab8722701641417ce201de92e4374ea2ef027b3cfb9a8142d2"
+          }
+        ],
+        "id": "sha256:0ef475371fc15e6a4e1a5d8356f38588e44d8eb581c6b72e5f7f9713109a79e6",
+        "initial_bundle": "sha256:36ac2e9f430b81a241420c09f888d3d10bb390527e0283eda3ec8c5890e2b82c",
+        "initial_source_sha256": "sha256:276dbc7a3b80c9417d188dd51e0115114f1e6d32f2d6556837b8d248139f6218",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:1744573f39e0cef8dd098d226639bbfbc236995e7aa7da0bfa13c7a4e96c11d6",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:36ac2e9f430b81a241420c09f888d3d10bb390527e0283eda3ec8c5890e2b82c",
+      "case": "e2-case-19",
+      "context": "sha256:bbfe174d39a19e4f0658f1b101b9596058e736d2d41a6c594b80dd8019d3bd70",
+      "id": "sha256:d44fdc21efaaf31d9ae89c1c136e72c3745ebb46546297ff16b5682ac13fbaea",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:9e9dab011bf7a2c58dfb39ff0bdd1e2a8439245998c288af5f759eadf3ecaa4a",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 20 + 2\nint e2_case_19(int value) {\n  return value * 20 + 2;\n}\n",
+          "source_sha256": "sha256:8965f6d255140c889d3726ca5b0d4078a9027ca9f9e103e183cf79664bebc478"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:8965f6d255140c889d3726ca5b0d4078a9027ca9f9e103e183cf79664bebc478",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:9e9dab011bf7a2c58dfb39ff0bdd1e2a8439245998c288af5f759eadf3ecaa4a",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:7efc41384cb55aab8722701641417ce201de92e4374ea2ef027b3cfb9a8142d2"
+          }
+        ],
+        "id": "sha256:0ef475371fc15e6a4e1a5d8356f38588e44d8eb581c6b72e5f7f9713109a79e6",
+        "initial_bundle": "sha256:36ac2e9f430b81a241420c09f888d3d10bb390527e0283eda3ec8c5890e2b82c",
+        "initial_source_sha256": "sha256:276dbc7a3b80c9417d188dd51e0115114f1e6d32f2d6556837b8d248139f6218",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:131b5bef2461117edaa52fcb1b74fc603e089112c135c32348e2f4cfb1009a4f",
+      "status": "verified"
+    },
+    {
+      "arm": "compiler_test",
+      "attempts": 1,
+      "bundle": "sha256:8c6ec3f86b7fe09419f325c2ea4eeb300dbe87b5e8b0028aed60ce7899a09738",
+      "case": "e2-case-20",
+      "context": "sha256:4f89438ab7479da494063101434e035210c100ad23847b1c472feb16867d4661",
+      "id": "sha256:44ae465df333e63f5462780e9aec31ec93ea784ae3ec1fb16d28a748a97e49e7",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:b332409903911f8759135de530d493024fb222a05f1cf536a28a4d2d790d34d9",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 21 - 2\nint e2_case_20(int value) {\n  return value * 21 - 2;\n}\n",
+          "source_sha256": "sha256:414d714e8bd526b4b21b4452bc9cab0ebd8c12d7de4f3d86e2c1f019a6f1f118"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:414d714e8bd526b4b21b4452bc9cab0ebd8c12d7de4f3d86e2c1f019a6f1f118",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:b332409903911f8759135de530d493024fb222a05f1cf536a28a4d2d790d34d9",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:7386243941ae0c4dbc41a9fca727a4300f4a6dcb471e6eb2c85fed00a6d84972"
+          }
+        ],
+        "id": "sha256:8cba95ee38e8e7f078c57c6025997cad376e115b2cd5c9c3022093830e7c27dd",
+        "initial_bundle": "sha256:8c6ec3f86b7fe09419f325c2ea4eeb300dbe87b5e8b0028aed60ce7899a09738",
+        "initial_source_sha256": "sha256:41f1a3b638d1cebc5c8b26a0792163d9e9de409c39044f9dae3880268be1a744",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:c661db8583539e29fd1beab029d0c62d2b0c4d7cb994f70a8aefb5cdb54467e1",
+      "status": "verified"
+    },
+    {
+      "arm": "semantic_bundle",
+      "attempts": 1,
+      "bundle": "sha256:8c6ec3f86b7fe09419f325c2ea4eeb300dbe87b5e8b0028aed60ce7899a09738",
+      "case": "e2-case-20",
+      "context": "sha256:8963feeffbbcd09ca43b027422dc1e1c50c9f8752a0095e326adc14da2168495",
+      "id": "sha256:99ee2bc592023a69c88c021727b175e21a31c0a0ec92c6ba3f07a1c2f4e2e2db",
+      "loop": {
+        "accepted": {
+          "proposal": "sha256:b332409903911f8759135de530d493024fb222a05f1cf536a28a4d2d790d34d9",
+          "source": "// cs: requires value >= -100 && value <= 100\n// cs: ensures result == value * 21 - 2\nint e2_case_20(int value) {\n  return value * 21 - 2;\n}\n",
+          "source_sha256": "sha256:414d714e8bd526b4b21b4452bc9cab0ebd8c12d7de4f3d86e2c1f019a6f1f118"
+        },
+        "attempts": [
+          {
+            "candidate_source_sha256": "sha256:414d714e8bd526b4b21b4452bc9cab0ebd8c12d7de4f3d86e2c1f019a6f1f118",
+            "diagnostic": "accepted by complete target-function verification",
+            "iteration": 1,
+            "proposal": "sha256:b332409903911f8759135de530d493024fb222a05f1cf536a28a4d2d790d34d9",
+            "results": [
+              {
+                "obligation": "ob00001",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00002",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00003",
+                "status": "verified"
+              },
+              {
+                "obligation": "ob00004",
+                "status": "verified"
+              }
+            ],
+            "status": "verified",
+            "verification_sha256": "sha256:7386243941ae0c4dbc41a9fca727a4300f4a6dcb471e6eb2c85fed00a6d84972"
+          }
+        ],
+        "id": "sha256:8cba95ee38e8e7f078c57c6025997cad376e115b2cd5c9c3022093830e7c27dd",
+        "initial_bundle": "sha256:8c6ec3f86b7fe09419f325c2ea4eeb300dbe87b5e8b0028aed60ce7899a09738",
+        "initial_source_sha256": "sha256:41f1a3b638d1cebc5c8b26a0792163d9e9de409c39044f9dae3880268be1a744",
+        "max_iterations": 4,
+        "schema": "codeskeptic.repair-loop/v1",
+        "status": "verified"
+      },
+      "schema": "codeskeptic.experiment-trial/v1",
+      "score": 1,
+      "script": "sha256:8f9821b4d4adcb7a86c1e8f17717b6937194553f1b363d322e534a2584295a07",
+      "status": "verified"
+    }
+  ]
+}

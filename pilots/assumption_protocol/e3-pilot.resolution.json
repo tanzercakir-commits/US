@@ -1,0 +1,73 @@
+{
+  "id": "sha256:c3a582369488cbdb2cdfa576b3b35b2b2ad710e784705059d98717a960a0ceb6",
+  "manifest": "sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb",
+  "resolutions": [
+    {
+      "assumption": "asm-001",
+      "disposition": "test",
+      "evidence": [
+        {
+          "anchor": "def test_e2_report_has_twenty_complete_pairs",
+          "path": "tests/test_assumption_pilot.py",
+          "sha256": "sha256:09cced71137a660158115ca8f9cf385e071342c548973314b72777b236a51712"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-002",
+      "disposition": "test",
+      "evidence": [
+        {
+          "anchor": "def test_e2_report_exact_arithmetic_matches_predeclared_threshold",
+          "path": "tests/test_assumption_pilot.py",
+          "sha256": "sha256:09cced71137a660158115ca8f9cf385e071342c548973314b72777b236a51712"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-003",
+      "disposition": "test",
+      "evidence": [
+        {
+          "anchor": "def test_human_report_retains_machine_limitations",
+          "path": "tests/test_assumption_pilot.py",
+          "sha256": "sha256:09cced71137a660158115ca8f9cf385e071342c548973314b72777b236a51712"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-004",
+      "disposition": "test",
+      "evidence": [
+        {
+          "anchor": "def test_trials_and_report_retain_recorded_proxy_provenance",
+          "path": "tests/test_assumption_pilot.py",
+          "sha256": "sha256:09cced71137a660158115ca8f9cf385e071342c548973314b72777b236a51712"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-005",
+      "disposition": "test",
+      "evidence": [
+        {
+          "anchor": "def test_closure_links_unchanged_declaration_and_all_snapshot_inputs",
+          "path": "tests/test_assumption_pilot.py",
+          "sha256": "sha256:09cced71137a660158115ca8f9cf385e071342c548973314b72777b236a51712"
+        }
+      ],
+      "reason": null
+    },
+    {
+      "assumption": "asm-006",
+      "disposition": "uncheckable",
+      "evidence": [],
+      "reason": "No independently sampled external AI model or controlled external-model run is part of this repository pilot."
+    }
+  ],
+  "schema": "codeskeptic.assumption-resolution/v1"
+}

@@ -1,0 +1,7 @@
+{
+  "case": "e2-case-03",
+  "diagnostic": "TEST FAILURE: e2_case_03(2) expected 9, observed 7",
+  "redacted_source": "\n\nint e2_case_03(int value) {\n  return value * 3 + 1;\n}\n",
+  "schema": "codeskeptic.experiment-compiler-context/v1",
+  "target_source": "sha256:73c3c9645aa6dfef54fe1d875436f831868f4c181314a6dd1a093a4fdfa0c88d"
+}

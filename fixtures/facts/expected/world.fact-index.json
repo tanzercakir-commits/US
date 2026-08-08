@@ -1,0 +1,889 @@
+{
+  "calls": [
+    {
+      "callee": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "caller": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "id": "sha256:245e1a46cb6852868679d1fafca349e59ed02b6c72259dfded5699e795d5d738",
+      "kind": "direct",
+      "location": {
+        "column": 27,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 25
+      }
+    },
+    {
+      "callee": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "caller": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:62e1d819a0de284b705a11c6664376b111ea965f5391aed45249ef3e5210cab2",
+      "kind": "direct",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      }
+    },
+    {
+      "callee": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "caller": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "id": "sha256:77c9fcc12b0da02a26d156c167a177c905a245036cfa82f9b46013d45f1bec18",
+      "kind": "direct",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 25
+      }
+    }
+  ],
+  "definitions": [
+    {
+      "context": null,
+      "id": "sha256:254311047ffec3f9df565d941bc1e85c6f71ccc8544e0969937f76f51646e271",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 28
+      },
+      "symbol": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:35ba4a79aa9e422d3f01771b9f05c7f0a189fcc21dff1ec5ec9b80905579b92e",
+      "kind": "parameter",
+      "location": {
+        "column": 16,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 28
+      },
+      "symbol": "sha256:41bfa0173abf890dbd58daca7cd441fe0062c11062d21967526ca4a62d3ddc13"
+    },
+    {
+      "context": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "id": "sha256:55f3d8b5c6b4df0aa331c8a2363305c5712dda1870395e90e32122611efa0741",
+      "kind": "parameter",
+      "location": {
+        "column": 19,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 8
+      },
+      "symbol": "sha256:9b40911330c17fe340478b553ae0716cd5da95620427a3d2307889bb1bf2ada8"
+    },
+    {
+      "context": null,
+      "id": "sha256:560c550524796dc1e3fee9b6e0baade6e5c9e17c06be3f839580c71e7496b360",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "symbol": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85"
+    },
+    {
+      "context": null,
+      "id": "sha256:5ad6e7182bdb3a3e93cbca26a7951c6d76cd4b3ba4de02c9e70e9e7862e29de1",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "symbol": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:76e3715855ca9f3d2667541d441daa231ebff6c91e2b66fae2944146a1a951f9",
+      "kind": "assignment",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:ed7e1c8eaaa2b78fe8df9e5fc7255a32e76fe72cf1d7424956c11fc11152fba0"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:7db3e4417eeed48c5d01d18a73d5db3f11e9648f0185c1ddbe9faf6606cadb93",
+      "kind": "assignment",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 20
+      },
+      "symbol": "sha256:6c457e69637a5884dc7ae9f407f12b1a558e0146d53e8567f2aeef78a4b1c619"
+    },
+    {
+      "context": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "id": "sha256:844e3fb3d30865d5897a4767089d5e7b27fce93e5302b6ba37a2c5cdaa7a13ad",
+      "kind": "parameter",
+      "location": {
+        "column": 36,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "symbol": "sha256:80f4778b8b73aa72975f1c4e02522329e14d02b2ac59420a53cc722edbbf0a7e"
+    },
+    {
+      "context": null,
+      "id": "sha256:90b9edc60db5fa4ee6ba6872b4a8dcad1c9248097861c367e2b7b51b749874e4",
+      "kind": "declaration",
+      "location": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 4
+      },
+      "symbol": "sha256:4db5111599bdae25f992e909f6103d74ba4583eba5723598baf669a6251ef30b"
+    },
+    {
+      "context": null,
+      "id": "sha256:a326adcc193fc27f44d84f2c4cd6e212075c5108e6398e48a07511bb32e2a827",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 8
+      },
+      "symbol": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226"
+    },
+    {
+      "context": null,
+      "id": "sha256:a44235b30c8410b85e7ade5cbbac6c3a218722844668f8a18a4e8971f1876e5e",
+      "kind": "initialization",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 1
+      },
+      "symbol": "sha256:6c457e69637a5884dc7ae9f407f12b1a558e0146d53e8567f2aeef78a4b1c619"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:a4fab6ec70486f53f88faf447407dd4fb13877df098330b64237cd5d8d950843",
+      "kind": "assignment",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:4db5111599bdae25f992e909f6103d74ba4583eba5723598baf669a6251ef30b"
+    },
+    {
+      "context": null,
+      "id": "sha256:a91cc523a575921a6d46c3558c0f68ad36f116c8b50da53f01fc19092b19ae78",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 13
+      },
+      "symbol": "sha256:a64f4d64720f9c7a740ced7a3d57ee70743f833e6c718cd6c9f77c459c279393"
+    },
+    {
+      "context": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "id": "sha256:b2d7415d50309fc983791d404d9d7e2d3375a09fabb51ce9d0374db842cdaeb0",
+      "kind": "initialization",
+      "location": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 9
+      },
+      "symbol": "sha256:eb5aa5b33a74c7e654ebfae23075eecbe7579eb3ff838266fd288678322058e5"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:cb3f871bd29107e58241ad034fa4b405bedadb537b3aecd61ce8f89085ae3001",
+      "kind": "initialization",
+      "location": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 33
+      },
+      "symbol": "sha256:a4facbbb9569a6342f17d105483d6f5de2160569ce6c2ce191968c5c6d80ee67"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:dd413ca38b2e4fb261b304f1658765b055fb7b2e48ff1f017ac4400bfade3288",
+      "kind": "initialization",
+      "location": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 30
+      },
+      "symbol": "sha256:2e9364863dc0c62167b3f9200aaae656df82b19688de61ce545477778ad0ba03"
+    },
+    {
+      "context": "sha256:a64f4d64720f9c7a740ced7a3d57ee70743f833e6c718cd6c9f77c459c279393",
+      "id": "sha256:e9f8c9205cbfed1cb72b49f005a8a44af97fe208968464a4d1d0e15bb5fcc4e5",
+      "kind": "parameter",
+      "location": {
+        "column": 20,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 13
+      },
+      "symbol": "sha256:5a34e9d32a4c2b3ab6aee178af5f14b7295aaf995e572f29dc31758b1c98aae1"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:f044b1773897f1c11f9afbfd73302a6156d6529b294aee8df9dd0b8d107c23db",
+      "kind": "parameter",
+      "location": {
+        "column": 33,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "symbol": "sha256:4ab70334391f339f7ff03a1638f3b8a517fe742081fe2ae347117162f98149a3"
+    },
+    {
+      "context": null,
+      "id": "sha256:f490ad2659a8a6ef37192970933bb1fbfa39b16ae76aa142eeae5adc0162b8b0",
+      "kind": "definition",
+      "location": {
+        "column": 8,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 3
+      },
+      "symbol": "sha256:e432770fefd71b521405cb559a78d065640b6646208e4e9a85b6e45bc41ef568"
+    },
+    {
+      "context": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "id": "sha256:f80bcec2345523c30bfe86d0199b5ded824f207e24fd70b6b8800a1bb91cf865",
+      "kind": "parameter",
+      "location": {
+        "column": 23,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "symbol": "sha256:72b0137a90dfb5355cd090b1b6764f58e0ca49831b24d10f0672965295782053"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:f8b88b75a1b3daa8d52dd879ffc9171512b60101d5ca6fc2cebfecc19166be1a",
+      "kind": "parameter",
+      "location": {
+        "column": 20,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "symbol": "sha256:ed7e1c8eaaa2b78fe8df9e5fc7255a32e76fe72cf1d7424956c11fc11152fba0"
+    }
+  ],
+  "id": "sha256:7310957204b8457d6bc432f964db273a645e969f585842998fa4c5f122975ddb",
+  "limitations": [],
+  "mutations": [
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:08c856969db7b1730a490de8e40c2c70f9b7b1dd2cfdba42223ed0bf1a059aeb",
+      "kind": "initialization",
+      "location": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 30
+      },
+      "target": "sha256:2e9364863dc0c62167b3f9200aaae656df82b19688de61ce545477778ad0ba03"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:1a5a345e173fb9b97d64cfe54c648a0eb7c30244fe5efac11b15ddfcb8c459df",
+      "kind": "initialization",
+      "location": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 33
+      },
+      "target": "sha256:a4facbbb9569a6342f17d105483d6f5de2160569ce6c2ce191968c5c6d80ee67"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:7eb6c0ea42baa3d572fb97237e765b780e38a5de7c3986f28e46dbfbac9b6613",
+      "kind": "compound_assignment",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 20
+      },
+      "target": "sha256:6c457e69637a5884dc7ae9f407f12b1a558e0146d53e8567f2aeef78a4b1c619"
+    },
+    {
+      "context": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "id": "sha256:b97cb6f5dc561dc1099044d75ffde3ccced4b4010bf21318b5dddc41a9ccc978",
+      "kind": "initialization",
+      "location": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 9
+      },
+      "target": "sha256:eb5aa5b33a74c7e654ebfae23075eecbe7579eb3ff838266fd288678322058e5"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:d8cf224ad81cd650392757c63bb4eff889020c5bf1f76bc113856c7c5ac5ada6",
+      "kind": "assignment",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "target": "sha256:4db5111599bdae25f992e909f6103d74ba4583eba5723598baf669a6251ef30b"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:f95482c0d31b9d0fb2747c7f16296c35977025ed7fc8309b03e5affb4eb0ef28",
+      "kind": "assignment",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "target": "sha256:ed7e1c8eaaa2b78fe8df9e5fc7255a32e76fe72cf1d7424956c11fc11152fba0"
+    }
+  ],
+  "purity": [
+    {
+      "function": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "reasons": [],
+      "status": "pure"
+    },
+    {
+      "function": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "reasons": [
+        "direct_impure_call"
+      ],
+      "status": "impure"
+    },
+    {
+      "function": "sha256:a64f4d64720f9c7a740ced7a3d57ee70743f833e6c718cd6c9f77c459c279393",
+      "reasons": [],
+      "status": "pure"
+    },
+    {
+      "function": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "reasons": [
+        "global_mutation",
+        "parameter_mutation"
+      ],
+      "status": "impure"
+    },
+    {
+      "function": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "reasons": [],
+      "status": "pure"
+    }
+  ],
+  "schema": "codeskeptic.fact-index/v1",
+  "source": {
+    "content_sha256": "sha256:21d85ec40c8385596b91d1dff82ffec1b32d32918f74d7fc3f1f57a310aafcd1",
+    "file": "fixtures/facts/cases/world.cpp",
+    "language": "c++17"
+  },
+  "symbols": [
+    {
+      "declaration": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 30
+      },
+      "definition": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 30
+      },
+      "id": "sha256:2e9364863dc0c62167b3f9200aaae656df82b19688de61ce545477778ad0ba03",
+      "kind": "variable",
+      "linkage": "none",
+      "name": "temporary",
+      "owner": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "qualified_name": "scoped::temporary@30:13",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 16,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 28
+      },
+      "definition": {
+        "column": 16,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 28
+      },
+      "id": "sha256:41bfa0173abf890dbd58daca7cd441fe0062c11062d21967526ca4a62d3ddc13",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "input",
+      "owner": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "qualified_name": "scoped::input@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 28
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 28
+      },
+      "id": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "kind": "function",
+      "linkage": "external",
+      "name": "scoped",
+      "owner": null,
+      "qualified_name": "scoped",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 33,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "definition": {
+        "column": 33,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "id": "sha256:4ab70334391f339f7ff03a1638f3b8a517fe742081fe2ae347117162f98149a3",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "qualified_name": "store::value@parameter:1",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 4
+      },
+      "definition": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 4
+      },
+      "id": "sha256:4db5111599bdae25f992e909f6103d74ba4583eba5723598baf669a6251ef30b",
+      "kind": "field",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:e432770fefd71b521405cb559a78d065640b6646208e4e9a85b6e45bc41ef568",
+      "qualified_name": "Counter::value",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 20,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 13
+      },
+      "definition": {
+        "column": 20,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 13
+      },
+      "id": "sha256:5a34e9d32a4c2b3ab6aee178af5f14b7295aaf995e572f29dc31758b1c98aae1",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:a64f4d64720f9c7a740ced7a3d57ee70743f833e6c718cd6c9f77c459c279393",
+      "qualified_name": "math::normalize::value@parameter:0",
+      "type": "bool"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 1
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 1
+      },
+      "id": "sha256:6c457e69637a5884dc7ae9f407f12b1a558e0146d53e8567f2aeef78a4b1c619",
+      "kind": "variable",
+      "linkage": "external",
+      "name": "global_total",
+      "owner": null,
+      "qualified_name": "global_total",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 23,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "definition": {
+        "column": 23,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "id": "sha256:72b0137a90dfb5355cd090b1b6764f58e0ca49831b24d10f0672965295782053",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "counter",
+      "owner": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "qualified_name": "pipeline::counter@parameter:0",
+      "type": "Counter &"
+    },
+    {
+      "declaration": {
+        "column": 36,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "definition": {
+        "column": 36,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "id": "sha256:80f4778b8b73aa72975f1c4e02522329e14d02b2ac59420a53cc722edbbf0a7e",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "input",
+      "owner": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "qualified_name": "pipeline::input@parameter:1",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 24
+      },
+      "id": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "kind": "function",
+      "linkage": "external",
+      "name": "pipeline",
+      "owner": null,
+      "qualified_name": "pipeline",
+      "type": "int (Counter &, int)"
+    },
+    {
+      "declaration": {
+        "column": 19,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 8
+      },
+      "definition": {
+        "column": 19,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 8
+      },
+      "id": "sha256:9b40911330c17fe340478b553ae0716cd5da95620427a3d2307889bb1bf2ada8",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "qualified_name": "math::normalize::value@parameter:0",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 33
+      },
+      "definition": {
+        "column": 13,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 33
+      },
+      "id": "sha256:a4facbbb9569a6342f17d105483d6f5de2160569ce6c2ce191968c5c6d80ee67",
+      "kind": "variable",
+      "linkage": "none",
+      "name": "temporary",
+      "owner": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "qualified_name": "scoped::temporary@33:13",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 13
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 13
+      },
+      "id": "sha256:a64f4d64720f9c7a740ced7a3d57ee70743f833e6c718cd6c9f77c459c279393",
+      "kind": "function",
+      "linkage": "external",
+      "name": "normalize",
+      "owner": null,
+      "qualified_name": "math::normalize",
+      "type": "int (bool)"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "id": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "kind": "function",
+      "linkage": "external",
+      "name": "store",
+      "owner": null,
+      "qualified_name": "store",
+      "type": "int (Counter &, int)"
+    },
+    {
+      "declaration": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 8
+      },
+      "definition": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 8
+      },
+      "id": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "kind": "function",
+      "linkage": "external",
+      "name": "normalize",
+      "owner": null,
+      "qualified_name": "math::normalize",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 8,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 3
+      },
+      "definition": {
+        "column": 8,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 3
+      },
+      "id": "sha256:e432770fefd71b521405cb559a78d065640b6646208e4e9a85b6e45bc41ef568",
+      "kind": "record",
+      "linkage": "external",
+      "name": "Counter",
+      "owner": null,
+      "qualified_name": "Counter",
+      "type": "record Counter"
+    },
+    {
+      "declaration": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 9
+      },
+      "definition": {
+        "column": 9,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 9
+      },
+      "id": "sha256:eb5aa5b33a74c7e654ebfae23075eecbe7579eb3ff838266fd288678322058e5",
+      "kind": "variable",
+      "linkage": "none",
+      "name": "local",
+      "owner": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "qualified_name": "math::normalize::local@9:9",
+      "type": "int"
+    },
+    {
+      "declaration": {
+        "column": 20,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "definition": {
+        "column": 20,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 18
+      },
+      "id": "sha256:ed7e1c8eaaa2b78fe8df9e5fc7255a32e76fe72cf1d7424956c11fc11152fba0",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "counter",
+      "owner": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "qualified_name": "store::counter@parameter:0",
+      "type": "Counter &"
+    }
+  ],
+  "uses": [
+    {
+      "context": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "id": "sha256:054484b7ba47440d7ff4e95c406032339b980061d5a8d73c8d69ce57ffb3c3f1",
+      "kind": "read",
+      "location": {
+        "column": 17,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 9
+      },
+      "symbol": "sha256:9b40911330c17fe340478b553ae0716cd5da95620427a3d2307889bb1bf2ada8"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:0d371ce13f74e16906aef808c874a2c5944b0e6e1ebff75654381f72efe27005",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 21
+      },
+      "symbol": "sha256:6c457e69637a5884dc7ae9f407f12b1a558e0146d53e8567f2aeef78a4b1c619"
+    },
+    {
+      "context": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "id": "sha256:2ae1803c86b2f8573f72d28e891aa62e5ba54d10b7a2d1b1d5a32aff424b071f",
+      "kind": "read",
+      "location": {
+        "column": 18,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 25
+      },
+      "symbol": "sha256:72b0137a90dfb5355cd090b1b6764f58e0ca49831b24d10f0672965295782053"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:2cc660525e5ff10d1333b47b24b81ad5a3b7210865ab0175188cb14eadc3c2bd",
+      "kind": "read",
+      "location": {
+        "column": 25,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 30
+      },
+      "symbol": "sha256:41bfa0173abf890dbd58daca7cd441fe0062c11062d21967526ca4a62d3ddc13"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:3207301569f1c3032036d5d5d57c916f9aedf7e66e062f88cf6a15a3de91b4d0",
+      "kind": "read",
+      "location": {
+        "column": 25,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 33
+      },
+      "symbol": "sha256:41bfa0173abf890dbd58daca7cd441fe0062c11062d21967526ca4a62d3ddc13"
+    },
+    {
+      "context": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+      "id": "sha256:338e1a888a45fd022752212a8df7ef4f3b5fa8c93dd0a8797c3ebc5719d9b9ad",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 10
+      },
+      "symbol": "sha256:eb5aa5b33a74c7e654ebfae23075eecbe7579eb3ff838266fd288678322058e5"
+    },
+    {
+      "context": "sha256:45a8f23cf84a76ac57cc5390b87c6c9ae809b7cd602866acf286305720cc0aa2",
+      "id": "sha256:568166e4010f714b288f69c0e035e72c19df4234ffaa84815760c7a8dba5a70c",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 35
+      },
+      "symbol": "sha256:41bfa0173abf890dbd58daca7cd441fe0062c11062d21967526ca4a62d3ddc13"
+    },
+    {
+      "context": "sha256:a64f4d64720f9c7a740ced7a3d57ee70743f833e6c718cd6c9f77c459c279393",
+      "id": "sha256:67748a4ac79a707f2290f49d8528cc9d8868d076685d0773a37498a07c7fc838",
+      "kind": "read",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 14
+      },
+      "symbol": "sha256:5a34e9d32a4c2b3ab6aee178af5f14b7295aaf995e572f29dc31758b1c98aae1"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:7cbbaa5f115536c017532bb7fcb3df0e01a8754090d9eb9cfe56b3349d1d7987",
+      "kind": "read",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 20
+      },
+      "symbol": "sha256:ed7e1c8eaaa2b78fe8df9e5fc7255a32e76fe72cf1d7424956c11fc11152fba0"
+    },
+    {
+      "context": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+      "id": "sha256:80d62c7816747998d3dfb9908734bcab809bec754f09aa57f0549a763706b084",
+      "kind": "read",
+      "location": {
+        "column": 43,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 25
+      },
+      "symbol": "sha256:80f4778b8b73aa72975f1c4e02522329e14d02b2ac59420a53cc722edbbf0a7e"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:9153ab234bae31625a3225ef77828e73a4767c7325f69e6fcd984485f36f7d77",
+      "kind": "address",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:ed7e1c8eaaa2b78fe8df9e5fc7255a32e76fe72cf1d7424956c11fc11152fba0"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:abff6a79fe2f22b5b3d606539144d849721e29c3db577862a1c1b299b6c3d881",
+      "kind": "write",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:4db5111599bdae25f992e909f6103d74ba4583eba5723598baf669a6251ef30b"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:b1cfa8052bda6ff7ab1356eb847a689537117c6a2cc9823a307f1333bc7ddc78",
+      "kind": "read_write",
+      "location": {
+        "column": 5,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 20
+      },
+      "symbol": "sha256:6c457e69637a5884dc7ae9f407f12b1a558e0146d53e8567f2aeef78a4b1c619"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:c4efdda03be70c5a3dba7f165928fb1d1764691ed1713fc88b805dc22d80e900",
+      "kind": "read",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 20
+      },
+      "symbol": "sha256:4db5111599bdae25f992e909f6103d74ba4583eba5723598baf669a6251ef30b"
+    },
+    {
+      "context": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+      "id": "sha256:d970858fba838a4521cbf7824fa8211464a5131b58dd3062091ecd1af69ed5e4",
+      "kind": "read",
+      "location": {
+        "column": 37,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "symbol": "sha256:4ab70334391f339f7ff03a1638f3b8a517fe742081fe2ae347117162f98149a3"
+    }
+  ]
+}

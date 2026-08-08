@@ -1,0 +1,13 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-18",
+  "corpus": "sha256:a6cfd5325fdd746517f5a7f9a16f7f69adcbaf83f4faa79d77777e196883f73d",
+  "evidence": {
+    "diagnostic": "TEST FAILURE: e2_case_18(2) expected 39, observed 37",
+    "redacted_source": "\n\nint e2_case_18(int value) {\n  return value * 18 + 1;\n}\n"
+  },
+  "evidence_scope": "compiler-test-only",
+  "id": "sha256:9a25dbb1ccb28359c9a3063bbbcaff775669c70cda3c0f5af5e11164c1a8da49",
+  "schema": "codeskeptic.experiment-context/v1",
+  "target_source": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371"
+}

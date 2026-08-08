@@ -1,0 +1,310 @@
+{
+  "$defs": {
+    "contract": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "ensures",
+            "modifies",
+            "requires"
+          ]
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "machine_proposed": {
+          "type": "boolean"
+        },
+        "text": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "location",
+        "machine_proposed",
+        "text"
+      ],
+      "type": "object"
+    },
+    "expression": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "$ref": "#/$defs/expression"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "kind": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "op": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "type"
+      ],
+      "type": "object"
+    },
+    "hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "location": {
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "file": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "line": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "column",
+        "file",
+        "line"
+      ],
+      "type": "object"
+    },
+    "obligation": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "items": {
+            "$ref": "#/$defs/expression"
+          },
+          "type": "array"
+        },
+        "conclusion": {
+          "$ref": "#/$defs/expression"
+        },
+        "description": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "function": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^ob[0-9]{5,}$",
+          "type": "string"
+        },
+        "kind": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "mode": {
+          "const": "validity"
+        }
+      },
+      "required": [
+        "assumptions",
+        "conclusion",
+        "description",
+        "function",
+        "id",
+        "kind",
+        "location",
+        "mode"
+      ],
+      "type": "object"
+    },
+    "result": {
+      "additionalProperties": false,
+      "properties": {
+        "counterexample": {
+          "minProperties": 1,
+          "type": "object"
+        },
+        "function": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/$defs/location"
+        },
+        "message": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "obligation": {
+          "pattern": "^ob[0-9]{5,}$",
+          "type": "string"
+        },
+        "status": {
+          "const": "violated"
+        },
+        "trace": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "counterexample",
+        "function",
+        "kind",
+        "location",
+        "message",
+        "obligation",
+        "status"
+      ],
+      "type": "object"
+    },
+    "sourceLine": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "number",
+        "text"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://codeskeptic.dev/schemas/repair-bundle/v1/index.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contracts": {
+      "items": {
+        "$ref": "#/$defs/contract"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "id": {
+      "$ref": "#/$defs/hash"
+    },
+    "obligation": {
+      "$ref": "#/$defs/obligation"
+    },
+    "referee": {
+      "enum": [
+        "codeskeptic.affine/v1",
+        "codeskeptic.both/v1",
+        "codeskeptic.z3/v1"
+      ]
+    },
+    "result": {
+      "$ref": "#/$defs/result"
+    },
+    "schema": {
+      "const": "codeskeptic.repair-bundle/v1"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "file",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "source_slice": {
+      "additionalProperties": false,
+      "properties": {
+        "end_line": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "lines": {
+          "items": {
+            "$ref": "#/$defs/sourceLine"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "start_line": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "end_line",
+        "lines",
+        "start_line"
+      ],
+      "type": "object"
+    },
+    "verification": {
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "codeskeptic.semantic-verification/v6"
+        },
+        "sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "schema",
+        "sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "contracts",
+    "id",
+    "obligation",
+    "referee",
+    "result",
+    "schema",
+    "source",
+    "source_slice",
+    "verification"
+  ],
+  "title": "CodeSkeptic repair bundle v1",
+  "type": "object"
+}

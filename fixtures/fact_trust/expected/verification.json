@@ -1,0 +1,628 @@
+{
+  "non_goals": [],
+  "obligations": [
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          },
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 2: ensures result == value",
+      "function": "leaf",
+      "id": "ob00001",
+      "kind": "postcondition",
+      "location": {
+        "column": 3,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 4
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "result_value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "result_value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "result_value#0"
+            },
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "result_value#0"
+          },
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 8: ensures result == value",
+      "function": "caller",
+      "id": "ob00002",
+      "kind": "postcondition",
+      "location": {
+        "column": 3,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 11
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          },
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "value#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 14: ensures result == value",
+      "function": "no_frame",
+      "id": "ob00003",
+      "kind": "postcondition",
+      "location": {
+        "column": 3,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 16
+      },
+      "mode": "validity"
+    }
+  ],
+  "results": [
+    {
+      "function": "leaf",
+      "kind": "postcondition",
+      "location": {
+        "column": 3,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 4
+      },
+      "message": "verified by exact affine simplification/path facts",
+      "obligation": "ob00001",
+      "status": "verified"
+    },
+    {
+      "function": "caller",
+      "kind": "postcondition",
+      "location": {
+        "column": 3,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 11
+      },
+      "message": "verified by exact affine simplification/path facts",
+      "obligation": "ob00002",
+      "status": "verified"
+    },
+    {
+      "function": "no_frame",
+      "kind": "postcondition",
+      "location": {
+        "column": 3,
+        "file": "fixtures/fact_trust/source.cpp",
+        "line": 16
+      },
+      "message": "verified by exact affine simplification/path facts",
+      "obligation": "ob00003",
+      "status": "verified"
+    }
+  ],
+  "schema": "codeskeptic.semantic-verification/v6",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            "id": "n00001",
+            "kind": "return",
+            "location": {
+              "column": 3,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 4
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "value#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 2
+            },
+            "machine_proposed": false,
+            "text": "ensures result == value"
+          }
+        ],
+        "frame": {
+          "location": {
+            "column": 4,
+            "file": "fixtures/fact_trust/source.cpp",
+            "line": 1
+          },
+          "machine_proposed": false,
+          "targets": [],
+          "text": "modifies"
+        },
+        "has_body": true,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/fact_trust/source.cpp",
+          "line": 3
+        },
+        "name": "leaf",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 14,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 3
+            },
+            "name": "value",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "value#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "value#0"
+              }
+            ],
+            "callee": "leaf",
+            "id": "n00002",
+            "kind": "call",
+            "location": {
+              "column": 22,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 10
+            },
+            "result_type": "i32",
+            "target": "result_value#0"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "result_value#0"
+            },
+            "id": "n00003",
+            "kind": "return",
+            "location": {
+              "column": 3,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 11
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "value#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 8
+            },
+            "machine_proposed": false,
+            "text": "ensures result == value"
+          }
+        ],
+        "frame": {
+          "location": {
+            "column": 4,
+            "file": "fixtures/fact_trust/source.cpp",
+            "line": 7
+          },
+          "machine_proposed": false,
+          "targets": [],
+          "text": "modifies"
+        },
+        "has_body": true,
+        "id": "f0002",
+        "locals": [
+          {
+            "id": "f0002.s0002",
+            "location": {
+              "column": 7,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 10
+            },
+            "name": "result_value",
+            "type": "i32",
+            "versioned_name": "result_value#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/fact_trust/source.cpp",
+          "line": 9
+        },
+        "name": "caller",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 16,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 9
+            },
+            "name": "value",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "value#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            "id": "n00004",
+            "kind": "return",
+            "location": {
+              "column": 3,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 16
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "value#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 14
+            },
+            "machine_proposed": false,
+            "text": "ensures result == value"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0003",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/fact_trust/source.cpp",
+          "line": 15
+        },
+        "name": "no_frame",
+        "parameters": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 18,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 15
+            },
+            "name": "value",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "value#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "value#0"
+            },
+            "id": "n00005",
+            "kind": "return",
+            "location": {
+              "column": 3,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 21
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": {
+          "location": {
+            "column": 4,
+            "file": "fixtures/fact_trust/source.cpp",
+            "line": 19
+          },
+          "machine_proposed": false,
+          "targets": [],
+          "text": "modifies"
+        },
+        "has_body": true,
+        "id": "f0004",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/fact_trust/source.cpp",
+          "line": 20
+        },
+        "name": "zero_obligations",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 26,
+              "file": "fixtures/fact_trust/source.cpp",
+              "line": 20
+            },
+            "name": "value",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "value#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      }
+    ],
+    "records": [],
+    "schema": "codeskeptic.semantic-verification/v6",
+    "source": "fixtures/fact_trust/source.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/fact_trust/source.cpp",
+  "summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 3,
+    "violated": 0
+  }
+}

@@ -1,0 +1,30 @@
+module fixtures/cases/array_slice.cpp
+function constant_read() -> i32
+  ensures (result == 7)
+  n00001 values#0 := {4, 7, 9}
+  n00002 return values#0[1]
+function symbolic_read(i#0:i32) -> i32
+  requires ((i#0 >= 0) && (i#0 < 3))
+  ensures (result > 0)
+  n00003 assume ((i#0 >= 0) && (i#0 < 3))
+  n00004 values#0 := {4, 7, 9}
+  n00005 return values#0[i#0]
+function store_isolation() -> i32
+  ensures (result == 2)
+  n00006 values#0 := {1, 2, 3}
+  n00007 values#1 := store(values#0, 0, 9)
+  n00008 return values#1[1]
+function read_after_write(i#0:i32) -> i32
+  requires ((i#0 >= 0) && (i#0 < 3))
+  ensures (result == 1)
+  n00009 assume ((i#0 >= 0) && (i#0 < 3))
+  n00010 values#0 := {10, 20, 30}
+  n00011 previous#0 := values#0[i#0]
+  n00012 values#1 := store(values#0, i#0, (previous#0 + 1))
+  n00013 return (values#1[i#0] - previous#0)
+function unsigned_read(i#0:u32) -> u32
+  requires (i#0 < 3)
+  ensures (result != 0)
+  n00014 assume (i#0 < 3)
+  n00015 values#0 := {((u32) 1), ((u32) 2), ((u32) 3)}
+  n00016 return values#0[i#0]

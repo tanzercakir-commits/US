@@ -1,0 +1,46 @@
+{
+  "candidate_comments": [
+    "// cs: ai ensures result >= 0"
+  ],
+  "checks": [
+    {
+      "message": "response schema and request identity match",
+      "name": "response",
+      "status": "verified"
+    },
+    {
+      "message": "ordinary contract parser retained every function candidate",
+      "name": "candidate_parse",
+      "status": "verified"
+    },
+    {
+      "message": "verified: contract expression is in the supported logic fragment",
+      "name": "candidate_referee/contract_well_formed/1",
+      "status": "verified"
+    },
+    {
+      "message": "verified: deterministic search found a satisfying contract input",
+      "name": "combined/contract_consistency/1",
+      "status": "verified"
+    },
+    {
+      "message": "target overlay parsed without source mutation",
+      "name": "source_parse",
+      "status": "verified"
+    }
+  ],
+  "outcome": "eligible",
+  "overlay_sha256": "sha256:57b7d99ce2f50e900efb0c916ae04547336e5ad5a65dc55c26d54ffecc4a3f12",
+  "reason": "all deterministic proposal pre-screen checks passed",
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "response_sha256": "sha256:f92baf12642100f4271933d921922fb810c361c28cf9fabb7207ea98581dad48",
+  "schema": "codeskeptic.contract-proposal-pre-screen/v1",
+  "status": "eligible",
+  "verification_summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 2,
+    "violated": 0
+  }
+}

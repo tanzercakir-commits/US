@@ -1,0 +1,410 @@
+{
+  "non_goals": [
+    {
+      "description": "termination is not checked; verified loop obligations establish partial correctness only",
+      "kind": "loop_termination",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+        "line": 6
+      }
+    }
+  ],
+  "obligations": [
+    {
+      "assumptions": [],
+      "description": "WhileStmt is unsupported without a cs: invariant",
+      "function": "sum_zero_to_n",
+      "id": "ob00001",
+      "kind": "unsupported_construct",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+        "line": 6
+      },
+      "mode": "validity",
+      "unsupported_reason": "WhileStmt is unsupported without a cs: invariant"
+    }
+  ],
+  "results": [
+    {
+      "function": "sum_zero_to_n",
+      "kind": "unsupported_construct",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+        "line": 6
+      },
+      "message": "unsupported in backend cross-check: unsupported: WhileStmt is unsupported without a cs: invariant",
+      "obligation": "ob00001",
+      "status": "unsupported"
+    }
+  ],
+  "schema": "codeskeptic.semantic-verification/v3",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "10"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "id": "n00001",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 1
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            "id": "n00002",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 4
+            },
+            "target": "i#0"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            "id": "n00003",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 5
+            },
+            "target": "total#0"
+          },
+          {
+            "body": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                },
+                "id": "n00005",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+                  "line": 7
+                },
+                "target": "i#2"
+              },
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "total#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "i#2"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "i32"
+                },
+                "id": "n00006",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+                  "line": 8
+                },
+                "target": "total#2"
+              }
+            ],
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00004",
+            "invariants": [],
+            "kind": "loop",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 6
+            },
+            "loop_variables": [
+              {
+                "back_edge": "i#2",
+                "entry": "i#0",
+                "exit": "i#3",
+                "head": "i#1",
+                "name": "i",
+                "type": "i32"
+              },
+              {
+                "back_edge": "total#2",
+                "entry": "total#0",
+                "exit": "total#3",
+                "head": "total#1",
+                "name": "total",
+                "type": "i32"
+              }
+            ],
+            "termination": "non_goal"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "i32",
+              "value": "total#3"
+            },
+            "id": "n00007",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 10
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "n#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "10"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 1
+            },
+            "machine_proposed": false,
+            "text": "requires n >= 0 && n <= 10"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "result"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": ">=",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "result"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "100"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 2
+            },
+            "machine_proposed": false,
+            "text": "ensures result >= 0 && result <= 100"
+          }
+        ],
+        "has_body": true,
+        "id": "f0001",
+        "locals": [
+          {
+            "id": "f0001.s0002",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 4
+            },
+            "name": "i",
+            "type": "i32",
+            "versioned_name": "i#0"
+          },
+          {
+            "id": "f0001.s0003",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 5
+            },
+            "name": "total",
+            "type": "i32",
+            "versioned_name": "total#0"
+          }
+        ],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+          "line": 3
+        },
+        "name": "sum_zero_to_n",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+              "line": 3
+            },
+            "name": "n",
+            "type": "i32",
+            "versioned_name": "n#0"
+          }
+        ],
+        "return_type": "i32"
+      }
+    ],
+    "schema": "codeskeptic.semantic-verification/v3",
+    "source": "fixtures/cases/sum_loop_missing_invariant.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/sum_loop_missing_invariant.cpp",
+  "summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 1,
+    "verified": 0,
+    "violated": 0
+  }
+}

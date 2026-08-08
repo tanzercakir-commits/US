@@ -1,0 +1,96 @@
+{
+  "calls": [],
+  "definitions": [
+    {
+      "context": "sha256:277f358754b19282abbc34d9d3cbfcec87d497eca8eea77efaf86f5db09f9b37",
+      "id": "sha256:8087580c70218dbd54afa9d385fd68c361090af5157f952636c02785f9699e5d",
+      "kind": "parameter",
+      "location": {
+        "column": 15,
+        "file": "project/src/alpha.cpp",
+        "line": 1
+      },
+      "symbol": "sha256:c06b20493c567bb34dfaf56b3431c7ad21f391e5351aadd119d67142be6a6930"
+    },
+    {
+      "context": null,
+      "id": "sha256:812f371aa3696633ba3b5cb2e4ce916d48f89b071289d97fe7d7eff5b85bab51",
+      "kind": "definition",
+      "location": {
+        "column": 5,
+        "file": "project/src/alpha.cpp",
+        "line": 1
+      },
+      "symbol": "sha256:277f358754b19282abbc34d9d3cbfcec87d497eca8eea77efaf86f5db09f9b37"
+    }
+  ],
+  "id": "sha256:f433c295ce01f72a129022ccd195d1bf6c1ef70a5d344b47371fbfafb7fb0570",
+  "limitations": [],
+  "mutations": [],
+  "purity": [
+    {
+      "function": "sha256:277f358754b19282abbc34d9d3cbfcec87d497eca8eea77efaf86f5db09f9b37",
+      "reasons": [],
+      "status": "pure"
+    }
+  ],
+  "schema": "codeskeptic.fact-index/v1",
+  "source": {
+    "content_sha256": "sha256:a257c7243d4d4836e29c5452fb79ec80992019cdda6eacf89e1b08d1848bffa4",
+    "file": "project/src/alpha.cpp",
+    "language": "c++17"
+  },
+  "symbols": [
+    {
+      "declaration": {
+        "column": 5,
+        "file": "project/src/alpha.cpp",
+        "line": 1
+      },
+      "definition": {
+        "column": 5,
+        "file": "project/src/alpha.cpp",
+        "line": 1
+      },
+      "id": "sha256:277f358754b19282abbc34d9d3cbfcec87d497eca8eea77efaf86f5db09f9b37",
+      "kind": "function",
+      "linkage": "external",
+      "name": "alpha",
+      "owner": null,
+      "qualified_name": "alpha",
+      "type": "int (int)"
+    },
+    {
+      "declaration": {
+        "column": 15,
+        "file": "project/src/alpha.cpp",
+        "line": 1
+      },
+      "definition": {
+        "column": 15,
+        "file": "project/src/alpha.cpp",
+        "line": 1
+      },
+      "id": "sha256:c06b20493c567bb34dfaf56b3431c7ad21f391e5351aadd119d67142be6a6930",
+      "kind": "parameter",
+      "linkage": "none",
+      "name": "value",
+      "owner": "sha256:277f358754b19282abbc34d9d3cbfcec87d497eca8eea77efaf86f5db09f9b37",
+      "qualified_name": "alpha::value@parameter:0",
+      "type": "int"
+    }
+  ],
+  "uses": [
+    {
+      "context": "sha256:277f358754b19282abbc34d9d3cbfcec87d497eca8eea77efaf86f5db09f9b37",
+      "id": "sha256:637877d046d1d951aa00e15b040a67a1725219b22e428b0d31322c3b19ab47f3",
+      "kind": "read",
+      "location": {
+        "column": 10,
+        "file": "project/src/alpha.cpp",
+        "line": 2
+      },
+      "symbol": "sha256:c06b20493c567bb34dfaf56b3431c7ad21f391e5351aadd119d67142be6a6930"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "obligations": [
+    {
+      "assumptions": [],
+      "description": "WhileStmt is unsupported without a cs: invariant",
+      "function": "sum_zero_to_n",
+      "id": "ob00001",
+      "kind": "unsupported_construct",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/sum_loop_missing_invariant.cpp",
+        "line": 6
+      },
+      "mode": "validity",
+      "unsupported_reason": "WhileStmt is unsupported without a cs: invariant"
+    }
+  ],
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-obligations/v0",
+  "source": "fixtures/cases/sum_loop_missing_invariant.cpp"
+}

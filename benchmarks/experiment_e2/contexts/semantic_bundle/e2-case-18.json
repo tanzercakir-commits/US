@@ -1,0 +1,388 @@
+{
+  "arm": "semantic_bundle",
+  "case": "e2-case-18",
+  "corpus": "sha256:a6cfd5325fdd746517f5a7f9a16f7f69adcbaf83f4faa79d77777e196883f73d",
+  "evidence": {
+    "bundle": {
+      "contracts": [
+        {
+          "kind": "requires",
+          "location": {
+            "column": 4,
+            "file": "benchmarks/experiment_e2/corpus/cases/e2-case-18.cpp",
+            "line": 1
+          },
+          "machine_proposed": false,
+          "text": "requires value >= -100 && value <= 100"
+        },
+        {
+          "kind": "ensures",
+          "location": {
+            "column": 4,
+            "file": "benchmarks/experiment_e2/corpus/cases/e2-case-18.cpp",
+            "line": 2
+          },
+          "machine_proposed": false,
+          "text": "ensures result == value * 19 + 1"
+        }
+      ],
+      "id": "sha256:24ee60a5294bc245ef67d5944fb127c31c8aa79317023a9d43ccd457bda13857",
+      "obligation": {
+        "assumptions": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "value#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "value#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "value#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "100"
+                      }
+                    ],
+                    "kind": "unary",
+                    "op": "-",
+                    "type": "i32"
+                  }
+                ],
+                "kind": "binary",
+                "op": ">=",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "value#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "100"
+                  }
+                ],
+                "kind": "binary",
+                "op": "<=",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "value#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "18"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "value#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "18"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "i32",
+                        "value": "value#0"
+                      },
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "18"
+                      }
+                    ],
+                    "kind": "binary",
+                    "op": "*",
+                    "type": "i32"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "-2147483648"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "i32",
+                        "value": "value#0"
+                      },
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "18"
+                      }
+                    ],
+                    "kind": "binary",
+                    "op": "*",
+                    "type": "i32"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2147483647"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "conclusion": {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "value#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "18"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "*",
+                  "type": "i32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "value#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "19"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "*",
+                  "type": "i32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        "description": "postcondition declared at line 2: ensures result == value * 19 + 1",
+        "function": "e2_case_18",
+        "id": "ob00004",
+        "kind": "postcondition",
+        "location": {
+          "column": 3,
+          "file": "benchmarks/experiment_e2/corpus/cases/e2-case-18.cpp",
+          "line": 4
+        },
+        "mode": "validity"
+      },
+      "referee": "codeskeptic.affine/v1",
+      "result": {
+        "counterexample": {
+          "value": "-2"
+        },
+        "function": "e2_case_18",
+        "kind": "postcondition",
+        "location": {
+          "column": 3,
+          "file": "benchmarks/experiment_e2/corpus/cases/e2-case-18.cpp",
+          "line": 4
+        },
+        "message": "violated: deterministic search found and replayed a concrete model; minimized from 1 to 1 bindings",
+        "obligation": "ob00004",
+        "status": "violated"
+      },
+      "schema": "codeskeptic.repair-bundle/v1",
+      "source": {
+        "file": "benchmarks/experiment_e2/corpus/cases/e2-case-18.cpp",
+        "sha256": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371"
+      },
+      "source_slice": {
+        "end_line": 5,
+        "lines": [
+          {
+            "number": 1,
+            "text": "// cs: requires value >= -100 && value <= 100"
+          },
+          {
+            "number": 2,
+            "text": "// cs: ensures result == value * 19 + 1"
+          },
+          {
+            "number": 3,
+            "text": "int e2_case_18(int value) {"
+          },
+          {
+            "number": 4,
+            "text": "  return value * 18 + 1;"
+          },
+          {
+            "number": 5,
+            "text": "}"
+          }
+        ],
+        "start_line": 1
+      },
+      "verification": {
+        "schema": "codeskeptic.semantic-verification/v6",
+        "sha256": "sha256:8fed3820c624606a0c49c73c9f349c4f7c666ffe0576739e8de1489d19759f68"
+      }
+    }
+  },
+  "evidence_scope": "semantic-repair-bundle",
+  "id": "sha256:e6992cbd131ea37c809120625033d06ac00fa22473bfdb68d129624a3df5a9c6",
+  "schema": "codeskeptic.experiment-context/v1",
+  "target_source": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371"
+}

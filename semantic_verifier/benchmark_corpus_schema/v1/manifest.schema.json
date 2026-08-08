@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codeskeptic.dev/schema/benchmark-corpus/v1/manifest.schema.json",
+  "additionalProperties": false,
+  "properties": {
+    "cases": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_status": {
+            "enum": ["unknown", "unsupported", "verified", "violated"]
+          },
+          "function": {
+            "pattern": "^bench_(affine_basic|affine_counterexample|path_sensitive|search_frontier)_(0[1-9]|10)$",
+            "type": "string"
+          },
+          "tier": {
+            "enum": [
+              "affine-basic",
+              "affine-counterexample",
+              "deterministic-search-frontier",
+              "path-sensitive"
+            ]
+          }
+        },
+        "required": ["expected_status", "function", "tier"],
+        "type": "object"
+      },
+      "maxItems": 40,
+      "minItems": 40,
+      "type": "array"
+    },
+    "id": { "$ref": "#/$defs/hash" },
+    "schema": { "const": "codeskeptic.benchmark-corpus/v1" },
+    "source": { "const": "corpus.cpp" },
+    "source_sha256": { "$ref": "#/$defs/hash" },
+    "tiers": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "count": { "const": 10 },
+          "expected_status": {
+            "enum": ["unknown", "unsupported", "verified", "violated"]
+          },
+          "name": {
+            "enum": [
+              "affine-basic",
+              "affine-counterexample",
+              "deterministic-search-frontier",
+              "path-sensitive"
+            ]
+          }
+        },
+        "required": ["count", "expected_status", "name"],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    }
+  },
+  "required": ["cases", "id", "schema", "source", "source_sha256", "tiers"],
+  "type": "object",
+  "$defs": {
+    "hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  }
+}

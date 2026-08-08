@@ -1,0 +1,164 @@
+{
+  "decisions": [
+    {
+      "call_id": "sha256:62e1d819a0de284b705a11c6664376b111ea965f5391aed45249ef3e5210cab2",
+      "callee": {
+        "declaration": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 8
+        },
+        "definition": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 8
+        },
+        "id": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+        "kind": "function",
+        "linkage": "external",
+        "name": "normalize",
+        "owner": null,
+        "qualified_name": "math::normalize",
+        "type": "int (int)"
+      },
+      "caller": {
+        "declaration": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 18
+        },
+        "definition": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 18
+        },
+        "id": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+        "kind": "function",
+        "linkage": "external",
+        "name": "store",
+        "owner": null,
+        "qualified_name": "store",
+        "type": "int (Counter &, int)"
+      },
+      "decision": "allow",
+      "from_layer": "storage",
+      "location": {
+        "column": 21,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 19
+      },
+      "to_layer": "utility"
+    },
+    {
+      "call_id": "sha256:77c9fcc12b0da02a26d156c167a177c905a245036cfa82f9b46013d45f1bec18",
+      "callee": {
+        "declaration": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 18
+        },
+        "definition": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 18
+        },
+        "id": "sha256:cabc3e5b076034933c42b5285dfa8c022d033e10295695f6e7d7a591750a13f0",
+        "kind": "function",
+        "linkage": "external",
+        "name": "store",
+        "owner": null,
+        "qualified_name": "store",
+        "type": "int (Counter &, int)"
+      },
+      "caller": {
+        "declaration": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 24
+        },
+        "definition": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 24
+        },
+        "id": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+        "kind": "function",
+        "linkage": "external",
+        "name": "pipeline",
+        "owner": null,
+        "qualified_name": "pipeline",
+        "type": "int (Counter &, int)"
+      },
+      "decision": "forbid",
+      "from_layer": "orchestration",
+      "location": {
+        "column": 12,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 25
+      },
+      "to_layer": "storage"
+    },
+    {
+      "call_id": "sha256:245e1a46cb6852868679d1fafca349e59ed02b6c72259dfded5699e795d5d738",
+      "callee": {
+        "declaration": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 8
+        },
+        "definition": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 8
+        },
+        "id": "sha256:ce8f87cd9d58e449145c55fef035742aced0aac10d090c8b9f0ecb73bba35226",
+        "kind": "function",
+        "linkage": "external",
+        "name": "normalize",
+        "owner": null,
+        "qualified_name": "math::normalize",
+        "type": "int (int)"
+      },
+      "caller": {
+        "declaration": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 24
+        },
+        "definition": {
+          "column": 5,
+          "file": "fixtures/facts/cases/world.cpp",
+          "line": 24
+        },
+        "id": "sha256:9adce48546844dde02c74289efaad6a4c11bc9a17c32ba5c4f31032ae2b0cf85",
+        "kind": "function",
+        "linkage": "external",
+        "name": "pipeline",
+        "owner": null,
+        "qualified_name": "pipeline",
+        "type": "int (Counter &, int)"
+      },
+      "decision": "allow",
+      "from_layer": "orchestration",
+      "location": {
+        "column": 27,
+        "file": "fixtures/facts/cases/world.cpp",
+        "line": 25
+      },
+      "to_layer": "utility"
+    }
+  ],
+  "index_id": "sha256:7310957204b8457d6bc432f964db273a645e969f585842998fa4c5f122975ddb",
+  "policy_id": "sha256:7c5e57f6216ce2c65be6d0d87ec2af143b168467d6ef4b66333e8cb5c0ef26a1",
+  "schema": "codeskeptic.architecture-result/v1",
+  "status": "violation",
+  "summary": {
+    "allowed": 2,
+    "calls": 3,
+    "decided": 3,
+    "forbidden": 1,
+    "undecided_calls": 0,
+    "unknowns": 0
+  },
+  "unknowns": []
+}

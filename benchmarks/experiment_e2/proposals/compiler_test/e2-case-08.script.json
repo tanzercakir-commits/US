@@ -1,0 +1,59 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-08",
+  "context": "sha256:a300407e501b0bb496167afb708e4a33292fa8a03e97787ee5f6df010cc23931",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:54644056a9200f8e5c93c947599a8ca54bb94250ae791669070a12537134b80b",
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:225b96abc5b3410b67e8c55ae2387a4a471dcd95e4e90207787397f4ad86fe4e",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 10 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:ddab667a7e5d56700a747054480601453c7a94043d7629360424b5dd6a3135bc",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:890c0359fa8a54428ef8b5ad53cbce3ecaa42f36c0ca6dac8563bf0a5dd8b6d8",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 11 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:5632bc34da5e70f4dd1e62ebe3a0345d8100dcbc8d0c4984a7b54d884f9f2be0",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:90659d8abb4ccccd37e5538b20a0bd08288013dc66aee07f1d47760eea503c57",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 12 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:5b976f66e1c46761ef12e78228e01e1498b66fd7909cc7a99994e0611ec3e644",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:390831a6b3f7bc89ccc4548c3123bc018f2aa7a8eb8c26bc1390061560a33deb",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 9 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:8192a34ccab38ca70905fc3e7fe684295337d3b7217ac864bb7ecc91d785d17a",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-proposal-script/v1"
+}

@@ -1,0 +1,42 @@
+{
+  "$id": "https://codeskeptic.dev/schema/assumption-manifest/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {"pattern": "^asm-[0-9]{3,}$", "type": "string"},
+          "intended_disposition": {"enum": ["contract", "test", "uncheckable"]},
+          "risk": {"enum": ["high", "low", "medium"]},
+          "scope": {"minLength": 1, "type": "string"},
+          "statement": {"minLength": 1, "type": "string"}
+        },
+        "required": ["id", "intended_disposition", "risk", "scope", "statement"],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "id": {"pattern": "^sha256:[0-9a-f]{64}$", "type": "string"},
+    "schema": {"const": "codeskeptic.assumption-manifest/v1"},
+    "snapshot": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "path": {"minLength": 1, "type": "string"},
+          "sha256": {"pattern": "^sha256:[0-9a-f]{64}$", "type": "string"}
+        },
+        "required": ["path", "sha256"],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "subject": {"minLength": 1, "type": "string"}
+  },
+  "required": ["assumptions", "id", "schema", "snapshot", "subject"],
+  "title": "CodeSkeptic Assumption Manifest v1",
+  "type": "object"
+}

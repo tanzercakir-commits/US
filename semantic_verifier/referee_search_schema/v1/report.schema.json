@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codeskeptic.dev/schema/referee-search/v1/report.schema.json",
+  "additionalProperties": false,
+  "properties": {
+    "arms": {
+      "additionalProperties": false,
+      "properties": {
+        "best_of_n": { "$ref": "#/$defs/arm" },
+        "single_shot": { "$ref": "#/$defs/arm" }
+      },
+      "required": ["best_of_n", "single_shot"],
+      "type": "object"
+    },
+    "candidates": { "$ref": "#/$defs/hash" },
+    "cases": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "case": { "$ref": "#/$defs/case" },
+          "evaluations": {
+            "items": { "$ref": "#/$defs/evaluation" },
+            "maxItems": 4,
+            "minItems": 4,
+            "type": "array"
+          },
+          "selected": {
+            "oneOf": [
+              { "type": "null" },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "proposal": { "$ref": "#/$defs/hash" },
+                  "rank": { "maximum": 4, "minimum": 1, "type": "integer" }
+                },
+                "required": ["proposal", "rank"],
+                "type": "object"
+              }
+            ]
+          },
+          "single_shot_verified": { "type": "boolean" }
+        },
+        "required": ["case", "evaluations", "selected", "single_shot_verified"],
+        "type": "object"
+      },
+      "maxItems": 20,
+      "minItems": 20,
+      "type": "array"
+    },
+    "corpus": { "$ref": "#/$defs/hash" },
+    "evaluated": { "const": 80 },
+    "id": { "$ref": "#/$defs/hash" },
+    "limitations": {
+      "items": { "minLength": 1, "type": "string" },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    },
+    "n": { "const": 4 },
+    "outcome": { "enum": ["failed", "passed"] },
+    "provenance": { "const": "recorded-oracle-seeded-scripted-proxy" },
+    "schema": { "const": "codeskeptic.referee-search-report/v1" },
+    "threshold": { "$ref": "#/$defs/fraction" },
+    "uplift": { "$ref": "#/$defs/fraction" }
+  },
+  "required": [
+    "arms",
+    "candidates",
+    "cases",
+    "corpus",
+    "evaluated",
+    "id",
+    "limitations",
+    "n",
+    "outcome",
+    "provenance",
+    "schema",
+    "threshold",
+    "uplift"
+  ],
+  "type": "object",
+  "$defs": {
+    "arm": {
+      "additionalProperties": false,
+      "properties": {
+        "rate": { "$ref": "#/$defs/fraction" },
+        "successes": { "maximum": 20, "minimum": 0, "type": "integer" },
+        "total": { "const": 20 }
+      },
+      "required": ["rate", "successes", "total"],
+      "type": "object"
+    },
+    "case": {
+      "pattern": "^e2-case-(0[1-9]|1[0-9]|20)$",
+      "type": "string"
+    },
+    "evaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_source_sha256": { "$ref": "#/$defs/hash" },
+        "proposal": { "$ref": "#/$defs/hash" },
+        "rank": { "maximum": 4, "minimum": 1, "type": "integer" },
+        "results": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "kind": { "minLength": 1, "type": "string" },
+              "obligation": { "minLength": 1, "type": "string" },
+              "status": {
+                "enum": ["solver_error", "unknown", "unsupported", "verified", "violated"]
+              }
+            },
+            "required": ["kind", "obligation", "status"],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "status": { "enum": ["blocked", "verified", "violated"] },
+        "verification_sha256": { "$ref": "#/$defs/hash" }
+      },
+      "required": [
+        "candidate_source_sha256",
+        "proposal",
+        "rank",
+        "results",
+        "status",
+        "verification_sha256"
+      ],
+      "type": "object"
+    },
+    "fraction": {
+      "additionalProperties": false,
+      "properties": {
+        "denominator": { "minimum": 1, "type": "integer" },
+        "numerator": { "minimum": 0, "type": "integer" }
+      },
+      "required": ["denominator", "numerator"],
+      "type": "object"
+    },
+    "hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  }
+}

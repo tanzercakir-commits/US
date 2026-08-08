@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://codeskeptic.dev/schema/referee-search/v1/candidates.schema.json",
+  "additionalProperties": false,
+  "properties": {
+    "cases": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "candidates": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "proposal": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "base_source_sha256": { "$ref": "#/$defs/hash" },
+                    "edit": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "end_line": { "minimum": 1, "type": "integer" },
+                        "replacement": {
+                          "items": { "type": "string" },
+                          "type": "array"
+                        },
+                        "start_line": { "minimum": 1, "type": "integer" }
+                      },
+                      "required": ["end_line", "replacement", "start_line"],
+                      "type": "object"
+                    },
+                    "id": { "$ref": "#/$defs/hash" },
+                    "schema": { "const": "codeskeptic.patch-proposal/v1" }
+                  },
+                  "required": ["base_source_sha256", "edit", "id", "schema"],
+                  "type": "object"
+                },
+                "rank": { "maximum": 4, "minimum": 1, "type": "integer" }
+              },
+              "required": ["proposal", "rank"],
+              "type": "object"
+            },
+            "maxItems": 4,
+            "minItems": 4,
+            "type": "array"
+          },
+          "case": { "$ref": "#/$defs/case" }
+        },
+        "required": ["candidates", "case"],
+        "type": "object"
+      },
+      "maxItems": 20,
+      "minItems": 20,
+      "type": "array"
+    },
+    "corpus": { "$ref": "#/$defs/hash" },
+    "id": { "$ref": "#/$defs/hash" },
+    "n": { "const": 4 },
+    "provenance": { "const": "recorded-oracle-seeded-scripted-proxy" },
+    "schema": { "const": "codeskeptic.referee-search-candidates/v1" }
+  },
+  "required": ["cases", "corpus", "id", "n", "provenance", "schema"],
+  "type": "object",
+  "$defs": {
+    "case": {
+      "pattern": "^e2-case-(0[1-9]|1[0-9]|20)$",
+      "type": "string"
+    },
+    "hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    }
+  }
+}

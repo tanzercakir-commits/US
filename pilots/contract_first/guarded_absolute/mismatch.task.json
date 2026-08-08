@@ -1,0 +1,23 @@
+{
+  "artifacts": {
+    "accepted": { "path": "accepted.cpp", "sha256": "sha256:40bba4e8407eb1581e5f1b880e0164aff954a79965a23a31f6261180919b3d02" },
+    "implemented": {
+      "path": "seeded_mismatch.cpp",
+      "sha256": "sha256:5d3c36b54c7b5221c6e25bfbdb004f6f251e99f64e4d00398a238e8952baf48e"
+    },
+    "proposed": { "path": "proposed.cpp", "sha256": "sha256:0a7c751ca1e0d025018a75895f06bbc31afb758735bf4155b903f892332355bb" }
+  },
+  "request": "Add an A-style signed-i32 guarded_absolute_value verification example. Exclude INT_MIN, return the mathematical absolute value, and prove the result is non-negative without changing the trusted checker.",
+  "schema": "codeskeptic.contract-first-task/v1",
+  "task_id": "guarded_absolute_value",
+  "verification": {
+    "expected_summary": {
+      "solver_error": 0,
+      "unknown": 0,
+      "unsupported": 0,
+      "verified": 6,
+      "violated": 0
+    },
+    "function": "guarded_absolute_value"
+  }
+}

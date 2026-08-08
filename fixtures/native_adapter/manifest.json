@@ -1,0 +1,244 @@
+{
+  "cases": [
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 18,
+        "violated": 0
+      },
+      "name": "array_slice",
+      "obligations": "array_slice.obligations.json",
+      "obligations_sha256": "775c1f29c7e0a81c3b60801c5773fe04154326c4670d985306cf2836b5800e83",
+      "semantic_ir": "array_slice.semantic-ir.json",
+      "semantic_ir_sha256": "85334464b8b3d86cfed8d18179de78331b5bff63299fbbb8cf06492a7a479a5a",
+      "source": "fixtures/cases/array_slice.cpp",
+      "source_sha256": "8ab56a19da90634fe123d7ec770728e99c167083324401a3e6b9d5b611a0e7d7"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 19,
+        "violated": 0
+      },
+      "name": "bitwise_slice",
+      "obligations": "bitwise_slice.obligations.json",
+      "obligations_sha256": "8652cb8252f305583d13c8b6b02de37cd85ddc8bd983bb5a9b2fdfe6d6607d73",
+      "semantic_ir": "bitwise_slice.semantic-ir.json",
+      "semantic_ir_sha256": "f5833cc7378a4defed57dc21df0a771fa10a8218e0fd8eeb5afabdd6da1379a7",
+      "source": "fixtures/cases/bitwise_slice.cpp",
+      "source_sha256": "14e1196a71020037f11e209ff8f11b61adf82fd04baed2464d77605829143ec5"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 47,
+        "violated": 13
+      },
+      "name": "fixed_integer_gate",
+      "obligations": "fixed_integer_gate.obligations.json",
+      "obligations_sha256": "9bc0ae33ee8b224357d7583e8257309baafadfe27082de35dac749e76b0b387b",
+      "semantic_ir": "fixed_integer_gate.semantic-ir.json",
+      "semantic_ir_sha256": "f7562d77edf910d207b853c99ccbc4cb81d307de9c39b2bbe92bafb43621dc32",
+      "source": "fixtures/cases/fixed_integer_gate.cpp",
+      "source_sha256": "96e447ca9d0fd6782c66ab36c03e992f4dbac3cdb0bda75069c0388b303de704"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 10,
+        "violated": 0
+      },
+      "name": "frame_conditions",
+      "obligations": "frame_conditions.obligations.json",
+      "obligations_sha256": "536f7c15e8343ae55d011d6b40d431f8a4e0b11aa6b81462e8096277e82fdba4",
+      "semantic_ir": "frame_conditions.semantic-ir.json",
+      "semantic_ir_sha256": "f888711b92dda0144596c7d2ba13fb7cc0d721932b301b47197e4bda114e02c1",
+      "source": "fixtures/cases/frame_conditions.cpp",
+      "source_sha256": "65d1f609a57539515e3d655ce36a2f9367f8bbcec22bcef87d8156ebe1b77b52"
+    },
+    {
+      "backend": "both",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 22,
+        "violated": 0
+      },
+      "name": "int64_slice",
+      "obligations": "int64_slice.obligations.json",
+      "obligations_sha256": "22306d7c8c21a7ae250119eda9ce8080e1e0916e8aece4bffa32c359f2577a86",
+      "semantic_ir": "int64_slice.semantic-ir.json",
+      "semantic_ir_sha256": "9e57c6f8f0f1d3ce29f242ec32c18f3ff8a0be51130325d9ef1827fb09258767",
+      "source": "fixtures/cases/int64_slice.cpp",
+      "source_sha256": "e0faf0ccfe098ab17fae96b12eb7dfaa9c0dcbcd7f0cec4ba2ac0871ef84d5e6"
+    },
+    {
+      "backend": "both",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 1
+      },
+      "name": "modular_calls",
+      "obligations": "modular_calls.obligations.json",
+      "obligations_sha256": "cb62dd1431b162116fe7360a00b24fe145bd31566015def29195588a93f07899",
+      "semantic_ir": "modular_calls.semantic-ir.json",
+      "semantic_ir_sha256": "5fcac2b42eed7c8130850e19dbf49d5058677e25b5a86108a1769e09e1af937d",
+      "source": "fixtures/cases/modular_calls.cpp",
+      "source_sha256": "6b32a10439080b23a0a695bc915f18110c3da103f51190ac9c168cb27fbc3418"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 0
+      },
+      "name": "reference_slice",
+      "obligations": "reference_slice.obligations.json",
+      "obligations_sha256": "24840856c55703446f2cb839262c098e3ed4424049d38df225cc165b53dc71d4",
+      "semantic_ir": "reference_slice.semantic-ir.json",
+      "semantic_ir_sha256": "fdce5a8ff35465162c41e98e6865924631503d9f85e68608acbae97e25efc02c",
+      "source": "fixtures/cases/reference_slice.cpp",
+      "source_sha256": "afb595f9cef24007df18c0643a459dcd59de74f464fe0ae42a2388c638062148"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 8,
+        "violated": 0
+      },
+      "name": "semantic_extensions_gate",
+      "obligations": "semantic_extensions_gate.obligations.json",
+      "obligations_sha256": "357411980b0100fdf6ee3632a92b45905bfa653a30c252e60c6d64185323a1bb",
+      "semantic_ir": "semantic_extensions_gate.semantic-ir.json",
+      "semantic_ir_sha256": "de0bd7ad9777a43dfad10bb02cc11a99b86b84a93cd2568146da6ef0a92ce8e3",
+      "source": "fixtures/cases/semantic_extensions_gate.cpp",
+      "source_sha256": "cf873a215439b5b052443203854137057b8a958e2914f4244fc54aa5a06aaf53"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 9,
+        "violated": 0
+      },
+      "name": "struct_slice",
+      "obligations": "struct_slice.obligations.json",
+      "obligations_sha256": "cca6ba2333322f0b726564ecb5c3b4c0135b620886bc68b9c9a72eabf4c2c5aa",
+      "semantic_ir": "struct_slice.semantic-ir.json",
+      "semantic_ir_sha256": "93e7f9424a07ed5e4cab969f29df93fbda182c36a049abe50c8abdfa65ef614e",
+      "source": "fixtures/cases/struct_slice.cpp",
+      "source_sha256": "4ebf628747f7666df9987041952ab55a006ea57c8b7b407972649705c62be5b7"
+    },
+    {
+      "backend": "both",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 0
+      },
+      "name": "sum_loop",
+      "obligations": "sum_loop.obligations.json",
+      "obligations_sha256": "6a95a58954354ff14b892a69b810cf6edea6b9c6f22d3f80b3f2e00150fa05ed",
+      "semantic_ir": "sum_loop.semantic-ir.json",
+      "semantic_ir_sha256": "e3da82e816a56a4a3e0cbbe9a9b5e5fcb90edf0d7320302b91cbed9d9d918062",
+      "source": "fixtures/cases/sum_loop.cpp",
+      "source_sha256": "bc720b88f793ae22538c70fd0f2af1b21459924da730ed5b3065bcffd9f5f28e"
+    },
+    {
+      "backend": "both",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 1,
+        "verified": 0,
+        "violated": 0
+      },
+      "name": "sum_loop_missing_invariant",
+      "obligations": "sum_loop_missing_invariant.obligations.json",
+      "obligations_sha256": "0af42eef393736985fcbc5cc4ba7b38f4d6287565dcb6d832224f72c945f0a7b",
+      "semantic_ir": "sum_loop_missing_invariant.semantic-ir.json",
+      "semantic_ir_sha256": "8fdc142b1d8a76a9d87f01dc5676530c0ed1f821793003013e256f43f459c5ee",
+      "source": "fixtures/cases/sum_loop_missing_invariant.cpp",
+      "source_sha256": "02090143b98288a743bae50f3095071c6414185c41ec32da364a467056c98bc2"
+    },
+    {
+      "backend": "both",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 5,
+        "violated": 1
+      },
+      "name": "sum_loop_wrong_invariant",
+      "obligations": "sum_loop_wrong_invariant.obligations.json",
+      "obligations_sha256": "eb4c48387a49077ea7219e8a1ad907d7e6eeacbb643f3774567defd3fe04e6c9",
+      "semantic_ir": "sum_loop_wrong_invariant.semantic-ir.json",
+      "semantic_ir_sha256": "3c910036c374fb8252bfcbdd844b9a58f21b85df5db651dc4f9474f6d9b2f115",
+      "source": "fixtures/cases/sum_loop_wrong_invariant.cpp",
+      "source_sha256": "bc6362ea04a2ea2debb5eba2196a945da56ff8accb6d060db21345a0454e0d29"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 20,
+        "violated": 0
+      },
+      "name": "unsigned_slice",
+      "obligations": "unsigned_slice.obligations.json",
+      "obligations_sha256": "dc9dc996dcf2b1f6a657c1e8c2f71dd745cf5751a07464f06e7a7be0d950c79a",
+      "semantic_ir": "unsigned_slice.semantic-ir.json",
+      "semantic_ir_sha256": "d702e5c3ab7eb50ce2adc17bf9ce5f8878366a2eb56bd78285d1e9fd217e7976",
+      "source": "fixtures/cases/unsigned_slice.cpp",
+      "source_sha256": "aa27363b07457e6cd80358ec4a5ef4c93601084aa0b274b1b7e202defca7f174"
+    },
+    {
+      "backend": "both",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 10,
+        "violated": 2
+      },
+      "name": "vertical_slice",
+      "obligations": "vertical_slice.obligations.json",
+      "obligations_sha256": "5b02bee4df7a853003792e89759066d0a793d3cb9d78f914c87a6a13c3e20a67",
+      "semantic_ir": "vertical_slice.semantic-ir.json",
+      "semantic_ir_sha256": "7e9d51019084e8d4981df608ecadbd07772dd6cef340f30dcfc407c5283c15d1",
+      "source": "fixtures/cases/vertical_slice.cpp",
+      "source_sha256": "01792f1b8108811ec7eab564fa2c4a2ead8face6a3b4aaa8b7546b250c7b3b65"
+    }
+  ],
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-fixtures/v0"
+}

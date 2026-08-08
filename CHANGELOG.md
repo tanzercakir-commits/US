@@ -1,0 +1,251 @@
+# Changelog
+
+This file records consumer-visible changes to the verifier, report/IR schema,
+CLI, proof evidence, supported boundary, fixtures, and migration requirements.
+Detailed per-stage commands and evidence remain in `PROGRESS.md`.
+
+## Discipline
+
+- Add consumer-visible work to `Unreleased` in the same commit as the change.
+- Prefix entries with the PLAN stage ID when one exists.
+- Use `Added`, `Changed`, `Deprecated`, `Removed`, `Fixed`, `Security`, and
+  `Migration` headings as applicable; omit empty headings in a release.
+- A schema-major proposal must include a `Migration` entry, preserved old
+  fixtures, and the steps required by `docs/schema_versioning.md`.
+- A release moves relevant `Unreleased` entries under `## [X.Y.Z] - YYYY-MM-DD`.
+- Released sections are append-only historical records; corrections use a new
+  entry rather than rewriting behavior retroactively.
+- Internal refactors with no consumer-visible effect stay in `PROGRESS.md` and
+  do not require a changelog bullet.
+
+## [Unreleased]
+
+### Added
+
+- B1.1 adds a canonical cross-language native-adapter export containing
+  separate Semantic IR and obligation JSON envelopes for all 14 fixture cases.
+  A sorted manifest pins the v6 report identity, source/artifact paths,
+  expected summaries, and SHA-256 hashes; write/check modes are independent of
+  the caller's working directory.
+- A6.7 adds the deterministic combined semantic-extension phase gate, an
+  eight-obligation all-feature slice/fixture, a frozen backend capability
+  matrix, five explicit negative-boundary probes, current-corpus byte identity,
+  v1-to-v6 migration evidence, replay counts, and independently accepted or
+  rejected invariant proposals. The operations runbook defines reproducibility
+  commands and intentional-change handling.
+- A6.6 adds an isolated, proposal-only CHC/Spacer research runner with strict
+  signed-linear Horn input, pinned Z3 identity and seeds, deterministic
+  timeout/count budgets, canonical candidate artifacts, and a six-case corpus.
+  Every generated candidate is reattached as `cs: ai invariant` and judged by
+  ordinary entry/preservation and downstream VCs; useful, insufficient,
+  no-candidate, timeout, unsupported, and malformed outcomes remain distinct.
+- A6.5 adds strict empty/single/multiple/nested `cs: modifies` contracts for
+  declaration-only const/mutable lvalue reference parameters. Calls normalize
+  permitted targets to caller-owned paths, havoc each affected root once,
+  constrain post-state reference values with `ensures`, and preserve every
+  unlisted reachable field by exact functional equality. Invalid, duplicate,
+  inaccessible, overlapping, conditional, conflicting, or missing frames fail
+  closed; reference-parameter definitions remain unsupported.
+- A6.4 adds proof-bearing local const/mutable lvalue references with a unique
+  live owned scalar, value-record, or record-field target. Reads follow the
+  target's current SSA value and permitted writes update the same aggregate
+  path. Disjoint field aliases and branch/sequential lifetimes are exact;
+  conditional, temporary, pointer, array-element, overlapping live, in-loop,
+  parameter, return, field, and escaping references remain fail-closed.
+- A6.3 adds named aggregate-by-value structs with canonical record/field IR,
+  full aggregate initialization, nested field and owned-array paths,
+  field-sensitive functional SSA, copy isolation, branch merges, contracts, and
+  direct parameters/returns/calls by value. Deterministic QF_RECORD datatype
+  emission selects signed Int or bitvector leaves, and typed record models are
+  replayed and minimized. Methods, inheritance, unions, bitfields, layout
+  claims, classes/private state, pointers, references, default/partial
+  initialization, and escaping addresses remain fail-closed.
+- A6.2 adds exact owned one-dimensional fixed-size arrays with canonical
+  `array<element,length>` types, `array`/`select`/`store` expressions,
+  whole-array SSA updates, per-access replayable bounds obligations, contract
+  indexing, homogeneous QF_ALIA/QF_ABV Z3 emission, model replay, and a fully
+  verified 18-obligation fixture. Pointer decay, aliasing, dynamic allocation,
+  multidimensional arrays, partial initialization, and unmodeled libraries
+  remain fail-closed.
+- A6.12 adds `codeskeptic.fixed-integer-phase-gate/v0`, a deterministic
+  60-obligation combined slice, positive/negative evidence for all eight
+  operator rows, frozen target/conversion/classifier/backend matrices, exact v1
+  archive verification, five-case v1-to-v2 status equivalence, and the integer
+  operations runbook. The fixture corpus grows to 18 artifacts.
+- A6.11 adds C++17 `~`, `&`, `|`, `^`, `<<`, and `>>` with exact promotions,
+  usual conversions, precedence, 32/64-bit QF_BV encoding, shift-count VCs,
+  signed-left-shift representability checks, pinned arithmetic signed right
+  shift, replay/minimization, and a 19-obligation explicit-Z3 fixture. Compound
+  assignments, rotates, and builtin bit operations remain fail-closed.
+- A6.10 adds C++17 `unsigned int`/`unsigned long long` as `u32`/`u64`,
+  exact usual conversions and modulo arithmetic, homogeneous QF_BV emission,
+  exact widened signed-result overflow checks, width-checked BV model
+  decoding/replay, unsigned calls/contracts/loops, and a
+  20-obligation explicit-Z3 fixture. Affine and default cross-check fail closed
+  for BV-required obligations; cache identity now pins both SMT lanes.
+- A6.9 adds C++17 `long long` as owned `i64` across lowering, contracts,
+  signed promotions, pinned i64-to-i32 narrowing, width-specific safety VCs,
+  affine reasoning/search, SMT-LIB, replay, modular calls, and loops. Signed
+  `/` and `%` are exact in logical formulas with literal divisors; general
+  source divisors still receive exact zero and minimum/-1 safety checks. The
+  22-obligation int64 fixture and example are fully verified.
+- A5.4 adds the committed assignment-diamond scaling slice and
+  `codeskeptic.scaling-phase-gate/v0` executable gate. It freezes cold/fill/warm
+  report identity, zero warm backend calls, repeated budget identity, and the
+  1/1/1/1 merge target using deterministic counts and SHA-256 evidence rather
+  than timing.
+- A5.3 adds validated solver-timeout and per-file check-budget value objects plus
+  `--max-checks N`. Supported obligations beyond the source-ordered limit are
+  explicit `unknown` results without backend work; zero and unlimited are
+  defined boundaries, unsupported obligations do not consume units, cache hits
+  cannot bypass the limit, and cross-check mode cannot hide Z3 timeout as
+  `verified`.
+- A5.2 adds the opt-in `--cache PATH` persistent obligation-result cache. Exact
+  SHA-256 keys bind report/key schemas, backend identity and configuration,
+  solver policy, and canonical logical query content; valid hits reconstruct
+  current result IDs and source/trace locations without changing report bytes.
+  Missing, stale, malformed, or incompatible data is recomputed, cache I/O
+  failures do not change referee results, and `solver_error` is never reused.
+- A4.3 adds optional source-ordered `trace` steps to violated results whose VC
+  path crosses a branch. Each machine-readable step records the versioned
+  condition, taken direction, and source location; text output renders the same
+  data as a deterministic `when branch condition ...` explanation.
+
+### Changed
+
+- A6.5 moves the producer to `codeskeptic.semantic-verification/v6` because
+  parameter passing modes, nullable function frames, reference post-arguments,
+  and normalized call frame effects are proof-bearing wire semantics. The
+  fixed-integer phase gate advances to v4 and the fixture corpus grows to 26
+  artifacts.
+- A6.4 moves the producer to `codeskeptic.semantic-verification/v5` because
+  function-level reference target, path, mutability, and lexical-lifetime
+  metadata are proof-bearing wire semantics. The fixed-integer phase gate
+  advances to v3 and the fixture corpus grows to 24 artifacts.
+- A6.3 moves the producer to `codeskeptic.semantic-verification/v4` because
+  value-record identities, module record declarations, projection/update,
+  by-value result flow, and record evidence are proof-bearing wire semantics.
+  Cache/key schemas advance to v2, the fixed-integer phase gate advances to v2,
+  and the fixture corpus grows to 22 artifacts.
+- A6.2 moves the producer to `codeskeptic.semantic-verification/v3` because
+  array type identities, expression kinds, bounds obligations, and array-valued
+  evidence are new proof-bearing wire semantics. Cache/key schemas advance to
+  v1, the fixed-integer phase gate advances to v1, and the fixture corpus grows
+  to 20 artifacts.
+- A6.8 moves the producer to `codeskeptic.semantic-verification/v2`, maps the
+  existing C++17 `int` subset to the explicit `i32` IR identity, and serializes
+  every fixed-width integer constant and counterexample binding as canonical
+  decimal text. Clang now validates the pinned fixed-width target profile before
+  lowering; mismatch is fail-closed. New unsigned and 64-bit source types remain
+  unsupported.
+- A4.1 moves the producer to `codeskeptic.semantic-verification/v1` and changes
+  validity counterexamples from complete public replay models to deterministic
+  minimized binding cores. A complete model is still replayed internally, and
+  a binding is removed only when exact reasoning proves the remaining core,
+  together with the obligation assumptions, forces the violation.
+- A4.2 projects replayed models to the conclusion's transitive
+  assumption-variable cone before greedy minimization, so disconnected solver
+  bindings cannot appear in the public core even when a removal proof is
+  inconclusive.
+- A5.5 compacts structured branch joins into one exact factored disjunction,
+  reducing the 1/2/4/8-diamond probe from 2/4/16/256 post-join obligations to
+  1/1/1/1. Guarded trace templates resolve only after full-model replay, and the
+  affine backend uses exact case splitting to preserve prior proofs.
+
+### Migration
+
+- v6 consumers must implement parameter passing modes, explicit empty/non-empty
+  function frames, post-state reference arguments, and functional preservation
+  of every unlisted caller location, or reject framed calls fail-closed. The
+  complete twelve-case v5 corpus is immutable under `fixtures/versions/v5/`
+  with 37 SHA-256 entries; all twelve v5-to-v6 statuses are equivalent. v0
+  through v5, unknown, and mixed-major payloads are rejected by the current
+  compatibility gate.
+- v5 consumers must implement the required function `references` array and
+  exact live-target resolution, or reject reference-bearing objects fail-
+  closed. The complete eleven-case v4 corpus is immutable under
+  `fixtures/versions/v4/` with 34 SHA-256 entries; all eleven v4-to-v5 statuses
+  are equivalent. v0 through v4, unknown, and mixed-major payloads are rejected
+  by the current compatibility gate.
+- v4 consumers must implement canonical value-record declarations and types,
+  `record`/`project`/`update`, functional copy semantics, QF_RECORD datatypes,
+  recursive field evidence, and source bounds for integer leaves, or reject
+  those objects fail-closed. The complete ten-case v3 corpus is immutable under
+  `fixtures/versions/v3/` with 31 SHA-256 entries; v3-to-v4 statuses are
+  equivalent for all ten legacy cases. v0 through v3, unknown, and mixed-major
+  payloads are rejected by the current compatibility gate.
+- v3 consumers must implement exact owned-array values, `select`/`store`,
+  `[0, length)` access obligations, QF_ALIA/QF_ABV sorts, and arrays of
+  canonical decimal strings in counterexample evidence, or reject those
+  objects fail-closed. The complete nine-case v2 corpus is immutable under
+  `fixtures/versions/v2/` with 28 SHA-256 entries; v2-to-v3 statuses are
+  equivalent for all nine legacy cases. v0, v1, v2, unknown, and mixed-major
+  payloads are rejected by the current compatibility gate.
+- A6.11 remains schema v2 because it adds only previously unsupported operator
+  and predicate-op values on new bitwise/shift objects; conforming consumers
+  already reject unknown expression operators fail-closed. Consumers must
+  implement exact shift definedness and the pinned signed-right-shift profile
+  or reject those objects. Existing fixture bytes remain unchanged.
+- A6.10 remains schema v2 because unsigned identities and integral casts were
+  reserved by A6.8, and the additive `predicate/signed_no_overflow` form occurs
+  only in new unsigned-tainted objects. Consumers must implement that predicate,
+  modulo-width values, and the frozen conversion table or reject those objects
+  fail-closed. Fixture manifest cases may set `backend: z3`; omission preserves
+  the default cross-check lane.
+- A6.9 remains in v2 because its fixed-width identities were reserved by A6.8.
+  Consumers that do not implement `i64` or the additive `integral` cast
+  expression kind must reject those objects fail-closed; existing i32 fixture
+  outcomes remain unchanged.
+- v2 consumers must replace the implicit `int` identity with `i32`, accept the
+  reserved `u32`/`i64`/`u64` identities, and decode fixed-width constants and
+  counterexample bindings from canonical decimal strings. Boolean values remain
+  JSON booleans. See `docs/schema_versioning.md`.
+- The complete v1 corpus is immutable under `fixtures/versions/v1/` with a
+  SHA-256 manifest; current fixture paths contain v2 bytes and preserve every
+  v1 obligation result status. v0 remains archived unchanged.
+- v1 consumers must treat `counterexample` as a possibly empty partial core and
+  join it to the referenced obligation assumptions; they must not replay it as
+  a complete input assignment.
+- Consumers must reject v0/v1/v2 report/Semantic IR mixtures and unknown majors.
+  The reference `require_current_schema` gate enforces both rules.
+- The complete v0 fixture corpus remains immutable under
+  `fixtures/versions/v0/`; current fixture paths now contain v1 bytes.
+- No compatible legacy reader or conversion tool exists in this producer-only
+  repository. The Unreleased period is the migration window, with no v0
+  fixture deletion planned.
+
+## [0.1.0] - 2026-08-06
+
+### Added
+
+- Initial real-Clang C++ to owned Semantic IR pipeline for the documented
+  int/bool subset, with deterministic JSON and human-readable output.
+- Inline `cs: requires`, `ensures`, and `invariant` parsing with fail-closed
+  attachment and expression validation.
+- Versioned assignments, branches/merges, direct modular calls with int result
+  havoc/ensures, recursion rejection, and invariant-annotated while loops.
+- Verification conditions for contracts, assertions, int32 arithmetic safety,
+  call pre/postconditions, loop entry/preservation/exit knowledge, and missing
+  returns.
+- Dependency-free affine backend and external Z3 QF_LIA backend with fixed
+  options, timeouts, model parsing, mandatory replay, and default cross-check.
+- Five-status result taxonomy, structured frontend failures, sorted
+  counterexamples, and explicit loop-termination non-goals.
+- Five-case golden corpus, regeneration/check tool, LF byte contract, and CI
+  two-run determinism gate.
+- Result/schema reference, schema version policy, solver decision record,
+  prototype assessment, and fail-closed adoption guide.
+- Full guardrail suite with a 139-test ratchet.
+
+### Changed
+
+- A2.1/A3 result-bearing call and loop/non-goal fields are included in the
+  initial frozen `codeskeptic.semantic-verification/v0` baseline because they
+  predated the fixture-backed compatibility freeze.
+
+### Migration
+
+- This is the first versioned baseline. Consumers must require
+  `codeskeptic.semantic-verification/v0`, treat unknown status/mode/kind values
+  as fail-closed, and retain top-level non-goals even when Semantic IR is
+  omitted.

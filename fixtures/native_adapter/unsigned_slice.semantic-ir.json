@@ -1,0 +1,1482 @@
+{
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-semantic-ir/v0",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "4294967295"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "u32"
+            },
+            "id": "n00001",
+            "kind": "return",
+            "location": {
+              "column": 25,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 2
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 1
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 0"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 2
+        },
+        "name": "wrap32",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "18446744073709551615"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "u64"
+            },
+            "id": "n00002",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 6
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 4
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 0"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0002",
+        "locals": [],
+        "location": {
+          "column": 20,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 5
+        },
+        "name": "wrap64",
+        "parameters": [],
+        "references": [],
+        "return_type": "u64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00003",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 9
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "cast",
+              "op": "integral",
+              "type": "u32"
+            },
+            "id": "n00004",
+            "kind": "assign",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 12
+            },
+            "target": "value#0"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "u32",
+              "value": "value#0"
+            },
+            "id": "n00005",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 13
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 9
+            },
+            "machine_proposed": false,
+            "text": "requires x == -1"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "1"
+                        }
+                      ],
+                      "kind": "unary",
+                      "op": "-",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 10
+            },
+            "machine_proposed": false,
+            "text": "ensures result == -1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0003",
+        "locals": [
+          {
+            "id": "f0003.s0002",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 12
+            },
+            "name": "value",
+            "type": "u32",
+            "versioned_name": "value#0"
+          }
+        ],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 11
+        },
+        "name": "from_signed",
+        "parameters": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 30,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 11
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00006",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 16
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00007",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 17
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "x#0"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00008",
+            "kind": "return",
+            "location": {
+              "column": 42,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 19
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 16
+            },
+            "machine_proposed": false,
+            "text": "requires x == -1"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 17
+            },
+            "machine_proposed": false,
+            "text": "requires y == 0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "bool",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "bool",
+                  "value": false
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 18
+            },
+            "machine_proposed": false,
+            "text": "ensures result == false"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0004",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 19
+        },
+        "name": "mixed_less",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 21,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 19
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0004.s0002",
+            "location": {
+              "column": 37,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 19
+            },
+            "name": "y",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "y#0"
+          }
+        ],
+        "references": [],
+        "return_type": "bool"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00009",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 21
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00010",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 22
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "x#0"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "*",
+              "type": "i64"
+            },
+            "id": "n00011",
+            "kind": "return",
+            "location": {
+              "column": 56,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 24
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 21
+            },
+            "machine_proposed": false,
+            "text": "requires x == 2"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 22
+            },
+            "machine_proposed": false,
+            "text": "requires y == 3"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "6"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 23
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 6"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0005",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 24
+        },
+        "name": "mixed_product",
+        "parameters": [
+          {
+            "id": "f0005.s0001",
+            "location": {
+              "column": 38,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 24
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0005.s0002",
+            "location": {
+              "column": 51,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 24
+            },
+            "name": "y",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "y#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "b#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "id": "n00012",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 26
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "b#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "u64"
+            },
+            "id": "n00013",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 29
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "b#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 26
+            },
+            "machine_proposed": false,
+            "text": "requires b != 0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u64",
+                      "value": "a#0"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "u64",
+                      "value": "b#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "/",
+                  "type": "u64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 27
+            },
+            "machine_proposed": false,
+            "text": "ensures result == a / b"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0006",
+        "locals": [],
+        "location": {
+          "column": 20,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 28
+        },
+        "name": "divide64",
+        "parameters": [
+          {
+            "id": "f0006.s0001",
+            "location": {
+              "column": 48,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 28
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "u64",
+            "versioned_name": "a#0"
+          },
+          {
+            "id": "f0006.s0002",
+            "location": {
+              "column": 70,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 28
+            },
+            "name": "b",
+            "passing": "value",
+            "type": "u64",
+            "versioned_name": "b#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "b#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "id": "n00014",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 32
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "b#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "%",
+              "type": "u64"
+            },
+            "id": "n00015",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 35
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "b#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u64",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "!=",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 32
+            },
+            "machine_proposed": false,
+            "text": "requires b != 0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u64",
+                      "value": "a#0"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "u64",
+                      "value": "b#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "%",
+                  "type": "u64"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 33
+            },
+            "machine_proposed": false,
+            "text": "ensures result == a % b"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0007",
+        "locals": [],
+        "location": {
+          "column": 20,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 34
+        },
+        "name": "remainder64",
+        "parameters": [
+          {
+            "id": "f0007.s0001",
+            "location": {
+              "column": 51,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 34
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "u64",
+            "versioned_name": "a#0"
+          },
+          {
+            "id": "f0007.s0002",
+            "location": {
+              "column": 73,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 34
+            },
+            "name": "b",
+            "passing": "value",
+            "type": "u64",
+            "versioned_name": "b#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "u64",
+              "value": "x#0"
+            },
+            "id": "n00016",
+            "kind": "return",
+            "location": {
+              "column": 56,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 39
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 38
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0008",
+        "locals": [],
+        "location": {
+          "column": 20,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 39
+        },
+        "name": "identity64u",
+        "parameters": [
+          {
+            "id": "f0008.s0001",
+            "location": {
+              "column": 51,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 39
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "u64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u64"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "u64",
+                "value": "x#0"
+              }
+            ],
+            "callee": "identity64u",
+            "id": "n00017",
+            "kind": "call",
+            "location": {
+              "column": 32,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 43
+            },
+            "result_type": "u64",
+            "target": "value#0"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "u64",
+              "value": "value#0"
+            },
+            "id": "n00018",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 44
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u64",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 41
+            },
+            "machine_proposed": false,
+            "text": "ensures result == x"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0009",
+        "locals": [
+          {
+            "id": "f0009.s0002",
+            "location": {
+              "column": 24,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 43
+            },
+            "name": "value",
+            "type": "u64",
+            "versioned_name": "value#0"
+          }
+        ],
+        "location": {
+          "column": 20,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 42
+        },
+        "name": "call64u",
+        "parameters": [
+          {
+            "id": "f0009.s0001",
+            "location": {
+              "column": 47,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 42
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "u64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "u32",
+              "value": "0"
+            },
+            "id": "n00019",
+            "kind": "assign",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 49
+            },
+            "target": "i#0"
+          },
+          {
+            "body": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "u32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "u32"
+                },
+                "id": "n00021",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/unsigned_slice.cpp",
+                  "line": 52
+                },
+                "target": "i#2"
+              }
+            ],
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00020",
+            "invariants": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "n#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/unsigned_slice.cpp",
+                  "line": 50
+                },
+                "machine_proposed": false,
+                "text": "invariant i <= n"
+              }
+            ],
+            "kind": "loop",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 51
+            },
+            "loop_variables": [
+              {
+                "back_edge": "i#2",
+                "entry": "i#0",
+                "exit": "i#3",
+                "head": "i#1",
+                "name": "i",
+                "type": "u32"
+              }
+            ],
+            "termination": "non_goal"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#3"
+            },
+            "id": "n00022",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 54
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "n#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 47
+            },
+            "machine_proposed": false,
+            "text": "ensures result == n"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0010",
+        "locals": [
+          {
+            "id": "f0010.s0002",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 49
+            },
+            "name": "i",
+            "type": "u32",
+            "versioned_name": "i#0"
+          }
+        ],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/unsigned_slice.cpp",
+          "line": 48
+        },
+        "name": "count32",
+        "parameters": [
+          {
+            "id": "f0010.s0001",
+            "location": {
+              "column": 35,
+              "file": "fixtures/cases/unsigned_slice.cpp",
+              "line": 48
+            },
+            "name": "n",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "n#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u32"
+      }
+    ],
+    "records": [],
+    "schema": "codeskeptic.semantic-verification/v6",
+    "source": "fixtures/cases/unsigned_slice.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/unsigned_slice.cpp"
+}

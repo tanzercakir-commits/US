@@ -1,0 +1,16 @@
+{
+  "added": [
+    "src/alpha.cpp",
+    "src/beta.cpp"
+  ],
+  "extracted": [
+    "src/alpha.cpp",
+    "src/beta.cpp"
+  ],
+  "manifest_id": "sha256:8749c1cf279886cba34db777c7675a1bd2fa28cd2bafa228fd49a29a4e39be16",
+  "mode": "write",
+  "removed": [],
+  "reused": [],
+  "schema": "codeskeptic.fact-cache-run/v1",
+  "status": "updated"
+}

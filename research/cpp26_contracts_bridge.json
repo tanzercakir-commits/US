@@ -1,0 +1,104 @@
+{
+  "as_of": "2026-08-07",
+  "bridge_decision": {
+    "clang_native_ast_required_later": true,
+    "compiler_source_policy": "same UTF-8 byte length and newline positions",
+    "mode": "fail_closed_source_bridge",
+    "reason": "GCC 16 reports P2900 support, but the Clang JSON-AST frontend reports no P2900 support and the local Clang 20.1.8 probe rejects the feature.",
+    "runtime_evaluation_policy": "outside_static_verification"
+  },
+  "feature_test": {
+    "macro": "__cpp_contracts",
+    "minimum": 202502
+  },
+  "mappings": [
+    {
+      "cpp26": "pre",
+      "expression_policy": "exact supported predicate",
+      "owned_semantic": "requires",
+      "support": "planned_c3_1"
+    },
+    {
+      "cpp26": "post",
+      "expression_policy": "exact supported predicate with token-wise result binding",
+      "owned_semantic": "ensures",
+      "support": "planned_c3_1"
+    },
+    {
+      "cpp26": "contract_assert",
+      "expression_policy": "exact supported predicate",
+      "owned_semantic": "assertion_ir",
+      "support": "planned_c3_1"
+    }
+  ],
+  "non_mappings": [
+    {
+      "owned_semantic": "invariant",
+      "reason": "P2900 has no loop-invariant assertion form."
+    },
+    {
+      "owned_semantic": "modifies",
+      "reason": "P2900 has no frame-condition assertion form."
+    }
+  ],
+  "schema": "codeskeptic.cpp26-contracts-research/v1",
+  "sources": [
+    {
+      "claim": "adopted design and wording",
+      "url": "https://wg21.link/P2900R14"
+    },
+    {
+      "claim": "function pre/post grammar and declaration rules",
+      "url": "https://eel.is/c++draft/dcl.contract.func"
+    },
+    {
+      "claim": "contract_assert grammar",
+      "url": "https://eel.is/c++draft/stmt.contract.assert"
+    },
+    {
+      "claim": "evaluation semantics",
+      "url": "https://eel.is/c++draft/basic.contract.eval"
+    },
+    {
+      "claim": "Clang reports P2900 contracts unsupported",
+      "url": "https://clang.llvm.org/cxx_status.html"
+    },
+    {
+      "claim": "GCC reports P2900 contracts in version 16",
+      "url": "https://gcc.gnu.org/projects/cxx-status.html"
+    }
+  ],
+  "standard_surface": [
+    {
+      "form": "pre",
+      "grammar": "pre attribute-specifier-seq(opt) ( conditional-expression )",
+      "scope": "function entry"
+    },
+    {
+      "form": "post",
+      "grammar": "post attribute-specifier-seq(opt) ( result-name-introducer(opt) conditional-expression )",
+      "scope": "normal function exit"
+    },
+    {
+      "form": "contract_assert",
+      "grammar": "contract_assert attribute-specifier-seq(opt) ( conditional-expression ) ;",
+      "scope": "statement"
+    }
+  ],
+  "toolchains": {
+    "clang_official": {
+      "p2900": "unsupported"
+    },
+    "gcc_official": {
+      "first_version": 16,
+      "p2900": "supported_experimental"
+    },
+    "local_probe": {
+      "compiler": "Clang 20.1.8",
+      "feature_macro": "missing",
+      "mode": "-std=c++2c",
+      "result": "rejected",
+      "syntax_diagnostic": "expected function body after function declarator"
+    }
+  }
+}

@@ -1,0 +1,5578 @@
+{
+  "obligations": [
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "signed_add_safe",
+      "id": "ob00001",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 3
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "y#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "y#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i64",
+      "function": "signed_add_safe",
+      "id": "ob00002",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 7
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "y#0"
+              }
+            ],
+            "kind": "binary",
+            "op": "+",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "5"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 5: ensures result == 5",
+      "function": "signed_add_safe",
+      "id": "ob00003",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 7
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "1"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "1"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i64",
+      "function": "signed_add_overflow",
+      "id": "ob00004",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 11
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "5"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "signed_subtract_safe",
+      "id": "ob00005",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 14
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "5"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "y#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "y#0"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed - result must remain within i64",
+      "function": "signed_subtract_safe",
+      "id": "ob00006",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 18
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "5"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "y#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "3"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "y#0"
+              }
+            ],
+            "kind": "binary",
+            "op": "-",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "2"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 16: ensures result == 2",
+      "function": "signed_subtract_safe",
+      "id": "ob00007",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 18
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "1"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "1"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed - result must remain within i64",
+      "function": "signed_subtract_overflow",
+      "id": "ob00008",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 22
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "signed_multiply_safe",
+      "id": "ob00009",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 25
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "3"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "3"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed * result must remain within i64",
+      "function": "signed_multiply_safe",
+      "id": "ob00010",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 28
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "*",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "*",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i64",
+                "value": "x#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "*",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "6"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 26: ensures result == 6",
+      "function": "signed_multiply_safe",
+      "id": "ob00011",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 28
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "2"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "x#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i64",
+                    "value": "2"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed * result must remain within i64",
+      "function": "signed_multiply_overflow",
+      "id": "ob00012",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 32
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "4294967295"
+              },
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "1"
+              }
+            ],
+            "kind": "binary",
+            "op": "+",
+            "type": "u32"
+          },
+          {
+            "kind": "constant",
+            "type": "u32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 35: ensures result == 0",
+      "function": "unsigned_wrap",
+      "id": "ob00013",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 37
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "4294967295"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "u32"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "4294967295"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 40: ensures result == 4294967295",
+      "function": "unsigned_wrap_wrong",
+      "id": "ob00014",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 42
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "-",
+                "type": "u32"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "4294967295"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 45: ensures result == 4294967295",
+      "function": "unsigned_subtract_wrap",
+      "id": "ob00015",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 47
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "4294967295"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "2"
+                  }
+                ],
+                "kind": "binary",
+                "op": "*",
+                "type": "u32"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "4294967294"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 50: ensures result == 4294967294",
+      "function": "unsigned_multiply_wrap",
+      "id": "ob00016",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 52
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "signed_negation_safe",
+      "id": "ob00017",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 55
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "x#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "signed_negation_safe",
+      "id": "ob00018",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 58
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "x#0"
+              }
+            ],
+            "kind": "unary",
+            "op": "-",
+            "type": "i32"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              }
+            ],
+            "kind": "unary",
+            "op": "-",
+            "type": "i32"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 56: ensures result == -1",
+      "function": "signed_negation_safe",
+      "id": "ob00019",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 58
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "x#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "signed_negation_minimum",
+      "id": "ob00020",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 62
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "u32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "unary",
+                "op": "-",
+                "type": "u32"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "4294967295"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 65: ensures result == 4294967295",
+      "function": "unsigned_negation",
+      "id": "ob00021",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 67
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "division_safe",
+      "id": "ob00022",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 70
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "3"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "integer divisor must be non-zero",
+      "function": "division_safe",
+      "id": "ob00023",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 73
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "a#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-2147483648"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "3"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          }
+        ],
+        "kind": "unary",
+        "op": "!",
+        "type": "bool"
+      },
+      "description": "i32 minimum / -1 must be excluded",
+      "function": "division_safe",
+      "id": "ob00024",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 73
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "a#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-2147483648"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "a#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "/",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "2"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 71: ensures result == 2",
+      "function": "division_safe",
+      "id": "ob00025",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 73
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "remainder_safe",
+      "id": "ob00026",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 76
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "3"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "integer divisor must be non-zero",
+      "function": "remainder_safe",
+      "id": "ob00027",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 79
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "a#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-2147483648"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "3"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          }
+        ],
+        "kind": "unary",
+        "op": "!",
+        "type": "bool"
+      },
+      "description": "i32 minimum % -1 must be excluded",
+      "function": "remainder_safe",
+      "id": "ob00028",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 79
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "3"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "i32",
+                      "value": "a#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-2147483648"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "3"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "-1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "i32",
+                "value": "a#0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "%",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 77: ensures result == 1",
+      "function": "remainder_safe",
+      "id": "ob00029",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 79
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "b#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "integer divisor must be non-zero",
+      "function": "division_zero",
+      "id": "ob00030",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 83
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "a#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-2147483648"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "b#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          }
+        ],
+        "kind": "unary",
+        "op": "!",
+        "type": "bool"
+      },
+      "description": "i32 minimum / -1 must be excluded",
+      "function": "division_zero",
+      "id": "ob00031",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 83
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "division_overflow",
+      "id": "ob00032",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 86
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "i32",
+            "value": "b#0"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "integer divisor must be non-zero",
+      "function": "division_overflow",
+      "id": "ob00033",
+      "kind": "division_by_zero",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 89
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "a#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "b#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "a#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-2147483648"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "b#0"
+                  },
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "-1"
+                  }
+                ],
+                "kind": "binary",
+                "op": "==",
+                "type": "bool"
+              }
+            ],
+            "kind": "binary",
+            "op": "&&",
+            "type": "bool"
+          }
+        ],
+        "kind": "unary",
+        "op": "!",
+        "type": "bool"
+      },
+      "description": "i32 minimum / -1 must be excluded",
+      "function": "division_overflow",
+      "id": "ob00034",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 89
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "signed_comparison",
+      "id": "ob00035",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 94
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "unary",
+                "op": "-",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          },
+          {
+            "kind": "constant",
+            "type": "bool",
+            "value": true
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 92: ensures result == true",
+      "function": "signed_comparison",
+      "id": "ob00036",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 94
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "mixed_comparison",
+      "id": "ob00037",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 99
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "1"
+                      }
+                    ],
+                    "kind": "unary",
+                    "op": "-",
+                    "type": "i32"
+                  }
+                ],
+                "kind": "cast",
+                "op": "integral",
+                "type": "u32"
+              },
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          },
+          {
+            "kind": "constant",
+            "type": "bool",
+            "value": false
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 97: ensures result == false",
+      "function": "mixed_comparison",
+      "id": "ob00038",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 99
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "mixed_comparison_wrong",
+      "id": "ob00039",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 104
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "i32",
+                        "value": "1"
+                      }
+                    ],
+                    "kind": "unary",
+                    "op": "-",
+                    "type": "i32"
+                  }
+                ],
+                "kind": "cast",
+                "op": "integral",
+                "type": "u32"
+              },
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          },
+          {
+            "kind": "constant",
+            "type": "bool",
+            "value": true
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 102: ensures result == true",
+      "function": "mixed_comparison_wrong",
+      "id": "ob00040",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 104
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "u32",
+                        "value": "x#0"
+                      },
+                      {
+                        "kind": "variable",
+                        "type": "u32",
+                        "value": "y#0"
+                      }
+                    ],
+                    "kind": "binary",
+                    "op": "&",
+                    "type": "u32"
+                  }
+                ],
+                "kind": "unary",
+                "op": "~",
+                "type": "u32"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "u32",
+                        "value": "x#0"
+                      }
+                    ],
+                    "kind": "unary",
+                    "op": "~",
+                    "type": "u32"
+                  },
+                  {
+                    "args": [
+                      {
+                        "kind": "variable",
+                        "type": "u32",
+                        "value": "y#0"
+                      }
+                    ],
+                    "kind": "unary",
+                    "op": "~",
+                    "type": "u32"
+                  }
+                ],
+                "kind": "binary",
+                "op": "|",
+                "type": "u32"
+              }
+            ],
+            "kind": "binary",
+            "op": "==",
+            "type": "bool"
+          },
+          {
+            "kind": "constant",
+            "type": "bool",
+            "value": true
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 107: ensures result == true",
+      "function": "de_morgan",
+      "id": "ob00041",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 109
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "240"
+              },
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "15"
+              }
+            ],
+            "kind": "binary",
+            "op": "&",
+            "type": "u32"
+          },
+          {
+            "kind": "constant",
+            "type": "u32",
+            "value": "1"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 112: ensures result == 1",
+      "function": "bitwise_wrong",
+      "id": "ob00042",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 114
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "u32",
+                "value": "x#0"
+              },
+              {
+                "kind": "variable",
+                "type": "u32",
+                "value": "x#0"
+              }
+            ],
+            "kind": "binary",
+            "op": "^",
+            "type": "u32"
+          },
+          {
+            "kind": "constant",
+            "type": "u32",
+            "value": "0"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 117: ensures result == 0",
+      "function": "xor_identity",
+      "id": "ob00043",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 119
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "shift count must be in [0, 32)",
+      "function": "signed_left_boundary",
+      "id": "ob00044",
+      "kind": "shift_count",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 124
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "32"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              }
+            ],
+            "kind": "binary",
+            "op": "<<",
+            "type": "i32"
+          }
+        ],
+        "kind": "predicate",
+        "op": "signed_left_shift_defined",
+        "type": "bool"
+      },
+      "description": "signed left shift must be representable in u32",
+      "function": "signed_left_boundary",
+      "id": "ob00045",
+      "kind": "signed_left_shift",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 124
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "32"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "31"
+                }
+              ],
+              "kind": "binary",
+              "op": "<<",
+              "type": "i32"
+            }
+          ],
+          "kind": "predicate",
+          "op": "signed_left_shift_defined",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              }
+            ],
+            "kind": "binary",
+            "op": "<<",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 122: ensures result == -2147483648",
+      "function": "signed_left_boundary",
+      "id": "ob00046",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 124
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "shift count must be in [0, 32)",
+      "function": "left_count_invalid",
+      "id": "ob00047",
+      "kind": "shift_count",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 128
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "shift count must be in [0, 32)",
+      "function": "signed_left_value_invalid",
+      "id": "ob00048",
+      "kind": "shift_count",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 132
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "32"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              }
+            ],
+            "kind": "binary",
+            "op": "<<",
+            "type": "i32"
+          }
+        ],
+        "kind": "predicate",
+        "op": "signed_left_shift_defined",
+        "type": "bool"
+      },
+      "description": "signed left shift must be representable in u32",
+      "function": "signed_left_value_invalid",
+      "id": "ob00049",
+      "kind": "signed_left_shift",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 132
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "8"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "arithmetic_right",
+      "id": "ob00050",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 137
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "8"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "shift count must be in [0, 32)",
+      "function": "arithmetic_right",
+      "id": "ob00051",
+      "kind": "shift_count",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 137
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "8"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "32"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "8"
+                  }
+                ],
+                "kind": "unary",
+                "op": "-",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              }
+            ],
+            "kind": "binary",
+            "op": ">>",
+            "type": "i32"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              }
+            ],
+            "kind": "unary",
+            "op": "-",
+            "type": "i32"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 135: ensures result == -2",
+      "function": "arithmetic_right",
+      "id": "ob00052",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 137
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "shift count must be in [0, 32)",
+      "function": "logical_right",
+      "id": "ob00053",
+      "kind": "shift_count",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 142
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "31"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "32"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "u32",
+                "value": "2147483648"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "31"
+              }
+            ],
+            "kind": "binary",
+            "op": ">>",
+            "type": "u32"
+          },
+          {
+            "kind": "constant",
+            "type": "u32",
+            "value": "1"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 140: ensures result == 1",
+      "function": "logical_right",
+      "id": "ob00054",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 142
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "-2147483648"
+          }
+        ],
+        "kind": "binary",
+        "op": "!=",
+        "type": "bool"
+      },
+      "description": "signed negation must remain within i32",
+      "function": "right_count_invalid",
+      "id": "ob00055",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 146
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "!=",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "unary",
+                "op": "-",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "constant",
+                    "type": "i32",
+                    "value": "1"
+                  }
+                ],
+                "kind": "unary",
+                "op": "-",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "32"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "shift count must be in [0, 32)",
+      "function": "right_count_invalid",
+      "id": "ob00056",
+      "kind": "shift_count",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 146
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "description": "function requirements must admit at least one input",
+      "function": "assignment_to_unsigned",
+      "id": "ob00057",
+      "kind": "contract_consistency",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 149
+      },
+      "mode": "satisfiable"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i32",
+              "value": "x#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i32",
+                    "value": "x#0"
+                  }
+                ],
+                "kind": "cast",
+                "op": "integral",
+                "type": "u32"
+              }
+            ],
+            "kind": "cast",
+            "op": "integral",
+            "type": "i64"
+          },
+          {
+            "kind": "constant",
+            "type": "i64",
+            "value": "4294967295"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 150: ensures result == 4294967295",
+      "function": "assignment_to_unsigned",
+      "id": "ob00058",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 152
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "bool",
+                        "value": true
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i32"
+                  }
+                ],
+                "kind": "unary",
+                "op": "~",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "+",
+            "type": "i32"
+          }
+        ],
+        "kind": "predicate",
+        "op": "signed_no_overflow",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i32",
+      "function": "bool_promotion",
+      "id": "ob00059",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 157
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "constant",
+                          "type": "bool",
+                          "value": true
+                        }
+                      ],
+                      "kind": "cast",
+                      "op": "integral",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "~",
+                  "type": "i32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            }
+          ],
+          "kind": "predicate",
+          "op": "signed_no_overflow",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "kind": "constant",
+                        "type": "bool",
+                        "value": true
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i32"
+                  }
+                ],
+                "kind": "unary",
+                "op": "~",
+                "type": "i32"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "3"
+              }
+            ],
+            "kind": "binary",
+            "op": "+",
+            "type": "i32"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "1"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 155: ensures result == 1",
+      "function": "bool_promotion",
+      "id": "ob00060",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/fixed_integer_gate.cpp",
+        "line": 157
+      },
+      "mode": "validity"
+    }
+  ],
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-obligations/v0",
+  "source": "fixtures/cases/fixed_integer_gate.cpp"
+}

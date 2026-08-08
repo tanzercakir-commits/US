@@ -1,0 +1,226 @@
+{
+  "cases": [
+    {
+      "compiler_context": "contexts/e2-case-01.context.json",
+      "compiler_context_sha256": "sha256:72b996cd6db5981dfbe3c76434a6b1f4bfb921867c44348a8be227102f65918f",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-01.cpp",
+      "function": "e2_case_01",
+      "id": "e2-case-01",
+      "oracle": "oracles/e2-case-01.oracle.json",
+      "oracle_sha256": "sha256:34bc9c257695037712ef341921c4cb1ab886c63e309c4433878fd53f117a7480",
+      "source": "cases/e2-case-01.cpp",
+      "source_sha256": "sha256:4227327f9d93e2a59a80a8b0dc175b382f4f0295405e8446f83829e3590513e1"
+    },
+    {
+      "compiler_context": "contexts/e2-case-02.context.json",
+      "compiler_context_sha256": "sha256:5649d63c7bd239d4038097dac894ede8a710ce473be42691af8e530371b91b9e",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-02.cpp",
+      "function": "e2_case_02",
+      "id": "e2-case-02",
+      "oracle": "oracles/e2-case-02.oracle.json",
+      "oracle_sha256": "sha256:e226a72b0842975ca576d77ae66d757ec026b500addd6628992a985e2aa21a98",
+      "source": "cases/e2-case-02.cpp",
+      "source_sha256": "sha256:6230199c61e1c94cea988a4bcdb8c71e225ca33832419a7c59027b5b177a7838"
+    },
+    {
+      "compiler_context": "contexts/e2-case-03.context.json",
+      "compiler_context_sha256": "sha256:e4e70f4f448a90d215165ed9b545647005523fa78fb7174435f7b1799f38db8c",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-03.cpp",
+      "function": "e2_case_03",
+      "id": "e2-case-03",
+      "oracle": "oracles/e2-case-03.oracle.json",
+      "oracle_sha256": "sha256:d61fe6117ca929e2fddcc02aef982a4d2521709384e7b81e0bac71f3115e604a",
+      "source": "cases/e2-case-03.cpp",
+      "source_sha256": "sha256:73c3c9645aa6dfef54fe1d875436f831868f4c181314a6dd1a093a4fdfa0c88d"
+    },
+    {
+      "compiler_context": "contexts/e2-case-04.context.json",
+      "compiler_context_sha256": "sha256:7868cba9f9a8598a9245eda7469842a2820660885d27f4561b8e9c8cd0c4aef7",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-04.cpp",
+      "function": "e2_case_04",
+      "id": "e2-case-04",
+      "oracle": "oracles/e2-case-04.oracle.json",
+      "oracle_sha256": "sha256:5bd2e1a3dbcf67a1c6097af854f5d49ba881050ada3a0432681a998ab4239bca",
+      "source": "cases/e2-case-04.cpp",
+      "source_sha256": "sha256:689b8d65bf70fd5c9101c522e14805d612cdf3f41ff01129e35c96e86c57f02e"
+    },
+    {
+      "compiler_context": "contexts/e2-case-05.context.json",
+      "compiler_context_sha256": "sha256:16652d7ff7834c448a43386e76bbacc8823eb3fc4304b2109f946509f113da96",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-05.cpp",
+      "function": "e2_case_05",
+      "id": "e2-case-05",
+      "oracle": "oracles/e2-case-05.oracle.json",
+      "oracle_sha256": "sha256:1f15f04a46233d9e866a727a7a795878288b4758c2e3e9b094332cb533b6e3dc",
+      "source": "cases/e2-case-05.cpp",
+      "source_sha256": "sha256:2a8113b38915291dd02ec7a0e6d13c8779a167f218b51b5d01e8bb9203df746c"
+    },
+    {
+      "compiler_context": "contexts/e2-case-06.context.json",
+      "compiler_context_sha256": "sha256:2d8ecb10195a4d0d38eaccafff86e1d90eaa9e513240e3f1adc37f5206f0cc7d",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-06.cpp",
+      "function": "e2_case_06",
+      "id": "e2-case-06",
+      "oracle": "oracles/e2-case-06.oracle.json",
+      "oracle_sha256": "sha256:cd378ed6b0a062a56a8665adf4ab05f02b308d7c067e9e5741d8921a5e243741",
+      "source": "cases/e2-case-06.cpp",
+      "source_sha256": "sha256:edcd75f8551893c49bdeb42b243afcf39bb6a3b4241fe59b1a59f929b44301c8"
+    },
+    {
+      "compiler_context": "contexts/e2-case-07.context.json",
+      "compiler_context_sha256": "sha256:c85fc9aa234c9d3345a99f8e2ce3b36b5c8170fa59d0254d29f8ced1f1777761",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-07.cpp",
+      "function": "e2_case_07",
+      "id": "e2-case-07",
+      "oracle": "oracles/e2-case-07.oracle.json",
+      "oracle_sha256": "sha256:04d573e240e6640fd00a130e5c18f01a6c2901bd958af5b22de7d2cc9a023c0f",
+      "source": "cases/e2-case-07.cpp",
+      "source_sha256": "sha256:2d328db0a79b4f9811ae2747d0659d9ef70639c7b848d608f85acaf424660e01"
+    },
+    {
+      "compiler_context": "contexts/e2-case-08.context.json",
+      "compiler_context_sha256": "sha256:15cf268286ed11be4a18fb03a7b36cc105b588a7252aaa53700fe5909cdfc319",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-08.cpp",
+      "function": "e2_case_08",
+      "id": "e2-case-08",
+      "oracle": "oracles/e2-case-08.oracle.json",
+      "oracle_sha256": "sha256:83a4e0ffd41d937a9149e8fcbff9882ce6a15c5a1110818a2d217fcc62be22e8",
+      "source": "cases/e2-case-08.cpp",
+      "source_sha256": "sha256:225b96abc5b3410b67e8c55ae2387a4a471dcd95e4e90207787397f4ad86fe4e"
+    },
+    {
+      "compiler_context": "contexts/e2-case-09.context.json",
+      "compiler_context_sha256": "sha256:7aba17138cc48691b997c9921d8bff36193668c9a04b72eff4f0607455c4c125",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-09.cpp",
+      "function": "e2_case_09",
+      "id": "e2-case-09",
+      "oracle": "oracles/e2-case-09.oracle.json",
+      "oracle_sha256": "sha256:39ea35cdf9e72ff9108557c70be1a1e8858a5645ec4ea41ba1f6b27aa4031c56",
+      "source": "cases/e2-case-09.cpp",
+      "source_sha256": "sha256:b24a39405f74a846fd063db97fb7384c7a9376f7fd9bcde237234e60cae35963"
+    },
+    {
+      "compiler_context": "contexts/e2-case-10.context.json",
+      "compiler_context_sha256": "sha256:8487c0cba252b0072f8c798022b262816c45b1bf4ded2b12422cff73634e7f72",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-10.cpp",
+      "function": "e2_case_10",
+      "id": "e2-case-10",
+      "oracle": "oracles/e2-case-10.oracle.json",
+      "oracle_sha256": "sha256:6acd58836147a597326b0259a959c64187b27f64ab3c6d7d386fdb02edf15051",
+      "source": "cases/e2-case-10.cpp",
+      "source_sha256": "sha256:1b45b1737d6e4465e33b77c16a4114b0f093c0759fd7c8161b12522a6686a832"
+    },
+    {
+      "compiler_context": "contexts/e2-case-11.context.json",
+      "compiler_context_sha256": "sha256:082b47702f4857b92419c4c2ba01d12a3f7e3f0304a76e89cefc21b12cc5a57d",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-11.cpp",
+      "function": "e2_case_11",
+      "id": "e2-case-11",
+      "oracle": "oracles/e2-case-11.oracle.json",
+      "oracle_sha256": "sha256:390c03f52223710441d989d8df4d1ed878559b250da9eb80b628d5d1ccd10251",
+      "source": "cases/e2-case-11.cpp",
+      "source_sha256": "sha256:7b11fe1500047927076cbbfa3939e0c78b7b9c3d67d8790912cf4d4a2b407689"
+    },
+    {
+      "compiler_context": "contexts/e2-case-12.context.json",
+      "compiler_context_sha256": "sha256:5458fdd5b663927a5d30686f89d8d930227b109b654b765ab32a232987b234f2",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-12.cpp",
+      "function": "e2_case_12",
+      "id": "e2-case-12",
+      "oracle": "oracles/e2-case-12.oracle.json",
+      "oracle_sha256": "sha256:f7235d0d9bd8c00d825a085e1296cfef685bdb80785ee52bda96c35353823ce6",
+      "source": "cases/e2-case-12.cpp",
+      "source_sha256": "sha256:3ec1a82f7460d8427e36b8b274ca387ed31a4fcddae6c2fe8e624afd8757dca8"
+    },
+    {
+      "compiler_context": "contexts/e2-case-13.context.json",
+      "compiler_context_sha256": "sha256:6ad8595b12025788e6c6bc783990213eab3dd84eb7b51fd8153dafa388681c01",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-13.cpp",
+      "function": "e2_case_13",
+      "id": "e2-case-13",
+      "oracle": "oracles/e2-case-13.oracle.json",
+      "oracle_sha256": "sha256:3184d415477d8325408a10222cb20e2e6fb9c9a43facddcee1d15de32d4aeb57",
+      "source": "cases/e2-case-13.cpp",
+      "source_sha256": "sha256:12b5fdf099c982453ac3266bfa9f5334ec1c7041cc500617d41555775f4832cd"
+    },
+    {
+      "compiler_context": "contexts/e2-case-14.context.json",
+      "compiler_context_sha256": "sha256:1e8bc84ef21a4a811fc3f67d9f56eadcf4f9cfe743a8493dc2a53a767556b80f",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-14.cpp",
+      "function": "e2_case_14",
+      "id": "e2-case-14",
+      "oracle": "oracles/e2-case-14.oracle.json",
+      "oracle_sha256": "sha256:6f03bcde18c74967995be2249866846ed3f48a731b0f717e39463d8ce4b4626d",
+      "source": "cases/e2-case-14.cpp",
+      "source_sha256": "sha256:de057ebf11b620c5c4c8119552fddfb3c0d07d4f35276fa5e75d610330e5f0f0"
+    },
+    {
+      "compiler_context": "contexts/e2-case-15.context.json",
+      "compiler_context_sha256": "sha256:7fe5cf62cf39f708165e24aafeeb149a19f56af80d554a6739635b3cfd701b7a",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-15.cpp",
+      "function": "e2_case_15",
+      "id": "e2-case-15",
+      "oracle": "oracles/e2-case-15.oracle.json",
+      "oracle_sha256": "sha256:f8cc65ea9f05d5ac4036c72168dbcc57142e788ebd2e099b50a94240d60f533b",
+      "source": "cases/e2-case-15.cpp",
+      "source_sha256": "sha256:df2f242cfe2b674aed4aa0d94adea66fafeb3d2a2925a8cb1ebf37821afb7e1b"
+    },
+    {
+      "compiler_context": "contexts/e2-case-16.context.json",
+      "compiler_context_sha256": "sha256:4e5f09d8db17b62092c87e1b6da148a87b03a5331ceeca149da37ce86e9909a6",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-16.cpp",
+      "function": "e2_case_16",
+      "id": "e2-case-16",
+      "oracle": "oracles/e2-case-16.oracle.json",
+      "oracle_sha256": "sha256:2490cfd06902e6d335bea39c51416fd369408d9a6b367f79f51002065e8b1637",
+      "source": "cases/e2-case-16.cpp",
+      "source_sha256": "sha256:2e25576782908cb5f983283950bc373f784c14a4648fb4580d0ce36c0972bd77"
+    },
+    {
+      "compiler_context": "contexts/e2-case-17.context.json",
+      "compiler_context_sha256": "sha256:b4db562847a0c2e54c451cdb9a7476a5ca97a6b4c20985c38416211066c9fc98",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-17.cpp",
+      "function": "e2_case_17",
+      "id": "e2-case-17",
+      "oracle": "oracles/e2-case-17.oracle.json",
+      "oracle_sha256": "sha256:a574bd5ffb20ab96f9e820f05b0202ef95caaafe301e0f3a31c70dbcbd2b5581",
+      "source": "cases/e2-case-17.cpp",
+      "source_sha256": "sha256:b6e1840ce276259864b5d15baa7dda376dddf33ae3ebc22c4e4f0ccf02c32858"
+    },
+    {
+      "compiler_context": "contexts/e2-case-18.context.json",
+      "compiler_context_sha256": "sha256:4465213826aba40f7397ce89dfcc3595b4a5606db874b908de01871dc3104ffa",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-18.cpp",
+      "function": "e2_case_18",
+      "id": "e2-case-18",
+      "oracle": "oracles/e2-case-18.oracle.json",
+      "oracle_sha256": "sha256:9f42566f678bd871857e1fcbecd13e21c7809c7966974c770becacfe0e04ce0c",
+      "source": "cases/e2-case-18.cpp",
+      "source_sha256": "sha256:da9e5026d963a69a56802349476c9d8f8be433758ab1e00f395b79f571dc2371"
+    },
+    {
+      "compiler_context": "contexts/e2-case-19.context.json",
+      "compiler_context_sha256": "sha256:1b01301381841b13ca09289595e47793c0b7ba9af89bf1bba40475077c42ccea",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-19.cpp",
+      "function": "e2_case_19",
+      "id": "e2-case-19",
+      "oracle": "oracles/e2-case-19.oracle.json",
+      "oracle_sha256": "sha256:18eebc68e1bbf2c92ae3f3e32e61c01d2b54e7d6ccee42ae92e7de6100cb1d95",
+      "source": "cases/e2-case-19.cpp",
+      "source_sha256": "sha256:276dbc7a3b80c9417d188dd51e0115114f1e6d32f2d6556837b8d248139f6218"
+    },
+    {
+      "compiler_context": "contexts/e2-case-20.context.json",
+      "compiler_context_sha256": "sha256:1a67621056631a217d936bcbd62160abb2553a71773a1360355e61598ee1ddd0",
+      "display_path": "benchmarks/experiment_e2/corpus/cases/e2-case-20.cpp",
+      "function": "e2_case_20",
+      "id": "e2-case-20",
+      "oracle": "oracles/e2-case-20.oracle.json",
+      "oracle_sha256": "sha256:caeaf020eed80dbc22085a314ea546c12c6d306e36e5f3a329c7653c8ae70753",
+      "source": "cases/e2-case-20.cpp",
+      "source_sha256": "sha256:41f1a3b638d1cebc5c8b26a0792163d9e9de409c39044f9dae3880268be1a744"
+    }
+  ],
+  "id": "sha256:a6cfd5325fdd746517f5a7f9a16f7f69adcbaf83f4faa79d77777e196883f73d",
+  "schema": "codeskeptic.experiment-corpus/v1"
+}

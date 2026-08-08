@@ -1,0 +1,143 @@
+{
+  "cases": [
+    {
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 10,
+        "violated": 2
+      },
+      "name": "vertical_slice",
+      "source": "cases/vertical_slice.cpp"
+    },
+    {
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 1
+      },
+      "name": "modular_calls",
+      "source": "cases/modular_calls.cpp"
+    },
+    {
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 0
+      },
+      "name": "sum_loop",
+      "source": "cases/sum_loop.cpp"
+    },
+    {
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 1,
+        "verified": 0,
+        "violated": 0
+      },
+      "name": "sum_loop_missing_invariant",
+      "source": "cases/sum_loop_missing_invariant.cpp"
+    },
+    {
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 5,
+        "violated": 1
+      },
+      "name": "sum_loop_wrong_invariant",
+      "source": "cases/sum_loop_wrong_invariant.cpp"
+    },
+    {
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 22,
+        "violated": 0
+      },
+      "name": "int64_slice",
+      "source": "cases/int64_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 20,
+        "violated": 0
+      },
+      "name": "unsigned_slice",
+      "source": "cases/unsigned_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 19,
+        "violated": 0
+      },
+      "name": "bitwise_slice",
+      "source": "cases/bitwise_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 47,
+        "violated": 13
+      },
+      "name": "fixed_integer_gate",
+      "source": "cases/fixed_integer_gate.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 18,
+        "violated": 0
+      },
+      "name": "array_slice",
+      "source": "cases/array_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 9,
+        "violated": 0
+      },
+      "name": "struct_slice",
+      "source": "cases/struct_slice.cpp"
+    },
+    {
+      "backend": "z3",
+      "expected_summary": {
+        "solver_error": 0,
+        "unknown": 0,
+        "unsupported": 0,
+        "verified": 6,
+        "violated": 0
+      },
+      "name": "reference_slice",
+      "source": "cases/reference_slice.cpp"
+    }
+  ],
+  "schema": "codeskeptic.fixture-corpus/v0"
+}

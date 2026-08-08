@@ -1,0 +1,8 @@
+{
+  "case": "e2-case-04",
+  "line": 4,
+  "repaired_source": "sha256:b224bb4ccfaca0552a743598ae45c2d5ecd74ce57e66816ad9663f05ef65c357",
+  "replacement": "  return value * 5 + 2;",
+  "schema": "codeskeptic.experiment-repair-oracle/v1",
+  "target_source": "sha256:689b8d65bf70fd5c9101c522e14805d612cdf3f41ff01129e35c96e86c57f02e"
+}

@@ -1,0 +1,15 @@
+{
+  "notes": [],
+  "outcome": "candidate",
+  "proposals": [
+    {
+      "anchor": { "kind": "function" },
+      "comment": "// cs: ai requires 100 * value == 5000",
+      "evidence": ["Untrusted sparse-domain guess."],
+      "machine_proposed": true,
+      "rationale": "Exercise the bounded affine search boundary."
+    }
+  ],
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "schema": "codeskeptic.contract-proposal-response/v1"
+}

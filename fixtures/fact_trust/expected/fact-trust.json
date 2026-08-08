@@ -1,0 +1,68 @@
+{
+  "claims": [
+    {
+      "evidence": null,
+      "function": "sha256:1f59cefdc8abf498ece2333a36f0ba8d252bcc10d2b2b9421cad04ccda333e48",
+      "id": "sha256:e9d15da6f77c08af5badef66030f0ac7bf31da2e04a65f613eb96ee2f56a8ff2",
+      "trust": "derived",
+      "value": "pure"
+    },
+    {
+      "evidence": null,
+      "function": "sha256:5d0c798a06be2b561e78ce27dad5edaff14e4deca9cec0c16b176414763368f3",
+      "id": "sha256:0b1a67d5f7c4485d793470924148858db79c5d739ebbed688819ef1bc4f6512d",
+      "trust": "derived",
+      "value": "pure"
+    },
+    {
+      "evidence": {
+        "callees": [
+          "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf"
+        ],
+        "frame": {
+          "column": 4,
+          "file": "fixtures/fact_trust/source.cpp",
+          "line": 7
+        },
+        "method": "empty-frame-full-vc/v1",
+        "obligations": [
+          "ob00002"
+        ],
+        "referee": "codeskeptic.affine/v1",
+        "source_sha256": "sha256:69a39935fc0e9e3b872084e9f9810643303386c64397d996bc397ec4738df628",
+        "verification_schema": "codeskeptic.semantic-verification/v6",
+        "verification_sha256": "sha256:d7e41476eb610b3e3f97969feec7d4bda6b451ca3ed1863d3b820e004ba210cb"
+      },
+      "function": "sha256:8f90a0778d2c355f624d718e8acc578c3c038f4aaff69a21deb9f2d4cbfa14b0",
+      "id": "sha256:6ec594fb6db795b73b9ec9b52680ea519ba6271617781c930d864d7c71e27d59",
+      "trust": "proved",
+      "value": "pure"
+    },
+    {
+      "evidence": {
+        "callees": [],
+        "frame": {
+          "column": 4,
+          "file": "fixtures/fact_trust/source.cpp",
+          "line": 1
+        },
+        "method": "empty-frame-full-vc/v1",
+        "obligations": [
+          "ob00001"
+        ],
+        "referee": "codeskeptic.affine/v1",
+        "source_sha256": "sha256:69a39935fc0e9e3b872084e9f9810643303386c64397d996bc397ec4738df628",
+        "verification_schema": "codeskeptic.semantic-verification/v6",
+        "verification_sha256": "sha256:d7e41476eb610b3e3f97969feec7d4bda6b451ca3ed1863d3b820e004ba210cb"
+      },
+      "function": "sha256:94a6becea29052f4dcb9e3234dc5679d9fa9657fa6dd5723e7311b03837b79bf",
+      "id": "sha256:960b6745b9a1faf47a025ae1f26f417d8f36eac4185c017d659a02c43fb7794b",
+      "trust": "proved",
+      "value": "pure"
+    }
+  ],
+  "fact_index": "sha256:1ad3da9c3c086480d48456ca061552a7c88758bbb7977123300597f6b5664004",
+  "id": "sha256:cf9a7dc393a1f3e077acd43e7fed7ef99604f9f2771b51e0c4daa31d554d2766",
+  "schema": "codeskeptic.fact-trust/v1",
+  "source_sha256": "sha256:69a39935fc0e9e3b872084e9f9810643303386c64397d996bc397ec4738df628"
+}

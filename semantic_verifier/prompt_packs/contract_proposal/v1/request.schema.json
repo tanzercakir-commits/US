@@ -1,0 +1,65 @@
+{
+  "$id": "codeskeptic.contract-proposal-request/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context": {
+      "additionalProperties": false,
+      "properties": {
+        "callee_contracts": {
+          "items": { "minLength": 1, "type": "string" },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "existing_contracts": {
+          "items": { "minLength": 1, "type": "string" },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "symbols": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": { "minLength": 1, "type": "string" },
+              "role": {
+                "enum": ["global", "local", "parameter", "result"]
+              },
+              "type": { "minLength": 1, "type": "string" }
+            },
+            "required": ["name", "role", "type"],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["callee_contracts", "existing_contracts", "symbols"],
+      "type": "object"
+    },
+    "schema": {
+      "const": "codeskeptic.contract-proposal-request/v1"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "file": { "minLength": 1, "type": "string" },
+        "line": { "minimum": 1, "type": "integer" }
+      },
+      "required": ["file", "line"],
+      "type": "object"
+    },
+    "target": {
+      "additionalProperties": false,
+      "properties": {
+        "body": { "minLength": 1, "type": "string" },
+        "function": { "minLength": 1, "type": "string" },
+        "language": { "const": "c++17" },
+        "signature": { "minLength": 1, "type": "string" }
+      },
+      "required": ["body", "function", "language", "signature"],
+      "type": "object"
+    }
+  },
+  "required": ["context", "schema", "source", "target"],
+  "title": "CodeSkeptic offline contract proposal request v1",
+  "type": "object"
+}

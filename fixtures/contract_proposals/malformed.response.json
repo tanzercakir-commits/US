@@ -1,0 +1,15 @@
+{
+  "notes": [],
+  "outcome": "candidate",
+  "proposals": [
+    {
+      "anchor": { "kind": "function" },
+      "comment": "// cs: ensures result >= 0",
+      "evidence": ["Marker was removed by an untrusted generator."],
+      "machine_proposed": true,
+      "rationale": "This response must fail closed."
+    }
+  ],
+  "request_id": "sha256:c5b6437b8d9bc77ba79d7a71692ef04577b5c07dcdacdafd54598990b6e091bc",
+  "schema": "codeskeptic.contract-proposal-response/v1"
+}

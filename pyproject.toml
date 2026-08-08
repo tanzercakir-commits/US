@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codeskeptic-semantic-prototype"
+version = "0.1.0"
+description = "Restricted C++ to Semantic IR verification prototype"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+semantic-verify = "semantic_verifier.cli:main"
+
+[tool.setuptools]
+packages = ["semantic_verifier"]
+
+[tool.setuptools.package-data]
+semantic_verifier = [
+  "prompt_packs/contract_proposal/v1/*.json",
+  "prompt_packs/contract_proposal/v1/*.md",
+]

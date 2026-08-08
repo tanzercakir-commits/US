@@ -1,0 +1,40 @@
+{
+  "$id": "https://codeskeptic.dev/schema/assumption-resolution/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "id": {"pattern": "^sha256:[0-9a-f]{64}$", "type": "string"},
+    "manifest": {"pattern": "^sha256:[0-9a-f]{64}$", "type": "string"},
+    "resolutions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "assumption": {"pattern": "^asm-[0-9]{3,}$", "type": "string"},
+          "disposition": {"enum": ["contract", "test", "uncheckable"]},
+          "evidence": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "anchor": {"minLength": 1, "type": "string"},
+                "path": {"minLength": 1, "type": "string"},
+                "sha256": {"pattern": "^sha256:[0-9a-f]{64}$", "type": "string"}
+              },
+              "required": ["anchor", "path", "sha256"],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "reason": {"type": ["string", "null"]}
+        },
+        "required": ["assumption", "disposition", "evidence", "reason"],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "schema": {"const": "codeskeptic.assumption-resolution/v1"}
+  },
+  "required": ["id", "manifest", "resolutions", "schema"],
+  "title": "CodeSkeptic Assumption Resolution v1",
+  "type": "object"
+}

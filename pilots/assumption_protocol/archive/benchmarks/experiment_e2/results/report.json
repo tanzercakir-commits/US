@@ -1,0 +1,289 @@
+{
+  "arms": {
+    "compiler_test": {
+      "exhausted": 4,
+      "median": {
+        "denominator": 2,
+        "numerator": 7
+      },
+      "scores": [
+        5,
+        5,
+        5,
+        5,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        3,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "succeeded": 16
+    },
+    "semantic_bundle": {
+      "exhausted": 0,
+      "median": {
+        "denominator": 1,
+        "numerator": 1
+      },
+      "scores": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "succeeded": 20
+    }
+  },
+  "corpus": "sha256:a6cfd5325fdd746517f5a7f9a16f7f69adcbaf83f4faa79d77777e196883f73d",
+  "evidence_scope": "recorded-scripted-proxy",
+  "hypothesis": {
+    "metric": "median-censored-repair-score",
+    "semantic_bundle_reduction_threshold": {
+      "denominator": 5,
+      "numerator": 2
+    }
+  },
+  "id": "sha256:8b1b8f4955cf4e0f9b71418ca9f05e8c7da3d9983b54b074249631e355d5848b",
+  "improvement": {
+    "denominator": 7,
+    "numerator": 5
+  },
+  "limitations": [
+    "This recorded-scripted-proxy pilot does not measure an independently sampled AI model.",
+    "The result does not establish consciousness, general model behavior, or causality.",
+    "Only the frozen twenty-case corpus and exact proposal transcripts are in scope."
+  ],
+  "outcome": "passed",
+  "pairs": [
+    {
+      "case": "e2-case-01",
+      "compiler_loop": "sha256:fd31178c55a8ad3035c9f4e4d3b88fbe1cb6a3f06015041adc7be36c353f3761",
+      "compiler_score": 5,
+      "compiler_trial": "sha256:cf33aa84261a4fc158d42d9010c40e478326bcc12ab9925ec87bc2e4b6e2bc62",
+      "delta": 4,
+      "semantic_loop": "sha256:bd408685b57f32c979334a6eda0aff9f5c7bb657c8deda6dd11590b03fd16e12",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:4095d915ba53b6268af704fb38f2359538a0b4c489ea8f2acb9ca9a374a5ef2e"
+    },
+    {
+      "case": "e2-case-02",
+      "compiler_loop": "sha256:fd77768322698398b10317484d3a54b4d6cb5b73c7b92cfdea4606d5967b3edc",
+      "compiler_score": 5,
+      "compiler_trial": "sha256:188e6989361d3694e519d75c196b55ee96ef05950875cbce177bb1c1c7862159",
+      "delta": 4,
+      "semantic_loop": "sha256:7468c5ad58ac9187ea0e336e9a6f2221186365281f7b003872071f0e4b2915f7",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:6d0886ea558e2e9b61e1c4f7e201867fba23378e8c87623d3f2440a65e9132fc"
+    },
+    {
+      "case": "e2-case-03",
+      "compiler_loop": "sha256:317c3bafd04b940ba030d68e75aac5af070bcbd9b34a62abc3b0bc3fa3ea6c0b",
+      "compiler_score": 5,
+      "compiler_trial": "sha256:731f4df7511729da6ff84c6a44feeefcc0906d004986e37da2b48654028c7a48",
+      "delta": 4,
+      "semantic_loop": "sha256:81d0f986298cfb684cf33167284f6cec4ab3c28f784ad11354d797638b14fa05",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:a1d24d24a2b2c60a44c2111690d5063861dbafb9a1158ceab4e3d375c61b8c15"
+    },
+    {
+      "case": "e2-case-04",
+      "compiler_loop": "sha256:991be981d7caf57d74e30ad26cfd70e326e1f3b3df944db357a9f77dd25cc7c9",
+      "compiler_score": 5,
+      "compiler_trial": "sha256:b4960d64d5d8add9869672364d8801ca31214ea2a66f2c79caee2c3664b9fa20",
+      "delta": 4,
+      "semantic_loop": "sha256:b8019e75ca8392274bf46ecab0d28a6692a1d2b513294b3651a5f70f9802b52f",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:15cc555284d5d7f613307cc154c5b8fc0a83bb794c63b1c14da33fd66b4a19d1"
+    },
+    {
+      "case": "e2-case-05",
+      "compiler_loop": "sha256:ec55744cbad7737b1f4b97d13d54f9d0bde30917ea6bd72a505091cfd5a1121e",
+      "compiler_score": 4,
+      "compiler_trial": "sha256:1372ade506bc0cce2c47a37d796de168cfbae1abc404672c8517bdb43a6387cd",
+      "delta": 3,
+      "semantic_loop": "sha256:29bdf6a6adc147f419f2902cc0f52c5fb92284c7c6be6941509160507dde36ff",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:df587ecddd58aa949eff6d9b034fd7f32b3eb09b5286c2dd0e6d6a424d2ec018"
+    },
+    {
+      "case": "e2-case-06",
+      "compiler_loop": "sha256:da77a5ea113809a1bbd8bd1ad4a0b3729103b3a4747926066fef524b18451b38",
+      "compiler_score": 4,
+      "compiler_trial": "sha256:1d7da321b57924b1aae9456ec532b96332b78d36b3d87654975a7fa5008d4591",
+      "delta": 3,
+      "semantic_loop": "sha256:a06236fcf84507c1cf3faa3bb1d2d2bb0df3242363645c6e015bfdfa473bb00d",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:df6e9d5af295d1ed9ca176c34b33b3ae5b8ed758f6046076754ca19d6edd452b"
+    },
+    {
+      "case": "e2-case-07",
+      "compiler_loop": "sha256:8a950f04521aed6f153c81655809a9d2ac567fbff30627ef1f34d21380d6a2c2",
+      "compiler_score": 4,
+      "compiler_trial": "sha256:e21835946f96eca5e5d9932c3990f49e94461b5067fe198124b99b680566991b",
+      "delta": 3,
+      "semantic_loop": "sha256:d15c23ea0192124ca1383b26e2824f1339c904899bb77d04a2fecd4ab54e3534",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:56d377b79ce9004efbb22fb134a88cfc8471e6bd4b72c414efc1db57174846b7"
+    },
+    {
+      "case": "e2-case-08",
+      "compiler_loop": "sha256:b0e303aeb6001de4fc64f2b9c3fb85b8bde4717b3c9f8a3d35846fc9f0de4156",
+      "compiler_score": 4,
+      "compiler_trial": "sha256:182025831458723f5677c28ccbe9fb4fe6c194c8cea11e0a542fc02d4870ce68",
+      "delta": 3,
+      "semantic_loop": "sha256:7d43500583ee23f6df4586723375917e9a14aa8318d36aa6f1e3f46e634c4409",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:4c84c31df72151d9fea99516c17c12aa5050ddb1c0244ebb5cbf6789bdc2c20f"
+    },
+    {
+      "case": "e2-case-09",
+      "compiler_loop": "sha256:29b46020ed7faf328630a056b0171deb6abd94b89869996438b82872ed6a368c",
+      "compiler_score": 4,
+      "compiler_trial": "sha256:c59b471a9f951f6f84b39298ff85fac2b7e9d51876ebfce4264f99a60d628f97",
+      "delta": 3,
+      "semantic_loop": "sha256:60902d41c4bae86a01a076e8de6c23fd48166e517514cb32f1acf3bddc505d53",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:c260dc24ffb73bc9f34c29fff8460a9bade0f88fdba8a31c4d2acd437e298358"
+    },
+    {
+      "case": "e2-case-10",
+      "compiler_loop": "sha256:63522d33a3ffedd5218df2b3416eff92555bfccd31c4a8f6072ee713ff2c4e84",
+      "compiler_score": 4,
+      "compiler_trial": "sha256:452939dac63cf49f89ac3327ef0f0df294105552ee4114bd19c97b27e8408cd6",
+      "delta": 3,
+      "semantic_loop": "sha256:03b7363ac34f6428a16a5c574ee2e5d0c44825d49545b1f590ebca90d5be07ba",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:459a596d6a06dd6f31944b782604a251cdff953e9550e1bd3f63478c109d5325"
+    },
+    {
+      "case": "e2-case-11",
+      "compiler_loop": "sha256:4d080b7c85c8e3bf3eb348011a9fe2dc3be8cc34a6f9febd118ed43ca1e71011",
+      "compiler_score": 3,
+      "compiler_trial": "sha256:f4ddbdb038bfa59baa34c6da017bbf75d3af5b25cfd06db7db3376183c770a06",
+      "delta": 2,
+      "semantic_loop": "sha256:384a1e4dbf494414b7b1dda11cddab45989b99795fb7ce007ed7e0a0b37b9e02",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:16beea621cd93f2002a8174e8fb62574033e115a2c1598f4d49a9b9b17f036e1"
+    },
+    {
+      "case": "e2-case-12",
+      "compiler_loop": "sha256:b12e89c8b216cb5e83cf7f6ed039cede1b8e45a702c5ea900cad6cb0ffe6f2fb",
+      "compiler_score": 3,
+      "compiler_trial": "sha256:814d5e0983a330cbc45394b7ac4990f242527934729760248949ad1ff145980b",
+      "delta": 2,
+      "semantic_loop": "sha256:3c698bbcf7f8bdffde6a81b4e97bd6251d893ab2e7be4ba897834b9a9c6156e2",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:9c9a263864937360eaa049504eb3fb37fc6165d56a00578fe1c01223379a0f50"
+    },
+    {
+      "case": "e2-case-13",
+      "compiler_loop": "sha256:de863117f68bfc410cf0c485d8fd34ff202fe31552b439a2ad35ba1478f0ef02",
+      "compiler_score": 3,
+      "compiler_trial": "sha256:5f65468fb6ac5fcb5050f569ae2e284da9f39b2dfefa1a27de270abb8c5f309d",
+      "delta": 2,
+      "semantic_loop": "sha256:2058e1510e8bd7560a6aa0f110d117727511e758981d766b0ddd72950b590b85",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:eb00e41c463613ad46bad738ac25f016b91f0233fb58f7a5c8dad89df7581b1e"
+    },
+    {
+      "case": "e2-case-14",
+      "compiler_loop": "sha256:0d8b484738601f67cd16c173e90f3c8a018906209685426bd3d4e9bf625a1352",
+      "compiler_score": 3,
+      "compiler_trial": "sha256:b58fe5128e7f05d8582233385bbbd62a5bbc8c28a19dec2e79a2657e293652d1",
+      "delta": 2,
+      "semantic_loop": "sha256:3b11d2596a8df216bdb351b76308f92b520e3855aa8741f6f0e70e1bfbb6279d",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:5f0f728d56cb637def42ef5198702cd3847e7e39c7c1cae09c8539cc92b455c1"
+    },
+    {
+      "case": "e2-case-15",
+      "compiler_loop": "sha256:17bfc98a03abfa2f044bd6d2b612808be6a22a123948ba3794420ae76b22a181",
+      "compiler_score": 3,
+      "compiler_trial": "sha256:ede9a65a7c1c3ca74ff424a9562601e94bbba3c9ed1a0492df62f66923519004",
+      "delta": 2,
+      "semantic_loop": "sha256:efdb9ec444219309a7daedfe56b4c609e6c95f3f72a83f8260fd2818b864c99b",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:d709914e29fb102866972bd783bf8ab3f21e3b239310ed1a2470997d1db1f8c2"
+    },
+    {
+      "case": "e2-case-16",
+      "compiler_loop": "sha256:7e75f7976b45d649ea491cd669e94ea8ab63dd590357720148c135fe69dee98c",
+      "compiler_score": 2,
+      "compiler_trial": "sha256:71e19a9b2dad8574e37daf9fb61cccadcd2c48059a6f341498d4067f6b4f5a28",
+      "delta": 1,
+      "semantic_loop": "sha256:7a26d943cec662a5eebb12c9ef9e62332fa6dd7e857be424a2de78270b7ed039",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:fe64448fc18d4df438cfbce1bcaf0cd6167f98050d09a0e948c0f29cf2ed3993"
+    },
+    {
+      "case": "e2-case-17",
+      "compiler_loop": "sha256:6af9aaec4f2e66bc2ed87b32eff15f9fb692ebcb03f6af58f2a64291110614f9",
+      "compiler_score": 2,
+      "compiler_trial": "sha256:e5533388b81e70588af9f07ca08fca6ebe33b36a9b7a3926ec06bd62f8267c13",
+      "delta": 1,
+      "semantic_loop": "sha256:3af07bd9154cf43c6266f10ba351be36bcbfd2a3309072dd1d5e01952daaa291",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:ea35f3fb2f32d284f5a1e7504b7a40f7fd0465e0ab51a58001a14927288cd792"
+    },
+    {
+      "case": "e2-case-18",
+      "compiler_loop": "sha256:78c302af34942227bf0b2b467d8b2e5fdf9cb6d39dbd012766bc975b0e64891c",
+      "compiler_score": 2,
+      "compiler_trial": "sha256:f733684dc55b02e7b7617041d024b8e0263d4866cf331e5e965ff0f2755fa4be",
+      "delta": 1,
+      "semantic_loop": "sha256:e100dd3795e4bd9b740fdf81b916d33d316766950e5a78a37286b7658b5588ce",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:cca9b46f964036a0f9ca1f9f09ab942f90bcaa46a23fb226853c8798a6b9d229"
+    },
+    {
+      "case": "e2-case-19",
+      "compiler_loop": "sha256:0ef475371fc15e6a4e1a5d8356f38588e44d8eb581c6b72e5f7f9713109a79e6",
+      "compiler_score": 1,
+      "compiler_trial": "sha256:293f474d191e58a2c1ab69b406739d4886c1e195e3fbe3012df8b2995997d64f",
+      "delta": 0,
+      "semantic_loop": "sha256:0ef475371fc15e6a4e1a5d8356f38588e44d8eb581c6b72e5f7f9713109a79e6",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:d44fdc21efaaf31d9ae89c1c136e72c3745ebb46546297ff16b5682ac13fbaea"
+    },
+    {
+      "case": "e2-case-20",
+      "compiler_loop": "sha256:8cba95ee38e8e7f078c57c6025997cad376e115b2cd5c9c3022093830e7c27dd",
+      "compiler_score": 1,
+      "compiler_trial": "sha256:44ae465df333e63f5462780e9aec31ec93ea784ae3ec1fb16d28a748a97e49e7",
+      "delta": 0,
+      "semantic_loop": "sha256:8cba95ee38e8e7f078c57c6025997cad376e115b2cd5c9c3022093830e7c27dd",
+      "semantic_score": 1,
+      "semantic_trial": "sha256:99ee2bc592023a69c88c021727b175e21a31c0a0ec92c6ba3f07a1c2f4e2e2db"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-report/v1",
+  "trials": "sha256:99ac34e61ca35728da3b972027b1c4fa377c4f49b6f296093cd0a4e0467fc7fb"
+}

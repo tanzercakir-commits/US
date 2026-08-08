@@ -1,0 +1,59 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-09",
+  "context": "sha256:07f47f88020d4b94a1487b0272e97eeb5290c585db02125f05ffa892b9e050e0",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:db3b0713f214190761a33e2d8553730193c5f8811f306492d0808275ef242d3c",
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:b24a39405f74a846fd063db97fb7384c7a9376f7fd9bcde237234e60cae35963",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 11 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:e0f797b6084814ad2f0d4e713f7ada970ac15d5c203edc35394959a6cafa1251",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:eb5fafa239d44d2edea2e417f49b6434a202413057647554d913fd8b48fff6b0",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 12 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:f8caebf50e03eb5803aa2ae04d0b3f928d4a56f33504644a70d5193ece40ef85",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:99765a5b5b4dc3a33ef1f3a855255a8ef36124446c82e41a22e7e6163fbe420f",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 13 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:b505eafd0327374f7f0b4378976190fe7c6368b15f56ebe7a030677a9c0d9cf2",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:2db062be186667594d128f2a4adcb8073192444a71f2acb14d5876e56ddaaa7e",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 10 + 2;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:1fb81da55d02fe10ea99aa493b9214422681dc2284865037c2780e5808bba067",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-proposal-script/v1"
+}

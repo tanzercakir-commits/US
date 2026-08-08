@@ -1,0 +1,230 @@
+{
+  "cases": [
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_01",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_02",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_03",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_04",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_05",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_06",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_07",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_08",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_09",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_affine_basic_10",
+      "tier": "affine-basic"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_01",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_02",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_03",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_04",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_05",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_06",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_07",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_08",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_09",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "violated",
+      "function": "bench_affine_counterexample_10",
+      "tier": "affine-counterexample"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_01",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_02",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_03",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_04",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_05",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_06",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_07",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_08",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_09",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "verified",
+      "function": "bench_path_sensitive_10",
+      "tier": "path-sensitive"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_01",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_02",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_03",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_04",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_05",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_06",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_07",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_08",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_09",
+      "tier": "deterministic-search-frontier"
+    },
+    {
+      "expected_status": "unknown",
+      "function": "bench_search_frontier_10",
+      "tier": "deterministic-search-frontier"
+    }
+  ],
+  "id": "sha256:6c108f664554fcdffbecc5e05e3de08a3dfa97212ad60b4b61eba5a91d322abd",
+  "schema": "codeskeptic.benchmark-corpus/v1",
+  "source": "corpus.cpp",
+  "source_sha256": "sha256:bbb075dc445a0a706dbdb5d092354f104f0c7eccd56beec19229976913fb17bd",
+  "tiers": [
+    {
+      "count": 10,
+      "expected_status": "verified",
+      "name": "affine-basic"
+    },
+    {
+      "count": 10,
+      "expected_status": "violated",
+      "name": "affine-counterexample"
+    },
+    {
+      "count": 10,
+      "expected_status": "unknown",
+      "name": "deterministic-search-frontier"
+    },
+    {
+      "count": 10,
+      "expected_status": "verified",
+      "name": "path-sensitive"
+    }
+  ]
+}

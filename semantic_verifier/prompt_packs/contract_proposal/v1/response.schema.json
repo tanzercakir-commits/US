@@ -1,0 +1,112 @@
+{
+  "$id": "codeskeptic.contract-proposal-response/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "outcome": { "const": "candidate" } },
+        "required": ["outcome"]
+      },
+      "then": { "properties": { "proposals": { "minItems": 1 } } }
+    },
+    {
+      "if": {
+        "properties": { "outcome": { "const": "declined" } },
+        "required": ["outcome"]
+      },
+      "then": { "properties": { "proposals": { "maxItems": 0 } } }
+    }
+  ],
+  "properties": {
+    "notes": {
+      "items": { "minLength": 1, "type": "string" },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "outcome": { "enum": ["candidate", "declined"] },
+    "proposals": {
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "comment": { "pattern": "^// cs: ai invariant " }
+              },
+              "required": ["comment"]
+            },
+            "then": {
+              "properties": {
+                "anchor": {
+                  "properties": { "kind": { "const": "loop" } }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "anchor": {
+                  "properties": { "kind": { "const": "function" } }
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "anchor": {
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "kind": { "const": "loop" } },
+                  "required": ["kind"]
+                },
+                "then": { "required": ["body_line"] },
+                "else": { "not": { "required": ["body_line"] } }
+              }
+            ],
+            "properties": {
+              "body_line": { "minimum": 1, "type": "integer" },
+              "kind": { "enum": ["function", "loop"] }
+            },
+            "required": ["kind"],
+            "type": "object"
+          },
+          "comment": {
+            "pattern": "^// cs: ai (?:(?:requires|ensures|invariant) .+|modifies(?: .*)?)$",
+            "type": "string"
+          },
+          "evidence": {
+            "items": { "minLength": 1, "type": "string" },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "machine_proposed": { "const": true },
+          "rationale": { "minLength": 1, "type": "string" }
+        },
+        "required": [
+          "anchor",
+          "comment",
+          "evidence",
+          "machine_proposed",
+          "rationale"
+        ],
+        "type": "object"
+      },
+      "maxItems": 16,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "request_id": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema": {
+      "const": "codeskeptic.contract-proposal-response/v1"
+    }
+  },
+  "required": ["notes", "outcome", "proposals", "request_id", "schema"],
+  "title": "CodeSkeptic untrusted contract proposal response v1",
+  "type": "object"
+}

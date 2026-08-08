@@ -1,0 +1,66 @@
+name: Determinism
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-byte-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned verifier executables
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes ca-certificates curl gnupg unzip
+
+          curl --fail --silent --show-error https://apt.llvm.org/llvm-snapshot.gpg.key \
+            | sudo gpg --dearmor --yes --output /usr/share/keyrings/llvm-snapshot.gpg
+          echo "deb [signed-by=/usr/share/keyrings/llvm-snapshot.gpg] https://apt.llvm.org/noble/ llvm-toolchain-noble-20 main" \
+            | sudo tee /etc/apt/sources.list.d/llvm20.list
+          sudo apt-get update
+          sudo apt-get install --yes clang-20 lld-20
+
+          z3_archive="$RUNNER_TEMP/z3-5.0.0-x64-glibc-2.39.zip"
+          curl --fail --location --retry 3 --output "$z3_archive" \
+            "https://github.com/Z3Prover/z3/releases/download/z3-5.0.0/z3-5.0.0-x64-glibc-2.39.zip"
+          echo "d4922cebc9f0a55629231ec0c62f0bbedf8006eddaed4e68199ad19626b697f6  $z3_archive" \
+            | sha256sum --check
+          unzip -q "$z3_archive" -d "$RUNNER_TEMP/z3"
+
+          echo "/usr/lib/llvm-20/bin" >> "$GITHUB_PATH"
+          echo "$RUNNER_TEMP/z3/z3-5.0.0-x64-glibc-2.39/bin" >> "$GITHUB_PATH"
+
+      - name: Verify pinned toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang_version="$(clang --version | sed -n '1p')"
+          lld_version="$(ld.lld --version)"
+          z3_version="$(z3 --version)"
+          printf '%s\n' "$clang_version" "$lld_version" "$z3_version"
+          [[ "$clang_version" == *"clang version 20.1.8"* ]]
+          [[ "$lld_version" == *"LLD 20.1.8"* ]]
+          [[ "$z3_version" == "Z3 version 5.0.0 - 64 bit" ]]
+
+      - name: Run full suite
+        run: python -m unittest discover -s tests
+
+      - name: Generate fixtures twice
+        run: |
+          python tools/regenerate_fixtures.py --output-dir fixture-run-a
+          python tools/regenerate_fixtures.py --output-dir fixture-run-b
+
+      - name: Compare fixture bytes
+        run: diff --recursive --no-dereference fixture-run-a fixture-run-b

@@ -1,0 +1,71 @@
+{
+  "assumptions": [
+    {
+      "id": "asm-001",
+      "intended_disposition": "test",
+      "risk": "high",
+      "scope": "semantic evidence completeness",
+      "statement": "The frozen E2 report contains exactly twenty complete paired cases."
+    },
+    {
+      "id": "asm-002",
+      "intended_disposition": "test",
+      "risk": "high",
+      "scope": "exact report arithmetic",
+      "statement": "The E2 report exact improvement is 5/7 and passes the predeclared 2/5 threshold."
+    },
+    {
+      "id": "asm-003",
+      "intended_disposition": "test",
+      "risk": "medium",
+      "scope": "documentation alignment",
+      "statement": "The human E2 report preserves the machine report limitations on model and consciousness claims."
+    },
+    {
+      "id": "asm-004",
+      "intended_disposition": "test",
+      "risk": "high",
+      "scope": "evidence provenance",
+      "statement": "The E2 trials and report retain recorded-scripted-proxy provenance without external-model promotion."
+    },
+    {
+      "id": "asm-005",
+      "intended_disposition": "test",
+      "risk": "high",
+      "scope": "declaration-before-code process",
+      "statement": "The closure overlay will link this unchanged declaration identity and all five snapshot inputs."
+    },
+    {
+      "id": "asm-006",
+      "intended_disposition": "uncheckable",
+      "risk": "high",
+      "scope": "external model generalization",
+      "statement": "The recorded scripted proxy predicts repair behavior of an independently sampled external AI model."
+    }
+  ],
+  "id": "sha256:13ecfcb8a49d419ad196106836d3d26818399d6eb8d77d0d69d89cd996c55ebb",
+  "schema": "codeskeptic.assumption-manifest/v1",
+  "snapshot": [
+    {
+      "path": "PLAN.md",
+      "sha256": "sha256:b177762fb5506eb379600877ac3ade886c3568f822d55460edb62c9c2159c418"
+    },
+    {
+      "path": "benchmarks/experiment_e2/results/report.json",
+      "sha256": "sha256:8d3c25f99947a477994e2bb4a1797033d38732786da7bbfe019ce9452f3161ff"
+    },
+    {
+      "path": "benchmarks/experiment_e2/results/trials.json",
+      "sha256": "sha256:d0ad0f20c1e126734a13aa7bfc0e0f9895782d712a03cb98ccfecc0b1315b39c"
+    },
+    {
+      "path": "docs/assumption_protocol.md",
+      "sha256": "sha256:588dfe44c1bbcba45adac613c2a537cde0a60ef508c9ba9c583ae0b53e57252d"
+    },
+    {
+      "path": "docs/experiment_e2.md",
+      "sha256": "sha256:e49fce95bdf7690b5f7f597b667c280b44cf0875b64958f1aa026e2aa16e5f7e"
+    }
+  ],
+  "subject": "E3 repository-local assumption protocol pilot"
+}

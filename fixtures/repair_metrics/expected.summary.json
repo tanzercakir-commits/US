@@ -1,0 +1,8 @@
+{
+  "count": 2,
+  "failed": 1,
+  "schema": "codeskeptic.repair-metrics-summary/v1",
+  "succeeded": 1,
+  "total_elapsed_ns": 3500,
+  "total_iterations": 3
+}

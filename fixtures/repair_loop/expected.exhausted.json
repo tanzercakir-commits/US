@@ -1,0 +1,38 @@
+{
+  "accepted": null,
+  "attempts": [
+    {
+      "candidate_source_sha256": "sha256:70bbcd4a4fa5eebf30b9f53dfe6e9a2d593ea36f51447d004dc7204181e5c4c4",
+      "diagnostic": "replayed violation remains; continuing",
+      "iteration": 1,
+      "proposal": "sha256:3dfcbe49329d5ac3f7df333a910dd137030ef64411564779eb64be22ea168c97",
+      "results": [
+        {
+          "obligation": "ob00001",
+          "status": "verified"
+        },
+        {
+          "obligation": "ob00002",
+          "status": "violated"
+        }
+      ],
+      "status": "violated",
+      "verification_sha256": "sha256:ab2b4966ce30988dc7209176c3dcb15ac61bfaa919d48dacd5ca536c1f039b0f"
+    },
+    {
+      "candidate_source_sha256": null,
+      "diagnostic": "untrusted proposer error: RepairLoopError: script has no proposal for this iteration",
+      "iteration": 2,
+      "proposal": null,
+      "results": [],
+      "status": "proposal_error",
+      "verification_sha256": null
+    }
+  ],
+  "id": "sha256:92450ebff2b715ca52307d372e7b2edd64bde2c3a79d2a79401a3bc2873ad2ac",
+  "initial_bundle": "sha256:c30b90b9f4d48a70233cdaf17d59f10a3317c210bce53ff2f5528883e1b4763c",
+  "initial_source_sha256": "sha256:a72ef24c8e2158f1efcc9a58114a86490da167d37f4dc6dd0a3ef2b2b19c2b24",
+  "max_iterations": 2,
+  "schema": "codeskeptic.repair-loop/v1",
+  "status": "exhausted"
+}

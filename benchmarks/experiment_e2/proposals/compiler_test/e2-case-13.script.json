@@ -1,0 +1,47 @@
+{
+  "arm": "compiler_test",
+  "case": "e2-case-13",
+  "context": "sha256:e9a02874ea3dbee712169026a561e00d1b64e3affb881b30e8824fa053519bf6",
+  "evidence_scope": "recorded-scripted-proxy",
+  "id": "sha256:80d53269f9f47c9a46f549a7b71ff485f5092b9c893b2d005d6ae0d5c7d91634",
+  "proposals": [
+    {
+      "base_source_sha256": "sha256:12b5fdf099c982453ac3266bfa9f5334ec1c7041cc500617d41555775f4832cd",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 15 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:738fb48eafa3fdcd54f873b795add8cdb2c1e5dc9c8f79414f44a563328def04",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:99899159330cd32cab4f32af6f500662c790caa4d168b4dccf39f1a31d2cd2b5",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 16 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:df1528f60a4bebc3de560b3458a4f1b4b783b96e90a7fece6cb261bacf8e4095",
+      "schema": "codeskeptic.patch-proposal/v1"
+    },
+    {
+      "base_source_sha256": "sha256:85a40aa3aa09c668f2d8e2a29ce69eee9c24d7f18b71add1d86913eef04eafb2",
+      "edit": {
+        "end_line": 4,
+        "replacement": [
+          "  return value * 14 + 1;"
+        ],
+        "start_line": 4
+      },
+      "id": "sha256:d8e0a7595d3d7fd84405d2376be615ae956fe50ecdf6f599e6a38cbd332c3e53",
+      "schema": "codeskeptic.patch-proposal/v1"
+    }
+  ],
+  "proposer": "codeskeptic.recorded-scripted-proxy/v1",
+  "schema": "codeskeptic.experiment-proposal-script/v1"
+}

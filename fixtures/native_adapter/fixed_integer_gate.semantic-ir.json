@@ -1,0 +1,3048 @@
+{
+  "report_schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.native-adapter-semantic-ir/v0",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00001",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 3
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00002",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 4
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00003",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 7
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 3
+            },
+            "machine_proposed": false,
+            "text": "requires x == 2"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 4
+            },
+            "machine_proposed": false,
+            "text": "requires y == 3"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "5"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 5
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 5"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 6
+        },
+        "name": "signed_add_safe",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 37,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 6
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0001.s0002",
+            "location": {
+              "column": 50,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 6
+            },
+            "name": "y",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "y#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00004",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 11
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0002",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 10
+        },
+        "name": "signed_add_overflow",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 41,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 10
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "5"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00005",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 14
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00006",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 15
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i64"
+            },
+            "id": "n00007",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 18
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "5"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 14
+            },
+            "machine_proposed": false,
+            "text": "requires x == 5"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "y#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 15
+            },
+            "machine_proposed": false,
+            "text": "requires y == 3"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 16
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 2"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0003",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 17
+        },
+        "name": "signed_subtract_safe",
+        "parameters": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 42,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 17
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0003.s0002",
+            "location": {
+              "column": 55,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 17
+            },
+            "name": "y",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "y#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "i64"
+            },
+            "id": "n00008",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 22
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0004",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 21
+        },
+        "name": "signed_subtract_overflow",
+        "parameters": [
+          {
+            "id": "f0004.s0001",
+            "location": {
+              "column": 46,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 21
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00009",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 25
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "*",
+              "type": "i64"
+            },
+            "id": "n00010",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 28
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 25
+            },
+            "machine_proposed": false,
+            "text": "requires x == 2"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "6"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 26
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 6"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0005",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 27
+        },
+        "name": "signed_multiply_safe",
+        "parameters": [
+          {
+            "id": "f0005.s0001",
+            "location": {
+              "column": 42,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 27
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "*",
+              "type": "i64"
+            },
+            "id": "n00011",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 32
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0006",
+        "locals": [],
+        "location": {
+          "column": 11,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 31
+        },
+        "name": "signed_multiply_overflow",
+        "parameters": [
+          {
+            "id": "f0006.s0001",
+            "location": {
+              "column": 46,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 31
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i64",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i64"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "4294967295"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "u32"
+            },
+            "id": "n00012",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 37
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 35
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 0"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0007",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 36
+        },
+        "name": "unsigned_wrap",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "4294967295"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "u32"
+            },
+            "id": "n00013",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 42
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "result"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967295"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 40
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 4294967295"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0008",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 41
+        },
+        "name": "unsigned_wrap_wrong",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "-",
+              "type": "u32"
+            },
+            "id": "n00014",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 47
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "result"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967295"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 45
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 4294967295"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0009",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 46
+        },
+        "name": "unsigned_subtract_wrap",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "4294967295"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "*",
+              "type": "u32"
+            },
+            "id": "n00015",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 52
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "result"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967294"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 50
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 4294967294"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0010",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 51
+        },
+        "name": "unsigned_multiply_wrap",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00016",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 55
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            },
+            "id": "n00017",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 58
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 55
+            },
+            "machine_proposed": false,
+            "text": "requires x == 1"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 56
+            },
+            "machine_proposed": false,
+            "text": "ensures result == -1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0011",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 57
+        },
+        "name": "signed_negation_safe",
+        "parameters": [
+          {
+            "id": "f0011.s0001",
+            "location": {
+              "column": 30,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 57
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "i32"
+            },
+            "id": "n00018",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 62
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0012",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 61
+        },
+        "name": "signed_negation_minimum",
+        "parameters": [
+          {
+            "id": "f0012.s0001",
+            "location": {
+              "column": 33,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 61
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "unary",
+              "op": "-",
+              "type": "u32"
+            },
+            "id": "n00019",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 67
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "result"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967295"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 65
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 4294967295"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0013",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 66
+        },
+        "name": "unsigned_negation",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00020",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 70
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "i32"
+            },
+            "id": "n00021",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 73
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 70
+            },
+            "machine_proposed": false,
+            "text": "requires a == 7"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 71
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 2"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0014",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 72
+        },
+        "name": "division_safe",
+        "parameters": [
+          {
+            "id": "f0014.s0001",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 72
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "a#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00022",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 76
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "%",
+              "type": "i32"
+            },
+            "id": "n00023",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 79
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 76
+            },
+            "machine_proposed": false,
+            "text": "requires a == 7"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 77
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0015",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 78
+        },
+        "name": "remainder_safe",
+        "parameters": [
+          {
+            "id": "f0015.s0001",
+            "location": {
+              "column": 24,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 78
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "a#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "i32"
+            },
+            "id": "n00024",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 83
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0016",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 82
+        },
+        "name": "division_zero",
+        "parameters": [
+          {
+            "id": "f0016.s0001",
+            "location": {
+              "column": 23,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 82
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "a#0"
+          },
+          {
+            "id": "f0016.s0002",
+            "location": {
+              "column": 30,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 82
+            },
+            "name": "b",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "b#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "-2147483648"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00025",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 86
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00026",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 87
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "/",
+              "type": "i32"
+            },
+            "id": "n00027",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 89
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "a#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "-2147483648"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 86
+            },
+            "machine_proposed": false,
+            "text": "requires a == -2147483648"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "b#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 87
+            },
+            "machine_proposed": false,
+            "text": "requires b == -1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0017",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 88
+        },
+        "name": "division_overflow",
+        "parameters": [
+          {
+            "id": "f0017.s0001",
+            "location": {
+              "column": 27,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 88
+            },
+            "name": "a",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "a#0"
+          },
+          {
+            "id": "f0017.s0002",
+            "location": {
+              "column": 34,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 88
+            },
+            "name": "b",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "b#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00028",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 94
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "bool",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "bool",
+                  "value": true
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 92
+            },
+            "machine_proposed": false,
+            "text": "ensures result == true"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0018",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 93
+        },
+        "name": "signed_comparison",
+        "parameters": [],
+        "references": [],
+        "return_type": "bool"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "1"
+                        }
+                      ],
+                      "kind": "unary",
+                      "op": "-",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00029",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 99
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "bool",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "bool",
+                  "value": false
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 97
+            },
+            "machine_proposed": false,
+            "text": "ensures result == false"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0019",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 98
+        },
+        "name": "mixed_comparison",
+        "parameters": [],
+        "references": [],
+        "return_type": "bool"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "constant",
+                          "type": "i32",
+                          "value": "1"
+                        }
+                      ],
+                      "kind": "unary",
+                      "op": "-",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "u32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00030",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 104
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "bool",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "bool",
+                  "value": true
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 102
+            },
+            "machine_proposed": false,
+            "text": "ensures result == true"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0020",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 103
+        },
+        "name": "mixed_comparison_wrong",
+        "parameters": [],
+        "references": [],
+        "return_type": "bool"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "u32",
+                          "value": "x#0"
+                        },
+                        {
+                          "kind": "variable",
+                          "type": "u32",
+                          "value": "y#0"
+                        }
+                      ],
+                      "kind": "binary",
+                      "op": "&",
+                      "type": "u32"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "~",
+                  "type": "u32"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "u32",
+                          "value": "x#0"
+                        }
+                      ],
+                      "kind": "unary",
+                      "op": "~",
+                      "type": "u32"
+                    },
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "u32",
+                          "value": "y#0"
+                        }
+                      ],
+                      "kind": "unary",
+                      "op": "~",
+                      "type": "u32"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "|",
+                  "type": "u32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00031",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 109
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "bool",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "bool",
+                  "value": true
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 107
+            },
+            "machine_proposed": false,
+            "text": "ensures result == true"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0021",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 108
+        },
+        "name": "de_morgan",
+        "parameters": [
+          {
+            "id": "f0021.s0001",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 108
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "x#0"
+          },
+          {
+            "id": "f0021.s0002",
+            "location": {
+              "column": 45,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 108
+            },
+            "name": "y",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "y#0"
+          }
+        ],
+        "references": [],
+        "return_type": "bool"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "240"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "15"
+                }
+              ],
+              "kind": "binary",
+              "op": "&",
+              "type": "u32"
+            },
+            "id": "n00032",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 114
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 112
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0022",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 113
+        },
+        "name": "bitwise_wrong",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "^",
+              "type": "u32"
+            },
+            "id": "n00033",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 119
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "0"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 117
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 0"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0023",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 118
+        },
+        "name": "xor_identity",
+        "parameters": [
+          {
+            "id": "f0023.s0001",
+            "location": {
+              "column": 40,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 118
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "31"
+                }
+              ],
+              "kind": "binary",
+              "op": "<<",
+              "type": "i32"
+            },
+            "id": "n00034",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 124
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "-2147483648"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 122
+            },
+            "machine_proposed": false,
+            "text": "ensures result == -2147483648"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0024",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 123
+        },
+        "name": "signed_left_boundary",
+        "parameters": [],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "x#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "32"
+                }
+              ],
+              "kind": "binary",
+              "op": "<<",
+              "type": "u32"
+            },
+            "id": "n00035",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 128
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0025",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 127
+        },
+        "name": "left_count_invalid",
+        "parameters": [
+          {
+            "id": "f0025.s0001",
+            "location": {
+              "column": 46,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 127
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "u32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "31"
+                }
+              ],
+              "kind": "binary",
+              "op": "<<",
+              "type": "i32"
+            },
+            "id": "n00036",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 132
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0026",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 131
+        },
+        "name": "signed_left_value_invalid",
+        "parameters": [],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "8"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "2"
+                }
+              ],
+              "kind": "binary",
+              "op": ">>",
+              "type": "i32"
+            },
+            "id": "n00037",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 137
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "2"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 135
+            },
+            "machine_proposed": false,
+            "text": "ensures result == -2"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0027",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 136
+        },
+        "name": "arithmetic_right",
+        "parameters": [],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "2147483648"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "31"
+                }
+              ],
+              "kind": "binary",
+              "op": ">>",
+              "type": "u32"
+            },
+            "id": "n00038",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 142
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 140
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0028",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 141
+        },
+        "name": "logical_right",
+        "parameters": [],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": ">>",
+              "type": "i32"
+            },
+            "id": "n00039",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 146
+            }
+          }
+        ],
+        "contracts": [],
+        "frame": null,
+        "has_body": true,
+        "id": "f0029",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 145
+        },
+        "name": "right_count_invalid",
+        "parameters": [
+          {
+            "id": "f0029.s0001",
+            "location": {
+              "column": 29,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 145
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "i32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "id": "n00040",
+            "kind": "assume",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 149
+            },
+            "origin": "requires"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                }
+              ],
+              "kind": "cast",
+              "op": "integral",
+              "type": "u32"
+            },
+            "id": "n00041",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 152
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "x#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "-",
+                  "type": "i32"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "requires",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 149
+            },
+            "machine_proposed": false,
+            "text": "requires x == -1"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "result"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i64",
+                  "value": "4294967295"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 150
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 4294967295"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0030",
+        "locals": [],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 151
+        },
+        "name": "assignment_to_unsigned",
+        "parameters": [
+          {
+            "id": "f0030.s0001",
+            "location": {
+              "column": 41,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 151
+            },
+            "name": "x",
+            "passing": "value",
+            "type": "i32",
+            "versioned_name": "x#0"
+          }
+        ],
+        "references": [],
+        "return_type": "u32"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "constant",
+                          "type": "bool",
+                          "value": true
+                        }
+                      ],
+                      "kind": "cast",
+                      "op": "integral",
+                      "type": "i32"
+                    }
+                  ],
+                  "kind": "unary",
+                  "op": "~",
+                  "type": "i32"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i32"
+            },
+            "id": "n00042",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 157
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/fixed_integer_gate.cpp",
+              "line": 155
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 1"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0031",
+        "locals": [],
+        "location": {
+          "column": 5,
+          "file": "fixtures/cases/fixed_integer_gate.cpp",
+          "line": 156
+        },
+        "name": "bool_promotion",
+        "parameters": [],
+        "references": [],
+        "return_type": "i32"
+      }
+    ],
+    "records": [],
+    "schema": "codeskeptic.semantic-verification/v6",
+    "source": "fixtures/cases/fixed_integer_gate.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/fixed_integer_gate.cpp"
+}

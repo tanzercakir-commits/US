@@ -1,0 +1,65 @@
+{
+  "baseline": {
+    "logic_sha256": "sha256:e154f90b6e1fc37ffd79a069cb5e82b8da00700041e6b95ed6016e6a97cb6856",
+    "observation": "f1-calibration-001",
+    "run": "sha256:f11de314a467cb4df722399b90e0a6b87c913c6e22c8e819ebb3333b9a48ec2d"
+  },
+  "corpus": "sha256:6c108f664554fcdffbecc5e05e3de08a3dfa97212ad60b4b61eba5a91d322abd",
+  "id": "sha256:f5fa9e0d3c4fbf3c6bc2c117c38a08a8f0c167ec762d0fba13a214a59888a172",
+  "logic_sha256": "sha256:b52b48a1eb4452add115fe2b1348661985f2c1e47eafde213360104d5aa112f3",
+  "point_count": 3,
+  "points": [
+    {
+      "counts": {
+        "solver_error": 0,
+        "unknown": 10,
+        "unsupported": 0,
+        "verified": 20,
+        "violated": 10
+      },
+      "duration_ns": 15488756000,
+      "logic_sha256": "sha256:e154f90b6e1fc37ffd79a069cb5e82b8da00700041e6b95ed6016e6a97cb6856",
+      "observation": "f1-calibration-001",
+      "run": "sha256:f11de314a467cb4df722399b90e0a6b87c913c6e22c8e819ebb3333b9a48ec2d",
+      "source_revision": "f46fbdfce48934c12b2038aa8d38a78571cfa887"
+    },
+    {
+      "counts": {
+        "solver_error": 0,
+        "unknown": 10,
+        "unsupported": 0,
+        "verified": 20,
+        "violated": 10
+      },
+      "duration_ns": 15329176100,
+      "logic_sha256": "sha256:e154f90b6e1fc37ffd79a069cb5e82b8da00700041e6b95ed6016e6a97cb6856",
+      "observation": "f1-calibration-002",
+      "run": "sha256:c87a88a4073ad9529db3a015b9b970a3835803786bc8448cdb03d6b7503caac0",
+      "source_revision": "552e2b587e8d0b837bbb85c48686b0e090396537"
+    },
+    {
+      "counts": {
+        "solver_error": 0,
+        "unknown": 10,
+        "unsupported": 0,
+        "verified": 20,
+        "violated": 10
+      },
+      "duration_ns": 17168280000,
+      "logic_sha256": "sha256:e154f90b6e1fc37ffd79a069cb5e82b8da00700041e6b95ed6016e6a97cb6856",
+      "observation": "f1-calibration-003",
+      "run": "sha256:c3ea34f455c0049e1a0a5c605010bbcc07a6a47ce3514c233e6146a2e7b29370",
+      "source_revision": "552e2b587e8d0b837bbb85c48686b0e090396537"
+    }
+  ],
+  "policy": {
+    "baseline_change": "future-explicit-reviewed-plan-stage-only",
+    "future_phase_gate": "append-one-real-observation-before-completion",
+    "initial_points": "current-version-calibration-not-historical-phase-gates",
+    "point_selection": "all-ledger-rows-in-append-order",
+    "timing": "informational-only-never-gates"
+  },
+  "regressions": [],
+  "schema": "codeskeptic.benchmark-trend/v1",
+  "status": "green"
+}
