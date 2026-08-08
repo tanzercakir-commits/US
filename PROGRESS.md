@@ -2268,3 +2268,42 @@ points, green, trend `sha256:f5fa9e0d3c4fbf3c6bc2c117c38a08a8f0c167ec762d0fba13a
 generate/check CLI -> 0/0; full reference suite -> 652/652 in 444.040 s;
 commit: this stage commit.
 Next: FINAL - audit every plan stage, gate, ledger entry, and invariant.
+
+## 2026-08-07 - F1.4: supported-unknown tier correction - DONE (historical ledger repair)
+
++ Linked the planning-only correction commit `8eca621f3afb8bd5535f43b1873f2711fc96fffb`
+  to its declared stage: nonlinear affine-unsupported cases were replaced in the
+  F1.1 contract by supported deterministic-search-frontier unknown cases.
++ Preserved the original forty-case size, 20/10/10/0 target, checker budget,
+  status taxonomy, and implementation boundary; the subsequent F1.1 evidence
+  contains zero unsupported cases and genuine supported checker unknowns.
+- The original F1.4 commit updated PLAN/TODO and appended the interrupted F1.1
+  record but omitted a dedicated F1.4 DONE heading. This append-only historical
+  ledger repair corrects that bookkeeping omission without changing evidence.
+Evidence: original six-parameter affine probe -> contract-consistency unknown,
+postcondition verified, zero unsupported nodes; correction commit changed only
+PLAN.md, PROGRESS.md, and TODO.md; F1.1 later passed 633/633.
+Next: closure audit.
+
+## 2026-08-07 - chore: full roadmap closure audit - DONE
+
++ Matched all 111 declared PLAN stage IDs to DONE ledger records after the
+  explicit F1.4 bookkeeping repair; no stage is missing and PLAN carries no
+  completion status.
++ Confirmed 108 stage-ID commits plus the combined F0 bootstrap commit covering
+  F0.1-F0.3; every PARTIAL stage (D2.3, D3.1, E2.2, E3.2, E4.0, F1.1) has a
+  later DONE record.
++ Rechecked deterministic semantic and fact fixtures; scaling, fixed-width, and
+  semantic-extension gates; architecture policy and exact expected violation;
+  E2 corpus/trials/report; E3 archived pilot; exhaustive referee search; and F1
+  corpus/trend artifacts.
++ Confirmed the 652-test ratchet, `.githooks` activation, repository object
+  integrity, green three-point trend, complete counterexample replay coverage,
+  and fail-closed status separation through the full guarded suite.
+- No product blocker remains in this reference roadmap. `AGENTS.md` remains an
+  intentionally untracked owner instruction file and was not modified or staged.
+Evidence: full suite and F1.3 guarded commit -> 652/652; fourteen high-level
+reproduction/gate checks -> expected exits and byte-identical artifacts; plan
+map -> 111/111 DONE; dangling-free `git fsck` -> clean; tracked tree -> clean
+before this append-only closure entry.
+Next: none - the declared roadmap is complete.

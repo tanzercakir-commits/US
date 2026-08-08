@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **FINAL - audit every plan stage, gate, ledger entry, and repository invariant**
+- None. All declared roadmap stages are complete; see the final PROGRESS entry.
 
 ## Next
 
-- None. The declared roadmap has no implementation stage after F1.3.
+- None.
 
 ## Blockers / open questions
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - F1.3 closed green with three complete calibration points and a
-652-test ratchet. Only the repository-wide final audit remains.
+2026-08-07 - Final audit matched 111/111 stages to DONE records, reran all
+high-level gates, and closed the 652-test reference roadmap with no blockers.
