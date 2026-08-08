@@ -2580,3 +2580,17 @@ E2 trials/report ->
 focused A7.3 DoD -> 25/25 plus py_compile/schema/diff checks; full baseline ->
 697/697 in 480.582 s; worktree/history credential-pattern scan -> 0 matches.
 Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-08 - docs: Apache-2.0 publication preparation - DONE
+
++ Added the owner-approved Apache License 2.0 at the repository root using the
+  exact official GitHub license template.
++ Added the README license declaration and made the Determinism badge follow
+  the repository default branch instead of the retired feature branch.
+- Repository visibility and default-branch contents were not changed in this
+  documentation task.
+Evidence: clean starting baseline -> 697/697 in 430.551 s; official Apache-2.0
+template comparison -> exact; README license target and diff whitespace ->
+pass; guarded commit -> this documentation commit.
+Next: merge the validated readiness branch to `main`, then make the repository
+public only after the resulting GitHub Actions gate passes.

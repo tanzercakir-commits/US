@@ -1,6 +1,6 @@
 # CodeSkeptic Semantic Verifier
 
-[![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg?branch=feature%2Fsemantic-verification-prototype)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
+[![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
 ![Tests](https://img.shields.io/badge/tests-697%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
@@ -154,3 +154,7 @@ git config core.hooksPath .githooks
 The pre-commit hook runs the full test suite, protects the test-count ratchet,
 and requires progress records for implementation changes. See
 [`AGENTS.md`](AGENTS.md) for the full contribution protocol.
+
+## License
+
+Licensed under the [Apache License 2.0](LICENSE).

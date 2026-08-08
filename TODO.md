@@ -23,5 +23,5 @@
 
 ## Last updated
 
-2026-08-08 - A7.2 completed with deterministic project function identity,
-cross-TU direct-call states, and the 683-test baseline green; A7.3 is active.
+2026-08-08 - A7.3 completed with proof-neutral Memory IR v7, exact value-only
+migration evidence, and the 697-test baseline green; A7.4 is active.
