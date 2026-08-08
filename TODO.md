@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **F1.3 - add three-point trend tracking and a red regression gate**
+- [ ] **FINAL - audit every plan stage, gate, ledger entry, and repository invariant**
 
 ## Next
 
-- [ ] **FINAL - audit every plan stage, gate, ledger entry, and repository invariant**
+- None. The declared roadmap has no implementation stage after F1.3.
 
 ## Blockers / open questions
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - F1.2 appended the first complete benchmark run; timing is stored
-as operational evidence and excluded from logical comparison identity.
+2026-08-07 - F1.3 closed green with three complete calibration points and a
+652-test ratchet. Only the repository-wide final audit remains.

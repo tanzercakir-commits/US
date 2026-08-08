@@ -2241,3 +2241,30 @@ Next: F1.2 - add append-only benchmark run evidence.
 Evidence: focused run-evidence tests -> 9/9; frozen ledger -> 1 complete row;
 full reference suite -> 642/642 in 412.528 s; commit: this stage commit.
 Next: F1.3 - add the three-point logical trend and red regression gate.
+
+## 2026-08-07 - F1.3: three-point logical trend and red regression gate - DONE
+
++ Added a deterministic `codeskeptic.benchmark-trend/v1` artifact derived from
+  every complete ledger row in append order, with separate raw and logical
+  identities and explicit zero solver-error coverage.
++ Captured real `f1-calibration-002` and `f1-calibration-003` observations at
+  revision `552e2b587e8d0b837bbb85c48686b0e090396537`; all three current-version
+  points retain 20 verified, 10 violated, 10 unknown, and 0 unsupported.
++ The current trend is green with no regressions; timing remains displayed but
+  excluded from `logic_sha256` and every acceptance decision.
++ Verified-loss, violated-promotion, unknown/unsupported growth, unreviewed
+  promotion, missing/error rows, omitted/reordered/cherry-picked points, stale
+  identity, false historical labels, and noncanonical artifacts fail closed.
++ Expanded the declared F1.3 file set before adapting the F1.2 tests: exact
+  first-row assertions remain, while the obsolete permanent-one-row assumption
+  no longer conflicts with valid append-only growth.
++ Documented the future A-gate real-observation rule and explicit reviewed-
+  baseline requirement; the gate cannot approve its own baseline change.
+- No blockers. Initial F1 labels are calibration observations, never fabricated
+  historical A-gate evidence, and their operational durations are not a speed
+  claim.
+Evidence: F1.2 + F1.3 focused suites -> 19/19; frozen ledger/trend -> 3 complete
+points, green, trend `sha256:f5fa9e0d3c4fbf3c6bc2c117c38a08a8f0c167ec762d0fba13a214a59888a172`;
+generate/check CLI -> 0/0; full reference suite -> 652/652 in 444.040 s;
+commit: this stage commit.
+Next: FINAL - audit every plan stage, gate, ledger entry, and invariant.

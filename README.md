@@ -347,6 +347,12 @@ are explicit inputs; timing is informational only):
     python tools/record_benchmark_run.py record benchmarks/corpus benchmarks/results/runs.jsonl --observation A4.1-phase-gate --recorded-on 2026-08-07 --source-revision <40-hex-commit>
     python tools/record_benchmark_run.py summarize benchmarks/results/runs.jsonl
 
+Generate or reproduce-check the complete logical benchmark trend (timing is
+displayed but never gates):
+
+    python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json
+    python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json --check
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

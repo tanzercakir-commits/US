@@ -69,7 +69,7 @@ class BenchmarkResultTests(unittest.TestCase):
         return _canonical_line(payload)
 
     def test_frozen_first_calibration_row_is_complete_and_exact(self) -> None:
-        self.assertEqual(len(self.runs), 1)
+        self.assertGreaterEqual(len(self.runs), 1)
         self.assertEqual(self.frozen_run.observation, "f1-calibration-001")
         self.assertEqual(self.frozen_run.recorded_on, "2026-08-07")
         self.assertEqual(self.frozen_run.source_revision, REVISION)
@@ -88,7 +88,7 @@ class BenchmarkResultTests(unittest.TestCase):
                 "violated": {"denominator": 4, "numerator": 1},
             },
         )
-        payload = json.loads(self.ledger_text)
+        payload = json.loads(self.frozen_run.to_json_line())
         self.assertEqual(payload["schema"], BENCHMARK_RUN_SCHEMA)
         self.assertEqual(payload["configuration"], REFERENCE_CONFIGURATION)
         self.assertEqual(payload["configuration_sha256"], CONFIGURATION_SHA256)
@@ -147,7 +147,7 @@ class BenchmarkResultTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "nested" / "runs.jsonl"
             path.parent.mkdir(parents=True)
-            path.write_text(self.ledger_text, encoding="utf-8", newline="\n")
+            path.write_text(self.frozen_run.to_json_line(), encoding="utf-8", newline="\n")
             prefix = path.read_bytes()
             second = self.make_run()
             append_benchmark_run(path, second)
@@ -178,7 +178,7 @@ class BenchmarkResultTests(unittest.TestCase):
             lambda value: value["cases"].reverse(),
             lambda value: value.update({"duration_ns": True}),
         ):
-            payload = json.loads(self.ledger_text)
+            payload = json.loads(self.frozen_run.to_json_line())
             mutate(payload)
             payloads.append(payload)
         for payload in payloads:

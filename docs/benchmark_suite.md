@@ -1,7 +1,7 @@
 # Curated benchmark suite
 
-Status: F1.1 corpus and deterministic checker are implemented. Append-only run
-evidence (F1.2) and the three-point trend gate (F1.3) follow separately.
+Status: the F1 corpus, append-only run evidence, and three-point logical trend
+gate are implemented and frozen.
 
 ## Corpus contract
 
@@ -80,5 +80,44 @@ Record an explicitly labeled future observation or summarize the ledger:
     python tools/record_benchmark_run.py record benchmarks/corpus benchmarks/results/runs.jsonl --observation A4.1-phase-gate --recorded-on 2026-08-07 --source-revision <40-hex-commit>
     python tools/record_benchmark_run.py summarize benchmarks/results/runs.jsonl
 
-The summary separates logical points from informational timing. F1.3 will define
-the red/green trend rule; F1.2 makes no regression or timing claim.
+The summary separates logical points from informational timing.
+
+## Three-point logical trend gate
+
+`benchmarks/results/trend.json` is the deterministic derived
+`codeskeptic.benchmark-trend/v1` artifact for every ledger row in append order.
+Its first three points are explicitly named `f1-calibration-001` through
+`f1-calibration-003`. They are repeated observations of one current logical
+version, not reconstructed results for historical A gates. The first observation
+was captured at the F1.1 revision; the next two were independently captured at
+the F1.2 revision after evidence recording existed. All three have the identical
+corpus, configuration, forty statuses, counts, rates, and logical identity.
+
+The trend is green only while every complete point preserves the baseline
+function set, every baseline-verified function remains verified, every baseline-
+violated function remains violated, and unknown/unsupported/solver-error
+coverage does not increase. A baseline unknown or unsupported result cannot be
+promoted inside the existing trend. Such a change requires a future explicit
+plan stage that reviews and replaces the baseline; the gate cannot approve its
+own baseline change. A solver/checker error cannot become a run row and exits as
+a strict error.
+
+The artifact contains full run identities, source revisions, counts, and measured
+durations for audit. Its separate `logic_sha256` excludes operational duration
+and event identity, so timing changes remain visible but cannot alter red/green
+status. No point selection, omission, reordering, rewrite, timing filter, or
+historical relabeling is accepted.
+
+Generate or byte-check the complete trend:
+
+    python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json
+    python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json --check
+
+A green trend exits 0, a supported logical regression exits 1, and malformed,
+incomplete, stale, mislabeled, or solver/checker-error evidence exits 2.
+
+For every future A-phase gate, record one real `A<stage>-<description>`
+observation before marking that gate complete, then regenerate and check this
+artifact. Historical A-gate points must never be invented. A reviewed baseline
+change must be declared by its own future PLAN stage before any ledger or trend
+update.

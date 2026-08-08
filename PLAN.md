@@ -2304,10 +2304,11 @@ infrastructure. Reference: prototype fixtures = the specification.
 - Output: codeskeptic.benchmark-trend/v1 deterministic derived artifact,
   generate/check CLI and red exit, two additional explicitly labeled current-
   version calibration observations, tests, and prospective A-gate policy docs.
-- Exact file set: semantic_verifier/benchmark_trend.py;
+- Exact file set: PLAN.md; semantic_verifier/benchmark_trend.py;
   tools/check_benchmark_trend.py; benchmarks/results/**;
-  tests/test_benchmark_trend.py; docs/benchmark_suite.md; README.md;
-  PROGRESS.md; TODO.md; guardrails/test_baseline.txt.
+  tests/test_benchmark_trend.py; tests/test_benchmark_results.py;
+  docs/benchmark_suite.md; README.md; PROGRESS.md; TODO.md;
+  guardrails/test_baseline.txt.
 - Boundaries: trend points are all ledger rows in append order; no selection,
   omission, reordering, rewrite, or timing filter. The initial three labels are
   F1 calibration observations of the same current version and are explicitly
@@ -2318,15 +2319,18 @@ infrastructure. Reference: prototype fixtures = the specification.
   coverage increases; an unknown may become verified only in a new reviewed
   baseline. Timing remains displayed but never gates. Unknown/unsupported/error
   never promotes to green, and a changed baseline requires a future explicit
-  plan stage rather than self-approval.
+  plan stage rather than self-approval. Because the append grows the F1.2
+  ledger, its first-row tests must preserve their exact assertions without
+  assuming that the append-only file permanently contains only one row.
 - DoD: ledger and trend contain >=3 complete unique points; all three initial
   points are honestly labeled current-version calibration; generated/check
   artifact is byte-identical after relocation; green current trend; synthetic
   verified loss, violated promotion, unknown/unsupported increase, missing case,
   omitted/reordered/cherry-picked point, stale identity, false label, and timing-
   only change coverage (logic unchanged); CLI green=0, regression=1, strict
-  error=2; future A-gate rule documented; focused and full suites pass; F1
-  program success criterion is met.
+  error=2; future A-gate rule documented; the F1.2 focused suite remains green
+  after append-only growth; focused and full suites pass; F1 program success
+  criterion is met.
 - Depends: F1.2.
 
 ### Phase F2 — Golden/fixture infrastructure
