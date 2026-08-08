@@ -8,11 +8,11 @@
 
 ## Now (active stage)
 
-- [ ] **F1.2 - add the benchmark runner and append-only result snapshots**
+- [ ] **F1.3 - add three-point trend tracking and a red regression gate**
 
 ## Next
 
-- [ ] **F1.3 - add three-point trend tracking and a red regression gate**
+- [ ] **FINAL - audit every plan stage, gate, ledger entry, and repository invariant**
 
 ## Blockers / open questions
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - F1.1 froze 40 functions with exact 20 verified, 10 violated,
-10 supported unknown, and 0 unsupported outcomes.
+2026-08-07 - F1.2 appended the first complete benchmark run; timing is stored
+as operational evidence and excluded from logical comparison identity.

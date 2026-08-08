@@ -2224,3 +2224,20 @@ then implement the declared F1.1 file set.
 Evidence: focused corpus tests -> 9/9; corpus CLI -> 40/40 exact; full reference
 suite -> 633/633 in 402.860 s; commit: this stage commit.
 Next: F1.2 - add append-only benchmark run evidence.
+## 2026-08-07 - F1.2: append-only benchmark run evidence - DONE
+
++ Added strict content-addressed benchmark-run rows with complete forty-function
+  statuses, exact counts/reduced rates, explicit label/date/revision, and pinned
+  referee/toolchain configuration.
++ Isolated monotonic batch duration from `logic_sha256`; changing timing changes
+  the raw event identity but never status, rate, acceptance, or logical identity.
++ Recorded real `f1-calibration-001` at F1.1 revision
+  `f46fbdfce48934c12b2038aa8d38a78571cfa887`: 15,488,756,000 ns,
+  20 verified, 10 violated, 10 unknown, and 0 unsupported.
++ Added prefix-preserving append, strict ledger row/history validation,
+  timing/config/count/rate/case/tamper negatives, relocation, summary, and CLI.
+- No blockers. The recorded duration is informational and is not a threshold or
+  performance claim.
+Evidence: focused run-evidence tests -> 9/9; frozen ledger -> 1 complete row;
+full reference suite -> 642/642 in 412.528 s; commit: this stage commit.
+Next: F1.3 - add the three-point logical trend and red regression gate.
