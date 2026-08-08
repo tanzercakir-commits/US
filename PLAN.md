@@ -2387,6 +2387,25 @@ infrastructure. Reference: prototype fixtures = the specification.
   stage commit succeeds; branch is pushed and a draft PR is opened or reused.
 - Depends: F4.2, F1.3.
 
+#### F5.2 — Pinned Linux CI toolchain repair
+
+- Goal: make the Determinism workflow exercise the same supported compiler and
+  solver boundary as the completed reference program.
+- Output: an Ubuntu workflow pinned to Clang 20.1.8 and Z3 5.0.0 with an official
+  Z3 archive digest and explicit pre-test version assertions.
+- Exact file set: PLAN.md; .github/workflows/determinism.yml; PROGRESS.md;
+  TODO.md.
+- Boundaries: CI infrastructure only. Do not change verifier logic, tests,
+  fixtures, schemas, expected evidence, README claims, or the 652-test Windows
+  ratchet. Toolchain mismatch must fail before the suite rather than producing
+  misleading solver errors or rewritten fixture identities.
+- DoD: workflow rejects any Clang version other than 20.1.8 and any Z3 version
+  other than 5.0.0; the downloaded Z3 Linux archive matches its official release
+  SHA-256; local guarded commit passes; both push and pull-request Determinism
+  runs are green at the same head; draft PR #1 is marked ready and merged into
+  main without bypassing checks.
+- Depends: F5.1, A6.12.
+
 ---
 
 ## 11. Non-goals (permanent)

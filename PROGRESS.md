@@ -2352,3 +2352,20 @@ Next: publish the branch and open the draft PR required by the publication flow.
 Evidence: push `a53133f..d5bc97f` succeeded; remote PR:
 https://github.com/tanzercakir-commits/US/pull/1.
 Next: none.
+
+## 2026-08-08 - F5.2: pinned Linux CI toolchain repair - PARTIAL
+
++ Inspected both failed Determinism runs for PR #1 at head
+  `20ffd2df6aa6cd6d047aef74161e6159092335d2`; both fail in the full-suite step
+  before fixture comparison.
+- Ubuntu `apt` installed Z3 4.8.12 and Clang 18 while the reference contract is
+  Z3 5.0.0 and Clang 20.1.8. The mismatch produced solver errors, unsupported
+  C++26 parsing, invariant-output drift, and fixture identity changes: 14 test
+  failures and 3 errors in the representative run.
+- Do not merge or alter verifier expectations. Pin the workflow to the supported
+  official releases, assert versions before testing, and rerun both CI events.
+Evidence: failing runs 31252191485 and 31252192772; official Z3 5.0.0 Linux
+asset digest `d4922cebc9f0a55629231ec0c62f0bbedf8006eddaed4e68199ad19626b697f6`;
+LLVM release tag `llvmorg-20.1.8`.
+Resume: update only `.github/workflows/determinism.yml`, validate YAML and local
+suite, then push and wait for both Actions checks.

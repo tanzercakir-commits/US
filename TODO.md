@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- None. F5.1 is committed, pushed, and represented by draft PR #1.
+- [ ] **F5.2 - pin Linux CI toolchain, restore green checks, and merge PR #1**
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.1 is complete and published on the feature branch; draft PR
-#1 targets main for owner review.
+2026-08-08 - F5.2 added after PR #1 exposed Ubuntu Z3 4.8.12 / Clang 18
+drift from the supported Z3 5.0.0 / Clang 20.1.8 toolchain.
