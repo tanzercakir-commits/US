@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- None. F5.2 implementation has same-head local and GitHub acceptance.
+- None. F5.2 is merged, published, and synchronized locally.
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.2 closed after the guarded 652-test commit and same-head
-successful push/PR Determinism runs; PR #1 is the publication record.
+2026-08-08 - PR #1 merged at `796a1dd`; local `main` is synchronized and
+the final 652-test baseline is green.

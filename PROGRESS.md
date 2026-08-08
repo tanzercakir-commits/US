@@ -2406,3 +2406,16 @@ push run 31255040128 -> success; pull-request run 31255042252 -> success; both a
 `bfbafb095775b199b8c4a957eca8a09bd1d70bfe`.
 Next: publish this ledger closure, require green checks on its head, then merge
 PR #1 without bypassing checks.
+
+## 2026-08-08 - F5.2: merge publication and local sync - DONE
+
++ PR #1 was marked ready only after both final-head Determinism runs passed,
+  then merged into `main` without bypassing checks.
++ Fast-forwarded local `main` to the exact remote merge commit and reran the
+  complete Windows baseline successfully.
+- No remaining work or blockers in this reference repository.
+Evidence: PR https://github.com/tanzercakir-commits/US/pull/1; merge commit
+`796a1dd739eaa67733f90e7b75c1b67b9cfb29d3`; final push run 31255568078 ->
+success; final pull-request run 31255570007 -> success; local baseline ->
+652/652 in 644.270 s.
+Next: none.
