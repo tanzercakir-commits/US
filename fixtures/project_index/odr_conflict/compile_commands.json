@@ -1,0 +1,28 @@
+[
+  {
+    "arguments": [
+      "clang++",
+      "-std=c++17",
+      "-I.",
+      "-c",
+      "b.cpp",
+      "-o",
+      "build/b.o"
+    ],
+    "directory": ".",
+    "file": "b.cpp"
+  },
+  {
+    "arguments": [
+      "clang++",
+      "-std=c++17",
+      "-I.",
+      "-c",
+      "a.cpp",
+      "-o",
+      "build/a.o"
+    ],
+    "directory": ".",
+    "file": "a.cpp"
+  }
+]

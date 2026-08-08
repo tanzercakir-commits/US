@@ -73,15 +73,26 @@ boolean logic, branches, contracted function calls, annotated loops, and
 selected arrays, value structs, references, and frame conditions. Unsupported
 C++ is reported explicitly instead of being silently approximated.
 
-The A7 project path now starts with deterministic compilation-database
-inventory. It does not yet perform cross-translation-unit verification:
+The A7 project path now provides deterministic compilation-database inventory
+and a project-wide declaration/direct-call index:
 
 ```powershell
 python tools/project_manifest.py path/to/project
+python tools/project_index.py path/to/project
 ```
 
-Every database entry is selected, explicitly skipped, or rejected. The command
-never executes compiler commands and exits `2` when any entry is rejected.
+Every database entry is selected, explicitly skipped, or rejected. Manifest
+ingestion never executes compiler commands. Project indexing invokes only the
+configured trusted Clang, reconstructs the admitted parse arguments, and never
+executes the compiler named by the database. It merges redeclarations and
+overloads, keeps internal linkage translation-unit-owned, detects ODR
+conflicts, and classifies every discovered call as linked, external,
+unresolved, unsupported, or conflicting. Either command exits `2` on its
+fail-closed rejection conditions.
+
+The index is not yet cross-translation-unit verification: it does not inline
+bodies or import a contract through an unresolved, unsupported, external, or
+conflicting edge. Pointer and owned-memory semantics begin at A7.3.
 
 This is not a full C++ verifier, a production certification tool, or a
 replacement for compilation, tests, sanitizers, review, and static analysis.
@@ -90,7 +101,7 @@ replacement for compilation, tests, sanitizers, review, and static analysis.
 
 The repository currently carries:
 
-- 668 deterministic tests;
+- 683 deterministic tests;
 - reproducible, byte-checked fixtures;
 - a forty-function benchmark corpus;
 - replay evidence for every reported counterexample; and

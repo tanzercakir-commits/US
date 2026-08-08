@@ -2507,3 +2507,43 @@ project fixture check -> exit 0; existing fixture check -> 28 artifacts current;
 compileall -> exit 0; full baseline -> 668/668 in 384.807 s; guarded commit ->
 this stage commit.
 Next: A7.2 project-wide identity and sound cross-TU direct-call linking.
+
+## 2026-08-08 - A7.2: project identity and direct-call linking - DONE
+
++ Added immutable, content-addressed project source, translation-unit,
+  location, function, definition, call, issue, accounting, and index values
+  under the strict `codeskeptic.project-index/v1` contract.
++ Reconstructed admitted A7.1 compiler arguments for the configured trusted
+  Clang while ignoring the database compiler executable. The pinned target and
+  C++17 policy win; plug-ins, target overrides, driver actions, extra inputs,
+  response/module/output side effects, and stale sources fail closed.
++ Added checkout-independent external function keys from language linkage,
+  qualified name, and canonical type. Internal functions additionally carry
+  their owning translation unit; Clang pointer identities never enter public
+  keys.
++ Merged header/source redeclarations and overloads, content-addressed observed
+  project headers, fingerprinted definition ASTs without locations/ephemeral
+  IDs, collapsed identical header definitions, and rejected distinct ODR
+  definitions.
++ Classified every discovered call as linked, external, unresolved,
+  unsupported, or conflicting. A project edge links only to one canonical
+  definition; missing definitions and ODR conflicts cannot lend semantics.
++ Added exact translation-unit/function/call reconciliation, a standalone
+  output/check CLI, packaged JSON schema, a six-function/four-edge canonical
+  fixture, committed missing-definition and ODR-conflict fixtures, and fifteen
+  focused tests including relocation/order, overload, internal linkage,
+  external headers, indirect/member coverage, unsafe arguments, and staleness.
++ Advanced the guarded test ratchet from 668 to 683 and documented the exact
+  A7.2 boundary.
+- No body inlining, cross-TU contract import, semantic lowering, proof,
+  templates, member/indirect dispatch, or pointer/memory semantics were added.
+Evidence: focused A7.2 tests -> 15/15; frontend/project regression set ->
+51/51; valid fixture ->
+`sha256:cc7bbc1b0be673ba921e0b872b388ec94f8e13f12720880483b56cbff84a6e84`
+with 2/2 TUs, 6/6 defined functions, and 4/4 linked calls; missing-definition
+fixture -> exit 2, 1 unresolved call; ODR fixture -> exit 2, 1 conflicting
+function/call; existing fixture check -> 28 artifacts current; schema parse,
+compileall, and diff whitespace -> pass; full baseline -> 683/683 in 363.391 s
+with unittest `OK` before the host wrapper timeout; guarded commit -> this
+stage commit.
+Next: A7.3 Memory IR v7 representation and value-only migration evidence.

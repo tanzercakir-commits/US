@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- A7.2: implement project-wide declaration/function identity and sound direct
-  cross-TU call linking without body inlining or guessed linkage.
+- A7.3: introduce Memory IR v7 regions, objects, pointers, locations, loads,
+  stores, and lifetime state without granting verification authority.
 
 ## Next
 
-- A7.3: introduce Memory IR v7 regions, objects, pointers, loads, stores, and
-  lifetime state after the project identity gate.
+- A7.4: admit the bounded stack/global pointer subset and generate explicit
+  null, bounds, provenance, type, and lifetime obligations.
 
 ## Blockers / open questions
 
@@ -23,5 +23,5 @@
 
 ## Last updated
 
-2026-08-08 - A7.1 completed with deterministic, zero-silent-filter
-compilation-database inventory and the 668-test baseline green; A7.2 is active.
+2026-08-08 - A7.2 completed with deterministic project function identity,
+cross-TU direct-call states, and the 683-test baseline green; A7.3 is active.

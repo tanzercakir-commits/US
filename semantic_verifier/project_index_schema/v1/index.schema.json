@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codeskeptic.project-index/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "accounting",
+    "calls",
+    "frontend_policy",
+    "functions",
+    "id",
+    "limitations",
+    "manifest",
+    "rejections",
+    "schema",
+    "sources",
+    "status",
+    "target_profile",
+    "translation_units"
+  ],
+  "properties": {
+    "accounting": {"$ref": "#/$defs/accounting"},
+    "calls": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/call"},
+      "uniqueItems": true
+    },
+    "frontend_policy": {
+      "const": "clang-json-ast/c++17-project-read-only/v1"
+    },
+    "functions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/function"},
+      "uniqueItems": true
+    },
+    "id": {"$ref": "#/$defs/hash"},
+    "limitations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/issue"},
+      "uniqueItems": true
+    },
+    "manifest": {"$ref": "#/$defs/hash"},
+    "rejections": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/issue"},
+      "uniqueItems": true
+    },
+    "schema": {"const": "codeskeptic.project-index/v1"},
+    "sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source"},
+      "uniqueItems": true
+    },
+    "status": {"enum": ["invalid", "valid"]},
+    "target_profile": {"type": "string", "minLength": 1},
+    "translation_units": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/unit"},
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["calls", "functions", "translation_units"],
+      "properties": {
+        "calls": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "conflicting",
+            "discovered",
+            "external",
+            "linked",
+            "unresolved",
+            "unsupported"
+          ],
+          "properties": {
+            "conflicting": {"type": "integer", "minimum": 0},
+            "discovered": {"type": "integer", "minimum": 0},
+            "external": {"type": "integer", "minimum": 0},
+            "linked": {"type": "integer", "minimum": 0},
+            "unresolved": {"type": "integer", "minimum": 0},
+            "unsupported": {"type": "integer", "minimum": 0}
+          }
+        },
+        "functions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "conflicting",
+            "declaration_only",
+            "defined",
+            "discovered",
+            "unsupported"
+          ],
+          "properties": {
+            "conflicting": {"type": "integer", "minimum": 0},
+            "declaration_only": {"type": "integer", "minimum": 0},
+            "defined": {"type": "integer", "minimum": 0},
+            "discovered": {"type": "integer", "minimum": 0},
+            "unsupported": {"type": "integer", "minimum": 0}
+          }
+        },
+        "translation_units": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["frontend_error", "parsed", "selected"],
+          "properties": {
+            "frontend_error": {"type": "integer", "minimum": 0},
+            "parsed": {"type": "integer", "minimum": 0},
+            "selected": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "caller",
+        "id",
+        "location",
+        "state",
+        "target",
+        "target_name",
+        "target_type"
+      ],
+      "properties": {
+        "caller": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "id": {"$ref": "#/$defs/hash"},
+        "location": {"$ref": "#/$defs/location"},
+        "state": {
+          "enum": [
+            "conflicting",
+            "external",
+            "linked",
+            "unresolved",
+            "unsupported"
+          ]
+        },
+        "target": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "target_name": {"type": "string", "minLength": 1},
+        "target_type": {"type": "string", "minLength": 1}
+      }
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ast_sha256", "location"],
+      "properties": {
+        "ast_sha256": {"$ref": "#/$defs/hash"},
+        "location": {"$ref": "#/$defs/location"}
+      }
+    },
+    "function": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declarations",
+        "definitions",
+        "id",
+        "language_linkage",
+        "linkage",
+        "name",
+        "owner_translation_unit",
+        "qualified_name",
+        "status",
+        "type"
+      ],
+      "properties": {
+        "declarations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/location"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "definitions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/definition"},
+          "uniqueItems": true
+        },
+        "id": {"$ref": "#/$defs/hash"},
+        "language_linkage": {"enum": ["c", "c++"]},
+        "linkage": {"enum": ["external", "internal"]},
+        "name": {"type": "string", "minLength": 1},
+        "owner_translation_unit": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        },
+        "qualified_name": {"type": "string", "minLength": 1},
+        "status": {
+          "enum": ["declaration_only", "defined", "odr_conflict"]
+        },
+        "type": {"type": "string", "minLength": 1}
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "function", "location", "message", "unit"],
+      "properties": {
+        "code": {
+          "enum": [
+            "compiler_argument_unsupported",
+            "frontend_error",
+            "macro_function_unsupported",
+            "malformed_function",
+            "manifest_invalid",
+            "missing_definition",
+            "odr_conflict",
+            "source_unreadable",
+            "stale_source",
+            "unsupported_call",
+            "unsupported_function",
+            "unresolved_call"
+          ]
+        },
+        "function": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "location": {
+          "oneOf": [
+            {"$ref": "#/$defs/location"},
+            {"type": "null"}
+          ]
+        },
+        "message": {"type": "string", "minLength": 1},
+        "unit": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["column", "file", "line"],
+      "properties": {
+        "column": {"type": "integer", "minimum": 1},
+        "file": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_sha256", "file"],
+      "properties": {
+        "content_sha256": {"$ref": "#/$defs/hash"},
+        "file": {"type": "string", "minLength": 1}
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["diagnostic", "file", "status", "unit"],
+      "properties": {
+        "diagnostic": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        },
+        "file": {"type": "string", "minLength": 1},
+        "status": {"enum": ["frontend_error", "parsed"]},
+        "unit": {"$ref": "#/$defs/hash"}
+      }
+    }
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "accounting": {
+    "calls": {
+      "conflicting": 0,
+      "discovered": 4,
+      "external": 0,
+      "linked": 4,
+      "unresolved": 0,
+      "unsupported": 0
+    },
+    "functions": {
+      "conflicting": 0,
+      "declaration_only": 0,
+      "defined": 6,
+      "discovered": 6,
+      "unsupported": 0
+    },
+    "translation_units": {
+      "frontend_error": 0,
+      "parsed": 2,
+      "selected": 2
+    }
+  },
+  "calls": [
+    {
+      "caller": "sha256:d41ae12c37bee941847816837f38bc130874494b3803b80995a67c935b964e9a",
+      "id": "sha256:c518975d7dbeb13282a75094721efc7ac3b7da57b6365242c6777ff82c1c4332",
+      "location": {
+        "column": 12,
+        "file": "src/library.cpp",
+        "line": 12
+      },
+      "state": "linked",
+      "target": "sha256:edc6cd7370b056e826153bbb0cc734ac765ba8fc125d41a6b5f9fd13637724a3",
+      "target_name": "adjust",
+      "target_type": "int (int)"
+    },
+    {
+      "caller": "sha256:d41ae12c37bee941847816837f38bc130874494b3803b80995a67c935b964e9a",
+      "id": "sha256:c542b80d677c951f701abb776f67a8805f4a495318b96fb583e2d5d97a821c9b",
+      "location": {
+        "column": 19,
+        "file": "src/library.cpp",
+        "line": 12
+      },
+      "state": "linked",
+      "target": "sha256:7d46eb9dbadf192a667756513285342f530fabc42566bb9c321a1f5cfb597c32",
+      "target_name": "add",
+      "target_type": "int (int, int)"
+    },
+    {
+      "caller": "sha256:f2961d0a6622f39a0c5b7ddb952fea13773f46151910367b549843171a2afce5",
+      "id": "sha256:3f4a42a2bb835dbc1d0186d8100e24546bdf9cd847333f366411d0da8ad05dc8",
+      "location": {
+        "column": 12,
+        "file": "src/main.cpp",
+        "line": 4
+      },
+      "state": "linked",
+      "target": "sha256:d41ae12c37bee941847816837f38bc130874494b3803b80995a67c935b964e9a",
+      "target_name": "evaluate",
+      "target_type": "int (int)"
+    },
+    {
+      "caller": "sha256:f2961d0a6622f39a0c5b7ddb952fea13773f46151910367b549843171a2afce5",
+      "id": "sha256:0bd4f42b525d6a07137d9eba5df9a9bb0c1a0c5cf8e872c06a7d3ed5d9851af4",
+      "location": {
+        "column": 21,
+        "file": "src/main.cpp",
+        "line": 4
+      },
+      "state": "linked",
+      "target": "sha256:d13eeefa507c191e824361239c75c59fcc09c1e301e933df54893c7a98f126d8",
+      "target_name": "choose",
+      "target_type": "int (int)"
+    }
+  ],
+  "frontend_policy": "clang-json-ast/c++17-project-read-only/v1",
+  "functions": [
+    {
+      "declarations": [
+        {
+          "column": 5,
+          "file": "include/api.hpp",
+          "line": 6
+        },
+        {
+          "column": 5,
+          "file": "src/library.cpp",
+          "line": 19
+        }
+      ],
+      "definitions": [
+        {
+          "ast_sha256": "sha256:abc70776cfc1f2cf4a4484ef819b8bb484d7db12f26cf55ca00b175c3185cdb3",
+          "location": {
+            "column": 5,
+            "file": "src/library.cpp",
+            "line": 19
+          }
+        }
+      ],
+      "id": "sha256:3e5b697c98c5d370392af35195176a147a6dc78b0f939752d3d4a4745e573be9",
+      "language_linkage": "c++",
+      "linkage": "external",
+      "name": "choose",
+      "owner_translation_unit": null,
+      "qualified_name": "choose",
+      "status": "defined",
+      "type": "int (bool)"
+    },
+    {
+      "declarations": [
+        {
+          "column": 5,
+          "file": "include/api.hpp",
+          "line": 3
+        },
+        {
+          "column": 5,
+          "file": "src/library.cpp",
+          "line": 7
+        }
+      ],
+      "definitions": [
+        {
+          "ast_sha256": "sha256:6f9c8d59ba5a484eba9bee143cea6b29b30b692aefea32deac3eacafaea0b8f6",
+          "location": {
+            "column": 5,
+            "file": "src/library.cpp",
+            "line": 7
+          }
+        }
+      ],
+      "id": "sha256:7d46eb9dbadf192a667756513285342f530fabc42566bb9c321a1f5cfb597c32",
+      "language_linkage": "c++",
+      "linkage": "external",
+      "name": "add",
+      "owner_translation_unit": null,
+      "qualified_name": "add",
+      "status": "defined",
+      "type": "int (int, int)"
+    },
+    {
+      "declarations": [
+        {
+          "column": 5,
+          "file": "include/api.hpp",
+          "line": 5
+        },
+        {
+          "column": 5,
+          "file": "src/library.cpp",
+          "line": 15
+        }
+      ],
+      "definitions": [
+        {
+          "ast_sha256": "sha256:65ec1110cc2324c455125f5ef4020c268447a5a7d26f2c69f689656e2d5db251",
+          "location": {
+            "column": 5,
+            "file": "src/library.cpp",
+            "line": 15
+          }
+        }
+      ],
+      "id": "sha256:d13eeefa507c191e824361239c75c59fcc09c1e301e933df54893c7a98f126d8",
+      "language_linkage": "c++",
+      "linkage": "external",
+      "name": "choose",
+      "owner_translation_unit": null,
+      "qualified_name": "choose",
+      "status": "defined",
+      "type": "int (int)"
+    },
+    {
+      "declarations": [
+        {
+          "column": 5,
+          "file": "include/api.hpp",
+          "line": 4
+        },
+        {
+          "column": 5,
+          "file": "src/library.cpp",
+          "line": 11
+        }
+      ],
+      "definitions": [
+        {
+          "ast_sha256": "sha256:82fa17a131000cdcea899353b823c029c984f355c0c8fe7649654d3eec204cd8",
+          "location": {
+            "column": 5,
+            "file": "src/library.cpp",
+            "line": 11
+          }
+        }
+      ],
+      "id": "sha256:d41ae12c37bee941847816837f38bc130874494b3803b80995a67c935b964e9a",
+      "language_linkage": "c++",
+      "linkage": "external",
+      "name": "evaluate",
+      "owner_translation_unit": null,
+      "qualified_name": "evaluate",
+      "status": "defined",
+      "type": "int (int)"
+    },
+    {
+      "declarations": [
+        {
+          "column": 12,
+          "file": "src/library.cpp",
+          "line": 3
+        }
+      ],
+      "definitions": [
+        {
+          "ast_sha256": "sha256:0639dbcece24ccea131d3148fcb91df9f48930a8561b18d0e8a60cb882e134bc",
+          "location": {
+            "column": 12,
+            "file": "src/library.cpp",
+            "line": 3
+          }
+        }
+      ],
+      "id": "sha256:edc6cd7370b056e826153bbb0cc734ac765ba8fc125d41a6b5f9fd13637724a3",
+      "language_linkage": "c++",
+      "linkage": "internal",
+      "name": "adjust",
+      "owner_translation_unit": "src/library.cpp",
+      "qualified_name": "adjust",
+      "status": "defined",
+      "type": "int (int)"
+    },
+    {
+      "declarations": [
+        {
+          "column": 5,
+          "file": "src/main.cpp",
+          "line": 3
+        }
+      ],
+      "definitions": [
+        {
+          "ast_sha256": "sha256:1e2e3802c70ad555d3647544f354737ed11f800a97f53bc7fc8d756f3228c0bc",
+          "location": {
+            "column": 5,
+            "file": "src/main.cpp",
+            "line": 3
+          }
+        }
+      ],
+      "id": "sha256:f2961d0a6622f39a0c5b7ddb952fea13773f46151910367b549843171a2afce5",
+      "language_linkage": "c++",
+      "linkage": "external",
+      "name": "run_project",
+      "owner_translation_unit": null,
+      "qualified_name": "run_project",
+      "status": "defined",
+      "type": "int ()"
+    }
+  ],
+  "id": "sha256:cc7bbc1b0be673ba921e0b872b388ec94f8e13f12720880483b56cbff84a6e84",
+  "limitations": [],
+  "manifest": "sha256:4103337c6ac69dc9a6ec45d926024e275689fc8f909ae0e4009be1b79955e14b",
+  "rejections": [],
+  "schema": "codeskeptic.project-index/v1",
+  "sources": [
+    {
+      "content_sha256": "sha256:d5bf4b7154d390c70804e744ac54192a8c1f4718b78c1ca8242a9e52b2c6b843",
+      "file": "include/api.hpp"
+    },
+    {
+      "content_sha256": "sha256:5f48e09bc3bad2189c6100487c04de301873ab06b8919b6828aff334fa3e4c14",
+      "file": "src/library.cpp"
+    },
+    {
+      "content_sha256": "sha256:2097774f48584d80a29ac656e9f7bc118ff345d444462b0390b18ff1cb9f879a",
+      "file": "src/main.cpp"
+    }
+  ],
+  "status": "valid",
+  "target_profile": "codeskeptic.cxx17-fixed-integers/i32-u32-i64-u64-twos-complement-arshift/v0",
+  "translation_units": [
+    {
+      "diagnostic": null,
+      "file": "src/library.cpp",
+      "status": "parsed",
+      "unit": "sha256:536d5a1e25252d5997d969f72fdb5b5f1f2423738b0252b2da6dc7d42358c339"
+    },
+    {
+      "diagnostic": null,
+      "file": "src/main.cpp",
+      "status": "parsed",
+      "unit": "sha256:e1b3d24456366f692ffb39366d677ad17fd1d79c9a4b5fcee41d1f4eea52a374"
+    }
+  ]
+}

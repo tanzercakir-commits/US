@@ -86,13 +86,52 @@ The A7.1 command does not invoke Clang, execute database commands, merge
 translation units, resolve calls, or claim semantic/proof coverage. Those
 authorities begin in A7.2 and later stages.
 
+### Implemented A7.2 project-index boundary
+
+A7.2 adds the versioned `codeskeptic.project-index/v1` artifact:
+
+```powershell
+python tools/project_index.py path/to/project
+python tools/project_index.py path/to/project --check expected.index.json
+```
+
+Only a valid A7.1 manifest may enter indexing. The database's compiler
+executable is never run. The configured trusted Clang receives reconstructed
+manifest arguments under the pinned target and C++17 policy; response files,
+driver actions, target overrides, plug-ins, module/output side effects, and
+ambiguous extra inputs fail closed before parsing.
+
+External free-function identity consists of language linkage, qualified name,
+and canonical Clang type. Internal identity adds its owning translation unit.
+Clang pointer IDs and checkout locations never enter public identities.
+Project-owned source and header files observed in the AST are separately
+content-addressed. Definition fingerprints remove locations and ephemeral
+Clang IDs while retaining semantic AST content.
+
+Redeclarations from headers and source files merge into one function.
+Overloads remain distinct by type. Repeated identical header definitions
+collapse to one canonical definition; distinct definition locations or
+different semantic fingerprints are an ODR conflict. A direct project call is
+`linked` only when its target has exactly one canonical definition. A called
+project declaration without a definition is `unresolved`; a target with an
+ODR conflict is `conflicting`; declarations outside the project root are
+`external`. None of those non-linked states lends semantics to the caller.
+
+Member functions, templates, lambdas, member/operator/constructor calls, and
+indirect calls remain explicit unsupported inventory in this stage. A project
+index may therefore be structurally valid while carrying unsupported
+limitations. Frontend failure, unsafe compiler arguments, stale source, ODR
+conflict, and unresolved direct targets are rejections and make the index
+invalid. No body inlining, contract import, semantic lowering, proof, or memory
+model is performed by A7.2.
+
 The project report must reconcile these inventories:
 
 ```text
 compilation entries = selected + rejected
 selected translation units = parsed + frontend_error
 discovered functions = supported + unsupported + unresolved + failed
-direct call edges = linked + external_contracted + unresolved + unsupported
+direct call edges = linked + external + unresolved + unsupported + conflicting
 obligations = verified + violated + unknown + unsupported + solver_error
 ```
 

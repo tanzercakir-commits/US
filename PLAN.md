@@ -760,6 +760,24 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: canonical declaration keys, definition/redeclaration resolution,
   project call graph, external/unresolved edge states, ODR-conflict detection,
   deterministic project IR/report identity, fixtures, and tests.
+- Owned implementation surface: `semantic_verifier/frontend.py`,
+  `semantic_verifier/project_index.py`,
+  `semantic_verifier/project_index_schema/v1/index.schema.json`,
+  `tools/project_index.py`, `tests/test_project_index.py`,
+  `fixtures/project_index/**`, and the corresponding package-data, README,
+  readiness-decision, guardrail, TODO, and append-only progress updates.
+- Identity policy: external free functions use language linkage, qualified name,
+  and canonical Clang type; internal functions additionally use the owning
+  translation unit. Checkout paths and Clang pointer identities never enter a
+  public key. Project-owned headers observed by Clang are content-addressed.
+- Admission policy: only a valid A7.1 manifest may be indexed. The configured
+  trusted Clang executable is used with reconstructed manifest arguments, the
+  pinned target/C++17 policy wins, and driver/plugin/output-producing options
+  outside the read-only AST policy fail closed.
+- Accounting policy: every selected translation unit is parsed or carries a
+  frontend error; every discovered project function is defined,
+  declaration-only, unsupported, or conflicting; every discovered call is
+  linked, external, unresolved, unsupported, or conflicting.
 - Boundaries: no body inlining, indirect calls, dynamic dispatch, or guessed
   linkage. Ambiguous, conflicting, or unresolved identity is explicit and can
   never lend a callee postcondition to a caller.
