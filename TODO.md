@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- None. All declared roadmap stages are complete; see the final PROGRESS entry.
+- None. F5.1 is complete locally; publication follows the guarded commit.
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - Final audit matched 111/111 stages to DONE records, reran all
-high-level gates, and closed the 652-test reference roadmap with no blockers.
+2026-08-08 - F5.1 produced a concise badged README with all local links and
+main reproduction checks verified; guarded commit and publication are next.

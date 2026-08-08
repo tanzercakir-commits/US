@@ -1,372 +1,131 @@
-# CodeSkeptic Semantic Verification Prototype
+# CodeSkeptic Semantic Verifier
 
-This repository is an isolated prototype for a small
-`C++ -> Semantic IR -> verification conditions -> result` pipeline. It was
-created after inspecting CodeSkeptic, but it does not modify or vendor the
-CodeSkeptic repository.
+[![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg?branch=feature%2Fsemantic-verification-prototype)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
+![Tests](https://img.shields.io/badge/tests-652%20passing-brightgreen)
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
-The prototype deliberately supports C++17 `int`/`unsigned int` and `long
-long`/`unsigned long long` (owned IR types `i32`/`u32`/`i64`/`u64`), `bool`,
-local scalar state, fully initialized one-dimensional fixed-size integer
-arrays with exact select/store/bounds, aggregate-by-value structs with exact
-field/copy semantics, proved local lvalue references with exact live-target
-reads and writes, declaration-only reference parameters with exact `modifies`
-frames, fixed-width bitwise/shift expressions,
-`if`/`else`,
-direct contracted calls with matching fixed-width or value-record results, invariant-annotated
-`while`, `assert`, and `return`. Unsupported C++ is reported explicitly. It
-uses a real Clang AST and has no Python package dependencies. The affine
-checker is dependency-free; the default cross-check backend also invokes a
-separately installed Z3 executable through SMT-LIB2. Unsigned, mixed,
-bitwise, shift, array, or record obligations require explicit `--backend z3` because
-they use
-homogeneous QF_BV/QF_ALIA/QF_ABV/QF_RECORD and the affine referee fails closed.
+A small reference project for checking contract-style rules in supported C++
+code. It reads real C++ with Clang, builds a simpler semantic model, and asks a
+deterministic referee whether each rule is proved, broken, or outside the
+current boundary.
 
-Run the vertical slice (the CLI defaults to affine/Z3 cross-check mode):
+The guiding principle is simple: tools may propose, but only the referee decides.
+Anything it cannot justify stays unverified.
 
-```powershell
-python -m semantic_verifier examples/vertical_slice.cpp --format json
+## Why this exists
+
+Code review and tests are valuable, but they do not always explain whether a
+specific rule holds for every allowed input. This project explores a practical,
+auditable verification path:
+
+```text
+C++ source -> Semantic IR -> proof obligations -> deterministic result
 ```
 
-Select Z3-only or dependency-free affine mode explicitly:
+It is a completed Python reference implementation and research lab. It does not
+modify or include the separate production CodeSkeptic repository.
+
+## Quick start
+
+You need Python 3.11 or newer and Clang on `PATH`.
 
 ```powershell
-python -m semantic_verifier examples/vertical_slice.cpp --backend z3
-python -m semantic_verifier examples/vertical_slice.cpp --backend affine
+git clone https://github.com/tanzercakir-commits/US.git
+cd US
+python -m semantic_verifier examples/vertical_slice.cpp --backend affine --format text
 ```
 
-Reuse exact obligation results from an opt-in local cache:
+The example deliberately contains both valid and broken rules, so exit code `1`
+is expected. The affine backend needs no Python packages or Z3. For the default
+cross-check mode, install the Z3 executable and run:
 
 ```powershell
-python -m semantic_verifier examples/vertical_slice.cpp `
-  --backend both --cache .semantic-verifier-cache.json --format json
+python -m semantic_verifier examples/vertical_slice.cpp --backend both --format text
 ```
 
-Bound each external solver process and the supported checks started per file:
+Contracts live beside the C++ they describe:
 
-```powershell
-python -m semantic_verifier examples/vertical_slice.cpp `
-  --solver-timeout 5 --max-checks 100 --format json
+```cpp
+// cs: requires x < 2147483647
+// cs: ensures result > x
+int increment(int x) {
+    return x + 1;
+}
 ```
 
-Run the tests:
+## Result meanings
+
+| Result | Meaning |
+| --- | --- |
+| `verified` | The exact generated obligation was proved. |
+| `violated` | A counterexample was found and replayed. |
+| `unknown` | The code is supported, but the referee could not decide. |
+| `unsupported` | The code is outside the implemented subset. |
+| `solver_error` | The checking tool failed; this is never treated as success. |
+
+`unknown`, `unsupported`, and `solver_error` never become `verified` by
+assumption.
+
+## What is covered
+
+The supported subset is intentionally limited. It includes common integer and
+boolean logic, branches, contracted function calls, annotated loops, and
+selected arrays, value structs, references, and frame conditions. Unsupported
+C++ is reported explicitly instead of being silently approximated.
+
+This is not a full C++ verifier, a production certification tool, or a
+replacement for compilation, tests, sanitizers, review, and static analysis.
+
+## Confidence checks
+
+The repository currently carries:
+
+- 652 deterministic tests;
+- reproducible, byte-checked fixtures;
+- a forty-function benchmark corpus;
+- replay evidence for every reported counterexample; and
+- a complete three-point benchmark trend with a green logical gate.
+
+Run the main checks with:
 
 ```powershell
-python -m unittest discover -s tests -v
-```
-
-The current suite contains 433 deterministic tests. The separately cloned
-CodeSkeptic production track also passes all 914 tests on this machine.
-Committed verifier fixtures are checked with:
-
-```powershell
+python -m unittest discover -s tests
 python tools/regenerate_fixtures.py --check
+python tools/check_benchmark_corpus.py benchmarks/corpus
+python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json --check
 ```
 
-Export or check the cross-language native-adapter Semantic IR and obligation
-JSON corpus:
+GitHub Actions runs the full suite and regenerates fixtures twice to catch
+non-deterministic output.
+
+## Repository guide
+
+| Path | Contents |
+| --- | --- |
+| [`semantic_verifier/`](semantic_verifier/) | The reference verifier. |
+| [`examples/`](examples/) | Small C++ examples. |
+| [`tests/`](tests/) | Soundness, boundary, and determinism tests. |
+| [`fixtures/`](fixtures/) | Frozen reproducible evidence. |
+| [`benchmarks/`](benchmarks/) | Experiment and trend data. |
+| [`docs/`](docs/) | Detailed design and operating notes. |
+
+Useful starting points:
+
+- [Design and supported boundary](docs/semantic_verification_prototype.md)
+- [Adoption guide](docs/adoption_guide.md)
+- [Result and schema reference](docs/result_schema.md)
+- [Benchmark suite](docs/benchmark_suite.md)
+- [Roadmap](PLAN.md), [completed-work ledger](PROGRESS.md), and
+  [changelog](CHANGELOG.md)
+
+## Development guardrails
+
+Enable the repository hooks once after cloning:
 
 ```powershell
-python tools/export_fixtures.py
-python tools/export_fixtures.py --check
-```
-
-The [native-adapter manifest](fixtures/native_adapter/manifest.json) pins the
-schema identity, source/IR/obligation paths, summaries, and SHA-256 hashes for
-all 14 cases.
-
-Run the deterministic scaling/cache/budget, fixed-width integer, and combined
-semantic-extension phase gates:
-
-```powershell
-python tools/scaling_phase_gate.py --backend both
-python tools/integer_phase_gate.py
-python tools/semantic_extensions_phase_gate.py
-```
-
-Reproduce the isolated, proposal-only invariant-inference research artifact:
-
-```powershell
-python tools/invariant_research.py --check
-```
-
-Render or reproduce the deterministic offline contract-proposal prompt pack
-(no model or network call is made):
-
-```powershell
-python tools/contract_proposal.py `
-  --request fixtures/contract_proposals/request.json `
-  --check fixtures/contract_proposals/expected.prompt.json
-```
-
-Pre-screen an untrusted response without mutating source:
-
-```powershell
-python tools/contract_proposal.py `
-  --request fixtures/contract_proposals/screen.request.json `
-  --response fixtures/contract_proposals/eligible.response.json `
-  --check fixtures/contract_proposals/expected.pre-screen.json
-```
-Export a `cs: ai` review overlay, then audit a separately human-edited source:
-
-```powershell
-python tools/contract_proposal.py `
-  --request fixtures/contract_proposals/screen.request.json `
-  --response fixtures/contract_proposals/eligible.response.json `
-  --review --overlay-output candidate.cpp --output review.json
-
-python tools/contract_proposal.py `
-  --request fixtures/contract_proposals/screen.request.json `
-  --response fixtures/contract_proposals/eligible.response.json `
-  --accepted-source fixtures/contract_proposals/accepted.cpp `
-  --check fixtures/contract_proposals/expected.acceptance.json
-```
-
-The [contract-proposal loop](docs/contract_proposal_loop.md) defines the v1
-request/response schemas, external-adapter boundary, logical identity, and
-mandatory `cs: ai` provenance.
-Run the frozen request → proposal → approval → implementation → verification
-workflow:
-
-```powershell
-python tools/contract_first_workflow.py `
-  --manifest fixtures/contract_first/task.json `
-  --check fixtures/contract_first/expected.run.json
-```
-
-The [contract-first workflow](docs/contract_first_workflow.md) and
-[task template](templates/contract_first_task.md) define the content-addressed
-transition and human/referee trust boundaries.
-
-The [guarded absolute pilot](pilots/contract_first/guarded_absolute/comparison.md)
-applies that workflow to a verifier increment and freezes both the six-obligation
-success report and a deterministic seeded-mismatch failure.
-
-The [C++26 contracts bridge decision](docs/cpp26_contracts_bridge.md) freezes
-the `pre`/`post`/`contract_assert` mapping, current compiler evidence, and
-the fail-closed C3.1 source-bridge boundary. The implemented bridge accepts the
-controlled standard spelling automatically. Its positive fixture is reproducible
-with:
-
-```powershell
-python -m semantic_verifier fixtures/cpp26_contracts/verified.cpp
-```
-
-The [enforcement-ladder policy](docs/enforcement_ladder.md) fixes how all five
-referee statuses route to proof completion, defect/infrastructure handling,
-property-test generation, runtime guarding, or an explicit manual boundary.
-Reproduce the committed property fallback with:
-
-```powershell
-python tools/generate_property_skeleton.py `
-  fixtures/enforcement_ladder/property/square_bounded.cpp `
-  --backend affine `
-  --skeleton fixtures/enforcement_ladder/property/expected.property.cpp `
-  --manifest fixtures/enforcement_ladder/property/expected.manifest.json `
-  --check
-```
-
-Reproduce and check the complete static/property/runtime provenance chain with:
-
-    python tools/enforcement_ladder_demo.py \
-      fixtures/enforcement_ladder/property/square_bounded.cpp \
-      --backend affine \
-      --property-skeleton fixtures/enforcement_ladder/property/expected.property.cpp \
-      --property-manifest fixtures/enforcement_ladder/property/expected.manifest.json \
-      --runtime-wrapper fixtures/enforcement_ladder/runtime/expected.runtime.cpp \
-      --runtime-manifest fixtures/enforcement_ladder/runtime/expected.runtime.manifest.json \
-      --demo-manifest fixtures/enforcement_ladder/runtime/expected.demo.manifest.json \
-      --check
-
-The [fact-index v1 reference](docs/fact_schema.md) defines the independent,
-content-addressed world-model schema for symbols, definitions, uses, direct
-calls, mutations, derived purity, and explicit limitations. D1.1 supplies the
-strict model/loader contract; D1.2 populates it from the existing real Clang
-JSON-AST frontend. Physical paths and frontend IDs are removed, unsupported
-dispatch/locations/forms stay explicit, and derived purity never becomes proof.
-
-Query an exact symbol map with:
-
-    python tools/query_facts.py fixtures/facts/expected/world.fact-index.json neighborhood pipeline --depth 2
-
-The [fact query reference](docs/fact_queries.md) defines exact selectors,
-ambiguity errors, caller/mutator evidence, graph edges, CLI exit codes, and the
-stateless MCP 2026-07-28 adapter. Start the read-only stdio endpoint with:
-
-    python tools/fact_mcp_server.py fixtures/facts/expected/world.fact-index.json
-
-Clients use server/discover, tools/list, and codeskeptic.query_facts; each
-request carries the current protocol version and client capabilities in
-params._meta.
-
-Generate or verify a deterministic fact-only AI context pack within the hard
-2000-byte ceiling with:
-
-    python tools/generate_fact_context.py fixtures/facts/expected/world.fact-index.json pipeline context.json
-    python tools/generate_fact_context.py fixtures/facts/expected/world.fact-index.json pipeline context.json --check
-
-The [architectural dependency policy reference](docs/architecture_rules.md)
-defines strict literal layer selectors, a complete explicit allow/forbid
-matrix, canonical content identity, and fail-closed classification outcomes.
-Validate the frozen policy with:
-
-    python tools/validate_architecture_policy.py fixtures/architecture/policy.json
-
-Check every exact direct-call fact and emit deterministic JSON, text, or SARIF
-with fail-closed unknown precedence:
-
-    python tools/check_architecture.py fixtures/facts/expected/world.fact-index.json fixtures/architecture/policy.json
-    python tools/check_architecture.py fixtures/facts/expected/world.fact-index.json fixtures/architecture/policy.json --format sarif
-
-Reproduce the frozen fact corpus with:
-
-    python tools/regenerate_fact_fixtures.py --check
-The [incremental fact-extraction reference](docs/fact_incrementality.md)
-defines strict translation-unit declarations, content-addressed cache
-validation, atomic current-state updates, and check-mode exit codes. Update or
-check a project cache with:
-
-    python tools/extract_facts_incremental.py translation-units.json --workspace project-root --cache-dir .codeskeptic/fact-cache
-    python tools/extract_facts_incremental.py translation-units.json --workspace project-root --cache-dir .codeskeptic/fact-cache --check
-
-The [fact-trust reference](docs/fact_trust.md) defines the immutable D1-linked
-derived/proved overlay, strict proof-evidence shape, exact proved-callee
-dependencies, and the boundary between structural validation and referee
-production.
-See [the design document](docs/semantic_verification_prototype.md) for the
-implemented boundary, examples, and limitations. The
-[result/schema reference](docs/result_schema.md) defines machine-readable
-fields and status semantics, the
-[schema version policy](docs/schema_versioning.md) defines compatibility and
-migration, the [changelog](CHANGELOG.md) records consumer-visible releases, and
-the [adoption guide](docs/adoption_guide.md) gives a staged path into another
-codebase. The
-[Z3 backend decision record](docs/solver_decision.md) documents licensing,
-packaging, timeouts, determinism, failure handling, model replay, and minimized
-evidence cores. The [path-scaling decision](docs/path_scaling_decision.md)
-records the measured exponential baseline and chosen exact merge architecture.
-The [scaling operations runbook](docs/scaling_operations.md) defines the frozen
-A5 phase gate and failure handling. The
-[semantic extensions roadmap](docs/semantic_extensions_roadmap.md) fixes A6
-ordering, trust boundaries, and per-stage acceptance requirements. The
-[fixed-width integer decision](docs/integer_semantics_decision.md) selects the
-homogeneous QF_LIA/QF_BV strategy and pinned C++17 target profile. Clang
-validates that profile before any source is lowered; a mismatch fails closed. The
-[invariant-inference research decision](docs/invariant_inference_decision.md)
-records the isolated CHC/Spacer corpus, deterministic resource policy, measured
-useful/insufficient outcomes, and untrusted-proposal boundary. The
-[semantic-extension operations runbook](docs/semantic_extensions_operations.md)
-freezes the combined A6 feature/capability matrix, fixture and migration
-evidence, negative boundary, and phase-gate response.
-The [signed int64 example](examples/int64_slice.cpp) covers widening, pinned
-narrowing, arithmetic, modular calls, and loop invariants. The
-[unsigned example](examples/unsigned_slice.cpp) covers modulo arithmetic,
-usual conversions, unsigned comparison/division, calls, and loops. The
-[bitwise example](examples/bitwise_slice.cpp) covers masks, mixed conversions,
-32/64-bit shifts, arithmetic/logical right shift, and signed-left-shift safety.
-The [array example](examples/array_slice.cpp) covers constant/symbolic reads,
-whole-array SSA stores, isolation, signed bounds, and unsigned QF_ABV.
-The [value-struct example](examples/struct_slice.cpp) covers construction, nested
-field/array updates, copy isolation, by-value calls, and record contracts.
-The [reference example](examples/reference_slice.cpp) covers scalar and whole-
-record aliases, disjoint field references, writes, and branch-disjoint
-lifetimes. The [frame-condition example](examples/frame_conditions.cpp) covers empty,
-scalar, multiple, and nested record-field `modifies` summaries with exact
-post-state constraints and preservation of unlisted fields.
-The [combined integer gate](examples/fixed_integer_gate.cpp) carries positive
-and negative evidence for the complete operator table; run all BV examples with
-`--backend z3`. The [integer operations runbook](docs/integer_operations.md)
-freezes the capability matrix and A6.12 gate commands.
-
-Produce or check the one-parse referee-linked trust bundle with:
-
-    python tools/promote_fact_trust.py source.cpp --display-path project/source.cpp --output-dir .codeskeptic/fact-trust --backend affine
-    python tools/promote_fact_trust.py source.cpp --display-path project/source.cpp --output-dir .codeskeptic/fact-trust --backend affine --check
-
-The [repair-loop reference](docs/repair_loop.md) defines the strict
-replay-attested repair bundle and its referee boundary. Generate or check one
-violated-obligation bundle with:
-
-    python tools/generate_repair_bundle.py source.cpp repair.bundle.json --display-path project/source.cpp --backend affine
-    python tools/generate_repair_bundle.py source.cpp repair.bundle.json --display-path project/source.cpp --backend affine --check
-
-Run or check a bounded offline scripted repair loop; only the verifier decides
-success:
-
-    python tools/run_repair_loop.py source.cpp repair.bundle.json proposals.json repair-loop.json --display-path project/source.cpp --max-iterations 3 --backend affine
-    python tools/run_repair_loop.py source.cpp repair.bundle.json proposals.json repair-loop.json --display-path project/source.cpp --max-iterations 3 --backend affine --check
-
-Append one monotonic-time metric for a completed loop or summarize the
-canonical JSONL telemetry:
-
-    python tools/record_repair_metrics.py record source.cpp repair.bundle.json proposals.json repair-loop.json repair-metrics.jsonl --display-path project/source.cpp --max-iterations 3 --backend affine
-    python tools/record_repair_metrics.py summary repair-metrics.jsonl
-
-Validate all twenty original violations, independent replays, and one-line
-verified repair oracles in the [E2 experiment corpus](docs/experiment_e2.md):
-
-    python tools/check_experiment_corpus.py benchmarks/experiment_e2/corpus
-
-Run or reproduce-check the forty frozen paired repair trials:
-
-    python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json
-    python tools/run_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json --check
-
-Generate or reproduce-check the exact all-case E2 report:
-
-    python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json
-    python tools/report_experiment_e2.py benchmarks/experiment_e2/corpus benchmarks/experiment_e2/contexts benchmarks/experiment_e2/proposals benchmarks/experiment_e2/results/trials.json benchmarks/experiment_e2/results/report.json --check
-
-Validate an immutable assumption declaration and its linked resolution overlay
-with the [assumption protocol](docs/assumption_protocol.md):
-
-    python tools/check_assumption_manifest.py manifest.json resolution.json --root .
-
-Reproduce-check the frozen E3 repository pilot and read its bounded
-[report](pilots/assumption_protocol/e3-pilot.report.md):
-
-    python tools/run_assumption_pilot.py pilots/assumption_protocol/e3-pilot.manifest.json pilots/assumption_protocol/e3-pilot.resolution.json --root . --validation-root pilots/assumption_protocol/archive --check pilots/assumption_protocol/e3-pilot.summary.json
-
-Run or reproduce-check the exhaustive
-[Best-of-4 calibration](docs/referee_guided_search.md):
-
-    python tools/run_referee_search.py benchmarks/experiment_e2/corpus benchmarks/referee_search/candidates.json benchmarks/referee_search/report.json
-    python tools/run_referee_search.py benchmarks/experiment_e2/corpus benchmarks/referee_search/candidates.json benchmarks/referee_search/report.json --check
-
-The memo-only [referee-as-reward design](docs/rlvf_design.md) specifies a
-fail-closed draft event contract and research boundaries; it implements no
-training or model integration.
-
-Run the forty-function [curated benchmark suite](docs/benchmark_suite.md):
-
-    python tools/check_benchmark_corpus.py benchmarks/corpus
-
-Record or summarize append-only benchmark evidence (labels, dates, and revisions
-are explicit inputs; timing is informational only):
-
-    python tools/record_benchmark_run.py record benchmarks/corpus benchmarks/results/runs.jsonl --observation A4.1-phase-gate --recorded-on 2026-08-07 --source-revision <40-hex-commit>
-    python tools/record_benchmark_run.py summarize benchmarks/results/runs.jsonl
-
-Generate or reproduce-check the complete logical benchmark trend (timing is
-displayed but never gates):
-
-    python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json
-    python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json --check
-
-## Development workflow
-
-Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries
-status), [TODO.md](TODO.md) (active set) and [PROGRESS.md](PROGRESS.md)
-(append-only ledger; the single source of truth for "done"). The session
-protocol lives in [CLAUDE.md](CLAUDE.md).
-
-After cloning, enable the guardrail hooks once:
-
-```
 git config core.hooksPath .githooks
 ```
 
-The pre-commit hook runs the full test suite, enforces the test-count ratchet
-(`guardrails/test_baseline.txt`), and requires PROGRESS.md to be staged
-whenever code changes are committed. Commit messages must start with a plan
-stage ID (e.g. `A1.2: ...`) or an allowed prefix.
+The pre-commit hook runs the full test suite, protects the test-count ratchet,
+and requires progress records for implementation changes. See
+[`CLAUDE.md`](CLAUDE.md) for the full contribution protocol.

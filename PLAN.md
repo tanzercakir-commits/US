@@ -2366,6 +2366,27 @@ infrastructure. Reference: prototype fixtures = the specification.
   first candidate)
 - F4.2 — CHANGELOG discipline
 
+### Phase F5 — Project presentation
+
+#### F5.1 — Accessible README and GitHub publication
+
+- Goal: present the completed reference project clearly to a new reader and
+  publish the finished branch without overstating its scope.
+- Output: a concise English README with useful status badges, a short quick
+  start, plain-language result meanings, explicit limitations, and links to
+  deeper references; committed and pushed branch evidence.
+- Exact file set: PLAN.md; README.md; PROGRESS.md; TODO.md.
+- Boundaries: documentation and publication only. Do not change verifier code,
+  fixtures, schemas, benchmarks, test expectations, or evidence. Badges must
+  reflect the real GitHub workflow and current 652-test ratchet. Keep the
+  production CodeSkeptic repository and this Python reference distinct.
+- DoD: README opens with working badges; a new reader can understand purpose,
+  trust model, setup, five result states, limitations, repository map, and the
+  main verification commands without reading the implementation; referenced
+  local paths exist; full suite remains 652/652; ledger/TODO updated; guarded
+  stage commit succeeds; branch is pushed and a draft PR is opened or reused.
+- Depends: F4.2, F1.3.
+
 ---
 
 ## 11. Non-goals (permanent)

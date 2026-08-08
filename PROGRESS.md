@@ -2307,3 +2307,36 @@ reproduction/gate checks -> expected exits and byte-identical artifacts; plan
 map -> 111/111 DONE; dangling-free `git fsck` -> clean; tracked tree -> clean
 before this append-only closure entry.
 Next: none - the declared roadmap is complete.
+
+## 2026-08-08 - F5.1: accessible README and GitHub publication - PARTIAL
+
++ Extended PLAN/TODO with the owner-requested documentation-only F5.1 stage and
+  confirmed authenticated access to `tanzercakir-commits/US`.
++ The baseline runner printed `Ran 652 tests in 978.438s` and `OK`; all test
+  assertions completed successfully before the outer command boundary fired.
+- The command transport returned 124 after 985.4 seconds and closed stdout,
+  producing a final ignored `OSError`; treat the baseline command as incomplete
+  until the process boundary and a focused runner exit are checked.
+Resume: confirm no Python child remains, run a focused suite with exit 0, then
+rewrite README.md and use a longer timeout for the guarded stage commit.
+
+## 2026-08-08 - F5.1: accessible README and GitHub publication - DONE
+
++ Replaced the oversized command catalog with a concise public entry point that
+  explains the project, trust model, setup, result meanings, supported boundary,
+  evidence, repository layout, and guardrails in plain English.
++ Added a live Determinism workflow badge plus accurate 652-test and Python 3.11+
+  badges without adding a release, certification, or production claim.
++ Kept all fourteen local documentation/directory links valid and retained only
+  the four main reproduction commands; deeper technical material remains in the
+  existing docs rather than overwhelming the first page.
++ Plan extended: F5.1. Verifier code, schemas, fixtures, benchmarks, expectations,
+  and the 652-test ratchet are unchanged.
+- The baseline transport timed out after unittest had printed 652/652 OK; no
+  child remained and the focused trend runner then exited 0. The guarded commit
+  uses the longer boundary and remains the definitive full-suite check.
+Evidence: README -> 131 lines; local links -> 14/14 present; quick start ->
+expected exit 1 with 9 verified, 2 violated, 1 unknown; fixture/corpus/trend
+checks -> 0/0/0; baseline assertions -> 652/652 in 978.438 s; focused trend ->
+10/10; commit: this stage commit.
+Next: publish the branch and open the draft PR required by the publication flow.
