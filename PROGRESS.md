@@ -2622,3 +2622,19 @@ start -> exit 0 with 3 verified checks; naming scan -> one intentional
 CodeSkeptic reference; diff whitespace -> pass; guarded commit -> this
 documentation commit.
 Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-09 - chore: merge publication readiness into main - DONE
+
++ Marked PR #2 ready and merged the complete A7.0-A7.3 project/memory
+  readiness work, Apache-2.0 license, and public README into `main` with a
+  history-preserving merge commit.
++ Fast-forwarded the local `main` branch to the exact remote merge commit and
+  confirmed that no open pull requests remain.
++ Verified the merge commit through the required GitHub determinism gate.
+- Repository visibility remains private; publication is a separate owner
+  decision and was not changed by the merge.
+Evidence: clean pre-merge full baseline -> 697/697 in 649.932 s; PR #2 head ->
+two successful Determinism checks; merge commit ->
+`714d53b079b617b61412e25c2958b3ccf4a01613`; merge-commit Determinism run ->
+success; local `main` equals `origin/main`; open pull requests -> 0.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.
