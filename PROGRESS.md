@@ -2454,3 +2454,27 @@ Evidence: focused contract suites -> 27/27; compileall -> exit 0; fixture check
 -> 28 artifacts current; full baseline -> 658/658 in 385.170 s; guarded commit
 -> this stage commit.
 Next: none.
+
+## 2026-08-08 - A7.0: product-readiness boundary and expansion - DONE
+
++ Plan extended: A7, B5, and F6. The new critical path is reference
+  whole-project/owned-memory semantics, native CodeSkeptic parity, scale
+  evidence, one high-error-cost pilot, and an explicit ship/no-ship gate.
++ Added D13–D16: C++ depth before language breadth, zero-silent-skip project
+  accounting, region/object/provenance/lifetime pointer semantics, and
+  contract-first CodeSkeptic dogfood through `cs: ai` shadow proposals.
++ Froze the staged admission order for deterministic compilation-database
+  ingestion, cross-TU identity, memory IR v7, stack/global pointer VCs,
+  interprocedural alias/effect summaries, controlled heap lifecycle, and honest
+  project coverage.
++ Added the dated readiness decision with reconciled project inventories,
+  fail-closed deferred constructs, cross-repository ownership, native parity,
+  dogfood trust boundaries, and measurable product gates.
++ Corrected live overview test counts from stale 652/288 references to the
+  current 658-test ratchet and linked the readiness decision from README.
+- No project ingestion, pointer syntax, memory proof, schema, fixture, report,
+  or production-readiness claim was added in this planning stage.
+Evidence: baseline -> 658/658 in 506.057 s; live local links -> pass;
+decision matrix terms -> pass; diff whitespace check -> pass; guarded commit
+-> this stage commit.
+Next: A7.1 deterministic project manifest and compilation-database ingestion.

@@ -44,7 +44,7 @@ Implemented:
 - a fixed-width integer phase gate freezing the target profile, conversion and
   operator tables, homogeneous classifier, backend matrix, replay evidence, and
   v1-to-v6, v2-to-v6, v3-to-v6, v4-to-v6, and v5-to-v6 migration equivalence;
-- 288 deterministic tests, including independent soundness regressions.
+- 658 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -71,7 +71,7 @@ Proposed, not implemented:
 - production diagnostic/SARIF/MCP adapters for proof results and models;
 - broader C++ value, memory, alias, and ownership semantics;
 - loop termination variants or invariant inference;
-- automated repair/AI-loop integration.
+- a live external-model adapter or automatic source modification.
 
 ## Problem statement
 

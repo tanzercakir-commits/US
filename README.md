@@ -1,7 +1,7 @@
 # CodeSkeptic Semantic Verifier
 
 [![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg?branch=feature%2Fsemantic-verification-prototype)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
-![Tests](https://img.shields.io/badge/tests-652%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-658%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
 A small reference project for checking contract-style rules in supported C++
@@ -80,7 +80,7 @@ replacement for compilation, tests, sanitizers, review, and static analysis.
 
 The repository currently carries:
 
-- 652 deterministic tests;
+- 658 deterministic tests;
 - reproducible, byte-checked fixtures;
 - a forty-function benchmark corpus;
 - replay evidence for every reported counterexample; and
@@ -112,6 +112,7 @@ non-deterministic output.
 Useful starting points:
 
 - [Design and supported boundary](docs/semantic_verification_prototype.md)
+- [Whole-project and memory readiness](docs/project_memory_readiness.md)
 - [Adoption guide](docs/adoption_guide.md)
 - [Result and schema reference](docs/result_schema.md)
 - [Benchmark suite](docs/benchmark_suite.md)

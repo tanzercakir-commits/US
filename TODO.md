@@ -8,11 +8,12 @@
 
 ## Now (active stage)
 
-- None.
+- A7.1: implement deterministic project manifest and compilation-database
+  ingestion without cross-TU semantic assumptions.
 
 ## Next
 
-- None.
+- A7.2: project-wide identity and sound cross-TU direct-call linking.
 
 ## Blockers / open questions
 
@@ -21,5 +22,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.4 completed; both existing contract surfaces now cross one
-owned adapter boundary with the 658-test baseline green.
+2026-08-08 - A7.0 completed with the A7/B5/F6 product-readiness path and
+decision record frozen; A7.1 is the active implementation stage.
