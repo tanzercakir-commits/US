@@ -729,13 +729,28 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: immutable project request/TU values, strict loader, path-root policy,
   duplicate/missing/stale-command rejection, canonical project identity,
   project CLI entry point, fixtures, and tests.
+- Exact file set: `PLAN.md`; `semantic_verifier/project_manifest.py`;
+  `semantic_verifier/project_manifest_schema/v1/manifest.schema.json`;
+  `tools/project_manifest.py`; `tests/test_project_manifest.py`;
+  `fixtures/project_manifest/**`; `pyproject.toml`; `README.md`;
+  `docs/project_memory_readiness.md`; `guardrails/test_baseline.txt`;
+  `PROGRESS.md`; `TODO.md`.
 - Boundaries: inventory only; each TU still uses the existing single-TU
   verifier independently. No cross-TU call assumption, pointer semantics,
   network lookup, generated command guessing, or silent command filtering.
+- Controlled input: the database is an array of entries with exact
+  `directory`/`file` plus exactly one of `arguments` or `command`;
+  optional `output` is the only additional field. `arguments` is preferred;
+  a `command` string requires an explicit POSIX or Windows parsing policy.
+  Ordinary C++ suffixes are selected, `.c` is explicitly skipped as another
+  language, and any other suffix is rejected. The manifest never executes a
+  compilation command.
 - DoD: shuffled databases and relocated equivalent checkouts produce identical
   logical manifests; every selected/skipped/rejected entry is accounted for;
   malformed, duplicate, outside-root, missing-source, and compiler-argument
-  ambiguity fail closed; full suite and fixtures pass.
+  ambiguity fail closed; canonical JSON/schema round-trip and CLI output/check
+  exits are exact; the committed fixture matches; full suite and fixtures pass
+  at the deliberately advanced ratchet.
 - Depends: A7.0.
 
 #### A7.2 — Project-wide identity and cross-TU direct-call linking

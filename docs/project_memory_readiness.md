@@ -54,6 +54,38 @@ ambiguous, conflicting, or unresolved edge cannot import a callee contract into
 the caller. Internal linkage, overloads, redeclarations, and ODR conflicts need
 explicit dispositions.
 
+### Implemented A7.1 manifest boundary
+
+A7.1 implements inventory only:
+
+```powershell
+python tools/project_manifest.py path/to/project
+python tools/project_manifest.py path/to/project --check expected.manifest.json
+```
+
+The versioned `codeskeptic.project-manifest/v1` artifact contains immutable,
+content-addressed selected C++ translation units plus aggregated skipped and
+rejected dispositions. It canonicalizes checkout-root paths, source arguments,
+compiler executable locations, and non-semantic output/dependency arguments.
+Input order and equivalent checkout relocation do not change logical bytes.
+
+Compilation entries use exact `directory` and `file` fields, exactly one of
+`arguments` or `command`, and optional `output`. Argument arrays are
+preferred. Command strings require an explicit `--command-style posix` or
+`--command-style windows`; unspecified quoting is rejected. Response files,
+shell operators, a missing/ambiguous source argument, duplicate source entries,
+outside-root entry paths, stale or unreadable files/directories, and unknown
+fields fail closed.
+
+Ordinary C++ source suffixes are selected. A `.c` entry is retained as an
+explicit `non_cpp_language` skip under D13; other suffixes are rejected.
+Selected, skipped, and rejected counts must reconcile exactly to the database
+entry count. Any rejection makes the manifest invalid and the CLI exits `2`.
+
+The A7.1 command does not invoke Clang, execute database commands, merge
+translation units, resolve calls, or claim semantic/proof coverage. Those
+authorities begin in A7.2 and later stages.
+
 The project report must reconcile these inventories:
 
 ```text

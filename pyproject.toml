@@ -17,6 +17,7 @@ packages = ["semantic_verifier"]
 
 [tool.setuptools.package-data]
 semantic_verifier = [
+  "project_manifest_schema/v1/*.json",
   "prompt_packs/contract_proposal/v1/*.json",
   "prompt_packs/contract_proposal/v1/*.md",
 ]

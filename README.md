@@ -1,7 +1,7 @@
 # CodeSkeptic Semantic Verifier
 
 [![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg?branch=feature%2Fsemantic-verification-prototype)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
-![Tests](https://img.shields.io/badge/tests-658%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-668%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
 A small reference project for checking contract-style rules in supported C++
@@ -73,6 +73,16 @@ boolean logic, branches, contracted function calls, annotated loops, and
 selected arrays, value structs, references, and frame conditions. Unsupported
 C++ is reported explicitly instead of being silently approximated.
 
+The A7 project path now starts with deterministic compilation-database
+inventory. It does not yet perform cross-translation-unit verification:
+
+```powershell
+python tools/project_manifest.py path/to/project
+```
+
+Every database entry is selected, explicitly skipped, or rejected. The command
+never executes compiler commands and exits `2` when any entry is rejected.
+
 This is not a full C++ verifier, a production certification tool, or a
 replacement for compilation, tests, sanitizers, review, and static analysis.
 
@@ -80,7 +90,7 @@ replacement for compilation, tests, sanitizers, review, and static analysis.
 
 The repository currently carries:
 
-- 658 deterministic tests;
+- 668 deterministic tests;
 - reproducible, byte-checked fixtures;
 - a forty-function benchmark corpus;
 - replay evidence for every reported counterexample; and

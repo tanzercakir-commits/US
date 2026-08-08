@@ -2478,3 +2478,32 @@ Evidence: baseline -> 658/658 in 506.057 s; live local links -> pass;
 decision matrix terms -> pass; diff whitespace check -> pass; guarded commit
 -> this stage commit.
 Next: A7.1 deterministic project manifest and compilation-database ingestion.
+
+## 2026-08-08 - A7.1: deterministic project manifest ingestion - DONE
+
++ Added immutable project-request, translation-unit, disposition, and manifest
+  values under the versioned `codeskeptic.project-manifest/v1` contract.
++ Added strict `compile_commands.json` ingestion with exact entry fields,
+  explicit POSIX/Windows command-string policy, project-root containment,
+  stale/missing/duplicate/source-argument rejection, and no command execution.
++ Every database entry is reconciled as selected, explicitly skipped, or
+  rejected. Ordinary C++ units are content-addressed; `.c` is retained as an
+  explicit `non_cpp_language` skip; any rejection makes the manifest invalid.
++ Canonical unit/project identities remove checkout and compiler executable
+  locations, normalize source/output arguments, preserve semantic flags, sort
+  input order, and remain byte-identical across equivalent relocated projects.
++ Added a standalone output/check CLI, packaged strict JSON schema, committed
+  two-C++/one-C fixture, and ten tests covering canonical round-trip,
+  immutability, relocation/order, both quoting policies, malformed accounting,
+  outside/missing paths, duplicates, ambiguous commands, and exit codes.
++ Advanced the guarded test ratchet from 658 to 668 and documented the exact
+  inventory-only boundary.
+- No Clang command was executed by project ingestion. Cross-TU identity,
+  call linking, semantic lowering, proof coverage, and pointer semantics remain
+  outside A7.1.
+Evidence: focused tests -> 10/10; committed project manifest ->
+`sha256:076bbca2e927c0e4ff3fb4a6d54959679fe6b3cfc740409c925acad2ec2a638c`;
+project fixture check -> exit 0; existing fixture check -> 28 artifacts current;
+compileall -> exit 0; full baseline -> 668/668 in 384.807 s; guarded commit ->
+this stage commit.
+Next: A7.2 project-wide identity and sound cross-TU direct-call linking.

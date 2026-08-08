@@ -8,12 +8,13 @@
 
 ## Now (active stage)
 
-- A7.1: implement deterministic project manifest and compilation-database
-  ingestion without cross-TU semantic assumptions.
+- A7.2: implement project-wide declaration/function identity and sound direct
+  cross-TU call linking without body inlining or guessed linkage.
 
 ## Next
 
-- A7.2: project-wide identity and sound cross-TU direct-call linking.
+- A7.3: introduce Memory IR v7 regions, objects, pointers, loads, stores, and
+  lifetime state after the project identity gate.
 
 ## Blockers / open questions
 
@@ -22,5 +23,5 @@
 
 ## Last updated
 
-2026-08-08 - A7.0 completed with the A7/B5/F6 product-readiness path and
-decision record frozen; A7.1 is the active implementation stage.
+2026-08-08 - A7.1 completed with deterministic, zero-silent-filter
+compilation-database inventory and the 668-test baseline green; A7.2 is active.

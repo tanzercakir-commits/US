@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codeskeptic.project-manifest/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entry_count",
+    "id",
+    "rejected",
+    "schema",
+    "selected",
+    "skipped",
+    "status"
+  ],
+  "properties": {
+    "entry_count": {"type": "integer", "minimum": 0},
+    "id": {"$ref": "#/$defs/hash"},
+    "rejected": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/rejection"},
+      "uniqueItems": true
+    },
+    "schema": {"const": "codeskeptic.project-manifest/v1"},
+    "selected": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/unit"},
+      "uniqueItems": true
+    },
+    "skipped": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/skip"},
+      "uniqueItems": true
+    },
+    "status": {"enum": ["invalid", "valid"]}
+  },
+  "$defs": {
+    "dispositionBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "file", "reason"],
+      "properties": {
+        "count": {"type": "integer", "minimum": 1},
+        "file": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        },
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "rejection": {
+      "allOf": [
+        {"$ref": "#/$defs/dispositionBase"},
+        {
+          "properties": {
+            "reason": {
+              "enum": [
+                "ambiguous_command_fields",
+                "command_style_required",
+                "directory_missing",
+                "duplicate_source_entry",
+                "invalid_arguments",
+                "invalid_directory",
+                "invalid_entry",
+                "invalid_file",
+                "invalid_output",
+                "malformed_command",
+                "missing_command",
+                "outside_project_root",
+                "response_file_unsupported",
+                "shell_operator_unsupported",
+                "source_argument_ambiguous",
+                "source_argument_missing",
+                "source_missing",
+                "source_unreadable",
+                "unexpected_fields",
+                "unsupported_source_extension"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "skip": {
+      "allOf": [
+        {"$ref": "#/$defs/dispositionBase"},
+        {
+          "properties": {
+            "reason": {"const": "non_cpp_language"}
+          }
+        }
+      ]
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arguments",
+        "content_sha256",
+        "directory",
+        "file",
+        "id",
+        "language"
+      ],
+      "properties": {
+        "arguments": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "minItems": 1
+        },
+        "content_sha256": {"$ref": "#/$defs/hash"},
+        "directory": {"type": "string", "minLength": 1},
+        "file": {"type": "string", "minLength": 1},
+        "id": {"$ref": "#/$defs/hash"},
+        "language": {"const": "c++17"}
+      }
+    }
+  }
+}
