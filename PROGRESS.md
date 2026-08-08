@@ -2209,3 +2209,18 @@ Evidence: initial batch -> 40 functions, 20 verified, 10 violated, 0 unknown,
 contract-consistency unknown, postcondition verified, zero unsupported nodes.
 Resume after F1.4 by replacing only the ten untracked nonlinear source cases,
 then implement the declared F1.1 file set.
+## 2026-08-07 - F1.1: curated supported-subset benchmark corpus - DONE (resumed)
+
++ Added a content-addressed forty-function corpus with four explicit ten-case
+  tiers and one exact combined affine-referee pass.
++ Frozen outcomes are 20 verified, 10 replay-attested violated, 10 supported
+  checker unknown, and 0 unsupported; every function matches its declaration.
++ The corrected deterministic-search frontier uses only affine expressions and
+  keeps unknown distinct from unsupported without changing checker budgets.
++ Added strict manifest/schema/file/function/tier/status/evidence/replay checks,
+  relocation/repetition, malformed/tamper negatives, CLI, and documentation.
+- No blockers. F1.4 corrected the initially detected plan mismatch before this
+  manifest or any F1.1 evidence claim was authored.
+Evidence: focused corpus tests -> 9/9; corpus CLI -> 40/40 exact; full reference
+suite -> 633/633 in 402.860 s; commit: this stage commit.
+Next: F1.2 - add append-only benchmark run evidence.

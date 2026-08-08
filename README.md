@@ -337,6 +337,10 @@ The memo-only [referee-as-reward design](docs/rlvf_design.md) specifies a
 fail-closed draft event contract and research boundaries; it implements no
 training or model integration.
 
+Run the forty-function [curated benchmark suite](docs/benchmark_suite.md):
+
+    python tools/check_benchmark_corpus.py benchmarks/corpus
+
 ## Development workflow
 
 Work is planned and tracked in [PLAN.md](PLAN.md) (roadmap; never carries

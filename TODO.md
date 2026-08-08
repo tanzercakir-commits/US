@@ -8,12 +8,10 @@
 
 ## Now (active stage)
 
-- [ ] **F1.4 - correct the unknown tier before corpus implementation**
+- [ ] **F1.2 - add the benchmark runner and append-only result snapshots**
 
 ## Next
 
-- [ ] **F1.1 - resume the curated supported-subset benchmark corpus**
-- [ ] **F1.2 - add the benchmark runner and append-only result snapshots**
 - [ ] **F1.3 - add three-point trend tracking and a red regression gate**
 
 ## Blockers / open questions
@@ -23,5 +21,5 @@
 
 ## Last updated
 
-2026-08-07 - F1.4 inserted after the raw probe separated affine
-unsupported nonlinear logic from supported checker unknown.
+2026-08-07 - F1.1 froze 40 functions with exact 20 verified, 10 violated,
+10 supported unknown, and 0 unsupported outcomes.
