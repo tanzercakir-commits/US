@@ -1,0 +1,46 @@
+module fixtures/cases/frame_conditions.cpp
+record Pair { x:i32, y:i32 }
+record Inner { value:i32, spare:i32 }
+record Outer { inner:record<Inner>{value:i32,spare:i32}, tag:i32 }
+function assign_seven(value#0:i32) -> void declaration
+  modifies f0001.s0001
+  ensures (value#0 == 7)
+function set_x(pair#0:record<Pair>{x:i32,y:i32}) -> void declaration
+  modifies f0002.s0001.x
+  ensures (pair#0.x == 7)
+function set_both(left#0:i32, right#0:i32) -> void declaration
+  modifies f0003.s0001, f0003.s0002
+  ensures ((left#0 == 3) && (right#0 == 4))
+function set_nested(outer#0:record<Outer>{inner:record<Inner>{value:i32,spare:i32},tag:i32}) -> void declaration
+  modifies f0004.s0001.inner.value
+  ensures (outer#0.inner.value == 9)
+function inspect(value#0:i32) -> void declaration
+  modifies
+function scalar_frame() -> i32
+  ensures (result == 7)
+  n00001 value#0 := 0
+  n00002 call assign_seven(value#0)
+    frame value#0 -> value#1 modifies value
+  n00003 return value#1
+function field_frame(input#0:record<Pair>{x:i32,y:i32}) -> record<Pair>{x:i32,y:i32}
+  ensures ((result.x == 7) && (result.y == input#0.y))
+  n00004 call set_x(input#0)
+    frame input#0 -> input#1 modifies input.x
+  n00005 return input#1
+function multiple_frame() -> record<Pair>{x:i32,y:i32}
+  ensures ((result.x == 3) && (result.y == 4))
+  n00006 pair#0 := Pair{x=0, y=0}
+  n00007 call set_both(pair#0.x, pair#0.y)
+    frame pair#0 -> pair#1 modifies pair.x, pair.y
+  n00008 return pair#1
+function nested_frame(input#0:record<Outer>{inner:record<Inner>{value:i32,spare:i32},tag:i32}) -> record<Outer>{inner:record<Inner>{value:i32,spare:i32},tag:i32}
+  ensures (((result.inner.value == 9) && (result.inner.spare == input#0.inner.spare)) && (result.tag == input#0.tag))
+  n00009 call set_nested(input#0)
+    frame input#0 -> input#1 modifies input.inner.value
+  n00010 return input#1
+function empty_frame(input#0:i32) -> i32
+  requires (input#0 >= 0)
+  ensures (result == input#0)
+  n00011 assume (input#0 >= 0)
+  n00012 call inspect(input#0)
+  n00013 return input#0

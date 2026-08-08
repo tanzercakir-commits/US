@@ -1,0 +1,29 @@
+[
+  {
+    "arguments": [
+      "clang++",
+      "-std=c++17",
+      "-Iinclude",
+      "-c",
+      "src/main.cpp",
+      "-o",
+      "build/main.o"
+    ],
+    "directory": ".",
+    "file": "src/main.cpp"
+  },
+  {
+    "arguments": [
+      "clang++",
+      "-std=c++17",
+      "-Iinclude",
+      "-Wall",
+      "-c",
+      "src/library.cpp",
+      "-o",
+      "build/library.o"
+    ],
+    "directory": ".",
+    "file": "src/library.cpp"
+  }
+]

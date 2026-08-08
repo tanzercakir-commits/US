@@ -188,7 +188,7 @@ class FrameConditionTests(unittest.TestCase):
         )
         self.assertTrue(any("reference-parameter definitions" in result.message for result in definition.results))
 
-    def test_frame_ir_and_json_are_deterministic_and_schema_v6(self):
+    def test_frame_ir_and_json_are_deterministic_and_schema_v7(self):
         source = (
             "// cs: modifies value\n"
             "// cs: ensures value == 1\n"
@@ -200,7 +200,7 @@ class FrameConditionTests(unittest.TestCase):
         self.assertEqual(first.to_json(), second.to_json())
         self.assertEqual(dump_module(first.module), dump_module(second.module))
         payload = first.to_dict()["semantic_ir"]
-        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v6")
+        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v7")
         self.assertEqual(payload["functions"][0]["parameters"][0]["passing"], "mutable_reference")
         self.assertEqual(payload["functions"][0]["frame"]["targets"][0]["root"], "f0001.s0001")
         self.assertEqual(payload["functions"][1]["body"][1]["frame_effects"][0]["after"], "value#1")

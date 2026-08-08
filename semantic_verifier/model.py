@@ -6,7 +6,7 @@ escape into the serialized IR.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 import json
 from typing import Any, Iterable, Mapping
@@ -14,9 +14,16 @@ from typing import Any, Iterable, Mapping
 from .array_types import array_type, make_array_type
 from .record_types import RecordType, RecordValue, record_type
 from .integer_types import I32, canonical_decimal, is_fixed_integer_type
+from .memory_ir import (
+    MemoryIRError,
+    MemoryModel,
+    MemoryOperation,
+    MemoryPointer,
+    is_pointer_type,
+)
 
 
-SCHEMA = "codeskeptic.semantic-verification/v6"
+SCHEMA = "codeskeptic.semantic-verification/v7"
 INT_MIN = I32.minimum
 INT_MAX = I32.maximum
 
@@ -133,6 +140,29 @@ class Expr:
             raise ValueError("array store value has the wrong element type")
         return Expr("store", array.type, args=(array, index, value))
 
+    @staticmethod
+    def pointer(pointer: MemoryPointer) -> "Expr":
+        kind = (
+            "null_pointer"
+            if pointer.kind == "typed_null"
+            else "address_of"
+        )
+        return Expr(kind, pointer.type, value=pointer.id)
+
+    @staticmethod
+    def pointer_equal(left: "Expr", right: "Expr") -> "Expr":
+        if (
+            not is_pointer_type(left.type)
+            or left.type != right.type
+            or left.kind not in {"address_of", "null_pointer", "pointer_value"}
+            or right.kind
+            not in {"address_of", "null_pointer", "pointer_value"}
+        ):
+            raise ValueError(
+                "pointer equality requires the same canonical pointer type"
+            )
+        return Expr("pointer_equal", "bool", args=(left, right))
+
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {"kind": self.kind, "type": self.type}
         if self.value is not None:
@@ -204,6 +234,14 @@ class Expr:
                 f"store({self.args[0].text()}, {self.args[1].text()}, "
                 f"{self.args[2].text()})"
             )
+        if self.kind == "null_pointer":
+            return f"null<{self.type}>"
+        if self.kind == "address_of":
+            return f"address_of({self.value})"
+        if self.kind == "pointer_value":
+            return f"pointer({self.value})"
+        if self.kind == "pointer_equal":
+            return f"({self.args[0].text()} == {self.args[1].text()})"
         return f"<{self.kind}>"
 
 
@@ -410,6 +448,44 @@ class IRNode:
     incoming_false: Expr | None = None
     reason: str | None = None
     termination: str | None = None
+    memory: MemoryOperation | None = None
+
+    def __post_init__(self) -> None:
+        memory_kinds = {
+            "memory_allocation": "allocation",
+            "memory_lifetime": "lifetime",
+            "memory_load": "load",
+            "memory_store": "store",
+        }
+        expected = memory_kinds.get(self.kind)
+        if expected is None:
+            if self.memory is not None:
+                raise ValueError(
+                    "ordinary IR node cannot carry a memory operation"
+                )
+            return
+        if self.memory is None or self.memory.kind != expected:
+            raise ValueError(
+                f"{self.kind} requires a matching memory operation"
+            )
+        if self.kind == "memory_load":
+            if (
+                self.target is None
+                or self.result_type is None
+                or self.expression is not None
+            ):
+                raise ValueError(
+                    "memory load requires target/result_type and no expression"
+                )
+        elif self.kind == "memory_store":
+            if self.target is not None or self.expression is None:
+                raise ValueError(
+                    "memory store requires an expression and no target"
+                )
+        elif self.target is not None or self.expression is not None:
+            raise ValueError(
+                "memory state transition cannot carry target/expression"
+            )
 
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {
@@ -453,6 +529,8 @@ class IRNode:
             result["incoming_true"] = self.incoming_true.to_dict()
         if self.incoming_false is not None:
             result["incoming_false"] = self.incoming_false.to_dict()
+        if self.memory is not None:
+            result["memory"] = self.memory.to_dict()
         return result
 
 
@@ -500,11 +578,34 @@ class ModuleIR:
     functions: tuple[FunctionIR, ...]
     unsupported: tuple[IRNode, ...] = ()
     records: tuple[RecordType, ...] = ()
+    memory: MemoryModel = field(default_factory=MemoryModel.empty)
     schema: str = SCHEMA
+
+    def __post_init__(self) -> None:
+        if self.schema != SCHEMA:
+            raise ValueError(f"module schema must be {SCHEMA!r}")
+        try:
+            pointers = {item.id: item for item in self.memory.pointers}
+            for function in self.functions:
+                for contract in function.contracts:
+                    _validate_memory_expression(contract.expression, pointers)
+                for expression in expressions_in(function.body):
+                    _validate_memory_expression(expression, pointers)
+                for node in nodes_in(function.body):
+                    if node.memory is not None:
+                        self.memory.validate_operation(node.memory)
+            for expression in expressions_in(self.unsupported):
+                _validate_memory_expression(expression, pointers)
+            for node in nodes_in(self.unsupported):
+                if node.memory is not None:
+                    self.memory.validate_operation(node.memory)
+        except MemoryIRError as error:
+            raise ValueError(f"malformed module Memory IR: {error}") from error
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "functions": [function.to_dict() for function in self.functions],
+            "memory": self.memory.to_dict(),
             "records": [record.to_dict() for record in self.records],
             "schema": self.schema,
             "source": self.source,
@@ -723,6 +824,7 @@ def expressions_in(nodes: Iterable[IRNode]) -> Iterable[Expr]:
         if node.expression is not None:
             yield node.expression
         yield from node.arguments
+        yield from node.post_arguments
         if node.incoming_true is not None:
             yield node.incoming_true
         if node.incoming_false is not None:
@@ -733,3 +835,35 @@ def expressions_in(nodes: Iterable[IRNode]) -> Iterable[Expr]:
         yield from expressions_in(node.then_body)
         yield from expressions_in(node.else_body)
         yield from expressions_in(node.merges)
+
+
+def _validate_memory_expression(
+    expression: Expr,
+    pointers: Mapping[str, MemoryPointer],
+) -> None:
+    pointer_kinds = {"address_of", "null_pointer", "pointer_value"}
+    if expression.kind in pointer_kinds:
+        pointer = pointers.get(str(expression.value))
+        if pointer is None:
+            raise MemoryIRError("pointer expression identity is dangling")
+        if expression.type != pointer.type:
+            raise MemoryIRError("pointer expression type disagrees with memory")
+        expected = {
+            "address_of": "address_of",
+            "null_pointer": "typed_null",
+        }.get(expression.kind)
+        if expected is not None and pointer.kind != expected:
+            raise MemoryIRError("pointer expression kind disagrees with memory")
+    elif is_pointer_type(expression.type):
+        raise MemoryIRError(
+            f"unsupported pointer expression kind {expression.kind!r}"
+        )
+    if expression.kind == "pointer_equal":
+        if (
+            len(expression.args) != 2
+            or expression.args[0].type != expression.args[1].type
+            or not is_pointer_type(expression.args[0].type)
+        ):
+            raise MemoryIRError("malformed typed pointer equality")
+    for argument in expression.args:
+        _validate_memory_expression(argument, pointers)

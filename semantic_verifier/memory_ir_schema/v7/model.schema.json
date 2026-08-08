@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "codeskeptic.memory-model/v7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "locations",
+    "objects",
+    "pointers",
+    "regions",
+    "schema",
+    "states"
+  ],
+  "properties": {
+    "id": {"$ref": "#/$defs/hash"},
+    "locations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/location"},
+      "uniqueItems": true
+    },
+    "objects": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/object"},
+      "uniqueItems": true
+    },
+    "pointers": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/pointer"},
+      "uniqueItems": true
+    },
+    "regions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/region"},
+      "uniqueItems": true
+    },
+    "schema": {"const": "codeskeptic.memory-model/v7"},
+    "states": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/state"},
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extent_bytes",
+        "id",
+        "object",
+        "offset_bytes",
+        "path",
+        "type"
+      ],
+      "properties": {
+        "extent_bytes": {"type": "integer", "minimum": 1},
+        "id": {"$ref": "#/$defs/hash"},
+        "object": {"$ref": "#/$defs/hash"},
+        "offset_bytes": {"type": "integer", "minimum": 0},
+        "path": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/pathStep"}
+        },
+        "type": {"type": "string", "minLength": 1}
+      }
+    },
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alignment_bytes",
+        "extent_bytes",
+        "id",
+        "offset_bytes",
+        "path",
+        "region",
+        "type"
+      ],
+      "properties": {
+        "alignment_bytes": {"type": "integer", "minimum": 1},
+        "extent_bytes": {"type": "integer", "minimum": 1},
+        "id": {"$ref": "#/$defs/hash"},
+        "offset_bytes": {"type": "integer", "minimum": 0},
+        "path": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/pathStep"}
+        },
+        "region": {"$ref": "#/$defs/hash"},
+        "type": {"type": "string", "minLength": 1}
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allocation_after",
+        "allocation_before",
+        "id",
+        "kind",
+        "lifetime_after",
+        "lifetime_before",
+        "location",
+        "pointer",
+        "region",
+        "state_after",
+        "state_before"
+      ],
+      "properties": {
+        "allocation_after": {
+          "oneOf": [
+            {"enum": ["allocated", "freed", "unallocated"]},
+            {"type": "null"}
+          ]
+        },
+        "allocation_before": {
+          "oneOf": [
+            {"enum": ["allocated", "freed", "unallocated"]},
+            {"type": "null"}
+          ]
+        },
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {"enum": ["allocation", "lifetime", "load", "store"]},
+        "lifetime_after": {
+          "oneOf": [
+            {"enum": ["alive", "declared", "ended"]},
+            {"type": "null"}
+          ]
+        },
+        "lifetime_before": {
+          "oneOf": [
+            {"enum": ["alive", "declared", "ended"]},
+            {"type": "null"}
+          ]
+        },
+        "location": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "pointer": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "region": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "state_after": {"$ref": "#/$defs/hash"},
+        "state_before": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "pathStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "extent_bytes",
+        "kind",
+        "offset_bytes",
+        "type",
+        "value"
+      ],
+      "properties": {
+        "extent_bytes": {"type": "integer", "minimum": 1},
+        "kind": {"enum": ["field", "index"]},
+        "offset_bytes": {"type": "integer", "minimum": 0},
+        "type": {"type": "string", "minLength": 1},
+        "value": {"type": "string", "minLength": 1}
+      }
+    },
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "location",
+        "offset_bytes",
+        "region",
+        "type"
+      ],
+      "properties": {
+        "id": {"$ref": "#/$defs/hash"},
+        "kind": {"enum": ["address_of", "typed_null"]},
+        "location": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "offset_bytes": {"type": "integer", "minimum": 0},
+        "region": {
+          "oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^ptr<.+>$"
+        }
+      }
+    },
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alignment_bytes",
+        "extent_bytes",
+        "id",
+        "initial_allocation",
+        "initial_lifetime",
+        "kind",
+        "owner",
+        "source_key"
+      ],
+      "properties": {
+        "alignment_bytes": {"type": "integer", "minimum": 1},
+        "extent_bytes": {"type": "integer", "minimum": 1},
+        "id": {"$ref": "#/$defs/hash"},
+        "initial_allocation": {
+          "enum": [
+            "allocated",
+            "freed",
+            "not_applicable",
+            "unallocated"
+          ]
+        },
+        "initial_lifetime": {
+          "enum": ["alive", "declared", "ended"]
+        },
+        "kind": {"enum": ["global", "heap", "stack"]},
+        "owner": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "null"}
+          ]
+        },
+        "source_key": {"type": "string", "minLength": 1}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function", "id", "ordinal"],
+      "properties": {
+        "function": {"type": "string", "minLength": 1},
+        "id": {"$ref": "#/$defs/hash"},
+        "ordinal": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

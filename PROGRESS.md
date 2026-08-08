@@ -2434,3 +2434,191 @@ Evidence: former and current protocol SHA-256 ->
 `CLAUDE.md` -> absent; live link scan -> pass; focused docs tests -> 2/2;
 guarded commit -> this stage commit.
 Next: none.
+
+## 2026-08-08 - F5.4: contract-surface adapter seam - DONE
+
++ Added an owned `ContractSurfaceAdapter` ABC with frozen request/result values
+  and concrete legacy-`cs:` and controlled-C++26 adapters.
++ Routed function contracts, frame contracts, loop invariants, C++26 result
+  binding, issues, and consumed-source ownership through the new seam.
++ Preserved parser, attachment, Semantic IR, VC, replay, referee, schema,
+  obligation-ID, report-byte, and fail-closed authority without adding a new
+  language or accepting any new syntax.
++ Added six direct tests for legacy function/frame collection, loop invariants,
+  C++26 result binding, neutral empty surfaces, malformed fail-closed input,
+  and exact cross-surface semantic equivalence.
++ Documented the replaceable source-surface boundary and advanced the deliberate
+  test-count ratchet from 652 to 658.
+- No blockers.
+Evidence: focused contract suites -> 27/27; compileall -> exit 0; fixture check
+-> 28 artifacts current; full baseline -> 658/658 in 385.170 s; guarded commit
+-> this stage commit.
+Next: none.
+
+## 2026-08-08 - A7.0: product-readiness boundary and expansion - DONE
+
++ Plan extended: A7, B5, and F6. The new critical path is reference
+  whole-project/owned-memory semantics, native CodeSkeptic parity, scale
+  evidence, one high-error-cost pilot, and an explicit ship/no-ship gate.
++ Added D13–D16: C++ depth before language breadth, zero-silent-skip project
+  accounting, region/object/provenance/lifetime pointer semantics, and
+  contract-first CodeSkeptic dogfood through `cs: ai` shadow proposals.
++ Froze the staged admission order for deterministic compilation-database
+  ingestion, cross-TU identity, memory IR v7, stack/global pointer VCs,
+  interprocedural alias/effect summaries, controlled heap lifecycle, and honest
+  project coverage.
++ Added the dated readiness decision with reconciled project inventories,
+  fail-closed deferred constructs, cross-repository ownership, native parity,
+  dogfood trust boundaries, and measurable product gates.
++ Corrected live overview test counts from stale 652/288 references to the
+  current 658-test ratchet and linked the readiness decision from README.
+- No project ingestion, pointer syntax, memory proof, schema, fixture, report,
+  or production-readiness claim was added in this planning stage.
+Evidence: baseline -> 658/658 in 506.057 s; live local links -> pass;
+decision matrix terms -> pass; diff whitespace check -> pass; guarded commit
+-> this stage commit.
+Next: A7.1 deterministic project manifest and compilation-database ingestion.
+
+## 2026-08-08 - A7.1: deterministic project manifest ingestion - DONE
+
++ Added immutable project-request, translation-unit, disposition, and manifest
+  values under the versioned `codeskeptic.project-manifest/v1` contract.
++ Added strict `compile_commands.json` ingestion with exact entry fields,
+  explicit POSIX/Windows command-string policy, project-root containment,
+  stale/missing/duplicate/source-argument rejection, and no command execution.
++ Every database entry is reconciled as selected, explicitly skipped, or
+  rejected. Ordinary C++ units are content-addressed; `.c` is retained as an
+  explicit `non_cpp_language` skip; any rejection makes the manifest invalid.
++ Canonical unit/project identities remove checkout and compiler executable
+  locations, normalize source/output arguments, preserve semantic flags, sort
+  input order, and remain byte-identical across equivalent relocated projects.
++ Added a standalone output/check CLI, packaged strict JSON schema, committed
+  two-C++/one-C fixture, and ten tests covering canonical round-trip,
+  immutability, relocation/order, both quoting policies, malformed accounting,
+  outside/missing paths, duplicates, ambiguous commands, and exit codes.
++ Advanced the guarded test ratchet from 658 to 668 and documented the exact
+  inventory-only boundary.
+- No Clang command was executed by project ingestion. Cross-TU identity,
+  call linking, semantic lowering, proof coverage, and pointer semantics remain
+  outside A7.1.
+Evidence: focused tests -> 10/10; committed project manifest ->
+`sha256:076bbca2e927c0e4ff3fb4a6d54959679fe6b3cfc740409c925acad2ec2a638c`;
+project fixture check -> exit 0; existing fixture check -> 28 artifacts current;
+compileall -> exit 0; full baseline -> 668/668 in 384.807 s; guarded commit ->
+this stage commit.
+Next: A7.2 project-wide identity and sound cross-TU direct-call linking.
+
+## 2026-08-08 - A7.2: project identity and direct-call linking - DONE
+
++ Added immutable, content-addressed project source, translation-unit,
+  location, function, definition, call, issue, accounting, and index values
+  under the strict `codeskeptic.project-index/v1` contract.
++ Reconstructed admitted A7.1 compiler arguments for the configured trusted
+  Clang while ignoring the database compiler executable. The pinned target and
+  C++17 policy win; plug-ins, target overrides, driver actions, extra inputs,
+  response/module/output side effects, and stale sources fail closed.
++ Added checkout-independent external function keys from language linkage,
+  qualified name, and canonical type. Internal functions additionally carry
+  their owning translation unit; Clang pointer identities never enter public
+  keys.
++ Merged header/source redeclarations and overloads, content-addressed observed
+  project headers, fingerprinted definition ASTs without locations/ephemeral
+  IDs, collapsed identical header definitions, and rejected distinct ODR
+  definitions.
++ Classified every discovered call as linked, external, unresolved,
+  unsupported, or conflicting. A project edge links only to one canonical
+  definition; missing definitions and ODR conflicts cannot lend semantics.
++ Added exact translation-unit/function/call reconciliation, a standalone
+  output/check CLI, packaged JSON schema, a six-function/four-edge canonical
+  fixture, committed missing-definition and ODR-conflict fixtures, and fifteen
+  focused tests including relocation/order, overload, internal linkage,
+  external headers, indirect/member coverage, unsafe arguments, and staleness.
++ Advanced the guarded test ratchet from 668 to 683 and documented the exact
+  A7.2 boundary.
+- No body inlining, cross-TU contract import, semantic lowering, proof,
+  templates, member/indirect dispatch, or pointer/memory semantics were added.
+Evidence: focused A7.2 tests -> 15/15; frontend/project regression set ->
+51/51; valid fixture ->
+`sha256:cc7bbc1b0be673ba921e0b872b388ec94f8e13f12720880483b56cbff84a6e84`
+with 2/2 TUs, 6/6 defined functions, and 4/4 linked calls; missing-definition
+fixture -> exit 2, 1 unresolved call; ODR fixture -> exit 2, 1 conflicting
+function/call; existing fixture check -> 28 artifacts current; schema parse,
+compileall, and diff whitespace -> pass; full baseline -> 683/683 in 363.391 s
+with unittest `OK` before the host wrapper timeout; guarded commit -> this
+stage commit.
+Next: A7.3 Memory IR v7 representation and value-only migration evidence.
+
+## 2026-08-08 - A7.3: proof-neutral Memory IR v7 - DONE
+
++ Added immutable, content-addressed region, object, location, typed-pointer,
+  memory-state, and memory-operation values under the strict
+  `codeskeptic.memory-model/v7` contract. Addresses are never integers; typed
+  null and address-of values carry explicit type and provenance.
++ Advanced semantic reports to v7 with a required Memory IR model, exact
+  canonical JSON and human dumps, strict packaged schema/loaders, and module
+  validation for dangling/type/provenance/state/operation links.
++ Added fail-closed v6-to-v7 migration for value-only reports/modules. The
+  immutable 14-case v6 archive pins 43 files; all migrated reports equal the
+  current v7 fixtures exactly and all human IR remains byte-identical.
++ Added deterministic layout, identity, Unicode, immutability, typed-pointer,
+  transition, malformed-input, migration, and proof-neutrality coverage. The
+  guarded test ratchet advances from 683 to 697.
++ Propagated the value-only v7 identity through current/native, fact-trust,
+  repair, enforcement, contract-first, and experiment evidence. The 40 frozen
+  E2 proposals, outcomes, scores, medians, threshold, and passed judgment are
+  unchanged after exact v7 bundle relinking.
+- Representation grants no proof authority. Source pointer lowering, null/
+  bounds/provenance/lifetime obligations, alias summaries, and heap proofs
+  remain fail closed for A7.4-A7.6.
+Evidence: Memory IR fixture ->
+`sha256:d06f146de8db053ee246bcabd43198a2e515b989c08c16897c1ad8f8350fc308`;
+v6 archive manifest file ->
+`ebd96c2c5dae9999855927412e04f9f6a6a8781dc7ae56b6b1b096dfcefb20d1`;
+E2 trials/report ->
+`sha256:22d470b0b58c8b3c152f92ecbedb281313d0dacab56c58dbc1eb083bdf4d5e4e` /
+`sha256:81f7193403c396ef66863b4cbe0a4501a275067cf49daf7bec420779f077aa2e`;
+focused A7.3 DoD -> 25/25 plus py_compile/schema/diff checks; full baseline ->
+697/697 in 480.582 s; worktree/history credential-pattern scan -> 0 matches.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-08 - docs: Apache-2.0 publication preparation - DONE
+
++ Added the owner-approved Apache License 2.0 at the repository root using the
+  exact official GitHub license template.
++ Added the README license declaration and made the Determinism badge follow
+  the repository default branch instead of the retired feature branch.
+- Repository visibility and default-branch contents were not changed in this
+  documentation task.
+Evidence: clean starting baseline -> 697/697 in 430.551 s; official Apache-2.0
+template comparison -> exact; README license target and diff whitespace ->
+pass; guarded commit -> this documentation commit.
+Next: merge the validated readiness branch to `main`, then make the repository
+public only after the resulting GitHub Actions gate passes.
+
+## 2026-08-08 - docs: product-focused public README - DONE
+
++ Rewrote the README in plain English around the product question, the
+  human/AI/referee trust boundary, a five-step contract-first workflow, and a
+  copyable coding-agent prompt.
++ Explained the small comment grammar, result meanings, gradual adoption on an
+  existing project, and continuity when an agent, model, or chat changes.
++ Kept current limits explicit: file-at-a-time proof, project inventory/index
+  without whole-project proof, and no source pointer-safety claim before A7.4.
+- Detailed architecture, schemas, and operational policy remain in `docs/` so
+  the public landing page stays concise.
+Evidence: clean starting baseline -> 697/697 in 277.580 s; documented quick
+start -> exit 0 with 3 verified checks; README targets and diff whitespace ->
+pass; guarded commit -> this documentation commit.
+Next: refresh PR #2 checks, then merge to `main` before changing visibility.
+
+## 2026-08-09 - docs: correct public product identity - DONE
+
++ Changed the README title, product description, workflow, and coding-agent
+  prompt from CodeSkeptic to US.
++ Kept CodeSkeptic only as the separate C++ production implementation note.
+- No verifier behavior, claims, or supported boundary changed.
+Evidence: clean starting baseline -> 697/697 in 477.977 s; documented quick
+start -> exit 0 with 3 verified checks; naming scan -> one intentional
+CodeSkeptic reference; diff whitespace -> pass; guarded commit -> this
+documentation commit.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.

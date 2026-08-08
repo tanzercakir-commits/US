@@ -16,6 +16,48 @@ def dump_module(module: ModuleIR) -> str:
             f"{field.name}:{field.type}" for field in record.fields
         )
         lines.append(f"record {record.source_name} {{ {fields} }}")
+    for region in module.memory.regions:
+        owner = f" owner={region.owner}" if region.owner is not None else ""
+        lines.append(
+            f"region {region.id} {region.kind}{owner} "
+            f"extent={region.extent_bytes} align={region.alignment_bytes} "
+            f"lifetime={region.initial_lifetime} "
+            f"allocation={region.initial_allocation}"
+        )
+    for memory_object in module.memory.objects:
+        path = "".join(
+            f".{step.value}" if step.kind == "field" else f"[{step.value}]"
+            for step in memory_object.path
+        )
+        lines.append(
+            f"object {memory_object.id} {memory_object.region}{path}:"
+            f"{memory_object.type} offset={memory_object.offset_bytes} "
+            f"extent={memory_object.extent_bytes} "
+            f"align={memory_object.alignment_bytes}"
+        )
+    for location in module.memory.locations:
+        path = "".join(
+            f".{step.value}" if step.kind == "field" else f"[{step.value}]"
+            for step in location.path
+        )
+        lines.append(
+            f"location {location.id} {location.object}{path}:"
+            f"{location.type} offset={location.offset_bytes} "
+            f"extent={location.extent_bytes}"
+        )
+    for pointer in module.memory.pointers:
+        if pointer.kind == "typed_null":
+            lines.append(f"pointer {pointer.id} {pointer.type} = null")
+        else:
+            lines.append(
+                f"pointer {pointer.id} {pointer.type} = "
+                f"address_of({pointer.location}) "
+                f"provenance={pointer.region} offset={pointer.offset_bytes}"
+            )
+    for state in module.memory.states:
+        lines.append(
+            f"memory-state {state.id} {state.function}#{state.ordinal}"
+        )
     for function in module.functions:
         lines.extend(_dump_function(function))
     return "\n".join(lines) + "\n"
@@ -77,6 +119,34 @@ def _dump_nodes(nodes: tuple[IRNode, ...], depth: int) -> list[str]:
                 )
         elif node.kind == "unsupported":
             lines.append(f"{prefix}unsupported {node.reason}")
+        elif node.kind == "memory_load":
+            lines.append(
+                f"{prefix}{node.target}:{node.result_type} := "
+                f"load {node.memory.pointer}@{node.memory.state_before}"
+            )
+        elif node.kind == "memory_store":
+            lines.append(
+                f"{prefix}store {node.memory.pointer} := "
+                f"{node.expression.text()} "
+                f"{node.memory.state_before}->{node.memory.state_after}"
+            )
+        elif node.kind in {"memory_lifetime", "memory_allocation"}:
+            operation = node.memory
+            before = (
+                operation.lifetime_before
+                if operation.kind == "lifetime"
+                else operation.allocation_before
+            )
+            after = (
+                operation.lifetime_after
+                if operation.kind == "lifetime"
+                else operation.allocation_after
+            )
+            lines.append(
+                f"{prefix}{operation.kind} {operation.region} "
+                f"{before}->{after} "
+                f"{operation.state_before}->{operation.state_after}"
+            )
         elif node.kind == "loop":
             lines.append(f"{prefix}loop {node.expression.text()}")
             lines.append(

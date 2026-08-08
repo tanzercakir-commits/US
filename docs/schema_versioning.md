@@ -8,21 +8,21 @@ The wire identifier has one explicit major component:
 codeskeptic.semantic-verification/vMAJOR
 ```
 
-The current value is `codeskeptic.semantic-verification/v6`. F4.1 froze the
+The current value is `codeskeptic.semantic-verification/v7`. F4.1 froze the
 report and Semantic IR contract as v0; A4.1 advanced to v1 for minimized public
 counterexample evidence; A6.8 advances to v2 for explicit fixed-width types and
 canonical integer evidence, A6.2 advances to v3 for owned arrays, and A6.3
 advances to v4 for value records, A6.4 advances to v5 for proved local
-reference bindings, and A6.5 advances to v6 for modular frame summaries. A
+reference bindings, A6.5 advances to v6 for modular frame summaries, and A7.3
+advances to v7 for the required proof-neutral Memory IR model. A
 producer emits exactly one major version; there
 is no implicit negotiation or fallback.
 
 The fixture-corpus manifest has its own namespace
 (`codeskeptic.fixture-corpus/v0`) and versions independently from the report/IR
 schema. A6.12 added `codeskeptic.fixed-integer-phase-gate/v0`; A6.2 through
-A6.5 advanced that independent evidence schema through v4. Gate v4 pins the v5
-archive plus v1-to-v6, v2-to-v6, v3-to-v6, v4-to-v6, and v5-to-v6 migration
-checks.
+A6.5 advanced that independent evidence schema through v4. A7.3 advances it to
+v5, pins the v6 archive, and records v1-through-v6 status migration to v7.
 Changing its frozen profile, conversion table, operator rows, backend matrix, or
 migration checks requires an intentional gate version review, not a
 report-schema reinterpretation.
@@ -200,6 +200,31 @@ returns/fields, array-element frames, conditional actuals, overlapping actuals,
 conflicting redeclaration frames, missing frames, and inaccessible/duplicate/
 overlapping targets remain fail-closed.
 
+## v7 decision: proof-neutral owned memory representation
+
+A7.3 adds a required module `memory` value under the independent
+`codeskeptic.memory-model/v7` contract. Regions record storage duration,
+extent, alignment, initial lifetime, and allocation state. Objects and
+locations carry explicit typed in-region layout paths. Pointer values are
+either typed null or typed address-of with region provenance and a canonical
+offset; addresses are never integers. Immutable function-scoped memory-state
+tokens and load, store, lifetime, and allocation records make state change
+explicit without asserting that an access is safe.
+
+Keeping this under v6 was rejected. A v6 reader can ignore an unknown module
+field and then interpret pointer-bearing nodes without their provenance,
+layout, or state identity. The complete 14-case v6 corpus is preserved under
+`fixtures/versions/v6/` with 43 checked SHA-256 entries. Value-only v6 reports
+migrate exactly by adding the one canonical empty memory model and changing
+the report/module major; all results, obligations, IDs, summaries, and human
+IR otherwise remain equal. The migration rejects any pointer-like legacy type,
+memory field, or memory node because v6 never owned those meanings.
+
+This stage is representation only. Frontend pointer lowering, dereference
+definedness, alias reasoning, and proof authority begin no earlier than A7.4.
+Unknown provenance, pointer/integer casts, unions, placement new, custom
+allocators, and unsupported layout remain fail-closed.
+
 ## Consumer rules
 
 Consumers must:
@@ -298,22 +323,23 @@ to a historical corpus are added as documented errata or a new version.
 
 ## Current compatibility statement
 
-As of A6.5:
+As of A7.3:
 
-- current producer: `codeskeptic.semantic-verification/v6`;
-- frozen previous baselines: complete v0 through v5 corpora under their matching
+- current producer: `codeskeptic.semantic-verification/v7`;
+- frozen previous baselines: complete v0 through v6 corpora under their matching
   `fixtures/versions/vN/` directories;
-- compatible readers: v6 readers that require the exact schema and implement
+- compatible readers: v7 readers that require the exact schema and implement
   fixed-width scalars, owned arrays, value records, proved local-reference
-  metadata, modular frame effects, canonical recursive evidence, and minimized
-  cores;
+  metadata, modular frame effects, the required Memory IR model, canonical
+  recursive evidence, and minimized cores;
   `semantic_verifier.schema` supplies the reference fail-closed gate;
-- v0 through v5 readers are intentionally incompatible with current semantics;
-- no legacy report reader or conversion tool exists in this producer-only
-  reference repository, so none is deleted by this migration;
+- v0 through v6 readers are intentionally incompatible with current semantics;
+- `semantic_verifier.memory_migration` is the only legacy conversion path and
+  accepts exact value-only v6 artifacts; no pointer-bearing legacy input is
+  converted;
 - the Unreleased changelog period is the migration window; archived fixture
   bytes remain available and are not scheduled for deletion.
 
-This policy does not promise that every future source feature stays in v6. It
+This policy does not promise that every future source feature stays in v7. It
 promises that a semantic break will be explicit, reviewable, fixture-backed,
 and impossible to confuse silently with the previous proof contract.

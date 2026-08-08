@@ -1,0 +1,31 @@
+module fixtures/cases/reference_slice.cpp
+record Pair { x:i32, y:i32 }
+function scalar_alias(value#0:i32) -> i32
+  reference alias:i32 -> value (mutable, enclosing_lexical_scope)
+  ensures (result == 7)
+  n00001 value#1 := 7
+  n00002 return value#1
+function record_alias(input#0:record<Pair>{x:i32,y:i32}) -> record<Pair>{x:i32,y:i32}
+  reference alias:record<Pair>{x:i32,y:i32} -> input (mutable, enclosing_lexical_scope)
+  ensures ((result.x == 4) && (result.y == input#0.y))
+  n00003 input#1 := update(input#0, x, 4)
+  n00004 return input#1
+function disjoint_fields(input#0:record<Pair>{x:i32,y:i32}) -> i32
+  reference left:i32 -> input.x (const, enclosing_lexical_scope)
+  reference right:i32 -> input.y (mutable, enclosing_lexical_scope)
+  requires (input#0.x <= 2147483642)
+  ensures (result == (input#0.x + 5))
+  n00005 assume (input#0.x <= 2147483642)
+  n00006 input#1 := update(input#0, y, 5)
+  n00007 return (input#1.x + input#1.y)
+function branch_lifetime(value#0:i32, choose#0:bool) -> i32
+  reference alias:i32 -> value (mutable, enclosing_lexical_scope)
+  reference alias:i32 -> value (mutable, enclosing_lexical_scope)
+  ensures ((choose#0 && (result == 1)) || ((!choose#0) && (result == 2)))
+  n00008 branch choose#0
+    true:
+      n00009 value#1 := 1
+    false:
+      n00010 value#2 := 2
+    n00011 merge value#3 := [true: value#1, false: value#2]
+  n00012 return value#3

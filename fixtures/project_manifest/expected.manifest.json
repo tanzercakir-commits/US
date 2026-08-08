@@ -1,0 +1,43 @@
+{
+  "entry_count": 3,
+  "id": "sha256:076bbca2e927c0e4ff3fb4a6d54959679fe6b3cfc740409c925acad2ec2a638c",
+  "rejected": [],
+  "schema": "codeskeptic.project-manifest/v1",
+  "selected": [
+    {
+      "arguments": [
+        "clang++",
+        "-std=c++17",
+        "-Iinclude",
+        "$SOURCE"
+      ],
+      "content_sha256": "sha256:4f2222d2c4c0ab93a4979c4030a47f1ede807bfac12a7812b16e540f8b9691aa",
+      "directory": ".",
+      "file": "src/add.cpp",
+      "id": "sha256:f4617d424ffd7408882768e7ff0bedc2cc67bf9c54e249d7bf1c188bedbd5d6d",
+      "language": "c++17"
+    },
+    {
+      "arguments": [
+        "clang++",
+        "-std=c++17",
+        "-Iinclude",
+        "-DPROJECT_VALUE=7",
+        "$SOURCE"
+      ],
+      "content_sha256": "sha256:2f6d3cb902a0eb51f3f9ddfbf0cc62f92d970689c7c37727619fd7301d3e25b9",
+      "directory": ".",
+      "file": "src/main.cpp",
+      "id": "sha256:b0d00cf7537649e7e42afedf593407497cfe8ae7528e1696a6c5dcf9909086f3",
+      "language": "c++17"
+    }
+  ],
+  "skipped": [
+    {
+      "count": 1,
+      "file": "src/legacy.c",
+      "reason": "non_cpp_language"
+    }
+  ],
+  "status": "valid"
+}

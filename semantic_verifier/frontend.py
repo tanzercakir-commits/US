@@ -15,7 +15,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
-from typing import Any
+from typing import Any, Sequence
 
 from .cpp26_contracts import (
     Cpp26ContractBridgeError,
@@ -124,7 +124,12 @@ class ClangJsonFrontend:
         validate_integer_target_profile(self.clang)
 
     def parse_file(
-        self, path: str | os.PathLike[str], display_path: str | None = None
+        self,
+        path: str | os.PathLike[str],
+        display_path: str | None = None,
+        *,
+        compiler_arguments: Sequence[str] = (),
+        working_directory: str | os.PathLike[str] | None = None,
     ) -> FrontendUnit:
         source_path = Path(path)
         shown = (display_path or source_path.as_posix()).replace(chr(92), "/")
@@ -140,7 +145,12 @@ class ClangJsonFrontend:
             ) from error
 
         if not bridge.changed:
-            ast = self._parse_ast(source_path, shown)
+            ast = self._parse_ast(
+                source_path,
+                shown,
+                compiler_arguments=compiler_arguments,
+                working_directory=working_directory,
+            )
             physical_path = os.path.normcase(os.path.abspath(source_path))
             return FrontendUnit(
                 source,
@@ -161,7 +171,13 @@ class ClangJsonFrontend:
             if bridge.assertion_count:
                 include_path = Path(directory) / "codeskeptic_contract_assert.hpp"
                 include_path.write_bytes(b"void assert(bool);\n")
-            ast = self._parse_ast(compiler_path, shown, include_path=include_path)
+            ast = self._parse_ast(
+                compiler_path,
+                shown,
+                include_path=include_path,
+                compiler_arguments=compiler_arguments,
+                working_directory=working_directory,
+            )
             physical_path = os.path.normcase(os.path.abspath(compiler_path))
             return FrontendUnit(
                 source,
@@ -178,9 +194,12 @@ class ClangJsonFrontend:
         shown: str,
         *,
         include_path: Path | None = None,
+        compiler_arguments: Sequence[str] = (),
+        working_directory: str | os.PathLike[str] | None = None,
     ) -> dict[str, Any]:
         command = [
             self.clang,
+            *compiler_arguments,
             f"--target={TARGET_TRIPLE}",
             "-Xclang",
             "-ast-dump=json",
@@ -202,6 +221,7 @@ class ClangJsonFrontend:
                 text=True,
                 encoding="utf-8",
                 creationflags=flags,
+                cwd=working_directory,
             )
         except OSError as error:
             raise FrontendError(f"failed to execute Clang: {error}") from error

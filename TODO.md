@@ -8,11 +8,13 @@
 
 ## Now (active stage)
 
-- None. F5.3 migrated the protocol to tracked `AGENTS.md`.
+- A7.4: admit the bounded stack/global pointer subset and generate explicit
+  null, bounds, provenance, type, and lifetime obligations.
 
 ## Next
 
-- None.
+- A7.5: carry owned memory effects across direct project calls with
+  fail-closed may/must-alias and frame summaries.
 
 ## Blockers / open questions
 
@@ -21,5 +23,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.3 completed the byte-identical `CLAUDE.md` to `AGENTS.md`
-migration; current documentation links resolve and historical evidence is intact.
+2026-08-08 - A7.3 completed with proof-neutral Memory IR v7, exact value-only
+migration evidence, and the 697-test baseline green; A7.4 is active.

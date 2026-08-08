@@ -286,8 +286,13 @@ counterexample core; apply the same artifact access policy to both fields.
   do not reinterpret it on a target with different widths or signed behavior.
 - Treat shift-count and signed-left-shift violations as undefined-behavior
   findings; never use a wrapped solver result after either guard fails.
-- Require `codeskeptic.semantic-verification/v6` before consuming fields and
+- Require `codeskeptic.semantic-verification/v7` before consuming fields and
   reject mixed report/IR schemas.
+- Require the module `memory` object even for value-only programs. Treat a
+  non-empty memory model as representation only: no pointer access is accepted
+  as safe until null, bounds, provenance, type, and lifetime obligations are
+  present and verified. Reject unknown memory kinds, dangling identities,
+  pointer/integer encodings, or a non-canonical layout fail-closed.
 - Join results to obligations by ID.
 - Treat unknown status/kind values conservatively.
 - Ignore unknown object fields only within a known major; never ignore an unknown

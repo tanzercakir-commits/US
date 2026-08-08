@@ -34,13 +34,14 @@ from semantic_verifier.query_fragment import (  # noqa: E402
 from semantic_verifier.smtlib import emit_smtlib  # noqa: E402
 
 
-GATE_SCHEMA = "codeskeptic.fixed-integer-phase-gate/v4"
+GATE_SCHEMA = "codeskeptic.fixed-integer-phase-gate/v5"
 SLICE = ROOT / "examples" / "fixed_integer_gate.cpp"
 V1_ARCHIVE = ROOT / "fixtures" / "versions" / "v1"
 V2_ARCHIVE = ROOT / "fixtures" / "versions" / "v2"
 V3_ARCHIVE = ROOT / "fixtures" / "versions" / "v3"
 V4_ARCHIVE = ROOT / "fixtures" / "versions" / "v4"
 V5_ARCHIVE = ROOT / "fixtures" / "versions" / "v5"
+V6_ARCHIVE = ROOT / "fixtures" / "versions" / "v6"
 CURRENT_FIXTURES = ROOT / "fixtures" / "expected"
 EXPECTED_SUMMARY = {
     "solver_error": 0,
@@ -312,11 +313,13 @@ def run_gate(
             "archive_v3": _archive_evidence(V3_ARCHIVE, "v3"),
             "archive_v4": _archive_evidence(V4_ARCHIVE, "v4"),
             "archive_v5": _archive_evidence(V5_ARCHIVE, "v5"),
-            "v1_to_v6": _migration_evidence(V1_ARCHIVE, "v1/v6"),
-            "v2_to_v6": _migration_evidence(V2_ARCHIVE, "v2/v6"),
-            "v3_to_v6": _migration_evidence(V3_ARCHIVE, "v3/v6"),
-            "v4_to_v6": _migration_evidence(V4_ARCHIVE, "v4/v6"),
-            "v5_to_v6": _migration_evidence(V5_ARCHIVE, "v5/v6"),
+            "archive_v6": _archive_evidence(V6_ARCHIVE, "v6"),
+            "v1_to_v7": _migration_evidence(V1_ARCHIVE, "v1/v7"),
+            "v2_to_v7": _migration_evidence(V2_ARCHIVE, "v2/v7"),
+            "v3_to_v7": _migration_evidence(V3_ARCHIVE, "v3/v7"),
+            "v4_to_v7": _migration_evidence(V4_ARCHIVE, "v4/v7"),
+            "v5_to_v7": _migration_evidence(V5_ARCHIVE, "v5/v7"),
+            "v6_to_v7": _migration_evidence(V6_ARCHIVE, "v6/v7"),
         },
         "schema": GATE_SCHEMA,
         "target_profile": _target_profile(),

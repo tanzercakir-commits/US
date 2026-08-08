@@ -35,6 +35,10 @@ Implemented:
 - explicit machine-readable loop-termination non-goals;
 - deterministic JSON, human-readable output, a versioned golden corpus, and a
   two-process byte-identity CI gate;
+- proof-neutral Memory IR v7 with content-addressed regions, objects, typed
+  locations, null/address-of pointers, SSA memory states, and explicit
+  load/store/lifetime/allocation records; source pointer lowering is not yet
+  admitted;
 - an opt-in persistent exact-result cache keyed by report/key schema, backend
   identity/configuration, solver policy, and canonical obligation semantics;
 - deterministic source-ordered per-file check budgets plus positive finite
@@ -43,8 +47,9 @@ Implemented:
   compaction, uncached/warm cache identity, and repeated budget identity;
 - a fixed-width integer phase gate freezing the target profile, conversion and
   operator tables, homogeneous classifier, backend matrix, replay evidence, and
-  v1-to-v6, v2-to-v6, v3-to-v6, v4-to-v6, and v5-to-v6 migration equivalence;
-- 288 deterministic tests, including independent soundness regressions.
+  v1-to-v7 through v6-to-v7 status migration plus exact value-only v6-to-v7
+  report equivalence;
+- 697 deterministic tests, including independent soundness regressions.
 
 Partially implemented:
 
@@ -60,7 +65,7 @@ Partially implemented:
   byte offsets;
 - the dependency-free affine checker is deliberately incomplete and rejects
   QF_BV, QF_ARRAY, and QF_RECORD; Z3 is complete for every emitted homogeneous fragment;
-- v0 through v5 are archived and v6 is current; owned C++17 fixed-width types lower
+- v0 through v6 are archived and v7 is current; owned C++17 fixed-width types lower
   to `i32`/`u32`/`i64`/`u64`, integer wire evidence is canonical decimal text,
   and Clang must pass the pinned target-profile probe before lowering.
 
@@ -71,7 +76,7 @@ Proposed, not implemented:
 - production diagnostic/SARIF/MCP adapters for proof results and models;
 - broader C++ value, memory, alias, and ownership semantics;
 - loop termination variants or invariant inference;
-- automated repair/AI-loop integration.
+- a live external-model adapter or automatic source modification.
 
 ## Problem statement
 
@@ -227,6 +232,21 @@ If any semantic node in a function is unsupported, that function is replaced
 by one unsupported IR node and no ordinary obligations are generated for it.
 This is the fail-closed boundary.
 
+### Contract surfaces
+
+Source-level contract syntax crosses one owned
+`ContractSurfaceAdapter` boundary before semantic lowering uses it. The
+legacy `cs:` adapter collects function contracts, frame contracts, and loop
+invariants. The controlled C++26 adapter collects the bridge's `pre` and
+`post` metadata. Both return immutable owned contracts, explicit issues, and
+the source locations or native offsets they consumed.
+
+This seam is intentionally not a new contract language and does not judge a
+claim. Parsing, Semantic IR, VC generation, replay, and the deterministic
+referee retain their existing authority. Unsupported or mixed surfaces still
+fail closed, and equivalent `cs:` and C++26 predicates lower to identical
+logic-facing expressions.
+
 ### Semantic IR
 
 The implemented node kinds are:
@@ -244,12 +264,16 @@ The implemented node kinds are:
 Expressions contain typed constants, versioned variables, unary not/negation,
 arithmetic, comparisons, boolean connectives, owned `array`/`select`/`store`
 expressions, `record`/`project`/`update` expressions, and the exact
-`signed_no_overflow` safety predicate. The JSON schema identifier is
-`codeskeptic.semantic-verification/v6`. Serialization uses sorted JSON object
+`signed_no_overflow` safety predicate. Memory-only IR additionally owns typed
+null/address-of pointer values and pointer equality; addresses are never
+integers. The JSON schema identifier is
+`codeskeptic.semantic-verification/v7`. Serialization uses sorted JSON object
 keys and source-ordered arrays. Compatibility and major-version triggers are
 defined in the [schema version policy](schema_versioning.md).
-Heap allocate/release and pointer-based load/store remain proposed. Adding them without
-an alias and memory model would create false confidence.
+Heap allocate/release and pointer-based load/store are representable but remain
+outside source lowering and proof. Treating their representation as safety
+evidence before alias, bounds, provenance, and lifetime VCs would create false
+confidence.
 
 ### Contract model
 
@@ -576,12 +600,13 @@ Exit codes:
 - 2: no violation, but at least one unknown or unsupported result;
 - 3: solver/checker error.
 
-The 155-test suite covers frontend boundaries, deterministic IR/SMT/report
+The 697-test suite covers frontend boundaries, deterministic IR/SMT/report
 serialization, contracts, branches/merges, modular calls, recursion rejection,
 loop havoc and invariant VCs, C++ arithmetic safety, backend disagreement and
 process failures, counterexample replay, fixture regeneration, and independent
 two-process byte comparison. The test-count ratchet prevents accidental loss of
-coverage. Five versioned fixture cases produce ten committed golden artifacts.
+coverage. Fourteen versioned fixture cases produce 28 committed golden
+artifacts, with previous schema corpora preserved separately.
 
 The unmodified CodeSkeptic reference was configured separately against LLVM
 20.1.8. Its CTest run passed 811/811 tests, and the same 811 tests passed again

@@ -117,6 +117,13 @@ status. `violated.cpp` proves the negative path: its false postcondition
 produces two verified obligations plus one replayed violation and exit `1`.
 Equivalent standard and `cs:` fixtures lower to the same semantic projection.
 
+The extracted function metadata now enters lowering through the same owned
+`ContractSurfaceAdapter` seam as legacy `cs:` comments. The adapters share
+only a result boundary: they do not merge syntaxes, reinterpret predicates, or
+change the bridge acceptance rules. This keeps a future native Clang contract
+source replaceable without changing Semantic IR, verification conditions, or
+referee outcomes.
+
 The implemented acceptance subset is attribute-free and definition-only. A
 contracted function must be its first and only declaration and otherwise fit
 the existing non-virtual frontend subset. A postcondition may omit the result

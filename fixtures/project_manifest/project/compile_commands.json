@@ -1,0 +1,42 @@
+[
+  {
+    "arguments": [
+      "clang++",
+      "-std=c++17",
+      "-Iinclude",
+      "-DPROJECT_VALUE=7",
+      "-c",
+      "src/main.cpp",
+      "-o",
+      "build/main.o"
+    ],
+    "directory": ".",
+    "file": "src/main.cpp",
+    "output": "build/main.o"
+  },
+  {
+    "arguments": [
+      "clang",
+      "-std=c17",
+      "-c",
+      "src/legacy.c",
+      "-o",
+      "build/legacy.o"
+    ],
+    "directory": ".",
+    "file": "src/legacy.c"
+  },
+  {
+    "arguments": [
+      "clang++",
+      "-std=c++17",
+      "-Iinclude",
+      "-c",
+      "src/add.cpp",
+      "-o",
+      "build/add.o"
+    ],
+    "directory": ".",
+    "file": "src/add.cpp"
+  }
+]

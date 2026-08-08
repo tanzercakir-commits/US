@@ -1,0 +1,3663 @@
+{
+  "non_goals": [
+    {
+      "description": "termination is not checked; verified loop obligations establish partial correctness only",
+      "kind": "loop_termination",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 31
+      }
+    }
+  ],
+  "obligations": [
+    {
+      "assumptions": [],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "variable",
+                "type": "record<Pair>{x:i32,y:i32}",
+                "value": "pair#0"
+              }
+            ],
+            "kind": "project",
+            "type": "i32",
+            "value": "x"
+          },
+          {
+            "kind": "constant",
+            "type": "i32",
+            "value": "7"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "external postcondition must be in the supported logic fragment: ensures pair.x == 7",
+      "function": "set_x",
+      "id": "ob00001",
+      "kind": "contract_well_formed",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 9
+      },
+      "mode": "well_formed"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#0"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#0"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#0"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#0"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#1"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#1"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#1"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#1"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "input#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#0"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "record<Pair>{x:i32,y:i32}",
+                      "value": "input#1"
+                    }
+                  ],
+                  "kind": "project",
+                  "type": "i32",
+                  "value": "x"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "x"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "input#1"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "record<Pair>{x:i32,y:i32}",
+                    "value": "input#1"
+                  }
+                ],
+                "kind": "project",
+                "type": "i32",
+                "value": "x"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "7"
+              }
+            ],
+            "kind": "binary",
+            "op": "==",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "record<Pair>{x:i32,y:i32}",
+                    "value": "input#1"
+                  }
+                ],
+                "kind": "project",
+                "type": "i32",
+                "value": "y"
+              },
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "record<Pair>{x:i32,y:i32}",
+                    "value": "input#0"
+                  }
+                ],
+                "kind": "project",
+                "type": "i32",
+                "value": "y"
+              }
+            ],
+            "kind": "binary",
+            "op": "==",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 12: ensures result.x == 7 && result.y == input.y",
+      "function": "preserve_frame",
+      "id": "ob00002",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 15
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,2>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 2)",
+      "function": "extension_bundle",
+      "id": "ob00003",
+      "kind": "array_bounds",
+      "location": {
+        "column": 10,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 21
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,2>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "0"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "1"
+              },
+              {
+                "kind": "constant",
+                "type": "i32",
+                "value": "2"
+              }
+            ],
+            "kind": "binary",
+            "op": "<",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "array index must be in [0, 2)",
+      "function": "extension_bundle",
+      "id": "ob00004",
+      "kind": "array_bounds",
+      "location": {
+        "column": 10,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 21
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,2>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#0"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                }
+              ],
+              "kind": "record",
+              "type": "record<Pair>{x:i32,y:i32}"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "y"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#1"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "record<Pair>{x:i32,y:i32}",
+                      "value": "pair#2"
+                    }
+                  ],
+                  "kind": "project",
+                  "type": "i32",
+                  "value": "x"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "x"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "wide#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "wide#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "kind": "variable",
+                            "type": "record<Pair>{x:i32,y:i32}",
+                            "value": "pair#2"
+                          }
+                        ],
+                        "kind": "project",
+                        "type": "i32",
+                        "value": "x"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "-9223372036854775808"
+              }
+            ],
+            "kind": "binary",
+            "op": ">=",
+            "type": "bool"
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "kind": "variable",
+                    "type": "i64",
+                    "value": "wide#0"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "kind": "variable",
+                            "type": "record<Pair>{x:i32,y:i32}",
+                            "value": "pair#2"
+                          }
+                        ],
+                        "kind": "project",
+                        "type": "i32",
+                        "value": "x"
+                      }
+                    ],
+                    "kind": "cast",
+                    "op": "integral",
+                    "type": "i64"
+                  }
+                ],
+                "kind": "binary",
+                "op": "+",
+                "type": "i64"
+              },
+              {
+                "kind": "constant",
+                "type": "i64",
+                "value": "9223372036854775807"
+              }
+            ],
+            "kind": "binary",
+            "op": "<=",
+            "type": "bool"
+          }
+        ],
+        "kind": "binary",
+        "op": "&&",
+        "type": "bool"
+      },
+      "description": "signed + result must remain within i64",
+      "function": "extension_bundle",
+      "id": "ob00005",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 15,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 27
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,2>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#0"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                }
+              ],
+              "kind": "record",
+              "type": "record<Pair>{x:i32,y:i32}"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "y"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#1"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "record<Pair>{x:i32,y:i32}",
+                      "value": "pair#2"
+                    }
+                  ],
+                  "kind": "project",
+                  "type": "i32",
+                  "value": "x"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "x"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "wide#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "adjusted#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "bits#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "15"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "&",
+              "type": "u32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "u32",
+            "value": "i#0"
+          },
+          {
+            "kind": "variable",
+            "type": "u32",
+            "value": "bits#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "<=",
+        "type": "bool"
+      },
+      "description": "loop invariant must hold on entry: invariant i <= bits",
+      "function": "extension_bundle",
+      "id": "ob00006",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 30
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,2>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#0"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                }
+              ],
+              "kind": "record",
+              "type": "record<Pair>{x:i32,y:i32}"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "y"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#1"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "record<Pair>{x:i32,y:i32}",
+                      "value": "pair#2"
+                    }
+                  ],
+                  "kind": "project",
+                  "type": "i32",
+                  "value": "x"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "x"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "wide#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "adjusted#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "bits#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "15"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "&",
+              "type": "u32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "bits#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#1"
+            },
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "bits#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "1"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "u32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "u32",
+            "value": "i#2"
+          },
+          {
+            "kind": "variable",
+            "type": "u32",
+            "value": "bits#0"
+          }
+        ],
+        "kind": "binary",
+        "op": "<=",
+        "type": "bool"
+      },
+      "description": "loop body must preserve invariant: invariant i <= bits",
+      "function": "extension_bundle",
+      "id": "ob00007",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 30
+      },
+      "mode": "validity"
+    },
+    {
+      "assumptions": [
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "array<i32,2>",
+              "value": "values#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "1"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2"
+            }
+          ],
+          "kind": "binary",
+          "op": "<",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#0"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                }
+              ],
+              "kind": "record",
+              "type": "record<Pair>{x:i32,y:i32}"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#1"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "y"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "-2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "y"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "2147483647"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "pair#2"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#1"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "record<Pair>{x:i32,y:i32}",
+                      "value": "pair#2"
+                    }
+                  ],
+                  "kind": "project",
+                  "type": "i32",
+                  "value": "x"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "x"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#2"
+                }
+              ],
+              "kind": "project",
+              "type": "i32",
+              "value": "x"
+            },
+            {
+              "kind": "constant",
+              "type": "i32",
+              "value": "7"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "wide#0"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2147483648"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "-9223372036854775808"
+            }
+          ],
+          "kind": "binary",
+          "op": ">=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            {
+              "kind": "constant",
+              "type": "i64",
+              "value": "9223372036854775807"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "i64",
+              "value": "adjusted#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "bits#0"
+            },
+            {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "15"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "&",
+              "type": "u32"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#0"
+            },
+            {
+              "kind": "constant",
+              "type": "u32",
+              "value": "0"
+            }
+          ],
+          "kind": "binary",
+          "op": "==",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#3"
+            },
+            {
+              "kind": "variable",
+              "type": "u32",
+              "value": "bits#0"
+            }
+          ],
+          "kind": "binary",
+          "op": "<=",
+          "type": "bool"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#3"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "bits#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            }
+          ],
+          "kind": "unary",
+          "op": "!",
+          "type": "bool"
+        }
+      ],
+      "conclusion": {
+        "args": [
+          {
+            "kind": "variable",
+            "type": "u32",
+            "value": "i#3"
+          },
+          {
+            "kind": "constant",
+            "type": "u32",
+            "value": "3"
+          }
+        ],
+        "kind": "binary",
+        "op": "==",
+        "type": "bool"
+      },
+      "description": "postcondition declared at line 18: ensures result == 3",
+      "function": "extension_bundle",
+      "id": "ob00008",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 34
+      },
+      "mode": "validity"
+    }
+  ],
+  "results": [
+    {
+      "function": "set_x",
+      "kind": "contract_well_formed",
+      "location": {
+        "column": 4,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 9
+      },
+      "message": "verified: contract expression is in the supported logic fragment",
+      "obligation": "ob00001",
+      "status": "verified"
+    },
+    {
+      "function": "preserve_frame",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 15
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00002",
+      "status": "verified"
+    },
+    {
+      "function": "extension_bundle",
+      "kind": "array_bounds",
+      "location": {
+        "column": 10,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 21
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00003",
+      "status": "verified"
+    },
+    {
+      "function": "extension_bundle",
+      "kind": "array_bounds",
+      "location": {
+        "column": 10,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 21
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00004",
+      "status": "verified"
+    },
+    {
+      "function": "extension_bundle",
+      "kind": "signed_overflow",
+      "location": {
+        "column": 15,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 27
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00005",
+      "status": "verified"
+    },
+    {
+      "function": "extension_bundle",
+      "kind": "loop_invariant_entry",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 30
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00006",
+      "status": "verified"
+    },
+    {
+      "function": "extension_bundle",
+      "kind": "loop_invariant_preservation",
+      "location": {
+        "column": 8,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 30
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00007",
+      "status": "verified"
+    },
+    {
+      "function": "extension_bundle",
+      "kind": "postcondition",
+      "location": {
+        "column": 5,
+        "file": "fixtures/cases/semantic_extensions_gate.cpp",
+        "line": 34
+      },
+      "message": "verified: Z3 proved the obligation",
+      "obligation": "ob00008",
+      "status": "verified"
+    }
+  ],
+  "schema": "codeskeptic.semantic-verification/v6",
+  "semantic_ir": {
+    "functions": [
+      {
+        "body": [],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "record<Pair>{x:i32,y:i32}",
+                      "value": "pair#0"
+                    }
+                  ],
+                  "kind": "project",
+                  "type": "i32",
+                  "value": "x"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 9
+            },
+            "machine_proposed": false,
+            "text": "ensures pair.x == 7"
+          }
+        ],
+        "frame": {
+          "location": {
+            "column": 4,
+            "file": "fixtures/cases/semantic_extensions_gate.cpp",
+            "line": 8
+          },
+          "machine_proposed": false,
+          "targets": [
+            {
+              "path": [
+                {
+                  "kind": "field",
+                  "value": "x"
+                }
+              ],
+              "root": "f0001.s0001",
+              "type": "i32"
+            }
+          ],
+          "text": "modifies pair.x"
+        },
+        "has_body": false,
+        "id": "f0001",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/semantic_extensions_gate.cpp",
+          "line": 10
+        },
+        "name": "set_x",
+        "parameters": [
+          {
+            "id": "f0001.s0001",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 10
+            },
+            "name": "pair",
+            "passing": "mutable_reference",
+            "type": "record<Pair>{x:i32,y:i32}",
+            "versioned_name": "pair#0"
+          }
+        ],
+        "references": [],
+        "return_type": "void"
+      },
+      {
+        "body": [
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "record<Pair>{x:i32,y:i32}",
+                "value": "input#0"
+              }
+            ],
+            "callee": "set_x",
+            "frame_effects": [
+              {
+                "after": "input#1",
+                "before": "input#0",
+                "modified": [
+                  {
+                    "path": [
+                      {
+                        "kind": "field",
+                        "value": "x"
+                      }
+                    ],
+                    "root": "input",
+                    "type": "i32"
+                  }
+                ],
+                "root": "input",
+                "type": "record<Pair>{x:i32,y:i32}"
+              }
+            ],
+            "id": "n00001",
+            "kind": "call",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 14
+            },
+            "post_arguments": [
+              {
+                "kind": "variable",
+                "type": "record<Pair>{x:i32,y:i32}",
+                "value": "input#1"
+              }
+            ]
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "input#1"
+            },
+            "id": "n00002",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 15
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "result"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "7"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "result"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "y"
+                    },
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "input#0"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "y"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "==",
+                  "type": "bool"
+                }
+              ],
+              "kind": "binary",
+              "op": "&&",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 12
+            },
+            "machine_proposed": false,
+            "text": "ensures result.x == 7 && result.y == input.y"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0002",
+        "locals": [],
+        "location": {
+          "column": 6,
+          "file": "fixtures/cases/semantic_extensions_gate.cpp",
+          "line": 13
+        },
+        "name": "preserve_frame",
+        "parameters": [
+          {
+            "id": "f0002.s0001",
+            "location": {
+              "column": 26,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 13
+            },
+            "name": "input",
+            "passing": "value",
+            "type": "record<Pair>{x:i32,y:i32}",
+            "versioned_name": "input#0"
+          }
+        ],
+        "references": [],
+        "return_type": "record<Pair>{x:i32,y:i32}"
+      },
+      {
+        "body": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "5"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "6"
+                }
+              ],
+              "kind": "array",
+              "type": "array<i32,2>"
+            },
+            "id": "n00003",
+            "kind": "assign",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 20
+            },
+            "target": "values#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "0"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                },
+                {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "array<i32,2>",
+                      "value": "values#0"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "i32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "select",
+                  "type": "i32"
+                }
+              ],
+              "kind": "record",
+              "type": "record<Pair>{x:i32,y:i32}"
+            },
+            "id": "n00004",
+            "kind": "assign",
+            "location": {
+              "column": 10,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 21
+            },
+            "target": "pair#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "record<Pair>{x:i32,y:i32}",
+                  "value": "pair#0"
+                },
+                {
+                  "kind": "constant",
+                  "type": "i32",
+                  "value": "7"
+                }
+              ],
+              "kind": "update",
+              "type": "record<Pair>{x:i32,y:i32}",
+              "value": "y"
+            },
+            "id": "n00005",
+            "kind": "assign",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 23
+            },
+            "target": "pair#1"
+          },
+          {
+            "arguments": [
+              {
+                "kind": "variable",
+                "type": "record<Pair>{x:i32,y:i32}",
+                "value": "pair#1"
+              }
+            ],
+            "callee": "set_x",
+            "frame_effects": [
+              {
+                "after": "pair#2",
+                "before": "pair#1",
+                "modified": [
+                  {
+                    "path": [
+                      {
+                        "kind": "field",
+                        "value": "x"
+                      }
+                    ],
+                    "root": "pair",
+                    "type": "i32"
+                  }
+                ],
+                "root": "pair",
+                "type": "record<Pair>{x:i32,y:i32}"
+              }
+            ],
+            "id": "n00006",
+            "kind": "call",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 24
+            },
+            "post_arguments": [
+              {
+                "kind": "variable",
+                "type": "record<Pair>{x:i32,y:i32}",
+                "value": "pair#2"
+              }
+            ]
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "i64",
+              "value": "2147483648"
+            },
+            "id": "n00007",
+            "kind": "assign",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 26
+            },
+            "target": "wide#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "i64",
+                  "value": "wide#0"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "kind": "variable",
+                          "type": "record<Pair>{x:i32,y:i32}",
+                          "value": "pair#2"
+                        }
+                      ],
+                      "kind": "project",
+                      "type": "i32",
+                      "value": "x"
+                    }
+                  ],
+                  "kind": "cast",
+                  "op": "integral",
+                  "type": "i64"
+                }
+              ],
+              "kind": "binary",
+              "op": "+",
+              "type": "i64"
+            },
+            "id": "n00008",
+            "kind": "assign",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 27
+            },
+            "target": "adjusted#0"
+          },
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "15"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "&",
+              "type": "u32"
+            },
+            "id": "n00009",
+            "kind": "assign",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 28
+            },
+            "target": "bits#0"
+          },
+          {
+            "expression": {
+              "kind": "constant",
+              "type": "u32",
+              "value": "0"
+            },
+            "id": "n00010",
+            "kind": "assign",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 29
+            },
+            "target": "i#0"
+          },
+          {
+            "body": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "constant",
+                      "type": "u32",
+                      "value": "1"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "+",
+                  "type": "u32"
+                },
+                "id": "n00012",
+                "kind": "assign",
+                "location": {
+                  "column": 9,
+                  "file": "fixtures/cases/semantic_extensions_gate.cpp",
+                  "line": 32
+                },
+                "target": "i#2"
+              }
+            ],
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "i#1"
+                },
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "bits#0"
+                }
+              ],
+              "kind": "binary",
+              "op": "<",
+              "type": "bool"
+            },
+            "id": "n00011",
+            "invariants": [
+              {
+                "expression": {
+                  "args": [
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "i#1"
+                    },
+                    {
+                      "kind": "variable",
+                      "type": "u32",
+                      "value": "bits#0"
+                    }
+                  ],
+                  "kind": "binary",
+                  "op": "<=",
+                  "type": "bool"
+                },
+                "kind": "invariant",
+                "location": {
+                  "column": 8,
+                  "file": "fixtures/cases/semantic_extensions_gate.cpp",
+                  "line": 30
+                },
+                "machine_proposed": false,
+                "text": "invariant i <= bits"
+              }
+            ],
+            "kind": "loop",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 31
+            },
+            "loop_variables": [
+              {
+                "back_edge": "i#2",
+                "entry": "i#0",
+                "exit": "i#3",
+                "head": "i#1",
+                "name": "i",
+                "type": "u32"
+              }
+            ],
+            "termination": "non_goal"
+          },
+          {
+            "expression": {
+              "kind": "variable",
+              "type": "u32",
+              "value": "i#3"
+            },
+            "id": "n00013",
+            "kind": "return",
+            "location": {
+              "column": 5,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 34
+            }
+          }
+        ],
+        "contracts": [
+          {
+            "expression": {
+              "args": [
+                {
+                  "kind": "variable",
+                  "type": "u32",
+                  "value": "result"
+                },
+                {
+                  "kind": "constant",
+                  "type": "u32",
+                  "value": "3"
+                }
+              ],
+              "kind": "binary",
+              "op": "==",
+              "type": "bool"
+            },
+            "kind": "ensures",
+            "location": {
+              "column": 4,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 18
+            },
+            "machine_proposed": false,
+            "text": "ensures result == 3"
+          }
+        ],
+        "frame": null,
+        "has_body": true,
+        "id": "f0003",
+        "locals": [
+          {
+            "id": "f0003.s0001",
+            "location": {
+              "column": 9,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 20
+            },
+            "name": "values",
+            "type": "array<i32,2>",
+            "versioned_name": "values#0"
+          },
+          {
+            "id": "f0003.s0002",
+            "location": {
+              "column": 10,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 21
+            },
+            "name": "pair",
+            "type": "record<Pair>{x:i32,y:i32}",
+            "versioned_name": "pair#0"
+          },
+          {
+            "id": "f0003.s0003",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 26
+            },
+            "name": "wide",
+            "type": "i64",
+            "versioned_name": "wide#0"
+          },
+          {
+            "id": "f0003.s0004",
+            "location": {
+              "column": 15,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 27
+            },
+            "name": "adjusted",
+            "type": "i64",
+            "versioned_name": "adjusted#0"
+          },
+          {
+            "id": "f0003.s0005",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 28
+            },
+            "name": "bits",
+            "type": "u32",
+            "versioned_name": "bits#0"
+          },
+          {
+            "id": "f0003.s0006",
+            "location": {
+              "column": 18,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 29
+            },
+            "name": "i",
+            "type": "u32",
+            "versioned_name": "i#0"
+          }
+        ],
+        "location": {
+          "column": 14,
+          "file": "fixtures/cases/semantic_extensions_gate.cpp",
+          "line": 19
+        },
+        "name": "extension_bundle",
+        "parameters": [],
+        "references": [
+          {
+            "id": "f0003.r0001",
+            "lifetime": "enclosing_lexical_scope",
+            "location": {
+              "column": 10,
+              "file": "fixtures/cases/semantic_extensions_gate.cpp",
+              "line": 22
+            },
+            "mutable": true,
+            "name": "alias",
+            "path": [
+              {
+                "kind": "field",
+                "value": "y"
+              }
+            ],
+            "target": "pair",
+            "type": "i32"
+          }
+        ],
+        "return_type": "u32"
+      }
+    ],
+    "records": [
+      {
+        "fields": [
+          {
+            "name": "x",
+            "type": "i32"
+          },
+          {
+            "name": "y",
+            "type": "i32"
+          }
+        ],
+        "name": "Pair",
+        "type": "record<Pair>{x:i32,y:i32}"
+      }
+    ],
+    "schema": "codeskeptic.semantic-verification/v6",
+    "source": "fixtures/cases/semantic_extensions_gate.cpp",
+    "unsupported": []
+  },
+  "source": "fixtures/cases/semantic_extensions_gate.cpp",
+  "summary": {
+    "solver_error": 0,
+    "unknown": 0,
+    "unsupported": 0,
+    "verified": 8,
+    "violated": 0
+  }
+}

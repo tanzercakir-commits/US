@@ -1,5 +1,5 @@
 {
-  "report_schema": "codeskeptic.semantic-verification/v6",
+  "report_schema": "codeskeptic.semantic-verification/v7",
   "schema": "codeskeptic.native-adapter-semantic-ir/v0",
   "semantic_ir": {
     "functions": [
@@ -1303,6 +1303,15 @@
         "return_type": "i32"
       }
     ],
+    "memory": {
+      "id": "sha256:45bbd13e827d358792a5a0ea6502829676ccf7720b4616fbd6060eaa84e16a9b",
+      "locations": [],
+      "objects": [],
+      "pointers": [],
+      "regions": [],
+      "schema": "codeskeptic.memory-model/v7",
+      "states": []
+    },
     "records": [
       {
         "fields": [
@@ -1347,7 +1356,7 @@
         "type": "record<Outer>{inner:record<Inner>{value:i32,spare:i32},tag:i32}"
       }
     ],
-    "schema": "codeskeptic.semantic-verification/v6",
+    "schema": "codeskeptic.semantic-verification/v7",
     "source": "fixtures/cases/frame_conditions.cpp",
     "unsupported": []
   },

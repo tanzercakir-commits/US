@@ -8,11 +8,12 @@ import re
 from typing import Any, Iterable, Mapping
 
 from .array_types import array_type, is_array_type, parse_source_array_type
-from .contracts import (
-    ContractIssue,
-    contracts_before,
-    contracts_from_cpp26,
-    invariants_before,
+from .contracts import ContractIssue
+from .contract_surfaces import (
+    CPP26_CONTRACT_SURFACE,
+    LEGACY_CS_CONTRACT_SURFACE,
+    FunctionContractSurfaceRequest,
+    LoopContractSurfaceRequest,
 )
 from .frontend import FrontendUnit
 from .integer_types import integer_type, is_fixed_integer_type
@@ -592,15 +593,21 @@ class SemanticLowerer:
             begin_offset = self.unit.line_map.char_offset_from_byte_offset(
                 begin_byte_offset
             )
-            _, frame, _ = contracts_before(
-                self.unit.source,
-                begin_offset,
-                self.unit.line_map,
-                {parameter.name: parameter.type for parameter in parameters},
-                return_type,
-                {parameter.name: parameter.passing for parameter in parameters},
+            surface = LEGACY_CS_CONTRACT_SURFACE.collect_function(
+                FunctionContractSurfaceRequest(
+                    source=self.unit.source,
+                    declaration_offset=begin_offset,
+                    line_map=self.unit.line_map,
+                    parameter_types={
+                        parameter.name: parameter.type for parameter in parameters
+                    },
+                    return_type=return_type,
+                    parameter_modes={
+                        parameter.name: parameter.passing for parameter in parameters
+                    },
+                )
             )
-            profile = _FunctionProfile(node, link_name, parameters, frame)
+            profile = _FunctionProfile(node, link_name, parameters, surface.frame)
             self._function_profiles.setdefault(link_name, []).append(profile)
             if declaration_id is not None:
                 self._function_profile_ids[str(declaration_id)] = profile
@@ -808,14 +815,19 @@ class SemanticLowerer:
             (symbol.source_name or symbol.name): symbol.passing or "value"
             for symbol in parameters
         }
-        comment_contracts, declared_frame, comment_issues = contracts_before(
-            self.unit.source,
-            begin_offset,
-            self.unit.line_map,
-            parameter_types,
-            return_type,
-            parameter_modes,
+        comment_surface = LEGACY_CS_CONTRACT_SURFACE.collect_function(
+            FunctionContractSurfaceRequest(
+                source=self.unit.source,
+                declaration_offset=begin_offset,
+                line_map=self.unit.line_map,
+                parameter_types=parameter_types,
+                return_type=return_type,
+                parameter_modes=parameter_modes,
+            )
         )
+        comment_contracts = comment_surface.contracts
+        declared_frame = comment_surface.frame
+        comment_issues = comment_surface.issues
         body_begin_offset: int | None = None
         if body_node is not None:
             body_begin_byte = declaration_begin_offset(body_node)
@@ -829,9 +841,6 @@ class SemanticLowerer:
             if body_begin_offset is not None
             and begin_offset <= spec.offset < body_begin_offset
         )
-        self._consumed_cpp26_contract_offsets.update(
-            spec.offset for spec in cpp26_specs
-        )
         const_value_parameters = frozenset(
             str(parameter_node.get("name", ""))
             for parameter_node, parameter_profile in zip(
@@ -840,13 +849,22 @@ class SemanticLowerer:
             if parameter_profile.passing == "value"
             and re.search(r"\bconst\b", _qual_type(parameter_node))
         )
-        cpp26_contracts, cpp26_issues = contracts_from_cpp26(
-            cpp26_specs,
-            self.unit.line_map,
-            parameter_types,
-            return_type,
-            parameter_modes,
-            const_value_parameters,
+        cpp26_surface = CPP26_CONTRACT_SURFACE.collect_function(
+            FunctionContractSurfaceRequest(
+                source=self.unit.source,
+                declaration_offset=begin_offset,
+                line_map=self.unit.line_map,
+                parameter_types=parameter_types,
+                return_type=return_type,
+                parameter_modes=parameter_modes,
+                native_contracts=cpp26_specs,
+                const_value_parameters=const_value_parameters,
+            )
+        )
+        cpp26_contracts = cpp26_surface.contracts
+        cpp26_issues = cpp26_surface.issues
+        self._consumed_cpp26_contract_offsets.update(
+            cpp26_surface.consumed_native_offsets
         )
         contract_issues = comment_issues + cpp26_issues
         contracts = comment_contracts + cpp26_contracts
@@ -864,14 +882,7 @@ class SemanticLowerer:
                     "C++26 contracts require a first-and-only function definition",
                 ),
             )
-        self._consumed_contract_lines.update(
-            contract.location.line for contract in comment_contracts
-        )
-        if declared_frame is not None:
-            self._consumed_contract_lines.add(declared_frame.location.line)
-        self._consumed_contract_lines.update(
-            issue.location.line for issue in comment_issues
-        )
+        self._consumed_contract_lines.update(comment_surface.consumed_lines)
         if contract_issues and initial_error is None:
             issue = contract_issues[0]
             initial_error = UnsupportedNode(
@@ -1388,22 +1399,21 @@ class SemanticLowerer:
         statement_offset = self.unit.line_map.char_offset_from_byte_offset(
             begin_byte_offset
         )
-        invariants, invariant_issues = invariants_before(
-            self.unit.source,
-            statement_offset,
-            self.unit.line_map,
-            {
-                name: self._environment_type(name, environment)
-                for name in environment
-            },
-            "WhileStmt",
+        invariant_surface = LEGACY_CS_CONTRACT_SURFACE.collect_loop(
+            LoopContractSurfaceRequest(
+                source=self.unit.source,
+                statement_offset=statement_offset,
+                line_map=self.unit.line_map,
+                symbol_types={
+                    name: self._environment_type(name, environment)
+                    for name in environment
+                },
+                statement_kind="WhileStmt",
+            )
         )
-        self._consumed_contract_lines.update(
-            invariant.location.line for invariant in invariants
-        )
-        self._consumed_contract_lines.update(
-            issue.location.line for issue in invariant_issues
-        )
+        invariants = invariant_surface.contracts
+        invariant_issues = invariant_surface.issues
+        self._consumed_contract_lines.update(invariant_surface.consumed_lines)
         if invariant_issues:
             issue = invariant_issues[0]
             raise UnsupportedNode(

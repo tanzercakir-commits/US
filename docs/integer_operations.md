@@ -60,19 +60,20 @@ python -m unittest discover -s tests
 ```
 
 The gate emits sorted JSON with schema
-`codeskeptic.fixed-integer-phase-gate/v4`. It records:
+`codeskeptic.fixed-integer-phase-gate/v5`. It records:
 
 - the profile ranges, complete 4-by-4 conversion table, and conversion samples;
 - QF_LIA/QF_BV classifier query hashes and the backend capability matrix;
 - positive and negative evidence for all eight operator truth-table rows;
 - the combined slice's source/report hashes, summary, and replay count;
 - all 16 immutable v1, 28 immutable v2, 31 immutable v3, 34 immutable v4,
-  and 37 immutable v5 archive hashes, plus five v1-to-v6, nine v2-to-v6, ten
-  v3-to-v6, eleven v4-to-v6, and twelve v5-to-v6 status-equivalent cases.
+  37 immutable v5, and 43 immutable v6 archive hashes, plus five v1-to-v7,
+  nine v2-to-v7, ten v3-to-v7, eleven v4-to-v7, twelve v5-to-v7, and
+  fourteen v6-to-v7 status-equivalent cases.
 
 Two renders with the same Clang/Z3 configuration must be byte-identical. The
 fixture generator is independently run twice by the test suite and must produce
-the same 26 artifact byte set. Any count, hash, status, lane, or capability
+the same 28 artifact byte set. Any count, hash, status, lane, or capability
 change is a phase-gate failure requiring an intentional new plan stage.
 
 ## Unsupported boundary

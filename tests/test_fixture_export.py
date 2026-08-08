@@ -54,7 +54,7 @@ class NativeAdapterFixtureExportTests(unittest.TestCase):
         self.assertEqual(check_artifacts(DEFAULT_OUTPUT, self.first), [])
         self.assertEqual(
             hashlib.sha256(self.first[PurePosixPath("manifest.json")]).hexdigest(),
-            "462d1be66df0a3ef4d6d9493a443270248289e2c91df9ccd18e825db244c8e82",
+            "87047a49c6836264f0c98aba42738370456c594a4836d803341ed635d10527a7",
         )
 
     def test_exported_ir_and_obligations_equal_current_report_corpus(self):

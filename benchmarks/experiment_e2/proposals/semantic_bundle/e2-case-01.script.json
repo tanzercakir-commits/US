@@ -1,9 +1,9 @@
 {
   "arm": "semantic_bundle",
   "case": "e2-case-01",
-  "context": "sha256:72338a706e60295521a8a14dc9d318e20811a4a7d7af41e07cf06faf0bc09942",
+  "context": "sha256:2371bcb4250f542d1df9b0b503f42057fce1c366e0e54abe9b8f24c810d1fab8",
   "evidence_scope": "recorded-scripted-proxy",
-  "id": "sha256:4baf8beb1f8931757334dd2c42e7cb5fc050b4f272e95be9ca404f9cff6d35f7",
+  "id": "sha256:8a1d7168fcbe72cf885e5dc4a33e7db7f3c6a379da12dd989945683727f54ec1",
   "proposals": [
     {
       "base_source_sha256": "sha256:4227327f9d93e2a59a80a8b0dc175b382f4f0295405e8446f83829e3590513e1",

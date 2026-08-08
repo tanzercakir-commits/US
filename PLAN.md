@@ -129,6 +129,21 @@ Decisions are not re-litigated; changing one requires a new entry.
   deterministic SMT-LIB emission, solver orchestration, model replay, and
   result routing to C++17. Python remains the lab/reference oracle, not a
   production helper dependency. Z3 remains an unlinked subprocess per D4.
+- **D13 — C++ product depth before language breadth:** no Python, JavaScript,
+  or other language frontend is added before the C++ whole-project and memory
+  readiness gate F6.3. The contract-surface seam is not a reason to dilute the
+  product boundary.
+- **D14 — Whole-project honesty:** project ingestion inventories every selected
+  translation unit, function, and emitted obligation. Unsupported semantics and
+  tool failures stay visible in coverage; a silent skip is a release blocker.
+- **D15 — Owned memory semantics:** pointers are modeled as typed references to
+  owned regions/objects with offsets and lifetime state, never approximated as
+  unconstrained integers. Unsupported casts, allocators, or alias relations
+  fail closed until their semantics are explicitly admitted.
+- **D16 — Contract-first production dogfood:** AI may add only `cs: ai`
+  proposals to changed CodeSkeptic C++ during shadow-mode development. A
+  deterministic pre-screen and human removal of `ai` are required before a
+  contract can become accepted intent or a blocking CI input.
 
 ## 3. Constitution (invariants for every stage)
 
@@ -163,8 +178,11 @@ Decisions are not re-litigated; changing one requires a new entry.
 | E | AI loop (repair, experiment, search) | 2+5 | M5, 2d, 5a, the "consciousness experiment" |
 | F | Process & infrastructure | 3 | 3a–3d, M6b, this plan system |
 
-**Critical path:** A1 → A2 → A3 → E1 → E2. B1, D1, F1 can run in parallel.
-C1 is light; anytime after A1.
+**Completed research path:** A1 → A2 → A3 → E1 → E2. B1, D1, and F1 ran
+in parallel; C1 followed A1.
+
+**Product-readiness path:** A7.0 → A7.8 → B5.5 → F6.3. Reference semantics
+lead, native CodeSkeptic matches them, and a real pilot decides ship/no-ship.
 
 ---
 
@@ -679,6 +697,208 @@ may append implementation stages after A6.7 without renumbering existing IDs.
   repeated gate/fixture bytes match; full suite and fixture check pass.
 - Depends: A6.8–A6.11.
 
+### Phase A7 — Whole-project and owned-memory semantics
+
+#### A7.0 — Product-readiness boundary and expansion
+
+- Goal: turn the owner-approved whole-project, memory/pointer, coverage, scale,
+  and high-cost pilot sequence into explicit soundness and release gates before
+  changing IR or accepting pointer syntax.
+- Output: a dated project/memory readiness decision; the ordered A7, B5, and F6
+  stages; a fail-closed supported/deferred memory matrix; measurable project
+  coverage and ship/no-ship criteria; and the CodeSkeptic `cs: ai` shadow-mode
+  dogfood policy.
+- Exact file set: `PLAN.md`; `docs/project_memory_readiness.md`; `README.md`;
+  `docs/semantic_verification_prototype.md`; `PROGRESS.md`; `TODO.md`.
+- Boundaries: planning and documentation only. No schema, parser, IR, VC,
+  checker, fixture, benchmark, accepted syntax, report byte, or test-ratchet
+  change. Do not claim full C++, production certification, pointer safety, or
+  whole-project readiness. Do not add another programming language.
+- DoD: the decision fixes object/region/pointer/lifetime concepts, zero-silent-
+  skip project accounting, deferred constructs, stage dependencies, native
+  parity, dogfood trust boundary, scale gate, and pilot evidence; current test
+  counts are accurate in live overview docs; local links resolve; full 658-test
+  suite passes; ledger/TODO updated; guarded commit succeeds.
+- Depends: A6.12, F5.4.
+
+#### A7.1 — Deterministic project manifest and compilation-database ingestion
+
+- Goal: accept a repository-owned project request and deterministically select
+  translation units from `compile_commands.json` without yet merging their
+  semantics.
+- Output: immutable project request/TU values, strict loader, path-root policy,
+  duplicate/missing/stale-command rejection, canonical project identity,
+  project CLI entry point, fixtures, and tests.
+- Exact file set: `PLAN.md`; `semantic_verifier/project_manifest.py`;
+  `semantic_verifier/project_manifest_schema/v1/manifest.schema.json`;
+  `tools/project_manifest.py`; `tests/test_project_manifest.py`;
+  `fixtures/project_manifest/**`; `pyproject.toml`; `README.md`;
+  `docs/project_memory_readiness.md`; `guardrails/test_baseline.txt`;
+  `PROGRESS.md`; `TODO.md`.
+- Boundaries: inventory only; each TU still uses the existing single-TU
+  verifier independently. No cross-TU call assumption, pointer semantics,
+  network lookup, generated command guessing, or silent command filtering.
+- Controlled input: the database is an array of entries with exact
+  `directory`/`file` plus exactly one of `arguments` or `command`;
+  optional `output` is the only additional field. `arguments` is preferred;
+  a `command` string requires an explicit POSIX or Windows parsing policy.
+  Ordinary C++ suffixes are selected, `.c` is explicitly skipped as another
+  language, and any other suffix is rejected. The manifest never executes a
+  compilation command.
+- DoD: shuffled databases and relocated equivalent checkouts produce identical
+  logical manifests; every selected/skipped/rejected entry is accounted for;
+  malformed, duplicate, outside-root, missing-source, and compiler-argument
+  ambiguity fail closed; canonical JSON/schema round-trip and CLI output/check
+  exits are exact; the committed fixture matches; full suite and fixtures pass
+  at the deliberately advanced ratchet.
+- Depends: A7.0.
+
+#### A7.2 — Project-wide identity and cross-TU direct-call linking
+
+- Goal: build one owned project index with stable declaration/function identity
+  and soundly link supported direct calls across translation units.
+- Output: canonical declaration keys, definition/redeclaration resolution,
+  project call graph, external/unresolved edge states, ODR-conflict detection,
+  deterministic project IR/report identity, fixtures, and tests.
+- Owned implementation surface: `semantic_verifier/frontend.py`,
+  `semantic_verifier/project_index.py`,
+  `semantic_verifier/project_index_schema/v1/index.schema.json`,
+  `tools/project_index.py`, `tests/test_project_index.py`,
+  `fixtures/project_index/**`, and the corresponding package-data, README,
+  readiness-decision, guardrail, TODO, and append-only progress updates.
+- Identity policy: external free functions use language linkage, qualified name,
+  and canonical Clang type; internal functions additionally use the owning
+  translation unit. Checkout paths and Clang pointer identities never enter a
+  public key. Project-owned headers observed by Clang are content-addressed.
+- Admission policy: only a valid A7.1 manifest may be indexed. The configured
+  trusted Clang executable is used with reconstructed manifest arguments, the
+  pinned target/C++17 policy wins, and driver/plugin/output-producing options
+  outside the read-only AST policy fail closed.
+- Accounting policy: every selected translation unit is parsed or carries a
+  frontend error; every discovered project function is defined,
+  declaration-only, unsupported, or conflicting; every discovered call is
+  linked, external, unresolved, unsupported, or conflicting.
+- Boundaries: no body inlining, indirect calls, dynamic dispatch, or guessed
+  linkage. Ambiguous, conflicting, or unresolved identity is explicit and can
+  never lend a callee postcondition to a caller.
+- DoD: cross-file positive/violation fixtures, relocation/order identity,
+  overload/internal-linkage coverage, ODR conflict and missing-definition
+  rejection, zero silent functions/edges, full suite and fixtures pass.
+- Depends: A7.1.
+
+#### A7.3 — Memory IR v7: regions, objects, pointers, loads, and stores
+
+- Goal: introduce the smallest owned memory model capable of representing
+  pointer-bearing C++ without treating addresses as integers.
+- Output: versioned region/object/pointer/location/lifetime values; null,
+  address-of, load, store, field/index offset, allocation-state nodes; canonical
+  serialization; v6-to-v7 migration/equivalence evidence; fixtures and tests.
+- Owned implementation surface: `semantic_verifier/memory_ir.py`,
+  `semantic_verifier/memory_migration.py`,
+  `semantic_verifier/memory_ir_schema/v7/model.schema.json`, the memory-facing
+  additions in `semantic_verifier/model.py` and `semantic_verifier/dump.py`,
+  compatibility/gate updates required by the v7 major, `tests/test_memory_ir.py`
+  plus exact-version assertions, `fixtures/memory_ir/**`, the immutable
+  `fixtures/versions/v6/**` archive, regenerated current/native fixtures, and
+  value-only v7 identity propagation through
+  `benchmarks/experiment_e2/{contexts,proposals,results}/**`, directly linked
+  assumption-pilot evidence, and the value-only contract-first golden runs in
+  `fixtures/contract_first/**` and `pilots/contract_first/**` (with proposals,
+  transitions, outcomes, scores, and thresholds held fixed), plus the
+  corresponding package-data, changelog, schema/adoption/operations,
+  guardrail, TODO, and append-only progress updates.
+- Representation policy: regions own storage duration, extent, alignment,
+  initial lifetime, and allocation state; objects and locations carry typed
+  in-region layout paths; pointer values are either typed null or typed
+  address-of with explicit provenance; memory states are immutable SSA tokens;
+  memory operations are load, store, lifetime transition, or allocation
+  transition records attached to IR nodes.
+- Identity policy: regions, objects, locations, pointers, and memory states are
+  content-addressed from canonical logical fields. Physical addresses, Clang
+  pointer IDs, host layout guesses, and implicit pointer-as-integer encodings
+  never enter the wire contract.
+- Migration policy: v6 remains immutable. Only value-only v6 reports/modules
+  with no pointer-like type or memory field migrate mechanically to v7 by
+  adding the exact empty memory model; obligations, results, IDs, summaries,
+  and human-readable IR must otherwise remain byte/meaning equivalent.
+- Boundaries: representation only. No dereference is verified merely because it
+  serializes. Unknown provenance, pointer-integer casts, unions, placement new,
+  custom allocators, and unsupported layout remain fail closed.
+- DoD: deterministic object identity and layout, typed pointer equality/null,
+  immutable v6 archive, exact migration for value-only programs, malformed IR
+  rejection, full suite and fixtures pass.
+- Depends: A7.2.
+
+#### A7.4 — Stack/global pointer lowering and safety obligations
+
+- Goal: lower supported address-of/dereference/member/index operations and prove
+  null, bounds, provenance, and live-object obligations for stack/global data.
+- Output: controlled pointer frontend/lowering, memory-state SSA, definedness
+  VCs, SMT/replay support, contracts over supported pointer predicates, focused
+  positive/negative corpus, and counterexamples.
+- Boundaries: no heap allocation, pointer arithmetic beyond proved in-object
+  indexing, arbitrary casts, escaping stack lifetime, or silent alias
+  independence.
+- DoD: null dereference, out-of-bounds, dangling escape, invalid provenance, and
+  forbidden store violate or fail closed; valid field/array/reference cases
+  verify under both capable backends with replayed models; full suite passes.
+- Depends: A7.3.
+
+#### A7.5 — Interprocedural alias and memory-effect summaries
+
+- Goal: carry owned memory effects across direct project calls without body
+  inlining or assuming pointer parameters are disjoint.
+- Output: may/must-alias relations, region/path frame summaries, pointer-aware
+  `modifies`, call havoc/ensures semantics, summary compatibility checks,
+  deterministic alias counterexamples, fixtures, and tests.
+- Boundaries: uncertain aliasing broadens effects or becomes unsupported; it is
+  never replaced by no-alias. Indirect calls and concurrency remain outside the
+  admitted subset.
+- DoD: aliased/non-aliased parameters, nested fields, arrays, cross-TU calls,
+  conflicting summaries, frame violations, and unknown-alias fail-closed cases
+  pass focused/full suites and replay.
+- Depends: A7.4.
+
+#### A7.6 — Controlled heap lifecycle
+
+- Goal: verify the admitted scalar/array `new`/`delete` lifecycle using
+  explicit allocation identity and lifetime transitions.
+- Output: allocation/deallocation lowering, alive/freed state, use-after-free,
+  double-free, invalid-free, leak-policy outcomes, interprocedural ownership
+  summaries, deterministic replay, fixtures, and tests.
+- Boundaries: first-party ordinary allocation only; placement/nothrow/overloaded
+  new, custom allocators, shared ownership, exceptions, and concurrency remain
+  unsupported until separate decisions.
+- DoD: valid ownership transfer verifies; UAF/double/invalid free produce
+  replayed violations; uncertain ownership cannot verify; configured leak
+  policy is explicit; full suite and fixtures pass.
+- Depends: A7.5.
+
+#### A7.7 — Project coverage and unsupported-semantics report
+
+- Goal: answer “what did you not evaluate?” for an entire project with no
+  silent file, function, edge, construct, or obligation omission.
+- Output: versioned deterministic project report, counts and identities for
+  selected/rejected TUs, functions, call edges, obligations, statuses,
+  unsupported reasons, critical-scope tags, and coverage thresholds.
+- Boundaries: coverage is accounting, not proof. Unsupported/unknown/error
+  counts never enter verified coverage; user thresholds cannot relabel status.
+- DoD: totals reconcile from leaf records, every source selection has one
+  disposition, relocation/order bytes are stable, threshold failure is
+  non-zero, adversarial omissions are detected, and full suite passes.
+- Depends: A7.2, A7.6.
+
+#### A7.8 — Reference whole-project memory phase gate
+
+- Goal: freeze a non-toy, multi-TU pointer/heap corpus and prove the reference
+  pipeline is ready for native parity work.
+- Output: supported and boundary corpora, canonical project/coverage reports,
+  obligation/status oracle, repeated-run determinism and resource evidence.
+- DoD: zero silent skips; all admitted null/bounds/lifetime/alias/frame/heap
+  cases have positive and replayed-negative evidence; deferred constructs are
+  explicit; statuses and bytes repeat; full suite, fixtures, and phase gate pass.
+- Depends: A7.1–A7.7.
+
 ---
 
 ## 6. PROGRAM B — Production (CodeSkeptic integration)
@@ -1122,6 +1342,69 @@ infrastructure. Reference: prototype fixtures = the specification.
   byte-identical, repeated bytes match, and full production/reference suites
   pass.
 - Depends: B4.1.
+
+### Phase B5 — Native whole-project memory verification
+
+#### B5.0 — Production parity expansion
+
+- Goal: freeze the CodeSkeptic file/seam inventory and one-stage-at-a-time
+  native parity order for A7 without adding Python to production.
+- Output: production mapping for project ingestion, project identity, memory IR,
+  VC/referee/replay, reporting, CI, and packaging; exact B5.1 file set.
+- Depends: A7.1, B4.2.
+
+#### B5.1 — Native project driver and cross-TU parity
+
+- Goal: make CodeSkeptic consume the compilation database as one semantic
+  project and match A7.1/A7.2 identities, call edges, statuses, and reports.
+- Boundaries: native C++17 only; unresolved/ambiguous edges fail closed; no
+  Python runtime/helper and no pointer verification before B5.2.
+- DoD: vendored A7 project fixtures match byte-for-byte, all TUs/functions/edges
+  reconcile, production/reference suites pass.
+- Depends: B5.0, A7.2.
+
+#### B5.2 — Native memory IR, VC, referee, and replay parity
+
+- Goal: port admitted A7.3–A7.6 memory semantics to the production C++17 path.
+- Boundaries: no semantic widening during port; reference fixtures are the
+  executable specification; unsupported remains explicit.
+- DoD: IR/obligation/report bytes and five statuses match the A7.8 corpus;
+  negative models replay natively; production/reference suites pass.
+- Depends: B5.1, A7.8.
+
+#### B5.3 — Contract-first CodeSkeptic dogfood in shadow mode
+
+- Goal: use the existing C1 trust boundary while developing CodeSkeptic: AI
+  proposes `cs: ai` only on selected changed C++ functions, the referee
+  pre-screens, and a human accepts or rejects before CI can rely on intent.
+- Boundaries: no automatic marker removal, source patch, blocking gate, or
+  pointer claim outside B5.2 semantics. Proposal acceptance and proof status
+  remain separate audit facts.
+- DoD: one scalar and one admitted pointer-bearing CodeSkeptic change carry
+  request/proposal/pre-screen/review/acceptance/re-verification evidence;
+  rejected/stale/unsupported proposals cannot enter accepted source; existing
+  development remains unblocked during shadow mode.
+- Depends: C1.3, C2.2, B5.2.
+
+#### B5.4 — Native project report, CI, and packaged workflow
+
+- Goal: expose A7.7 accounting through CodeSkeptic JSON/SARIF/MCP and an opt-in
+  whole-project CI gate with deterministic packaged behavior.
+- Boundaries: status taxonomy is unchanged; coverage thresholds never relabel
+  results; no report-time AI or network dependency.
+- DoD: packaged binary scans the pinned project corpus, consumer totals
+  reconcile, threshold exits are exact, repeated artifacts match, and
+  production/reference CI passes.
+- Depends: B5.2, A7.7.
+
+#### B5.5 — Native non-toy production phase gate
+
+- Goal: demonstrate end-to-end project ingestion, pointer/heap verification,
+  accepted contract workflow, and honest coverage from the packaged binary.
+- DoD: zero silent skips on the pinned production corpus; reference/native
+  evidence matches; supported critical paths meet the declared threshold;
+  deferred constructs remain visible; all CI and determinism gates pass.
+- Depends: B5.3, B5.4.
 
 ---
 
@@ -2430,6 +2713,76 @@ infrastructure. Reference: prototype fixtures = the specification.
   full 652-test suite, guarded commit, push, and main Determinism run are green.
 - Depends: F5.2.
 
+#### F5.4 — Contract-surface adapter seam
+
+- Goal: place the existing legacy `cs:` and controlled C++26 contract inputs
+  behind one owned adapter boundary without changing accepted source, lowering,
+  verification conditions, reports, or proof outcomes.
+- Output: a `ContractSurfaceAdapter` ABC, immutable adapter result values,
+  concrete legacy-CS and C++26 adapters, lowering integration through the new
+  seam, focused equivalence/fail-closed tests, and updated architecture notes.
+- Exact file set: `PLAN.md`; `semantic_verifier/contract_surfaces.py`;
+  `semantic_verifier/contracts.py`; `semantic_verifier/lowering.py`;
+  `tests/test_contract_surfaces.py`; `docs/semantic_verification_prototype.md`;
+  `docs/cpp26_contracts_bridge.md`; `guardrails/test_baseline.txt`;
+  `PROGRESS.md`; `TODO.md`.
+- Boundaries: architecture refactor only. Preserve the `cs:` grammar, C++26
+  lexical bridge, attachment/placement rules, contract/frame/invariant values,
+  source locations, unsupported reasons, deterministic ordering, v6 schema,
+  obligation IDs, five statuses, and fixture bytes. Do not add another source
+  language, generalize C++ numeric semantics, invoke a model, alter accepted
+  intent, or introduce a lossy mapping. Mixed `cs:`/C++26 contracts remain
+  fail-closed. The adapter seam owns collection only; the ordinary parser,
+  Semantic IR, VC generator, and referee remain the semantic authorities.
+- DoD: direct adapter tests cover legacy function contracts/frame, legacy loop
+  invariants, controlled C++26 pre/post result binding, empty-surface behavior,
+  malformed legacy input, and exact legacy/C++26 semantic equivalence; existing
+  C++26 and contract suites remain green; current golden fixtures are byte-
+  identical under `tools/regenerate_fixtures.py --check`; the full suite passes
+  at the deliberately advanced ratchet; ledger/TODO updated; guarded stage
+  commit succeeds.
+- Depends: F5.3, C3.1, C1.3.
+
+### Phase F6 — Product-readiness evidence
+
+#### F6.0 — Scale and determinism expansion
+
+- Goal: define the real-repository scale corpus, machine profiles, budgets,
+  logical gates, and evidence policy without timing-dependent proof outcomes.
+- Depends: A7.8, B5.5.
+
+#### F6.1 — Large-project performance and determinism gate
+
+- Goal: run reference and packaged production workflows repeatedly on a pinned
+  non-toy C++ project and publish reconciled coverage, status, cache,
+  incremental, resource, and byte-identity evidence.
+- DoD: zero silent skips, identical logical outputs across repeated runs and
+  supported hosts, explicit budget exhaustion, declared operational envelope,
+  and no regression against the A7/B5 phase corpora.
+- Depends: F6.0.
+
+#### F6.2 — High-error-cost pilot
+
+- Goal: evaluate one owner-approved C++ pilot with predeclared critical scope
+  and measure useful obligations, real violations, unsupported debt, review
+  time, accepted AI proposals, CI cost, and remediation outcomes.
+- Boundaries: no certification or causality claim; no hidden exclusions;
+  sensitive source/evidence handling is fixed before ingestion.
+- DoD: signed scope manifest, reconciled project report, triaged findings,
+  accepted/rejected proposal audit, before/after operational measurements, and
+  an honest limitations record are complete.
+- Depends: F6.1.
+
+#### F6.3 — Ship/no-ship gate
+
+- Goal: decide whether CodeSkeptic is a product for the declared C++ segment,
+  not whether it verifies all C++.
+- Ship requires: packaged reproducibility; zero silent skips; pilot critical-
+  scope coverage at its predeclared threshold; replayed violations; bounded
+  unknown/unsupported debt; usable CI/SARIF/MCP workflow; and human-controlled
+  contract intent. Failure of any mandatory gate records no-ship.
+- Depends: F6.2.
+
 ---
 
 ## 11. Non-goals (permanent)
@@ -2456,6 +2809,12 @@ infrastructure. Reference: prototype fixtures = the specification.
 - **D2:** `neighborhood` query <1 s; context pack ≤2K tokens.
 - **E2:** experiment report published (whatever the outcome).
 - **F1:** benchmark trend file contains ≥3 data points.
+- **A7:** the multi-TU memory corpus has zero silent skips and exact positive /
+  replayed-negative evidence for every admitted pointer/lifetime/heap class.
+- **B5:** packaged CodeSkeptic matches the A7 project corpus and reports every
+  selected TU, function, edge, obligation, and unsupported reason.
+- **F6:** one declared high-error-cost pilot satisfies every predeclared ship
+  gate; otherwise the recorded outcome is no-ship.
 
 ## 13. Extension rule
 
