@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- [ ] **F5.2 - pin Linux CI toolchain, restore green checks, and merge PR #1**
+- None. F5.2 implementation has same-head local and GitHub acceptance.
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.2 portability repair passes focused tests; guarded full-suite
-commit and both GitHub Actions events remain before merge.
+2026-08-08 - F5.2 closed after the guarded 652-test commit and same-head
+successful push/PR Determinism runs; PR #1 is the publication record.

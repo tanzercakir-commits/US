@@ -2388,3 +2388,21 @@ Evidence: focused regression -> 8/8 in 174.975 s; hostile-target regression ->
 canonical trust ID
 `sha256:cf9a7dc393a1f3e077acd43e7fed7ef99604f9f2771b51e0c4daa31d554d2766`.
 Resume: run the guarded 652-test commit, push, and inspect both Determinism runs.
+
+## 2026-08-08 - F5.2: pinned cross-platform CI repair - DONE
+
++ Pinned Ubuntu Clang and LLD to 20.1.8 and Z3 to 5.0.0 with the official
+  archive SHA-256; every version is asserted before tests.
++ Pinned semantic parsing to `x86_64-pc-windows-msvc` on every host and made LF
+  the repository checkout contract. Canonical fact-trust and archive identities
+  now match fresh Windows and Linux clones without weakening any expectation.
++ Passed the guarded 652-test Windows commit and both GitHub Actions events at
+  the same implementation head. Linux also regenerated fixtures twice and
+  compared every byte successfully.
+- No implementation blockers. The final ledger-only head must pass the same
+  checks before PR #1 is marked ready and merged.
+Evidence: local guarded commit `bfbafb095775b199b8c4a957eca8a09bd1d70bfe`;
+push run 31255040128 -> success; pull-request run 31255042252 -> success; both at
+`bfbafb095775b199b8c4a957eca8a09bd1d70bfe`.
+Next: publish this ledger closure, require green checks on its head, then merge
+PR #1 without bypassing checks.
