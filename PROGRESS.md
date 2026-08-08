@@ -2594,3 +2594,19 @@ template comparison -> exact; README license target and diff whitespace ->
 pass; guarded commit -> this documentation commit.
 Next: merge the validated readiness branch to `main`, then make the repository
 public only after the resulting GitHub Actions gate passes.
+
+## 2026-08-08 - docs: product-focused public README - DONE
+
++ Rewrote the README in plain English around the product question, the
+  human/AI/referee trust boundary, a five-step contract-first workflow, and a
+  copyable coding-agent prompt.
++ Explained the small comment grammar, result meanings, gradual adoption on an
+  existing project, and continuity when an agent, model, or chat changes.
++ Kept current limits explicit: file-at-a-time proof, project inventory/index
+  without whole-project proof, and no source pointer-safety claim before A7.4.
+- Detailed architecture, schemas, and operational policy remain in `docs/` so
+  the public landing page stays concise.
+Evidence: clean starting baseline -> 697/697 in 277.580 s; documented quick
+start -> exit 0 with 3 verified checks; README targets and diff whitespace ->
+pass; guarded commit -> this documentation commit.
+Next: refresh PR #2 checks, then merge to `main` before changing visibility.

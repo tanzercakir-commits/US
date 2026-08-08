@@ -4,156 +4,157 @@
 ![Tests](https://img.shields.io/badge/tests-697%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
-A small reference project for checking contract-style rules in supported C++
-code. It reads real C++ with Clang, builds a simpler semantic model, and asks a
-deterministic referee whether each rule is proved, broken, or outside the
-current boundary.
+CodeSkeptic checks whether C++ code follows the rules we wrote down.
 
-The guiding principle is simple: tools may propose, but only the referee decides.
-Anything it cannot justify stays unverified.
-
-## Why this exists
-
-Code review and tests are valuable, but they do not always explain whether a
-specific rule holds for every allowed input. This project explores a practical,
-auditable verification path:
+An AI can write code and propose rules. A human approves the intent. An
+independent checker decides what is proved. Anything it cannot justify stays
+unverified.
 
 ```text
-C++ source -> Semantic IR -> proof obligations -> deterministic result
+C++ + checked rules -> independent checker -> clear result
 ```
 
-It is a completed Python reference implementation and research lab. It does not
-modify or include the separate production CodeSkeptic repository.
+This repository is the working Python reference. The production CodeSkeptic
+track is written in C++.
 
-## Quick start
+## Why this matters
+
+AI can produce code faster than people can review every line. Tests cover
+selected examples. Ordinary comments can become outdated.
+
+CodeSkeptic turns small comments into rules that can be checked. The goal is to
+review intent and evidence instead of blindly trusting the author, the AI, or
+the tool.
+
+## A small example
+
+```cpp
+// cs: requires amount >= 0
+// cs: requires balance >= amount
+// cs: ensures result >= 0
+int withdraw(int balance, int amount) {
+    return balance - amount;
+}
+```
+
+`requires` says what must be true before the call. `ensures` says what must be
+true after it. `modifies` can state what the function may change.
+
+These are normal C++ comments. They use a small grammar, not a replacement for
+C++.
+
+## How to use it
+
+1. Describe the behavior in plain language.
+2. Let the AI propose rules with the `cs: ai` marker.
+3. Review, edit, and approve those rules.
+4. Let the AI implement them without changing them.
+5. Run CodeSkeptic and act on the result.
+
+The AI proposes. The human owns the intended behavior. The checker remains the
+referee.
+
+Approved rules also survive agent, model, and chat changes. A new agent can
+read the rules and the last report instead of guessing intent from old messages.
+
+## Prompt for a coding agent
+
+```text
+This C++ project uses CodeSkeptic contracts.
+
+Before implementation:
+- Restate the requested behavior in plain English.
+- Propose the smallest useful rules with:
+  // cs: ai requires ...
+  // cs: ai ensures ...
+  // cs: ai modifies ...   only when state may change
+- Stop and ask for approval.
+
+After approval:
+- Remove the "ai" marker from the approved rules.
+- Keep the approved rules unchanged while writing the code.
+- Run CodeSkeptic and report every result.
+
+Only "verified" counts as proof. Never hide or upgrade "violated",
+"unknown", "unsupported", or "solver_error". A successful build or test
+run is not proof of a contract.
+```
+
+## Try it
 
 You need Python 3.11 or newer and Clang on `PATH`.
 
 ```powershell
 git clone https://github.com/tanzercakir-commits/US.git
 cd US
-python -m semantic_verifier examples/vertical_slice.cpp --backend affine --format text
+python -m semantic_verifier fixtures/contract_first/implemented.cpp `
+  --backend affine --format text
 ```
 
-The example deliberately contains both valid and broken rules, so exit code `1`
-is expected. The affine backend needs no Python packages or Z3. For the default
-cross-check mode, install the Z3 executable and run:
+The example returns three `verified` checks and exit code `0`.
+
+For JSON output:
 
 ```powershell
-python -m semantic_verifier examples/vertical_slice.cpp --backend both --format text
-```
-
-Contracts live beside the C++ they describe:
-
-```cpp
-// cs: requires x < 2147483647
-// cs: ensures result > x
-int increment(int x) {
-    return x + 1;
-}
+python -m semantic_verifier path/to/file.cpp --format json
 ```
 
 ## Result meanings
 
 | Result | Meaning |
 | --- | --- |
-| `verified` | The exact generated obligation was proved. |
-| `violated` | A counterexample was found and replayed. |
-| `unknown` | The code is supported, but the referee could not decide. |
-| `unsupported` | The code is outside the implemented subset. |
-| `solver_error` | The checking tool failed; this is never treated as success. |
+| `verified` | The exact rule was proved. |
+| `violated` | A failing input was found and replayed. |
+| `unknown` | The checker could not decide. |
+| `unsupported` | The code is outside the current supported subset. |
+| `solver_error` | The checking tool failed. |
 
-`unknown`, `unsupported`, and `solver_error` never become `verified` by
-assumption.
+Only `verified` is success.
 
-## What is covered
+## Starting with an existing project
 
-The supported subset is intentionally limited. It includes common integer and
-boolean logic, branches, contracted function calls, annotated loops, and
-selected arrays, value structs, references, and frame conditions. Unsupported
-C++ is reported explicitly instead of being silently approximated.
+Start with one path where a bug would be expensive. Add a few important rules
+and expand only after the results are stable.
 
-The A7 project path now provides deterministic compilation-database inventory
-and a project-wide declaration/direct-call index:
+For a project with `compile_commands.json`:
 
 ```powershell
 python tools/project_manifest.py path/to/project
 python tools/project_index.py path/to/project
 ```
 
-Every database entry is selected, explicitly skipped, or rejected. Manifest
-ingestion never executes compiler commands. Project indexing invokes only the
-configured trusted Clang, reconstructs the admitted parse arguments, and never
-executes the compiler named by the database. It merges redeclarations and
-overloads, keeps internal linkage translation-unit-owned, detects ODR
-conflicts, and classifies every discovered call as linked, external,
-unresolved, unsupported, or conflicting. Either command exits `2` on its
-fail-closed rejection conditions.
+These commands account for project files and map direct function calls. Today,
+supported source files are verified one at a time. Whole-project proof is not
+claimed yet.
 
-The index is not yet cross-translation-unit verification: it does not inline
-bodies or import a contract through an unresolved, unsupported, external, or
-conflicting edge. Memory IR v7 now represents typed regions, objects,
-locations, null/address-of pointers, SSA memory states, loads, stores, and
-lifetime/allocation transitions without treating addresses as integers. Source
-pointer lowering and proof obligations remain fail-closed until A7.4.
+## Why this style helps
 
-This is not a full C++ verifier, a production certification tool, or a
-replacement for compilation, tests, sanitizers, review, and static analysis.
+- Intent is written before implementation.
+- Rules survive agent and model changes.
+- Review can focus on behavior instead of every generated line.
+- Different agents can be judged against the same rules.
+- The AI does not grade its own work.
+- Failing examples are recorded and replayed.
+- Unsupported code is reported instead of silently skipped.
+- Adoption can begin with one function.
 
-## Confidence checks
+## Current status
 
-The repository currently carries:
+The reference supports a deliberate subset of C++ and has 697 deterministic
+tests with byte-checked evidence. Project inventory and direct-call mapping are
+available.
 
-- 697 deterministic tests;
-- reproducible, byte-checked fixtures;
-- a forty-function benchmark corpus;
-- replay evidence for every reported counterexample; and
-- a complete three-point benchmark trend with a green logical gate.
+Memory and pointer support is being added in stages. The data model exists;
+source pointer safety is not claimed as proved today. CodeSkeptic is not yet a
+full C++ verifier or a certification product. It complements compilation,
+tests, sanitizers, static analysis, and human review.
 
-Run the main checks with:
+## Learn more
 
-```powershell
-python -m unittest discover -s tests
-python tools/regenerate_fixtures.py --check
-python tools/check_benchmark_corpus.py benchmarks/corpus
-python tools/check_benchmark_trend.py benchmarks/results/runs.jsonl benchmarks/results/trend.json --check
-```
-
-GitHub Actions runs the full suite and regenerates fixtures twice to catch
-non-deterministic output.
-
-## Repository guide
-
-| Path | Contents |
-| --- | --- |
-| [`semantic_verifier/`](semantic_verifier/) | The reference verifier. |
-| [`examples/`](examples/) | Small C++ examples. |
-| [`tests/`](tests/) | Soundness, boundary, and determinism tests. |
-| [`fixtures/`](fixtures/) | Frozen reproducible evidence. |
-| [`benchmarks/`](benchmarks/) | Experiment and trend data. |
-| [`docs/`](docs/) | Detailed design and operating notes. |
-
-Useful starting points:
-
-- [Design and supported boundary](docs/semantic_verification_prototype.md)
-- [Whole-project and memory readiness](docs/project_memory_readiness.md)
+- [Contract-first workflow](docs/contract_first_workflow.md)
+- [Supported boundary](docs/semantic_verification_prototype.md)
 - [Adoption guide](docs/adoption_guide.md)
-- [Result and schema reference](docs/result_schema.md)
-- [Benchmark suite](docs/benchmark_suite.md)
-- [Roadmap](PLAN.md), [completed-work ledger](PROGRESS.md), and
-  [changelog](CHANGELOG.md)
-
-## Development guardrails
-
-Enable the repository hooks once after cloning:
-
-```powershell
-git config core.hooksPath .githooks
-```
-
-The pre-commit hook runs the full test suite, protects the test-count ratchet,
-and requires progress records for implementation changes. See
-[`AGENTS.md`](AGENTS.md) for the full contribution protocol.
+- [Roadmap](PLAN.md) and [completed work](PROGRESS.md)
 
 ## License
 
