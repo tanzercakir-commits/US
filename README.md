@@ -1,10 +1,10 @@
-# CodeSkeptic Semantic Verifier
+# US Semantic Verifier
 
 [![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
 ![Tests](https://img.shields.io/badge/tests-697%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
-CodeSkeptic checks whether C++ code follows the rules we wrote down.
+US checks whether C++ code follows the rules we wrote down.
 
 An AI can write code and propose rules. A human approves the intent. An
 independent checker decides what is proved. Anything it cannot justify stays
@@ -14,15 +14,15 @@ unverified.
 C++ + checked rules -> independent checker -> clear result
 ```
 
-This repository is the working Python reference. The production CodeSkeptic
-track is written in C++.
+This repository is US, the working Python reference. CodeSkeptic is the
+separate production implementation and is written in C++.
 
 ## Why this matters
 
 AI can produce code faster than people can review every line. Tests cover
 selected examples. Ordinary comments can become outdated.
 
-CodeSkeptic turns small comments into rules that can be checked. The goal is to
+US turns small comments into rules that can be checked. The goal is to
 review intent and evidence instead of blindly trusting the author, the AI, or
 the tool.
 
@@ -49,7 +49,7 @@ C++.
 2. Let the AI propose rules with the `cs: ai` marker.
 3. Review, edit, and approve those rules.
 4. Let the AI implement them without changing them.
-5. Run CodeSkeptic and act on the result.
+5. Run US and act on the result.
 
 The AI proposes. The human owns the intended behavior. The checker remains the
 referee.
@@ -60,7 +60,7 @@ read the rules and the last report instead of guessing intent from old messages.
 ## Prompt for a coding agent
 
 ```text
-This C++ project uses CodeSkeptic contracts.
+This C++ project uses US contracts.
 
 Before implementation:
 - Restate the requested behavior in plain English.
@@ -73,7 +73,7 @@ Before implementation:
 After approval:
 - Remove the "ai" marker from the approved rules.
 - Keep the approved rules unchanged while writing the code.
-- Run CodeSkeptic and report every result.
+- Run US and report every result.
 
 Only "verified" counts as proof. Never hide or upgrade "violated",
 "unknown", "unsupported", or "solver_error". A successful build or test
@@ -145,7 +145,7 @@ tests with byte-checked evidence. Project inventory and direct-call mapping are
 available.
 
 Memory and pointer support is being added in stages. The data model exists;
-source pointer safety is not claimed as proved today. CodeSkeptic is not yet a
+source pointer safety is not claimed as proved today. US is not yet a
 full C++ verifier or a certification product. It complements compilation,
 tests, sanitizers, static analysis, and human review.
 

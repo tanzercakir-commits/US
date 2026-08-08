@@ -2610,3 +2610,15 @@ Evidence: clean starting baseline -> 697/697 in 277.580 s; documented quick
 start -> exit 0 with 3 verified checks; README targets and diff whitespace ->
 pass; guarded commit -> this documentation commit.
 Next: refresh PR #2 checks, then merge to `main` before changing visibility.
+
+## 2026-08-09 - docs: correct public product identity - DONE
+
++ Changed the README title, product description, workflow, and coding-agent
+  prompt from CodeSkeptic to US.
++ Kept CodeSkeptic only as the separate C++ production implementation note.
+- No verifier behavior, claims, or supported boundary changed.
+Evidence: clean starting baseline -> 697/697 in 477.977 s; documented quick
+start -> exit 0 with 3 verified checks; naming scan -> one intentional
+CodeSkeptic reference; diff whitespace -> pass; guarded commit -> this
+documentation commit.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.
