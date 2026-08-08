@@ -22,7 +22,11 @@ from .cpp26_contracts import (
     Cpp26FunctionContract,
     bridge_cpp26_contracts,
 )
-from .integer_types import TARGET_PROFILE_ID, TARGET_PROFILE_PROBE
+from .integer_types import (
+    TARGET_PROFILE_ID,
+    TARGET_PROFILE_PROBE,
+    TARGET_TRIPLE,
+)
 from .locations import LineMap
 
 
@@ -82,6 +86,7 @@ def validate_integer_target_profile(clang: str) -> None:
 
     command = [
         clang,
+        f"--target={TARGET_TRIPLE}",
         "-x",
         "c++",
         "-std=c++17",
@@ -176,6 +181,7 @@ class ClangJsonFrontend:
     ) -> dict[str, Any]:
         command = [
             self.clang,
+            f"--target={TARGET_TRIPLE}",
             "-Xclang",
             "-ast-dump=json",
             "-fsyntax-only",

@@ -113,7 +113,7 @@
       "symbol": "sha256:880d804af8ad2355658c070c6e1e82d7e4d5d1ec5cf4caade9932292cfe51450"
     }
   ],
-  "id": "sha256:366c2b6ef99f44d853c83b8d6ece337e73f00c2aa8fd1d834a0823a8503f6829",
+  "id": "sha256:1ad3da9c3c086480d48456ca061552a7c88758bbb7977123300597f6b5664004",
   "limitations": [],
   "mutations": [
     {
@@ -152,7 +152,7 @@
   ],
   "schema": "codeskeptic.fact-index/v1",
   "source": {
-    "content_sha256": "sha256:4b2c1c80ff0fe2961f9a4b0a76a7064a575e0c467c4b24389501620f43141f90",
+    "content_sha256": "sha256:69a39935fc0e9e3b872084e9f9810643303386c64397d996bc397ec4738df628",
     "file": "fixtures/fact_trust/source.cpp",
     "language": "c++17"
   },

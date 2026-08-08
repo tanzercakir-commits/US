@@ -2369,3 +2369,22 @@ asset digest `d4922cebc9f0a55629231ec0c62f0bbedf8006eddaed4e68199ad19626b697f6`;
 LLVM release tag `llvmorg-20.1.8`.
 Resume: update only `.github/workflows/determinism.yml`, validate YAML and local
 suite, then push and wait for both Actions checks.
+## 2026-08-08 - F5.2: cross-platform CI repair implementation - PARTIAL
+
++ Added LLD 20.1.8 to the pinned Ubuntu toolchain and its pre-test version gate.
++ Pinned JSON-AST parsing and target-profile validation to
+  `x86_64-pc-windows-msvc`, eliminating host-dependent unsuffixed integer
+  literal selection while leaving runtime-enforcement compilation host-native.
++ Made LF the repository checkout contract and regenerated only the fact-trust
+  identities derived from the previously mixed-EOL source bytes. Updated the
+  v2/v3 archive and semantic gate assertions to the canonical Git LF bytes;
+  proof statuses, schemas, algorithms, and the 652-test ratchet are unchanged.
++ Reproduced the original Linux target drift locally, then proved the explicit
+  target overrides it. All eight formerly failing tests now pass.
+- External acceptance is pending; do not merge until both GitHub Actions events
+  pass at the same new head.
+Evidence: focused regression -> 8/8 in 174.975 s; hostile-target regression ->
+1/1; fixture check -> 28 artifacts current; fact-trust check -> exit 0 with
+canonical trust ID
+`sha256:cf9a7dc393a1f3e077acd43e7fed7ef99604f9f2771b51e0c4daa31d554d2766`.
+Resume: run the guarded 652-test commit, push, and inspect both Determinism runs.

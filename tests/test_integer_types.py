@@ -19,6 +19,7 @@ from semantic_verifier.integer_types import (
     I64,
     TARGET_PROFILE,
     TARGET_PROFILE_ID,
+    TARGET_TRIPLE,
     U32,
     U64,
     canonical_decimal,
@@ -53,6 +54,7 @@ class IntegerTypeTests(unittest.TestCase):
             },
         )
         self.assertEqual(TARGET_PROFILE.id, TARGET_PROFILE_ID)
+        self.assertEqual(TARGET_TRIPLE, "x86_64-pc-windows-msvc")
         self.assertEqual(TARGET_PROFILE.types, (I32, U32, I64, U64))
         with self.assertRaises(FrozenInstanceError):
             I32.width = 64
@@ -131,6 +133,10 @@ class IntegerTypeTests(unittest.TestCase):
             validate_integer_target_profile(clang)
             validate_integer_target_profile(clang)
         self.assertEqual(run.call_count, 1)
+        self.assertIn(
+            f"--target={TARGET_TRIPLE}",
+            run.call_args.args[0],
+        )
         self.assertIn("static_assert", run.call_args.kwargs["input"])
         _PROFILE_VALIDATION.pop(key, None)
 

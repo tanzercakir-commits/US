@@ -106,13 +106,13 @@ class IntegerPhaseGateTests(unittest.TestCase):
         self.assertEqual(migration["archive_v2"]["entries"], 28)
         self.assertEqual(
             migration["archive_v2"]["manifest_sha256"],
-            "99d46062dba664de1d13e968ee93716fa6447186fb349ec0956d290b9b6a7c7c",
+            "56af8fe0a83ab6177f39d8fc95d41a5c044be170175e2f2b2367f40a27eaad3f",
         )
         self.assertTrue(migration["archive_v2"]["valid"])
         self.assertEqual(migration["archive_v3"]["entries"], 31)
         self.assertEqual(
             migration["archive_v3"]["manifest_sha256"],
-            "e3f7cb1dcef1dfba4d36ec9cfac49bd0ab10c3a64abe38b2e6e44c7ee9ef6063",
+            "5bf90267227c960131278bc47014f02f83a9dbdf4993915a0e86bf34ebcdef63",
         )
         self.assertTrue(migration["archive_v3"]["valid"])
         self.assertEqual(migration["archive_v4"]["entries"], 34)

@@ -36,7 +36,7 @@ class SemanticExtensionsPhaseGateTests(unittest.TestCase):
         )
         self.assertEqual(
             hashlib.sha256(self.rendered.encode("utf-8")).hexdigest(),
-            "d27330e7f930043bca16b955d17b39b912f9ff345f4f260f7aab02d717fff2a9",
+            "4332eacfe19e1fdde7bc20536a6f0f23e96b5df2a4a3dc9c6380b120f35be51a",
         )
         combined = self.payload["combined_slice"]
         self.assertEqual(

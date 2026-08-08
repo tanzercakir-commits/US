@@ -30,7 +30,7 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/llvm-snapshot.gpg] https://apt.llvm.org/noble/ llvm-toolchain-noble-20 main" \
             | sudo tee /etc/apt/sources.list.d/llvm20.list
           sudo apt-get update
-          sudo apt-get install --yes clang-20
+          sudo apt-get install --yes clang-20 lld-20
 
           z3_archive="$RUNNER_TEMP/z3-5.0.0-x64-glibc-2.39.zip"
           curl --fail --location --retry 3 --output "$z3_archive" \
@@ -47,9 +47,11 @@ jobs:
         run: |
           set -euo pipefail
           clang_version="$(clang --version | sed -n '1p')"
+          lld_version="$(ld.lld --version)"
           z3_version="$(z3 --version)"
-          printf '%s\n' "$clang_version" "$z3_version"
+          printf '%s\n' "$clang_version" "$lld_version" "$z3_version"
           [[ "$clang_version" == *"clang version 20.1.8"* ]]
+          [[ "$lld_version" == *"LLD 20.1.8"* ]]
           [[ "$z3_version" == "Z3 version 5.0.0 - 64 bit" ]]
 
       - name: Run full suite

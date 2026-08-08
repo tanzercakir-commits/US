@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.2 added after PR #1 exposed Ubuntu Z3 4.8.12 / Clang 18
-drift from the supported Z3 5.0.0 / Clang 20.1.8 toolchain.
+2026-08-08 - F5.2 portability repair passes focused tests; guarded full-suite
+commit and both GitHub Actions events remain before merge.

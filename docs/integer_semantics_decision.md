@@ -21,7 +21,13 @@ implementation. The reference frontend already invokes `-std=c++17`.
 ## Pinned target profile
 
 The initial profile is
-`codeskeptic.cxx17-fixed-integers/i32-u32-i64-u64-twos-complement-arshift/v0`:
+`codeskeptic.cxx17-fixed-integers/i32-u32-i64-u64-twos-complement-arshift/v0`.
+The reference JSON-AST frontend always parses with the
+`x86_64-pc-windows-msvc` target triple, including on Linux. This freezes
+unsuffixed integer-literal type selection and other target-sensitive AST
+choices. Runtime-enforcement compilation remains host-native.
+
+The owned source types are:
 
 | Source spelling | IR type | Width | Range |
 | --- | --- | ---: | --- |

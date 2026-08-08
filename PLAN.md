@@ -2395,13 +2395,21 @@ infrastructure. Reference: prototype fixtures = the specification.
   Z3 archive digest and explicit pre-test version assertions.
 - Exact file set: PLAN.md; .github/workflows/determinism.yml; PROGRESS.md;
   TODO.md.
-- Boundaries: CI infrastructure only. Do not change verifier logic, tests,
-  fixtures, schemas, expected evidence, README claims, or the 652-test Windows
-  ratchet. Toolchain mismatch must fail before the suite rather than producing
-  misleading solver errors or rewritten fixture identities.
-- DoD: workflow rejects any Clang version other than 20.1.8 and any Z3 version
-  other than 5.0.0; the downloaded Z3 Linux archive matches its official release
-  SHA-256; local guarded commit passes; both push and pull-request Determinism
+- Owner-approved expanded exact file set after the pinned-version run exposed
+  pre-existing portability drift: `.gitattributes`;
+  `semantic_verifier/{frontend,integer_types}.py`;
+  `tests/{test_integer_types,test_integer_phase_gate,
+  test_semantic_extensions_gate}.py`; `fixtures/fact_trust/source.cpp` and its
+  four `expected/*.json` artifacts; `docs/integer_semantics_decision.md`.
+- Boundaries: portability repair only. Pin the semantic Clang target, canonical
+  LF checkout bytes, and the Linux linker. Do not weaken proof expectations,
+  change schemas, alter result states, modify verifier algorithms, or change
+  the 652-test ratchet.
+- DoD: workflow rejects any Clang/LLD version other than 20.1.8 and any Z3
+  version other than 5.0.0; the downloaded Z3 Linux archive matches its official
+  release SHA-256; semantic parsing uses the same explicit target triple on
+  Windows and Linux; affected frozen evidence is canonical-LF based; local
+  guarded commit passes; both push and pull-request Determinism
   runs are green at the same head; draft PR #1 is marked ready and merged into
   main without bypassing checks.
 - Depends: F5.1, A6.12.

@@ -10,6 +10,7 @@ TARGET_PROFILE_ID = (
     "codeskeptic.cxx17-fixed-integers/"
     "i32-u32-i64-u64-twos-complement-arshift/v0"
 )
+TARGET_TRIPLE = "x86_64-pc-windows-msvc"
 
 
 @dataclass(frozen=True, order=True, slots=True)
