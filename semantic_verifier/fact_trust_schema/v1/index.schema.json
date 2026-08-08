@@ -78,7 +78,7 @@
           "$ref": "#/$defs/hash"
         },
         "verification_schema": {
-          "const": "codeskeptic.semantic-verification/v6"
+          "const": "codeskeptic.semantic-verification/v7"
         },
         "verification_sha256": {
           "$ref": "#/$defs/hash"

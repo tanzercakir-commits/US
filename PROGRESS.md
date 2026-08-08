@@ -2547,3 +2547,36 @@ compileall, and diff whitespace -> pass; full baseline -> 683/683 in 363.391 s
 with unittest `OK` before the host wrapper timeout; guarded commit -> this
 stage commit.
 Next: A7.3 Memory IR v7 representation and value-only migration evidence.
+
+## 2026-08-08 - A7.3: proof-neutral Memory IR v7 - DONE
+
++ Added immutable, content-addressed region, object, location, typed-pointer,
+  memory-state, and memory-operation values under the strict
+  `codeskeptic.memory-model/v7` contract. Addresses are never integers; typed
+  null and address-of values carry explicit type and provenance.
++ Advanced semantic reports to v7 with a required Memory IR model, exact
+  canonical JSON and human dumps, strict packaged schema/loaders, and module
+  validation for dangling/type/provenance/state/operation links.
++ Added fail-closed v6-to-v7 migration for value-only reports/modules. The
+  immutable 14-case v6 archive pins 43 files; all migrated reports equal the
+  current v7 fixtures exactly and all human IR remains byte-identical.
++ Added deterministic layout, identity, Unicode, immutability, typed-pointer,
+  transition, malformed-input, migration, and proof-neutrality coverage. The
+  guarded test ratchet advances from 683 to 697.
++ Propagated the value-only v7 identity through current/native, fact-trust,
+  repair, enforcement, contract-first, and experiment evidence. The 40 frozen
+  E2 proposals, outcomes, scores, medians, threshold, and passed judgment are
+  unchanged after exact v7 bundle relinking.
+- Representation grants no proof authority. Source pointer lowering, null/
+  bounds/provenance/lifetime obligations, alias summaries, and heap proofs
+  remain fail closed for A7.4-A7.6.
+Evidence: Memory IR fixture ->
+`sha256:d06f146de8db053ee246bcabd43198a2e515b989c08c16897c1ad8f8350fc308`;
+v6 archive manifest file ->
+`ebd96c2c5dae9999855927412e04f9f6a6a8781dc7ae56b6b1b096dfcefb20d1`;
+E2 trials/report ->
+`sha256:22d470b0b58c8b3c152f92ecbedb281313d0dacab56c58dbc1eb083bdf4d5e4e` /
+`sha256:81f7193403c396ef66863b4cbe0a4501a275067cf49daf7bec420779f077aa2e`;
+focused A7.3 DoD -> 25/25 plus py_compile/schema/diff checks; full baseline ->
+697/697 in 480.582 s; worktree/history credential-pattern scan -> 0 matches.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.

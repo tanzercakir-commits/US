@@ -1,0 +1,105 @@
+{
+  "id": "sha256:d06f146de8db053ee246bcabd43198a2e515b989c08c16897c1ad8f8350fc308",
+  "locations": [
+    {
+      "extent_bytes": 4,
+      "id": "sha256:7af9516d01a443967da6dd967939abf95da5c4b7c8b4fe97570021c37f529727",
+      "object": "sha256:3aada74ff04a14ceb3d40c185290637d2c69b47847633a2c0e53cbd207fd7fd1",
+      "offset_bytes": 4,
+      "path": [
+        {
+          "extent_bytes": 4,
+          "kind": "field",
+          "offset_bytes": 4,
+          "type": "i32",
+          "value": "right"
+        }
+      ],
+      "type": "i32"
+    }
+  ],
+  "objects": [
+    {
+      "alignment_bytes": 4,
+      "extent_bytes": 8,
+      "id": "sha256:3aada74ff04a14ceb3d40c185290637d2c69b47847633a2c0e53cbd207fd7fd1",
+      "offset_bytes": 0,
+      "path": [],
+      "region": "sha256:24c3265c5760461dd2382d508c4417ab57bc66f2a368d99255ff28fd4b1d03bf",
+      "type": "record<Pair>{left:i32,right:i32}"
+    }
+  ],
+  "pointers": [
+    {
+      "id": "sha256:6c276c611e4ee44ff16d5d686abd4b914e59149130a6b198a872c81148d0eb2f",
+      "kind": "typed_null",
+      "location": null,
+      "offset_bytes": 0,
+      "region": null,
+      "type": "ptr<i32>"
+    },
+    {
+      "id": "sha256:c455beb45cab6169cd933b4f3056a3a044e3fbef24ea2989cfdc22b085fb16ce",
+      "kind": "address_of",
+      "location": "sha256:7af9516d01a443967da6dd967939abf95da5c4b7c8b4fe97570021c37f529727",
+      "offset_bytes": 4,
+      "region": "sha256:24c3265c5760461dd2382d508c4417ab57bc66f2a368d99255ff28fd4b1d03bf",
+      "type": "ptr<i32>"
+    }
+  ],
+  "regions": [
+    {
+      "alignment_bytes": 8,
+      "extent_bytes": 16,
+      "id": "sha256:0b27929f2f199bbf1b4d35646683baaed7a96e8ebd7382a43f987ab829cc5480",
+      "initial_allocation": "unallocated",
+      "initial_lifetime": "declared",
+      "kind": "heap",
+      "owner": "f",
+      "source_key": "memory.cpp:2:1:allocation-site"
+    },
+    {
+      "alignment_bytes": 4,
+      "extent_bytes": 8,
+      "id": "sha256:24c3265c5760461dd2382d508c4417ab57bc66f2a368d99255ff28fd4b1d03bf",
+      "initial_allocation": "not_applicable",
+      "initial_lifetime": "declared",
+      "kind": "stack",
+      "owner": "f",
+      "source_key": "memory.cpp:1:1:pair"
+    }
+  ],
+  "schema": "codeskeptic.memory-model/v7",
+  "states": [
+    {
+      "function": "f",
+      "id": "sha256:4e012986407680417d34773e30fbeffdcb8c43ebadd4bfec68fd5527ab814935",
+      "ordinal": 4
+    },
+    {
+      "function": "f",
+      "id": "sha256:5c60bccd09dc1a38b509d88d5b3b4e6d052ccfbd07351c7e8594b29c16a74dd8",
+      "ordinal": 3
+    },
+    {
+      "function": "f",
+      "id": "sha256:7b1f3b78acc65153d43a6d90a9396824dd1a21b42f890cec9b5485f0769fcd39",
+      "ordinal": 0
+    },
+    {
+      "function": "f",
+      "id": "sha256:8c4a6963dc2b8c64935fe6c2a86a3634315505e535c3e41487c2e6efda0973ec",
+      "ordinal": 5
+    },
+    {
+      "function": "f",
+      "id": "sha256:9c500159a66572f1569c2da50135c005a918be17539c5b372fba7c7eb45961a2",
+      "ordinal": 1
+    },
+    {
+      "function": "f",
+      "id": "sha256:deee0aad679c24e8d256757ee8cb0f0c6f2632fb1e3ee9475a70708c0e4b41e5",
+      "ordinal": 2
+    }
+  ]
+}

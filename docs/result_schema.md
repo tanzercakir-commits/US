@@ -2,11 +2,11 @@
 
 ## Scope and stability
 
-The current schema identifier is `codeskeptic.semantic-verification/v6`. It
+The current schema identifier is `codeskeptic.semantic-verification/v7`. It
 covers the verification report, obligations, results, non-goals, and the owned
 Semantic IR emitted by the Python reference implementation. The deterministic
 fixed-width acceptance evidence uses the separate
-`codeskeptic.fixed-integer-phase-gate/v4` schema documented in
+`codeskeptic.fixed-integer-phase-gate/v5` schema documented in
 [the integer operations runbook](integer_operations.md); it is not a report.
 
 F4.1 froze v0 as the first fixture-backed compatibility baseline. A4.1 moved to
@@ -14,12 +14,14 @@ v1 for minimized public counterexample cores. A6.8 moved to v2 for explicit
 fixed-width type identities and canonical decimal-string integer evidence.
 A6.2 moved to v3 for exact owned-array semantics; A6.3 moved to v4 for value
 records. A6.4 moved to v5 for proof-bearing local-reference target, mutability,
-and lifetime metadata. A6.5 moves to v6 for parameter passing modes, explicit
-`modifies` frames, normalized modified paths, and call frame effects. Consumers
+and lifetime metadata. A6.5 moved to v6 for parameter passing modes, explicit
+`modifies` frames, normalized modified paths, and call frame effects. A7.3
+moves to v7 for the required proof-neutral Memory IR model and typed
+pointer/memory node meanings. Consumers
 must check `schema`, ignore unknown object
 fields only within that known major, and fail closed on unknown status/mode/kind
 values. The complete [version and migration policy](schema_versioning.md)
-defines compatibility and preserves the v0 through v5 corpora.
+defines compatibility and preserves the v0 through v6 corpora.
 
 ## Report envelope
 
@@ -30,7 +32,7 @@ JSON output has this shape:
   "non_goals": [],
   "obligations": [],
   "results": [],
-  "schema": "codeskeptic.semantic-verification/v6",
+  "schema": "codeskeptic.semantic-verification/v7",
   "semantic_ir": {},
   "source": "path/to/input.cpp",
   "summary": {
@@ -277,9 +279,10 @@ is never lowered under a different target.
 
 ### Expression
 
-Every expression has `kind` and `type`. v6 type identities are `bool`, `i32`,
+Every expression has `kind` and `type`. v7 type identities are `bool`, `i32`,
 `u32`, `i64`, `u64`, `array<E,N>`, and canonical
-`record<Name>{field:type,...}` identities. Arrays contain 1 to 64 fixed-width
+`record<Name>{field:type,...}` identities. Memory-only values may additionally
+use canonical `ptr<T>` identities. Arrays contain 1 to 64 fixed-width
 integers; records contain 1 to 16 scalar, array, or nested record fields and
 have maximum nesting depth 8.
 
@@ -297,6 +300,10 @@ have maximum nesting depth 8.
 | `record` | `args` | Source-declaration-ordered field values matching the canonical record type. |
 | `project` | `value`, one-element `args` | Named field selection from a record value. |
 | `update` | `value`, two-element `args` | Functional field replacement; all other fields remain exact. |
+| `null_pointer` | `value` | ID of one typed-null Memory IR pointer. |
+| `address_of` | `value` | ID of one provenance-bearing Memory IR address. |
+| `pointer_value` | `value` | ID of a typed pointer value reserved for memory SSA lowering. |
+| `pointer_equal` | two-element `args` | Equality over identical canonical pointer types; no ordering or integer interpretation. |
 
 The representable operators are `+`, `-`, `*`, `/`, `%`, `~`, `&`, `|`, `^`,
 `<<`, `>>`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`, `||`, and unary `!`/`-`.
@@ -343,16 +350,43 @@ canonical type and replayed before a violation is returned.
 | `source` | string | yes | Caller-visible source path. |
 | `functions` | function array | yes | Source traversal order. |
 | `records` | record-type array | yes | Source declaration order; empty for modules without records. |
+| `memory` | memory model | yes | Exact `codeskeptic.memory-model/v7` object; value-only modules carry the canonical empty model. |
 | `unsupported` | node array | yes | Module/frontend issues in deterministic order. |
+
+### Memory model
+
+The module `memory` object has `schema`, content-addressed `id`, and required
+`regions`, `objects`, `locations`, `pointers`, and `states` arrays sorted by
+their SHA-256 identity. The independent strict schema is packaged at
+`semantic_verifier/memory_ir_schema/v7/model.schema.json`.
+
+- A region records `kind` (`global`, `stack`, or `heap`), logical owner/source
+  key, extent, power-of-two alignment, and canonical initial lifetime and
+  allocation states.
+- An object belongs to one region and records a canonical type, field/index
+  path, offset, extent, and alignment. A typed location belongs to one object
+  and records its own path, offset, and extent.
+- A pointer is either `typed_null` with no provenance or `address_of` with an
+  exact region, location, pointee type, and canonical offset. Physical
+  addresses, Clang IDs, and pointer-as-integer values are forbidden.
+- A state is an immutable `(function, ordinal)` SSA token. A memory operation
+  is `load`, `store`, `lifetime`, or `allocation` and carries exact before/after
+  state IDs plus the applicable pointer/location or region transition fields.
+  Loads preserve state; mutations advance one ordinal.
+
+This is representation, not proof authority. A serialized dereference is not
+safe until later VCs prove null, bounds, provenance, type, and lifetime. A7.3
+does not lower source pointer syntax.
 
 ### Record type
 
 Each module `records` entry has source `name`, canonical `type`, and a required
 source-ordered `fields` array. Each field contains `name` and canonical `type`.
 Methods, inheritance, unions, bitfields, layout/padding claims, unrestricted
-reference parameters, reference fields/returns, pointers, default member
-initialization, partial
-initialization, and escaping addresses are outside v6 and must fail closed.
+reference parameters, reference fields/returns, default member initialization,
+partial initialization, source pointer lowering, and escaping addresses remain
+outside the admitted source subset and must fail closed even though v7 can
+represent reviewed memory values.
 
 ### Function
 
@@ -361,7 +395,7 @@ initialization, and escaping addresses are outside v6 and must fail closed.
 | `id` | string | yes | Deterministic source-order function ID. |
 | `name` | string | yes | Source spelling. |
 | `link_name` | string | no | Present when overload disambiguation differs from `name`. |
-| `return_type` | string | yes | v6 scalar, value-record, or restricted external `void` identity. |
+| `return_type` | string | yes | v7 scalar, value-record, or restricted external `void` identity. |
 | `location` | location | yes | Function declaration location. |
 | `parameters` | symbol array | yes | Declaration order. |
 | `locals` | symbol array | yes | Lowering/source order. |
@@ -378,7 +412,7 @@ initialization, and escaping addresses are outside v6 and must fail closed.
 | `id` | string | yes | Deterministic symbol ID. |
 | `name` | string | yes | Source spelling. |
 | `ir_name` | string | no | Stable internal base when lexical reuse needs disambiguation. |
-| `type` | string | yes | v6 scalar, owned-array, or value-record type identity. |
+| `type` | string | yes | v7 scalar, owned-array, or value-record type identity. |
 | `versioned_name` | string | yes | Initial SSA name, normally `name#0`. |
 | `location` | location | yes | Declaration location. |
 | `passing` | string | no | Present on parameters: `value`, `const_reference`, or `mutable_reference`; omitted on locals. |
@@ -401,8 +435,8 @@ not an independent storage value.
 | `location` | location | Reference declaration location. |
 
 A field path step has `kind: "field"` and `value` equal to the source field
-name. Index steps are reserved but not emitted in v6; array-element references
-remain unsupported. Reads re-resolve the current SSA version of `target`, so a
+name. Index steps are reserved but not emitted by A7.3 source lowering;
+array-element references remain unsupported. Reads re-resolve the current SSA version of `target`, so a
 reference is never a snapshot. Writes rebuild the same aggregate path used by
 direct field assignment. Live bindings with overlapping root/path prefixes are
 rejected; bindings in disjoint branch or sequential lexical scopes may target
@@ -468,6 +502,10 @@ they do not apply.
 | `branch` | `expression`, optional `then`, `else`, and `merges` arrays. |
 | `merge` | `target`, `incoming_true`, `incoming_false`. |
 | `loop` | `expression`, `body`, `invariants`, `loop_variables`, `termination`. |
+| `memory_load` | `target`, `result_type`, and a matching `memory` load record. |
+| `memory_store` | `expression` and a matching `memory` store record. |
+| `memory_lifetime` | Matching `memory` lifetime transition record. |
+| `memory_allocation` | Matching `memory` allocation transition record. |
 | `unsupported` | `reason`. |
 
 Loop arrays are emitted even when empty so missing invariants remain visible in
@@ -478,7 +516,7 @@ IR. Other optional empty arrays are omitted.
 | Field | Type | Contract |
 | --- | --- | --- |
 | `name` | string | Stable IR base name. |
-| `type` | string | v6 scalar, owned-array, or value-record type identity. |
+| `type` | string | v7 scalar, owned-array, or value-record type identity. |
 | `entry` | string | SSA value before the loop. |
 | `head` | string | Fresh havoc value for an arbitrary iteration. |
 | `back_edge` | string | SSA value after the symbolic body iteration. |

@@ -2,8 +2,8 @@
 
 ## Frozen scope
 
-A6.7 freezes the combined A6 reference boundary at report/Semantic IR schema
-`codeskeptic.semantic-verification/v6`. It covers fixed-width signed and
+A7.3 carries the combined A6 reference boundary forward at report/Semantic IR
+schema `codeskeptic.semantic-verification/v7`. It covers fixed-width signed and
 unsigned integers, bitwise/shift operations, owned fixed arrays, value structs,
 proved local references, modular `modifies` frames, and proposal-only invariant
 research. This gate does not add source semantics.
@@ -39,9 +39,11 @@ maps, then compares them with `fixtures/expected`. The frozen corpus contains
 28 artifacts, including the combined semantic-extension IR/report pair.
 
 The immutable v1 archive retains 16 checked hashes. The gate also reuses the
-integer phase migration evidence: five v1, nine v2, ten v3, eleven v4, and
-twelve v5 report cases remain status-equivalent to schema v6. Archived bytes
-are read-only evidence; a hash mismatch fails the gate.
+integer phase migration evidence: five v1, nine v2, ten v3, eleven v4, twelve
+v5, and fourteen v6 report cases remain status-equivalent to schema v7. The
+v6 corpus has 43 checked entries, and its value-only reports additionally
+migrate exactly by adding the canonical empty memory model. Archived bytes are
+read-only evidence; a hash mismatch fails the gate.
 
 ## Invariant proposal boundary
 
@@ -78,7 +80,7 @@ python -m unittest discover -s tests
 ```
 
 The semantic-extension gate emits sorted JSON with schema
-`codeskeptic.semantic-extensions-phase-gate/v0`. It contains no timestamps,
+`codeskeptic.semantic-extensions-phase-gate/v1`. It contains no timestamps,
 wall-clock durations, executable paths, or random data. Stable inputs and the
 pinned Clang/Z3 configuration must produce identical bytes.
 

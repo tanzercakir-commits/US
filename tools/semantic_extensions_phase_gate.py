@@ -30,7 +30,7 @@ from tools.regenerate_fixtures import (  # noqa: E402
 )
 
 
-GATE_SCHEMA = "codeskeptic.semantic-extensions-phase-gate/v0"
+GATE_SCHEMA = "codeskeptic.semantic-extensions-phase-gate/v1"
 COMBINED_SLICE = ROOT / "examples" / "semantic_extensions_gate.cpp"
 INFERENCE_MANIFEST = (
     ROOT / "benchmarks" / "invariant_inference" / "benchmarks.json"

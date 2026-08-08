@@ -281,7 +281,7 @@
       "additionalProperties": false,
       "properties": {
         "schema": {
-          "const": "codeskeptic.semantic-verification/v6"
+          "const": "codeskeptic.semantic-verification/v7"
         },
         "sha256": {
           "$ref": "#/$defs/hash"

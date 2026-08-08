@@ -8,13 +8,13 @@
 
 ## Now (active stage)
 
-- A7.3: introduce Memory IR v7 regions, objects, pointers, locations, loads,
-  stores, and lifetime state without granting verification authority.
+- A7.4: admit the bounded stack/global pointer subset and generate explicit
+  null, bounds, provenance, type, and lifetime obligations.
 
 ## Next
 
-- A7.4: admit the bounded stack/global pointer subset and generate explicit
-  null, bounds, provenance, type, and lifetime obligations.
+- A7.5: carry owned memory effects across direct project calls with
+  fail-closed may/must-alias and frame summaries.
 
 ## Blockers / open questions
 

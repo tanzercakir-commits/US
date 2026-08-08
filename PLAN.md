@@ -793,6 +793,34 @@ may append implementation stages after A6.7 without renumbering existing IDs.
 - Output: versioned region/object/pointer/location/lifetime values; null,
   address-of, load, store, field/index offset, allocation-state nodes; canonical
   serialization; v6-to-v7 migration/equivalence evidence; fixtures and tests.
+- Owned implementation surface: `semantic_verifier/memory_ir.py`,
+  `semantic_verifier/memory_migration.py`,
+  `semantic_verifier/memory_ir_schema/v7/model.schema.json`, the memory-facing
+  additions in `semantic_verifier/model.py` and `semantic_verifier/dump.py`,
+  compatibility/gate updates required by the v7 major, `tests/test_memory_ir.py`
+  plus exact-version assertions, `fixtures/memory_ir/**`, the immutable
+  `fixtures/versions/v6/**` archive, regenerated current/native fixtures, and
+  value-only v7 identity propagation through
+  `benchmarks/experiment_e2/{contexts,proposals,results}/**`, directly linked
+  assumption-pilot evidence, and the value-only contract-first golden runs in
+  `fixtures/contract_first/**` and `pilots/contract_first/**` (with proposals,
+  transitions, outcomes, scores, and thresholds held fixed), plus the
+  corresponding package-data, changelog, schema/adoption/operations,
+  guardrail, TODO, and append-only progress updates.
+- Representation policy: regions own storage duration, extent, alignment,
+  initial lifetime, and allocation state; objects and locations carry typed
+  in-region layout paths; pointer values are either typed null or typed
+  address-of with explicit provenance; memory states are immutable SSA tokens;
+  memory operations are load, store, lifetime transition, or allocation
+  transition records attached to IR nodes.
+- Identity policy: regions, objects, locations, pointers, and memory states are
+  content-addressed from canonical logical fields. Physical addresses, Clang
+  pointer IDs, host layout guesses, and implicit pointer-as-integer encodings
+  never enter the wire contract.
+- Migration policy: v6 remains immutable. Only value-only v6 reports/modules
+  with no pointer-like type or memory field migrate mechanically to v7 by
+  adding the exact empty memory model; obligations, results, IDs, summaries,
+  and human-readable IR must otherwise remain byte/meaning equivalent.
 - Boundaries: representation only. No dereference is verified merely because it
   serializes. Unknown provenance, pointer-integer casts, unions, placement new,
   custom allocators, and unsupported layout remain fail closed.

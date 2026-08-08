@@ -167,7 +167,7 @@ int f(Pair input) { Pair& whole=input; int& field=input.x; return field; }
         self.assertEqual(first.to_json(), second.to_json())
         self.assertEqual(dump_module(first.module), dump_module(second.module))
         payload = json.loads(first.to_json())
-        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v6")
+        self.assertEqual(payload["schema"], "codeskeptic.semantic-verification/v7")
         self.assertEqual(payload["schema"], SCHEMA)
         reference = payload["semantic_ir"]["functions"][0]["references"][0]
         self.assertEqual(reference["target"], "value")

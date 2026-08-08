@@ -2090,7 +2090,7 @@
       "mode": "validity"
     }
   ],
-  "report_schema": "codeskeptic.semantic-verification/v6",
+  "report_schema": "codeskeptic.semantic-verification/v7",
   "schema": "codeskeptic.native-adapter-obligations/v0",
   "source": "fixtures/cases/sum_loop.cpp"
 }

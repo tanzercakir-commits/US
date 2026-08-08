@@ -1,0 +1,31 @@
+module fixtures/cases/semantic_extensions_gate.cpp
+record Pair { x:i32, y:i32 }
+function set_x(pair#0:record<Pair>{x:i32,y:i32}) -> void declaration
+  modifies f0001.s0001.x
+  ensures (pair#0.x == 7)
+function preserve_frame(input#0:record<Pair>{x:i32,y:i32}) -> record<Pair>{x:i32,y:i32}
+  ensures ((result.x == 7) && (result.y == input#0.y))
+  n00001 call set_x(input#0)
+    frame input#0 -> input#1 modifies input.x
+  n00002 return input#1
+function extension_bundle() -> u32
+  reference alias:i32 -> pair.y (mutable, enclosing_lexical_scope)
+  ensures (result == 3)
+  n00003 values#0 := {5, 6}
+  n00004 pair#0 := Pair{x=values#0[0], y=values#0[1]}
+  n00005 pair#1 := update(pair#0, y, 7)
+  n00006 call set_x(pair#1)
+    frame pair#1 -> pair#2 modifies pair.x
+  n00007 wide#0 := 2147483648
+  n00008 adjusted#0 := (wide#0 + ((i64) pair#2.x))
+  n00009 bits#0 := (15 & 3)
+  n00010 i#0 := 0
+  n00011 loop (i#1 < bits#0)
+    termination non_goal (partial correctness only)
+    invariant (i#1 <= bits#0)
+    havoc head i#1:u32 (entry i#0)
+    body:
+      n00012 i#2 := (i#1 + 1)
+    back-edge i := i#2
+    havoc exit i#3:u32
+  n00013 return i#3

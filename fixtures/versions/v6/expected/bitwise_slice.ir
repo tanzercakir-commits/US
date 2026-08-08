@@ -1,0 +1,36 @@
+module fixtures/cases/bitwise_slice.cpp
+function low_byte(x#0:i32) -> i32
+  ensures (result == ((~x#0) & 255))
+  n00001 return ((~x#0) & 255)
+function de_morgan(x#0:u32, y#0:u32) -> bool
+  ensures (result == true)
+  n00002 return ((~(x#0 & y#0)) == ((~x#0) | (~y#0)))
+function mixed_xor(x#0:i32, y#0:u64) -> u64
+  ensures (result == (((u64) x#0) ^ y#0))
+  n00003 return (((u64) x#0) ^ y#0)
+function logical_right() -> u32
+  ensures (result == 1)
+  n00004 return (2147483648 >> 31)
+function arithmetic_right() -> i32
+  ensures (result == (-2))
+  n00005 return ((-8) >> 2)
+function high_bit() -> u64
+  ensures (result == 9223372036854775808)
+  n00006 return (1 << 63)
+function signed_boundary() -> i32
+  ensures (result == -2147483648)
+  n00007 return (1 << 31)
+function variable_boundary(x#0:i32, n#0:i32) -> i32
+  requires (x#0 == 1)
+  requires (n#0 == 31)
+  ensures (result == -2147483648)
+  n00008 assume (x#0 == 1)
+  n00009 assume (n#0 == 31)
+  n00010 return (x#0 << n#0)
+function mask(x#0:u32) -> u32
+  ensures (result == (x#0 & 255))
+  n00011 return (x#0 & ((u32) 255))
+function mask_caller(x#0:u32) -> u32
+  ensures (result == (x#0 & 255))
+  n00012 y#0 := call mask(x#0)
+  n00013 return y#0

@@ -21,7 +21,7 @@
       "text": "ensures result == value"
     }
   ],
-  "id": "sha256:c30b90b9f4d48a70233cdaf17d59f10a3317c210bce53ff2f5528883e1b4763c",
+  "id": "sha256:d99af30a5c88c1b30c4b522d204016f13389cfa697f00b1c7fa513520c49d135",
   "obligation": {
     "assumptions": [
       {
@@ -152,7 +152,7 @@
     "start_line": 1
   },
   "verification": {
-    "schema": "codeskeptic.semantic-verification/v6",
-    "sha256": "sha256:1a216f4b5ded99eedffd06dc4d8b86e232ee23ba737e9e1a13ea572dc3395f18"
+    "schema": "codeskeptic.semantic-verification/v7",
+    "sha256": "sha256:b452f9158625c77ec860689037f332aad06287ef876c702294d244f459473654"
   }
 }

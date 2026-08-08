@@ -1,7 +1,7 @@
 # CodeSkeptic Semantic Verifier
 
 [![Determinism](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml/badge.svg?branch=feature%2Fsemantic-verification-prototype)](https://github.com/tanzercakir-commits/US/actions/workflows/determinism.yml)
-![Tests](https://img.shields.io/badge/tests-668%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-697%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
 A small reference project for checking contract-style rules in supported C++
@@ -92,7 +92,10 @@ fail-closed rejection conditions.
 
 The index is not yet cross-translation-unit verification: it does not inline
 bodies or import a contract through an unresolved, unsupported, external, or
-conflicting edge. Pointer and owned-memory semantics begin at A7.3.
+conflicting edge. Memory IR v7 now represents typed regions, objects,
+locations, null/address-of pointers, SSA memory states, loads, stores, and
+lifetime/allocation transitions without treating addresses as integers. Source
+pointer lowering and proof obligations remain fail-closed until A7.4.
 
 This is not a full C++ verifier, a production certification tool, or a
 replacement for compilation, tests, sanitizers, review, and static analysis.
@@ -101,7 +104,7 @@ replacement for compilation, tests, sanitizers, review, and static analysis.
 
 The repository currently carries:
 
-- 683 deterministic tests;
+- 697 deterministic tests;
 - reproducible, byte-checked fixtures;
 - a forty-function benchmark corpus;
 - replay evidence for every reported counterexample; and

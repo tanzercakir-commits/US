@@ -22,9 +22,15 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Added
 
+- A7.3 adds proof-neutral Memory IR v7 with immutable, content-addressed
+  regions, objects, typed locations, typed-null/address-of pointers, SSA memory
+  states, and explicit load/store/lifetime/allocation operation records. The
+  strict packaged schema, canonical memory/dump fixtures, malformed-input,
+  layout, provenance, type, transition, and determinism tests do not grant any
+  pointer operation verification authority.
 - B1.1 adds a canonical cross-language native-adapter export containing
   separate Semantic IR and obligation JSON envelopes for all 14 fixture cases.
-  A sorted manifest pins the v6 report identity, source/artifact paths,
+  A sorted manifest pins the current report identity, source/artifact paths,
   expected summaries, and SHA-256 hashes; write/check modes are independent of
   the caller's working directory.
 - A6.7 adds the deterministic combined semantic-extension phase gate, an
@@ -113,6 +119,11 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Changed
 
+- A7.3 moves the producer to `codeskeptic.semantic-verification/v7` because the
+  required module memory model and pointer/memory node meanings are
+  proof-bearing wire semantics. The fixed-integer gate advances to v5 and the
+  semantic-extension gate to v1; current report, native-adapter, fact-trust,
+  and repair-bundle evidence is regenerated deterministically.
 - A6.5 moves the producer to `codeskeptic.semantic-verification/v6` because
   parameter passing modes, nullable function frames, reference post-arguments,
   and normalized call frame effects are proof-bearing wire semantics. The
@@ -154,6 +165,14 @@ Detailed per-stage commands and evidence remain in `PROGRESS.md`.
 
 ### Migration
 
+- v7 consumers must require the exact module `memory` object and implement its
+  typed identity/provenance/state contract, or reject non-empty Memory IR fail-
+  closed. The complete 14-case v6 corpus is immutable under
+  `fixtures/versions/v6/` with 43 checked SHA-256 entries. Only value-only v6
+  reports/modules migrate mechanically by adding the canonical empty memory
+  model; all 14 migrated reports equal current v7 JSON exactly and every
+  human-readable IR artifact is byte-identical. Pointer-like v6 types, memory
+  fields/nodes, malformed, unknown, and mixed-major payloads are rejected.
 - v6 consumers must implement parameter passing modes, explicit empty/non-empty
   function frames, post-state reference arguments, and functional preservation
   of every unlisted caller location, or reject framed calls fail-closed. The

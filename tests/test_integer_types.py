@@ -153,9 +153,9 @@ class IntegerTypeTests(unittest.TestCase):
         _PROFILE_VALIDATION.pop(key, None)
 
 
-class V6MigrationTests(unittest.TestCase):
+class V7MigrationTests(unittest.TestCase):
     def test_legacy_and_mixed_payloads_are_rejected(self):
-        for version in ("v1", "v2", "v3", "v4", "v5"):
+        for version in ("v1", "v2", "v3", "v4", "v5", "v6"):
             with self.subTest(version=version), self.assertRaisesRegex(
                 SchemaCompatibilityError, "unsupported"
             ):
@@ -172,8 +172,8 @@ class V6MigrationTests(unittest.TestCase):
                 }
             )
 
-    def test_archived_v1_through_v5_hash_manifests_are_exact(self):
-        for version in ("v1", "v2", "v3", "v4", "v5"):
+    def test_archived_v1_through_v6_hash_manifests_are_exact(self):
+        for version in ("v1", "v2", "v3", "v4", "v5", "v6"):
             archive = ROOT / "fixtures" / "versions" / version
             for line in (
                 archive / "SHA256SUMS"
@@ -199,19 +199,23 @@ class V6MigrationTests(unittest.TestCase):
                 [tuple(item[field] for field in fields) for item in old["results"]],
             )
 
-    def test_v1_to_v6_preserves_result_statuses(self):
+    def test_v1_to_v7_preserves_result_statuses(self):
         self._assert_status_equivalence("v1")
 
-    def test_v2_to_v6_preserves_result_statuses(self):
+    def test_v2_to_v7_preserves_result_statuses(self):
         self._assert_status_equivalence("v2")
 
-    def test_v3_to_v6_preserves_result_statuses(self):
+    def test_v3_to_v7_preserves_result_statuses(self):
         self._assert_status_equivalence("v3")
 
-    def test_v4_to_v6_preserves_result_statuses(self):
+    def test_v4_to_v7_preserves_result_statuses(self):
         self._assert_status_equivalence("v4")
-    def test_v5_to_v6_preserves_result_statuses(self):
+
+    def test_v5_to_v7_preserves_result_statuses(self):
         self._assert_status_equivalence("v5")
+
+    def test_v6_to_v7_preserves_result_statuses(self):
+        self._assert_status_equivalence("v6")
 
 if __name__ == "__main__":
     unittest.main()
