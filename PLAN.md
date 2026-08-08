@@ -2430,6 +2430,36 @@ infrastructure. Reference: prototype fixtures = the specification.
   full 652-test suite, guarded commit, push, and main Determinism run are green.
 - Depends: F5.2.
 
+#### F5.4 — Contract-surface adapter seam
+
+- Goal: place the existing legacy `cs:` and controlled C++26 contract inputs
+  behind one owned adapter boundary without changing accepted source, lowering,
+  verification conditions, reports, or proof outcomes.
+- Output: a `ContractSurfaceAdapter` ABC, immutable adapter result values,
+  concrete legacy-CS and C++26 adapters, lowering integration through the new
+  seam, focused equivalence/fail-closed tests, and updated architecture notes.
+- Exact file set: `PLAN.md`; `semantic_verifier/contract_surfaces.py`;
+  `semantic_verifier/contracts.py`; `semantic_verifier/lowering.py`;
+  `tests/test_contract_surfaces.py`; `docs/semantic_verification_prototype.md`;
+  `docs/cpp26_contracts_bridge.md`; `guardrails/test_baseline.txt`;
+  `PROGRESS.md`; `TODO.md`.
+- Boundaries: architecture refactor only. Preserve the `cs:` grammar, C++26
+  lexical bridge, attachment/placement rules, contract/frame/invariant values,
+  source locations, unsupported reasons, deterministic ordering, v6 schema,
+  obligation IDs, five statuses, and fixture bytes. Do not add another source
+  language, generalize C++ numeric semantics, invoke a model, alter accepted
+  intent, or introduce a lossy mapping. Mixed `cs:`/C++26 contracts remain
+  fail-closed. The adapter seam owns collection only; the ordinary parser,
+  Semantic IR, VC generator, and referee remain the semantic authorities.
+- DoD: direct adapter tests cover legacy function contracts/frame, legacy loop
+  invariants, controlled C++26 pre/post result binding, empty-surface behavior,
+  malformed legacy input, and exact legacy/C++26 semantic equivalence; existing
+  C++26 and contract suites remain green; current golden fixtures are byte-
+  identical under `tools/regenerate_fixtures.py --check`; the full suite passes
+  at the deliberately advanced ratchet; ledger/TODO updated; guarded stage
+  commit succeeds.
+- Depends: F5.3, C3.1, C1.3.
+
 ---
 
 ## 11. Non-goals (permanent)

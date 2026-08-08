@@ -227,6 +227,21 @@ If any semantic node in a function is unsupported, that function is replaced
 by one unsupported IR node and no ordinary obligations are generated for it.
 This is the fail-closed boundary.
 
+### Contract surfaces
+
+Source-level contract syntax crosses one owned
+`ContractSurfaceAdapter` boundary before semantic lowering uses it. The
+legacy `cs:` adapter collects function contracts, frame contracts, and loop
+invariants. The controlled C++26 adapter collects the bridge's `pre` and
+`post` metadata. Both return immutable owned contracts, explicit issues, and
+the source locations or native offsets they consumed.
+
+This seam is intentionally not a new contract language and does not judge a
+claim. Parsing, Semantic IR, VC generation, replay, and the deterministic
+referee retain their existing authority. Unsupported or mixed surfaces still
+fail closed, and equivalent `cs:` and C++26 predicates lower to identical
+logic-facing expressions.
+
 ### Semantic IR
 
 The implemented node kinds are:

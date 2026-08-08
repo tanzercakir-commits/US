@@ -2434,3 +2434,23 @@ Evidence: former and current protocol SHA-256 ->
 `CLAUDE.md` -> absent; live link scan -> pass; focused docs tests -> 2/2;
 guarded commit -> this stage commit.
 Next: none.
+
+## 2026-08-08 - F5.4: contract-surface adapter seam - DONE
+
++ Added an owned `ContractSurfaceAdapter` ABC with frozen request/result values
+  and concrete legacy-`cs:` and controlled-C++26 adapters.
++ Routed function contracts, frame contracts, loop invariants, C++26 result
+  binding, issues, and consumed-source ownership through the new seam.
++ Preserved parser, attachment, Semantic IR, VC, replay, referee, schema,
+  obligation-ID, report-byte, and fail-closed authority without adding a new
+  language or accepting any new syntax.
++ Added six direct tests for legacy function/frame collection, loop invariants,
+  C++26 result binding, neutral empty surfaces, malformed fail-closed input,
+  and exact cross-surface semantic equivalence.
++ Documented the replaceable source-surface boundary and advanced the deliberate
+  test-count ratchet from 652 to 658.
+- No blockers.
+Evidence: focused contract suites -> 27/27; compileall -> exit 0; fixture check
+-> 28 artifacts current; full baseline -> 658/658 in 385.170 s; guarded commit
+-> this stage commit.
+Next: none.

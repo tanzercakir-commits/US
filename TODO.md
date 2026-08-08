@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- None. F5.3 migrated the protocol to tracked `AGENTS.md`.
+- None.
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.3 completed the byte-identical `CLAUDE.md` to `AGENTS.md`
-migration; current documentation links resolve and historical evidence is intact.
+2026-08-08 - F5.4 completed; both existing contract surfaces now cross one
+owned adapter boundary with the 658-test baseline green.
