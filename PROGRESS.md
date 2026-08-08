@@ -2340,3 +2340,15 @@ expected exit 1 with 9 verified, 2 violated, 1 unknown; fixture/corpus/trend
 checks -> 0/0/0; baseline assertions -> 652/652 in 978.438 s; focused trend ->
 10/10; commit: this stage commit.
 Next: publish the branch and open the draft PR required by the publication flow.
+
+## 2026-08-08 - F5.1: GitHub publication follow-up - DONE
+
++ Pushed the completed reference history and README commit
+  `d5bc97f214d484cb2c7a4784509e5ce57b3d1bf2` to
+  `origin/feature/semantic-verification-prototype` with upstream tracking.
++ Opened draft PR #1, `Complete semantic verification reference program`,
+  against `main` with the full scope, trust boundary, impact, and checks.
+- No blockers. The pull request remains draft for owner review.
+Evidence: push `a53133f..d5bc97f` succeeded; remote PR:
+https://github.com/tanzercakir-commits/US/pull/1.
+Next: none.

@@ -8,7 +8,7 @@
 
 ## Now (active stage)
 
-- None. F5.1 is complete locally; publication follows the guarded commit.
+- None. F5.1 is committed, pushed, and represented by draft PR #1.
 
 ## Next
 
@@ -21,5 +21,5 @@
 
 ## Last updated
 
-2026-08-08 - F5.1 produced a concise badged README with all local links and
-main reproduction checks verified; guarded commit and publication are next.
+2026-08-08 - F5.1 is complete and published on the feature branch; draft PR
+#1 targets main for owner review.
