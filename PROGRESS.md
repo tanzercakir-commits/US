@@ -2687,3 +2687,40 @@ parse, all repository Markdown file links, public naming/path scan, documented
 `cs:` and C++26 runs, prompt golden check, and diff whitespace -> pass; final
 full suite -> 697/697 in 395.166 s; guarded commit -> this documentation commit.
 Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-09 - F5.5: Automated PLAN/PROGRESS/TODO synchronization - DONE
+
++ Added deterministic PLAN/PROGRESS parsing, generated TODO rendering, guarded
+  DONE/PARTIAL append commands, and staged-index drift detection.
++ Integrated exact staged TODO synchronization into the mandatory pre-commit hook and
+  froze the automation contract separately from implementation.
+- PLAN remains status-free and historical PROGRESS bytes remain append-only;
+  stage-specific DoD evidence is still an explicit operator responsibility.
+Evidence: full suite -> 712/712; focused plan-status tests -> 15/15; working-tree
+  sync/check, py_compile, relocation, failure atomicity, and staged-index negatives ->
+  pass.
+Next: A7.4 — Stack/global pointer lowering and safety obligations.
+
+## 2026-08-09 - F5.6: Automated session-close protocol - DONE
+
++ Updated AGENTS.md to require guarded DONE/PARTIAL commands and generated TODO checks
+  at session close.
++ Removed manual TODO editing and redirected spillover work through PLAN plus
+  deterministic synchronization.
+- This stage changes only operational instructions and the live plan-count expectation;
+  plan-status behavior remains unchanged.
+Evidence: full suite -> 712/712; focused plan-status tests -> 15/15; AGENTS
+  manual-workflow scan, Git hook syntax, and working-tree plan-status check -> pass.
+Next: A7.4 — Stack/global pointer lowering and safety obligations.
+
+## 2026-08-09 - F5.7: Lifecycle-wide status automation rule - DONE
+
++ Declared plan-status automation mandatory across the full project lifecycle rather
+  than a one-time refresh.
++ Routed a failing session baseline through record-partial with an exact failing command
+  and resume point.
+- This clarification applies to the US repository; rolling the same mechanism into
+  unrelated repositories requires their own compatible PLAN/PROGRESS protocol.
+Evidence: full suite -> 712/712; focused plan-status tests -> 15/15; lifecycle wording
+  scan and working-tree plan-status check -> pass.
+Next: A7.4 — Stack/global pointer lowering and safety obligations.
