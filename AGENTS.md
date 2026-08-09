@@ -1,9 +1,8 @@
-# CodeSkeptic Semantic Verification Program — Session Protocol
+# US Semantic Verification Program — Session Protocol
 
 C++ → Semantic IR → verification conditions → deterministic referee.
-The AI proposes, the referee decides. This repo is the lab/reference
-implementation (Python); the production track is CodeSkeptic (separate repo,
-C++17).
+The AI proposes, the referee decides. This repository contains the Python
+implementation of US.
 
 ## Language policy (D10, D11)
 

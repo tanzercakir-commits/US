@@ -1,4 +1,4 @@
-# Adoption Guide
+# US Adoption Guide
 
 ## Purpose
 
@@ -182,7 +182,7 @@ explicitly for that shell. A pilot containing unsigned, mixed, bitwise, or shift
 use `--backend z3`; default `both` intentionally returns `unsupported` because
 the affine referee cannot check QF_BV.
 
-For the reference repository, `.github/workflows/determinism.yml` is the model
+In this repository, `.github/workflows/determinism.yml` is the model
 for full-suite plus two-run fixture comparison.
 
 ## Persistent cache in CI
@@ -311,21 +311,6 @@ See [the field reference](result_schema.md) for every report and Semantic IR
 field. Schema-breaking decisions and migration windows follow the
 [schema version policy](schema_versioning.md), not an ad hoc consumer
 workaround.
-
-## Native CodeSkeptic path
-
-For a production C++ integration, keep the stable seam:
-
-```text
-ASTContext -> SemanticLowerer -> owned Semantic IR -> VC generator
-           -> checker backend -> VerificationResult -> reporter adapter
-```
-
-Begin with a test-only ASTContext-to-IR adapter. Compare its output byte-for-byte
-against the Python fixture subset before adding a native solver or production
-reporter. Reuse CodeSkeptic's compile database, source mapping, contract
-attachment, diagnostics, and test harness; do not turn its specialized
-DataflowEngine into the persistent Semantic IR.
 
 ## Adoption completion checklist
 

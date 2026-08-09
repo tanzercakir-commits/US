@@ -1,6 +1,6 @@
 # Z3 Backend Decision Record
 
-Status: accepted for the Python reference implementation (A1, 2026-08-06).
+Status: accepted for US (A1, 2026-08-06).
 
 ## Decision
 
@@ -26,9 +26,8 @@ the executable; it does not redistribute Z3 or its language bindings.
 ## Why a subprocess
 
 The subprocess boundary preserves the repository's zero-package-dependency
-policy and keeps the eventual C++ production adapter independent of Python
-binding APIs. SMT-LIB2 is deterministic, inspectable, fixture-friendly, and
-portable across the Python lab and the C++17 production track.
+policy and avoids dependence on Python binding APIs. SMT-LIB2 is deterministic,
+inspectable, fixture-friendly, and portable across supported environments.
 
 Rejected alternatives:
 

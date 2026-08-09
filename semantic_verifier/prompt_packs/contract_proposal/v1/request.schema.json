@@ -60,6 +60,6 @@
     }
   },
   "required": ["context", "schema", "source", "target"],
-  "title": "CodeSkeptic offline contract proposal request v1",
+  "title": "US offline contract proposal request v1",
   "type": "object"
 }

@@ -35,6 +35,6 @@
     "schema": {"const": "codeskeptic.assumption-resolution/v1"}
   },
   "required": ["id", "manifest", "resolutions", "schema"],
-  "title": "CodeSkeptic Assumption Resolution v1",
+  "title": "US Assumption Resolution v1",
   "type": "object"
 }

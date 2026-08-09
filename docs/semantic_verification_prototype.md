@@ -1,13 +1,10 @@
-# Semantic Verification Prototype
+# US Supported Boundary
 
 ## Status and scope
 
-This document describes the prototype implemented in the US repository after
-a read-only investigation of CodeSkeptic commit
-0df016efa19182ebc9ef417b6e7bcd285ef73ecd.
-
-CodeSkeptic itself was not changed. The prototype is an isolated vertical slice,
-not a production integration and not a general C++ verifier.
+This document describes the semantic verifier implemented in the US repository.
+US is a restricted, deterministic C++ verifier. It is not a general C++ verifier
+or a production certification system.
 
 Implemented:
 
@@ -71,9 +68,8 @@ Partially implemented:
 
 Proposed, not implemented:
 
-- a native clang::ASTContext adapter inside CodeSkeptic;
-- reuse of CodeSkeptic .csk sidecars;
-- production diagnostic/SARIF/MCP adapters for proof results and models;
+- direct ingestion of contracts from separate sidecar files;
+- additional diagnostic and integration adapters for proof results and models;
 - broader C++ value, memory, alias, and ownership semantics;
 - loop termination variants or invariant inference;
 - a live external-model adapter or automatic source modification.
@@ -94,7 +90,7 @@ The verifier layer does not consume C++ syntax or Clang node identities.
 
 ## Non-goals
 
-The prototype does not attempt:
+US does not attempt:
 
 - a new programming language;
 - full C++ verification;
@@ -107,88 +103,14 @@ The prototype does not attempt:
 - automatic repair or AI authority over proof results;
 - production certification claims.
 
-## Repository findings
-
-### Current CodeSkeptic architecture
-
-CodeSkeptic is a C++17 application using LLVM/Clang LibTooling. Its pipeline is:
-
-    Config / CLI / MCP
-      -> StaticAnalyzer
-      -> SourceManager (compile database + ClangTool)
-      -> ASTContext callback
-      -> RuleEngine
-      -> Rule implementations using CfgCache/DataflowEngine
-      -> Diagnostic
-      -> console / JSON / SARIF / HTML reporters
-
-Relevant implementation points in the inspected revision:
-
-- src/source_manager/SourceManager.h exposes processAll(ASTCallback), where the
-  callback receives clang::ASTContext&.
-- src/engine/RuleEngine.cpp builds summaries before rules and clears
-  translation-unit-local pointer caches afterward.
-- src/core/Rule.h provides the narrow extension method
-  check(ASTContext&, DiagnosticList&).
-- src/engine/CfgCache.cpp centrally builds fine-grained Clang CFGs.
-- src/engine/DataflowEngine.h supplies a generic worklist/fixpoint engine over
-  Clang statements.
-- src/contracts/ContractParser.*, ContractInfo.*, and Sidecar.* already
-  implement inline cs: comments and anchored .csk contracts.
-- src/reporter/JsonReporter.cpp, SarifReporter.cpp, and
-  src/server/McpServer.cpp already provide machine-readable consumers.
-
-### Reusable components
-
-The production implementation can reuse:
-
-- compile-database-aware Clang parsing and broken-TU handling;
-- the AST callback and function matcher;
-- source-location extraction;
-- the existing cs: parser/attachment behavior, extended with arithmetic;
-- shared CFG construction where it helps validate control-flow reachability;
-- deterministic sorting/serialization conventions;
-- JSON/SARIF/MCP output adapters;
-- the in-memory Clang test harness.
-
-### Missing components
-
-CodeSkeptic has no persistent Semantic IR, VC generator, SMT/Z3 integration, or
-countermodel data model. Existing abstract domains are rule-specific and operate
-directly on clang::Stmt*. They intentionally lose relational equalities such as
-result = balance - amount.
-
-The current Diagnostic shape represents findings and trace notes, but not
-positive proof outcomes, unknown, unsupported, solver errors, obligations, or
-concrete models. An unconstrained argument to an integer non-zero precondition
-can currently be silent; silence therefore does not mean verified.
-
-### Narrowest viable integration point
-
-The narrowest production seam is a new semantic-verification rule/adaptor at
-Rule::check(ASTContext&, ...):
-
-    existing SourceManager / ASTContext
-      -> new SemanticLowerer
-      -> owned Semantic IR
-      -> ContractAdapter
-      -> VcGenerator
-      -> Checker
-      -> VerificationResult
-      -> optional Diagnostic adapter
-
-The existing DataflowEngine should not be converted into the Semantic IR.
-It is valuable for specialized abstract interpretation, but its contract is
-Clang-statement transfer rather than stable program serialization.
-
-## Prototype architecture
+## Architecture
 
 ### Frontend
 
 semantic_verifier/frontend.py invokes Clang 20 with ast-dump=json and rejects a
 translation unit when Clang reports a compile error. This is a real C++
-frontend, but the subprocess bridge is prototype-only. It avoids linking a
-second copy of the Clang libraries into this isolated repository.
+frontend. The subprocess bridge avoids linking Clang libraries into this
+repository.
 
 The adapter preserves raw line endings, converts Clang byte offsets to Python
 string offsets, normalizes temporary paths out of diagnostics, and filters AST
@@ -196,9 +118,8 @@ nodes by the physical main-file identity. Includes are intentionally reported
 as unsupported in v0; declarations originating in headers are not mistaken for
 main-file functions.
 
-In CodeSkeptic, the equivalent adapter should consume ASTContext directly.
-Only the frontend adapter changes; the IR, VC, checker, and result layers do
-not.
+A future frontend may consume `clang::ASTContext` directly. Only the frontend
+adapter would change; the IR, VC, checker, and result layers would not.
 
 ### Semantic lowering
 
@@ -226,7 +147,7 @@ Stable function, symbol, and node IDs are assigned in source traversal order.
 Locations use the caller-visible path plus one-based line and column.
 Disjoint lexical scopes may reuse a C++ spelling, but receive distinct IR
 identities such as y#0 and y@2#0. Same-name/same-arity overloads are keyed by a
-deterministic parameter-type signature in this prototype.
+deterministic parameter-type signature in the current model.
 
 If any semantic node in a function is unsupported, that function is replaced
 by one unsupported IR node and no ordinary obligations are generated for it.
@@ -277,14 +198,13 @@ confidence.
 
 ### Contract model
 
-The least disruptive surface is CodeSkeptic's existing structured line-comment
-style:
+US accepts a compact structured line-comment surface:
 
     // cs: requires b != 0
     // cs: ensures result > x
     // cs: modifies state.field
 
-The prototype also accepts return as an alias for result in contract
+US also accepts return as an alias for result in contract
 expressions. Supported contract expression syntax is:
 
 - integer and boolean literals;
@@ -305,8 +225,7 @@ to the immediately following while statement and can reference variables in
 scope there. result/return is available only to ensures. Malformed clauses,
 wrong attachment, and orphan cs: comments produce explicit unsupported results.
 The source parameter name result is reserved to prevent collision with the
-postcondition result symbol. Sidecars are not implemented in US, although
-CodeSkeptic's existing sidecar loader is reusable.
+postcondition result symbol. Direct sidecar ingestion is not implemented in US.
 
 ### Verification-condition generation
 
@@ -586,13 +505,6 @@ Commands:
     python tools/regenerate_fixtures.py --check
     python -m unittest discover -s tests -v
 
-Reference validation used the environment-specific equivalents of:
-
-    cmake -S C:\tmp\CodeSkeptic-reference -B .tmp\codeskeptic-build -DLLVM_DIR=<LLVM20>/lib/cmake/llvm -DClang_DIR=<LLVM20>/lib/cmake/clang
-    cmake --build .tmp\codeskeptic-build --config Release --target codeskeptic_tests
-    ctest --test-dir .tmp\codeskeptic-build -C Release --output-on-failure
-    .\.tmp\codeskeptic-build\tests\Release\codeskeptic_tests.exe
-
 Exit codes:
 
 - 0: every produced obligation is verified;
@@ -608,18 +520,10 @@ two-process byte comparison. The test-count ratchet prevents accidental loss of
 coverage. Fourteen versioned fixture cases produce 28 committed golden
 artifacts, with previous schema corpora preserved separately.
 
-The unmodified CodeSkeptic reference was configured separately against LLVM
-20.1.8. Its CTest run passed 811/811 tests, and the same 811 tests passed again
-inside one direct test-binary process. The initial configure probe failed only
-because LLVMConfig.cmake was not on the default CMake path; the explicit LLVM
-and Clang package paths resolved it. GoogleTest 1.14 was cloned into an ignored
-US temporary build area because the sandbox blocked CMake's nested network
-fetch. CodeSkeptic's source worktree remained clean.
-
 ## Limitations
 
-- Clang JSON is a convenient prototype transport, not the recommended
-  production API. CodeSkeptic should lower directly from ASTContext.
+- Clang JSON is the current frontend transport. A future native ASTContext
+  frontend can replace it without changing the IR, VC, or checker contracts.
 - Verified results are sound only within the documented homogeneous QF_LIA/
   QF_BV formulas, pinned fixed-width conversions, and generated definedness
   obligations; broader C++ semantics remain outside the claim.
@@ -632,13 +536,12 @@ fetch. CodeSkeptic's source worktree remained clean.
   in a local initializer/assignment are modeled, and bodies are not inlined.
 - Source columns identify the containing statement rather than the exact
   operator token.
-- The prototype validates 32-bit `int`/`unsigned int` and 64-bit `long long`/
+- US validates 32-bit `int`/`unsigned int` and 64-bit `long long`/
   `unsigned long long` under the pinned profile. Unsigned/mixed obligations
   require explicit Z3 mode; default cross-check remains intentionally
   `unsupported` for them.
-- Overloads are separated by normalized parameter-type signatures, but a
-  production integration should still use canonical Clang declaration identity
-  and CodeSkeptic's existing attachment/sidecar machinery.
+- Overloads are separated by normalized parameter-type signatures. Stable
+  canonical declaration identity remains future work.
 - Includes and all header semantics are explicitly unsupported in v0.
 - The affine model-search cap is 100,000 deterministic evaluations. Each Z3
   process has a configurable timeout. The per-file budget counts supported
@@ -646,18 +549,7 @@ fetch. CodeSkeptic's source worktree remained clean.
 
 ## Technical assessment
 
-### Does CodeSkeptic support this direction?
-
-Yes, as an integration host. It already has the expensive and error-prone
-frontend shell: compile databases, real Clang ASTs, CFGs, source locations,
-contract attachment, deterministic reports, tests, and multiple output
-surfaces.
-
-No, not as an already-existing verifier. Its current dataflow domains are
-purpose-built, Clang-coupled abstract interpretations. A new owned IR, logical
-obligation model, result taxonomy, and checker are genuinely required.
-
-### Is the prototype useful or merely demonstrative?
+### How mature is the current verifier?
 
 It is useful for fixing the architecture and output contracts:
 
@@ -667,9 +559,8 @@ It is useful for fixing the architecture and output contracts:
 - real counterexamples are emitted;
 - unknown and unsupported are distinguishable from proof.
 
-It remains demonstrative as a C++ verifier because the frontend subset and
-checker are deliberately narrow and the Clang JSON bridge is not a production
-integration.
+It remains deliberately limited as a general C++ verifier because the frontend
+subset and checker accept only the documented semantics.
 
 ### Hardest obstacle
 
@@ -700,36 +591,7 @@ the first useful contracts. General first-order logic would add proof search,
 quantifier instantiation, and difficult unknown behavior before the frontend
 semantics are trustworthy.
 
-### What should be built next?
+## Next work
 
-Build one native CodeSkeptic integration slice:
-
-1. add an owned semantic module library with no reporter dependency;
-2. lower only int/bool parameters, initialized locals, assignment, if/else,
-   return, and direct calls from ASTContext;
-3. adapt existing ParsedContracts for requires/ensures;
-4. preserve the same JSON schema and result taxonomy;
-5. run it through CodeSkeptic's in-memory Clang test harness;
-6. compare the native IR/VC JSON byte-for-byte against fixtures derived from
-   this prototype.
-
-The Python reference has already accepted the external Z3/SMT-LIB2 design and
-documents its license, Windows/macOS/Linux packaging, timeouts, deterministic
-options, unknown handling, and model replay. The native slice should first match
-fixture IR bytes; sharing or porting solver invocation comes only after that
-semantic boundary is stable.
-
-### What should not be built yet?
-
-Do not add general FOL, pointer/heap verification, loop inference, templates,
-concurrency, AI repair, or a broad annotation language. Do not make the
-existing specialized DataflowEngine pretend to be a persistent Semantic IR.
-
-## Recommended next milestone
-
-Implement a native, test-only CodeSkeptic ASTContext-to-Semantic-IR adapter for
-the first int/bool fixture subset and reuse the existing contract parser. Stop
-when assignment, if/else merge, return, unsupported handling, and deterministic
-IR JSON match the corresponding pinned Python fixtures. Do not add native solver
-integration in that milestone. For a conservative staged rollout, follow
-[the adoption guide](adoption_guide.md).
+Current staged work is listed in the [US roadmap](roadmap.md). For a
+conservative rollout, follow [the adoption guide](adoption_guide.md).

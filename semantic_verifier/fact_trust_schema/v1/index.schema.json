@@ -155,6 +155,6 @@
     "schema",
     "source_sha256"
   ],
-  "title": "CodeSkeptic fact trust overlay v1",
+  "title": "US fact trust overlay v1",
   "type": "object"
 }
