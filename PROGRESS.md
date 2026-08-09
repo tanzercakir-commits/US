@@ -2638,3 +2638,19 @@ two successful Determinism checks; merge commit ->
 `714d53b079b617b61412e25c2958b3ccf4a01613`; merge-commit Determinism run ->
 success; local `main` equals `origin/main`; open pull requests -> 0.
 Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-09 - docs: clarify contract adapters in public README - DONE
+
++ Replaced the abstract opening with the exact US question, result boundary,
+  and AI/human/referee ownership model in plain English.
++ Presented the supported C++26 subset and optional `cs:` comments as two
+  adapters that produce the same internal contract and checker input.
++ Added a concise `cs:` contract reference covering forms, attachment,
+  expressions, AI provenance, and the fail-closed backend boundary.
+- No verifier behavior, supported semantics, or result authority changed.
+Evidence: clean starting baseline -> 697/697 in 437.378 s; contract surface,
+C++26 bridge, research, and parser tests -> 31/31; README C++26 example -> exit
+0 with 3 verified checks on the default capable backend; documentation links,
+wording scan, and diff whitespace -> pass; guarded commit -> this documentation
+commit.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.
