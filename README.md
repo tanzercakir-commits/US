@@ -4,52 +4,81 @@
 ![Tests](https://img.shields.io/badge/tests-697%20passing-brightgreen)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
-US checks whether C++ code follows the rules we wrote down.
+US answers one question:
 
-An AI can write code and propose rules. A human approves the intent. An
-independent checker decides what is proved. Anything it cannot justify stays
-unverified.
+**Does this C++ code always follow its stated contract?**
+
+A contract defines which inputs are allowed, what the function promises, and
+what state it may change. US reads the code and the contract. An independent
+checker then decides what is proved.
 
 ```text
-C++ + checked rules -> independent checker -> clear result
+C++ code + contract -> US -> verified / violated / unknown / unsupported
 ```
 
-This repository is US, the working Python reference. CodeSkeptic is the
-separate production implementation and is written in C++.
+When the result is `verified`, the contract holds for all inputs allowed by its
+preconditions, within the C++ features and semantics that US supports. Anything
+US cannot justify stays unverified.
+
+An AI proposes the contract and writes the code. A human approves the intended
+behavior. The checker judges the result.
+
+This repository contains the Python reference implementation of US.
 
 ## Why this matters
 
-AI can produce code faster than people can review every line. Tests cover
-selected examples. Ordinary comments can become outdated.
+AI can produce code faster than people can review every line. Tests show that
+code works for selected examples. US reasons about the allowed input range and
+reports unsupported code instead of silently skipping it.
 
-US turns small comments into rules that can be checked. The goal is to
-review intent and evidence instead of blindly trusting the author, the AI, or
-the tool.
+It does not replace tests, static analysis, or human review. It adds independent
+evidence about the behavior that matters most.
 
-## A small example
+## Choose a contract form
+
+US currently ships two contract adapters. The first accepts a
+[supported subset of C++26 contracts](docs/cpp26_contracts_bridge.md):
+
+```cpp
+int withdraw(const int balance, const int amount)
+    pre(amount >= 0)
+    pre(balance >= amount)
+    post(result: result >= 0)
+{
+    return balance - amount;
+}
+```
+
+The second accepts lightweight [`cs:` contract comments](docs/cs_contracts.md)
+for projects and toolchains that do not use C++26 contracts yet:
 
 ```cpp
 // cs: requires amount >= 0
 // cs: requires balance >= amount
 // cs: ensures result >= 0
-int withdraw(int balance, int amount) {
+int withdraw(const int balance, const int amount) {
     return balance - amount;
 }
 ```
 
-`requires` says what must be true before the call. `ensures` says what must be
-true after it. `modifies` can state what the function may change.
-
-These are normal C++ comments. They use a small grammar, not a replacement for
-C++.
+Both adapters produce the same internal contract and use the same checker. A
+project may choose either form. The forms must not be mixed on the same
+function.
 
 ## How to use it
 
-1. Describe the behavior in plain language.
-2. Let the AI propose rules with the `cs: ai` marker.
-3. Review, edit, and approve those rules.
-4. Let the AI implement them without changing them.
-5. Run US and act on the result.
+1. Choose the supported contract form that fits the project.
+2. Before implementation, ask the AI to save the proposed contract as a
+   separate review artifact.
+3. Review, edit, and approve the intended behavior.
+4. Freeze the approved artifact and encode the same contract in the source with
+   the selected contract form.
+5. Let the AI implement the code without changing either contract.
+6. Run US and act on the result.
+
+The separate artifact records the approved intent. Today, US verifies the
+matching C++26 or `cs:` contract encoded in the source; it does not yet read the
+review artifact as direct sidecar input.
 
 The AI proposes. The human owns the intended behavior. The checker remains the
 referee.
@@ -60,19 +89,22 @@ read the rules and the last report instead of guessing intent from old messages.
 ## Prompt for a coding agent
 
 ```text
-This C++ project uses US contracts.
+This project uses US semantic verification.
+
+Use the contract form selected by the project. US currently accepts a bounded
+C++26 contract subset and cs comments through adapters. Do not mix both forms
+on the same function.
 
 Before implementation:
 - Restate the requested behavior in plain English.
-- Propose the smallest useful rules with:
-  // cs: ai requires ...
-  // cs: ai ensures ...
-  // cs: ai modifies ...   only when state may change
+- Save the smallest useful contract as a separate review artifact.
+- Do not modify the source yet.
 - Stop and ask for approval.
 
 After approval:
-- Remove the "ai" marker from the approved rules.
-- Keep the approved rules unchanged while writing the code.
+- Freeze the approved contract artifact.
+- Encode the same contract in the source with the selected contract form.
+- Implement the code without changing the artifact or the source contract.
 - Run US and report every result.
 
 Only "verified" counts as proof. Never hide or upgrade "violated",
@@ -151,6 +183,7 @@ tests, sanitizers, static analysis, and human review.
 
 ## Learn more
 
+- [`cs:` contract reference](docs/cs_contracts.md)
 - [Contract-first workflow](docs/contract_first_workflow.md)
 - [Supported boundary](docs/semantic_verification_prototype.md)
 - [Adoption guide](docs/adoption_guide.md)
