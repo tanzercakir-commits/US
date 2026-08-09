@@ -45,7 +45,15 @@ results.
 
 ## AI proposals
 
-An AI-generated proposal may retain its origin with an `ai` marker:
+For critical functions, save the AI-generated proposal as a separate review
+artifact before implementation. After human approval, freeze that artifact and
+encode the same contract in the source with either the C++26 or `cs:` adapter.
+
+The current US CLI does not read the review artifact as direct sidecar input.
+The source-level contract remains the verifier input, and it must keep the same
+meaning as the approved artifact.
+
+An inline `cs:` proposal may retain its origin with an `ai` marker:
 
 ```cpp
 // cs: ai requires amount >= 0

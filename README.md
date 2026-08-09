@@ -68,10 +68,17 @@ function.
 ## How to use it
 
 1. Choose the supported contract form that fits the project.
-2. Ask the AI to propose the contract separately from the implementation.
+2. Before implementation, ask the AI to save the proposed contract as a
+   separate review artifact.
 3. Review, edit, and approve the intended behavior.
-4. Add the approved contract and let the AI implement it without changing it.
-5. Run US and act on the result.
+4. Freeze the approved artifact and encode the same contract in the source with
+   the selected contract form.
+5. Let the AI implement the code without changing either contract.
+6. Run US and act on the result.
+
+The separate artifact records the approved intent. Today, US verifies the
+matching C++26 or `cs:` contract encoded in the source; it does not yet read the
+review artifact as direct sidecar input.
 
 The AI proposes. The human owns the intended behavior. The checker remains the
 referee.
@@ -90,12 +97,14 @@ on the same function.
 
 Before implementation:
 - Restate the requested behavior in plain English.
-- Propose the smallest useful contract separately from the code.
+- Save the smallest useful contract as a separate review artifact.
+- Do not modify the source yet.
 - Stop and ask for approval.
 
 After approval:
-- Encode the approved contract with the selected contract form.
-- Do not change its meaning while implementing the code.
+- Freeze the approved contract artifact.
+- Encode the same contract in the source with the selected contract form.
+- Implement the code without changing the artifact or the source contract.
 - Run US and report every result.
 
 Only "verified" counts as proof. Never hide or upgrade "violated",

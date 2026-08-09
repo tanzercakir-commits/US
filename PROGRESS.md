@@ -2654,3 +2654,16 @@ C++26 bridge, research, and parser tests -> 31/31; README C++26 example -> exit
 wording scan, and diff whitespace -> pass; guarded commit -> this documentation
 commit.
 Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-09 - docs: separate approval artifact from verifier input - DONE
+
++ Clarified that critical-function contracts are first saved and frozen as a
+  separate human-review artifact, then encoded unchanged in the source.
++ Updated the public workflow and coding-agent prompt to protect both the
+  approved artifact and its C++26 or `cs:` source representation.
+- Direct sidecar ingestion is not implemented; the README and `cs:` reference
+  now state that the source-level contract remains the current verifier input.
+Evidence: contract surface, C++26 bridge, research, and parser tests -> 31/31;
+artifact/source wording scan and diff whitespace -> pass; guarded commit ->
+this documentation follow-up.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.
