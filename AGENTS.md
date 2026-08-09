@@ -15,22 +15,31 @@ implementation of US.
 
 ## Session start (in order, no skipping)
 
+Status automation is mandatory for the full project lifecycle. It is not a
+one-time refresh step. Every stage transition must flow through
+`tools/plan_status.py`; never maintain TODO.md or completion records by hand.
+
 1. Read [TODO.md](TODO.md) → the active stage.
 2. Read the last entries of [PROGRESS.md](PROGRESS.md) → what finished last,
    any `PARTIAL`.
 3. Read only the active stage's phase in [PLAN.md](PLAN.md); follow its
    Goal/Output/DoD.
-4. Baseline: `python -m unittest discover -s tests` (~5 s). If red, log to
-   PROGRESS first, then diagnose.
+4. Baseline: `python -m unittest discover -s tests` (~5 s). If red, run
+   `python tools/plan_status.py record-partial` with the failing command and
+   exact resume point before diagnosing it.
 
 ## Session end
 
-1. Run the stage's DoD commands; record results.
-2. APPEND a templated entry to PROGRESS.md (never edit old entries).
-3. Update TODO.md (remove done, pull next from plan, ≤7 items).
-4. Commit with the stage ID in the message (e.g. `A1.2: z3 runner`).
-5. If work is unfinished, write a `PARTIAL` entry: the exact file/command to
-   resume from.
+1. Run the stage-specific DoD commands and retain their exact evidence.
+2. For completed work, run `python tools/plan_status.py record-done` with the
+   stage ID, explicit ISO date, positive notes, limitation/blocker notes, and
+   stage-specific evidence. It runs the full suite, APPENDS PROGRESS.md, and
+   regenerates TODO.md. Never write `DONE` directly.
+3. For unfinished work, run `python tools/plan_status.py record-partial` with
+   the same notes plus the exact `--resume` file/command. It APPENDS without
+   completing the stage and regenerates TODO.md.
+4. Run `python tools/plan_status.py check`, then commit with the stage ID in the
+   message (e.g. `A1.2: z3 runner`).
 
 ## Guardrails (enforced by git hooks — do not bypass)
 
@@ -38,7 +47,8 @@ implementation of US.
 - pre-commit: runs the full suite; blocks on failure. Test-count ratchet:
   suite size must equal `guardrails/test_baseline.txt`; adding tests requires
   bumping the staged baseline deliberately.
-- pre-commit: staged code changes require PROGRESS.md to be staged too.
+- pre-commit: staged code changes require PROGRESS.md to be staged too; staged
+  TODO.md must exactly match staged PLAN.md and PROGRESS.md.
 - commit-msg: message must start with a stage ID (`A1.2: ...`) or an allowed
   prefix (`plan|docs|chore|fix|test|wip`).
 - Never use `--no-verify` unless the owner explicitly approves.
@@ -54,8 +64,9 @@ implementation of US.
 - The test count never decreases; soundness tests are never weakened.
 - PLAN.md carries no status and is never renumbered; "done" lives only in
   PROGRESS.md.
-- If work would spill outside the stage's declared file set, STOP and add a
-  TODO note.
+- If work would spill outside the stage's declared file set, STOP, add or
+  expand a PLAN stage, then run `python tools/plan_status.py sync`. Never edit
+  generated TODO.md directly.
 
 ## Technical notes
 

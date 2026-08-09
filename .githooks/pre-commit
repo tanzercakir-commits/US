@@ -5,7 +5,8 @@
 #      Fewer tests blocks (constitution #8); more requires a deliberate,
 #      staged baseline bump.
 #   3. Staged code changes require a staged PROGRESS.md entry.
-# Requires python and clang on PATH (see CLAUDE.md).
+#   4. Staged TODO.md must equal the view generated from staged PLAN/PROGRESS.
+# Requires python and clang on PATH (see AGENTS.md).
 # Do not bypass with --no-verify without explicit owner approval.
 
 fail() { echo "pre-commit: $1" >&2; exit 1; }
@@ -36,12 +37,9 @@ staged=$(git diff --cached --name-only)
 if printf '%s\n' "$staged" | grep -qE '^(semantic_verifier|tests|tools|examples)/'; then
   printf '%s\n' "$staged" | grep -qx 'PROGRESS.md' || \
     fail "code changes staged without PROGRESS.md (append a ledger entry and stage it)"
-  if ! printf '%s\n' "$staged" | grep -qx 'TODO.md'; then
-    today=$(date +%Y-%m-%d)
-    todo=$(git show :TODO.md 2>/dev/null || cat TODO.md 2>/dev/null)
-    printf '%s' "$todo" | grep -q "$today" || \
-      fail "TODO.md is stale (no entry dated $today): update the active set and stage it"
-  fi
 fi
+
+python tools/plan_status.py check --staged >/dev/null || \
+  fail "staged TODO.md is not synchronized with staged PLAN.md/PROGRESS.md"
 
 exit 0

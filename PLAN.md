@@ -2743,6 +2743,75 @@ infrastructure. Reference: prototype fixtures = the specification.
   commit succeeds.
 - Depends: F5.3, C3.1, C1.3.
 
+#### F5.5 — Automated PLAN/PROGRESS/TODO synchronization
+
+- Goal: prevent completed or remaining stages from disappearing through manual
+  status drift while keeping PLAN status-free and PROGRESS append-only.
+- Output: a deterministic plan-status library and CLI; automatic TODO
+  rendering from PLAN and PROGRESS; guarded DONE/PARTIAL ledger append commands;
+  a staged-index consistency check in the pre-commit hook; a frozen behavior
+  contract; and focused positive/negative tests.
+- Exact file set: `PLAN.md`; `PROGRESS.md`; `TODO.md`;
+  `docs/plan_progress_automation_contract.md`;
+  `semantic_verifier/plan_status.py`; `tools/plan_status.py`;
+  `tests/test_plan_status.py`; `.githooks/pre-commit`; and
+  `guardrails/test_baseline.txt`.
+- Boundaries: PLAN remains the ordered definition of work and carries no
+  status; only explicit DONE headings in PROGRESS complete a stage; historical
+  PROGRESS bytes are never rewritten; TODO contains only unfinished work and is
+  never a second status authority. No clock, network, model, or inferred proof
+  result enters synchronization. A DONE append requires the full verifier suite
+  to pass at the staged test-count baseline; stage-specific evidence remains an
+  explicit operator input.
+- DoD: all PLAN declarations and historical DONE entries parse without silent
+  omission; the current repository deterministically yields only A7.4-A7.8,
+  B5.0-B5.5, and F6.0-F6.3 after F5.5 completes; TODO uses at most seven clear
+  items and exposes total/completed/remaining counts plus source hashes;
+  duplicate/unknown/stale/reordered/malformed inputs fail closed; DONE refuses
+  verifier failure and appends without changing any prior byte; PARTIAL requires
+  an exact resume instruction and does not complete the stage; working-tree and
+  staged-index checks detect stale TODO; repeated/relocated output bytes match;
+  focused and full suites pass; the ratchet is deliberately advanced.
+- Depends: F5.4.
+
+#### F5.6 — Automated session-close protocol
+
+- Goal: make every future development session use the guarded progress append
+  and generated TODO workflow instead of returning to manual status edits.
+- Output: updated repository session protocol and hook guidance that name the
+  exact DONE, PARTIAL, sync, and check commands.
+- Exact file set: `PLAN.md`; `AGENTS.md`; `.githooks/pre-commit`;
+  `tests/test_plan_status.py`; `PROGRESS.md`; and `TODO.md`.
+- Boundaries: documentation and operational wiring only. Do not change parser,
+  renderer, append, verifier, hook decision, schema, or fixture behavior. The
+  live-plan test advances only the declared-stage count and permits F5.6 until
+  its DONE append. TODO remains generated and PROGRESS remains append-only.
+- DoD: session start reads the generated active stage; completed sessions use
+  `record-done`; unfinished sessions use `record-partial` with an exact resume
+  point; direct TODO editing is prohibited; spillover work changes PLAN then
+  synchronizes; the hook points to AGENTS.md and the staged check; plan-status
+  check and the full 712-test suite pass; F5.6 closes through `record-done`.
+- Depends: F5.5.
+
+#### F5.7 — Lifecycle-wide status automation rule
+
+- Goal: remove the remaining implication that status automation is only a
+  session-close refresh and make it mandatory throughout the project lifecycle.
+- Output: repository instructions that prohibit manual TODO/completion upkeep
+  at every stage transition and route a red session baseline through the guarded
+  PARTIAL command.
+- Exact file set: `PLAN.md`; `AGENTS.md`; `tests/test_plan_status.py`;
+  `PROGRESS.md`; and `TODO.md`.
+- Boundaries: instruction-only clarification. Do not change plan-status parser,
+  renderer, append, verifier, hook, schema, fixture, or contract behavior. The
+  live-plan test advances only the declared-stage count and permits F5.7 until
+  its DONE append.
+- DoD: AGENTS.md states that automation is mandatory for the full lifecycle;
+  no instruction asks an agent to maintain TODO or completion records by hand;
+  a red baseline names `record-partial`; plan-status check and the full 712-test
+  suite pass; F5.7 closes through `record-done`.
+- Depends: F5.6.
+
 ### Phase F6 — Product-readiness evidence
 
 #### F6.0 — Scale and determinism expansion
