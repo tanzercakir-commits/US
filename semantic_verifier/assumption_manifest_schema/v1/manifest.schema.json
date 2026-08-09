@@ -37,6 +37,6 @@
     "subject": {"minLength": 1, "type": "string"}
   },
   "required": ["assumptions", "id", "schema", "snapshot", "subject"],
-  "title": "CodeSkeptic Assumption Manifest v1",
+  "title": "US Assumption Manifest v1",
   "type": "object"
 }

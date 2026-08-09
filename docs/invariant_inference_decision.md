@@ -71,9 +71,9 @@ runs the existing pipeline with the ordinary affine/Z3 cross-check referee.
 Machine provenance remains visible in Semantic IR. A candidate never changes a
 verification status merely because Spacer returned `unsat`.
 
-## Production recommendation
+## Operational recommendation
 
-If CodeSkeptic experiments with this pre-pass, keep it opt-in and outside the
+If US experiments with this pre-pass, keep it opt-in and outside the
 referee process. Pin the solver package, preserve the count/time limits, emit
 candidate provenance, cache only canonical query/certificate identities, and
 require independent replay through normal entry/preservation VCs. Expand past

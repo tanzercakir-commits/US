@@ -1,4 +1,4 @@
-# C++26 contracts bridge decision
+# C++26 contracts adapter
 
 Research snapshot: 2026-08-07. This note records a dated compatibility
 decision; compiler support is not consulted on the verifier's logic path.
@@ -20,7 +20,7 @@ a non-reference parameter requires that parameter to be const-qualified.
 
 Runtime evaluation is not simply “on” or “off”: the draft defines ignore,
 observe, enforce, and quick-enforce semantics, with compiler-selected policy and
-violation handling. CodeSkeptic does not select or imitate that runtime policy.
+violation handling. US does not select or imitate that runtime policy.
 It statically proves an owned predicate or reports a distinct non-verified
 status.
 
@@ -60,9 +60,9 @@ The local probe used Clang 20.1.8 with `-std=c++2c`. It found no
 “expected function body after function declarator.” Therefore the existing
 Clang JSON-AST seam cannot yet expose native contract nodes.
 
-## C3.1 decision
+## Bridge design
 
-C3.1 will use a deterministic lexical bridge before the current Clang parse.
+US uses a deterministic lexical bridge before the current Clang parse.
 It will extract only the declared controlled subset into side metadata and
 replace recognized syntax in compiler input without changing UTF-8 byte count
 or newline positions. `contract_assert` becomes the already-owned assertion
@@ -80,7 +80,7 @@ ambiguity, or uncertain binding fail closed as unsupported.
 This bridge is removable. When Clang exposes stable native contract AST nodes,
 a later stage can replace extraction while keeping the owned mapping and
 verification conditions unchanged.
-## Implemented C3.1 bridge
+## Implemented bridge
 
 The bridge now runs automatically before the existing Clang C++17 JSON-AST
 parse. It removes accepted `pre`/`post` spans only from private compiler

@@ -1,7 +1,7 @@
 # Contract-first workflow
 
-C2.1 makes intent an input artifact rather than a comment written after the
-implementation. The sequence is fixed:
+The contract-first workflow makes intent an input artifact rather than a
+comment written after the implementation. The sequence is fixed:
 
 1. prose request;
 2. `cs: ai` proposed contract declaration;
@@ -93,7 +93,7 @@ three artifacts, accepted contract set, four transitions, and final verifier
 report. It establishes artifact order and consistency, not real-world reviewer
 identity or the correctness of the prose itself. Those remain human inputs. The
 AI never becomes the referee.
-## C2.2 verifier pilot
+## Verifier pilot
 
 The committed `guarded_absolute_value` pilot applies the workflow to an
 already-supported A-style signed-i32 increment. During approval, the proposed

@@ -6,7 +6,7 @@ optimizer, reward service, or training result exists in this repository.
 ## Purpose
 
 This memo describes a possible future offline research protocol for recording
-ordinary CodeSkeptic referee outcomes as a bounded categorical reward signal.
+ordinary US referee outcomes as a bounded categorical reward signal.
 The AI remains an untrusted candidate proposer. The deterministic verifier and
 its replay rules remain the only acceptance authority.
 

@@ -76,4 +76,4 @@ int withdraw(const int balance, const int amount) {
 ```
 
 The complete supported C++ and semantic boundary is documented in
-[Semantic verification prototype](semantic_verification_prototype.md).
+[Supported boundary](semantic_verification_prototype.md).

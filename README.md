@@ -187,7 +187,7 @@ tests, sanitizers, static analysis, and human review.
 - [Contract-first workflow](docs/contract_first_workflow.md)
 - [Supported boundary](docs/semantic_verification_prototype.md)
 - [Adoption guide](docs/adoption_guide.md)
-- [Roadmap](PLAN.md) and [completed work](PROGRESS.md)
+- [Roadmap and completed milestones](docs/roadmap.md)
 
 ## License
 

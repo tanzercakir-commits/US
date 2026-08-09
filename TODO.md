@@ -18,10 +18,9 @@
 
 ## Blockers / open questions
 
-- None. Production work continues on `codex/semantic-verification-native` in
-  `C:\tmp\CodeSkeptic-reference`.
+- None.
 
 ## Last updated
 
-2026-08-08 - A7.3 completed with proof-neutral Memory IR v7, exact value-only
-migration evidence, and the 697-test baseline green; A7.4 is active.
+2026-08-09 - Public and operational non-code surfaces are US-only; A7.4 remains
+active with the 697-test baseline green.

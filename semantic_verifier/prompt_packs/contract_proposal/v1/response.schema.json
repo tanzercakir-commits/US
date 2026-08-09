@@ -107,6 +107,6 @@
     }
   },
   "required": ["notes", "outcome", "proposals", "request_id", "schema"],
-  "title": "CodeSkeptic untrusted contract proposal response v1",
+  "title": "US untrusted contract proposal response v1",
   "type": "object"
 }

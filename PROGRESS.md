@@ -2667,3 +2667,23 @@ Evidence: contract surface, C++26 bridge, research, and parser tests -> 31/31;
 artifact/source wording scan and diff whitespace -> pass; guarded commit ->
 this documentation follow-up.
 Next: A7.4 stack/global pointer lowering and explicit safety obligations.
+
+## 2026-08-09 - docs: make public and operational text US-only - DONE
+
++ Audited every README documentation target and all repository Markdown,
+  metadata, prompt-pack, schema-title, CI/configuration, and operational text
+  surfaces for unrelated product, repository, branch, and local-path language.
++ Replaced the internal PLAN/PROGRESS landing-page links with a concise public
+  US roadmap and reduced the supported-boundary document to current US
+  capabilities, limits, architecture, and next work.
++ Updated public naming, package metadata, AI prompt text, schema display
+  titles, and project/memory delivery guidance to describe US consistently.
+- Preserved append-only historical records and frozen `codeskeptic.*` wire
+  identifiers because changing them would break report and fixture
+  compatibility; no verifier semantics or proof claims changed.
+Evidence: clean starting baseline -> 697/697 in 484.860 s; focused prompt,
+assumption, fact-trust, repair, and changelog tests -> 113/113; changed JSON
+parse, all repository Markdown file links, public naming/path scan, documented
+`cs:` and C++26 runs, prompt golden check, and diff whitespace -> pass; final
+full suite -> 697/697 in 395.166 s; guarded commit -> this documentation commit.
+Next: A7.4 stack/global pointer lowering and explicit safety obligations.

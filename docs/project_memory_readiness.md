@@ -180,62 +180,33 @@ unsupported object layout, placement new, custom allocators, exception-driven
 cleanup, atomics, and concurrency. Uncertain aliasing broadens effects or
 becomes unsupported; it is never treated as independence.
 
-## Cross-repository delivery
+## US delivery
 
-The Python repository remains the executable reference oracle:
+US advances in four independently gated steps:
 
-- A7.1–A7.2 establish project ingestion and cross-TU identity;
-- A7.3–A7.6 establish memory semantics and proof/replay behavior;
-- A7.7 establishes honest project coverage; and
-- A7.8 freezes the reference corpus and phase-gate evidence.
+1. establish deterministic project ingestion and cross-translation-unit identity;
+2. admit memory semantics with explicit proof and replay behavior;
+3. report honest whole-project coverage with no silent skips; and
+4. freeze a non-toy reference corpus and its phase-gate evidence.
 
-CodeSkeptic remains the native C++17 product:
-
-- B5.1 matches project and cross-TU reference identities;
-- B5.2 ports memory IR, VC, referee, and replay without semantic widening;
-- B5.3 records contract-first dogfood evidence;
-- B5.4 packages project reporting and CI; and
-- B5.5 proves native end-to-end parity on the non-toy corpus.
-
-Python never becomes a CodeSkeptic runtime or release dependency.
-
-## CodeSkeptic contract-first dogfood
-
-The recommendation is to start shadow-mode dogfood now for changed C++ functions
-whose current semantics are already supported.
-
-1. The AI creates only `// cs: ai ...` proposals from an exact owned request.
-2. The existing deterministic C1.2 pre-screen evaluates the proposal.
-3. Rejected, malformed, stale, unsupported, unknown, or solver-error proposals
-   do not enter the human acceptance queue.
-4. A human edits the candidate if needed and removes `ai`.
-5. The acceptance audit and a fresh verification run are stored separately.
-6. Shadow-mode results do not block ordinary development.
-
-Pointer-bearing contracts that exceed current semantics must not be accepted as
-proof-bearing intent merely to dogfood the syntax. Record those assumptions as
-explicit design work until B5.2 can check them. B5.3 makes the workflow eligible
-for a blocking policy only after one supported scalar change and one admitted
-pointer-bearing change complete the full proposal-to-reverification chain.
-
-This policy lets CodeSkeptic use its own contract workflow without making the AI
-the referee or pretending that unsupported memory semantics already exist.
+Contract-first use may begin in non-blocking shadow mode for functions whose
+semantics are already supported. Rejected, malformed, stale, unsupported,
+unknown, and solver-error proposals never count as accepted evidence. The AI
+remains a proposer; the deterministic verifier remains the referee.
 
 ## Product gates
 
 The product does not ship merely because a demo verifies.
 
-- **A7 gate:** a deterministic multi-TU reference corpus has zero silent skips
+- **Memory and project gate:** a deterministic multi-TU reference corpus has zero silent skips
   and positive/replayed-negative evidence for every admitted pointer, alias,
   lifetime, frame, and heap class.
-- **B5 gate:** the packaged native binary matches reference identities,
-  obligations, statuses, replay, and project accounting.
-- **F6.1 gate:** a pinned non-toy project repeats logical outputs across
+- **Scale gate:** a pinned non-toy project repeats logical outputs across
   supported machines and declares its operational envelope.
-- **F6.2 gate:** one high-error-cost pilot publishes predeclared scope,
+- **Pilot gate:** one high-error-cost pilot publishes predeclared scope,
   coverage, useful findings, unsupported debt, review effort, proposal
   acceptance, CI cost, and limitations.
-- **F6.3 gate:** every mandatory gate passes. Otherwise the recorded decision
+- **Ship gate:** every mandatory gate passes. Otherwise the recorded decision
   is no-ship.
 
 The ship claim is limited to the declared C++ segment and pilot profile. It is
