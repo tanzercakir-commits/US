@@ -1,6 +1,8 @@
 """Report-building service."""
 
+import csv
 from copy import deepcopy
+from io import StringIO
 
 from .data import DataReader
 from .render import Renderer
@@ -14,7 +16,7 @@ class ReportService:
         self._reader = reader
         self._renderer = renderer
 
-    def build_report(self, query):
+    def build_report(self, query, *, output_format="default"):
         try:
             rows = self._reader.read(query)
         except OSError:
@@ -22,6 +24,14 @@ class ReportService:
 
         if len(rows) == 0:
             return EmptyReport()
+
+        if output_format == "csv":
+            fieldnames = sorted({key for row in rows for key in row.keys()})
+            output = StringIO(newline="")
+            writer = csv.DictWriter(output, fieldnames=fieldnames, lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
+            return output.getvalue()
 
         # Render an independent snapshot so renderer behavior cannot mutate
         # the source records returned by the reader.

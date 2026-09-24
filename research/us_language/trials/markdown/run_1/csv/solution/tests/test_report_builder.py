@@ -59,6 +59,48 @@ class ReportServiceTests(unittest.TestCase):
         self.assertEqual(reader.queries, ["q"])
         self.assertEqual(renderer.calls[0], rows)
 
+    def test_explicit_default_preserves_renderer_output(self):
+        rows = [{"name": "Ada"}]
+        renderer = StubRenderer(result="default-result")
+
+        result = ReportService(StubReader(rows=rows), renderer).build_report(
+            "q", output_format="default"
+        )
+
+        self.assertEqual(result, "default-result")
+        self.assertEqual(renderer.calls, [rows])
+
+    def test_csv_uses_sorted_union_of_columns_and_standard_quoting(self):
+        rows = [
+            {"z": "last", "a": "x,y"},
+            {"m": 'he said "hi"', "a": "plain"},
+        ]
+        renderer = StubRenderer()
+
+        result = ReportService(StubReader(rows=rows), renderer).build_report(
+            "q", output_format="csv"
+        )
+
+        self.assertEqual(
+            result,
+            'a,m,z\n"x,y",,last\nplain,"he said ""hi""",\n',
+        )
+        self.assertEqual(renderer.calls, [])
+        self.assertEqual(rows, [
+            {"z": "last", "a": "x,y"},
+            {"m": 'he said "hi"', "a": "plain"},
+        ])
+
+    def test_csv_preserves_read_failure_and_empty_report_outcomes(self):
+        renderer = StubRenderer()
+
+        failed = ReportService(StubReader(error=OSError("read failed")), renderer)
+        empty = ReportService(StubReader(rows=[]), renderer)
+
+        self.assertIsInstance(failed.build_report("q", output_format="csv"), ReadFailure)
+        self.assertIsInstance(empty.build_report("q", output_format="csv"), EmptyReport)
+        self.assertEqual(renderer.calls, [])
+
     def test_renderer_cannot_mutate_source_records(self):
         source_rows = [{"nested": {"value": 1}}]
 
