@@ -54,6 +54,7 @@ def main() -> int:
         "EXPERIMENT_CONTRACT.md",
         "SCORING.md",
         "evaluator.py",
+        "score_series.py",
     ]
     missing = [name for name in required_files if not (ROOT / name).is_file()]
     if missing:
