@@ -13,6 +13,31 @@ implementation of US.
   PROGRESS/TODO notes mark positives with `+` and negatives/blockers with `-`
   so status can be scanned quickly from a phone.
 
+## Risk-proportional governance
+
+US uses the risk-proportional profiles defined by the agent-governance project.
+
+- **PRACTICAL** is the default for reversible documentation, research fixtures,
+  and isolated pre-product experiments.
+- **REVIEWED** is required before a change alters a shared language/schema
+  contract, Semantic IR, verifier semantics, or another material cross-module
+  compatibility boundary.
+- **STRICT** is reserved for governance, security/authentication, release
+  integrity, protected-state mutation, destructive migration, or an
+  owner-declared high-assurance boundary.
+- A profile never weakens the existing US constitution, fail-closed behavior,
+  test ratchet, stage scope, or protected-branch CI.
+
+### PRACTICAL research lane
+
+An owner-authorized research lane under `research/<topic>/` may proceed without
+reordering the production TODO when it is explicitly covered by PLAN decisions
+and does not change `semantic_verifier/`, `tools/`, `tests/`, `examples/`,
+shared schemas, CI, release controls, or public supported-behavior claims.
+Research artifacts are not product completion evidence. If the work needs any
+of those surfaces, stop and create/expand an explicit PLAN stage before
+continuing.
+
 ## Session start (in order, no skipping)
 
 Status automation is mandatory for the full project lifecycle. It is not a
