@@ -4,73 +4,59 @@ Status: **FROZEN BEFORE MODEL OUTPUTS**
 
 ## Common execution envelope
 
-Both conditions use the same envelope.
+Both representation conditions use the same envelope.
 
 - Target: Python 3.11, standard library only.
 - No network access during generation or execution.
-- Trial workspace contains only the current implementation, one model-facing
-  condition file, and the current request.
-- The agent cannot read this experiment contract, the evaluator manifest,
-  scoring, hidden checks, the sibling condition, or the wider repository.
-- A fresh agent context is used for each stage. It receives the current code,
-  the original condition, and the current request.
-- Model identity, effort/temperature-equivalent settings, tool permissions, and
-  repetition seed/order are fixed identically across paired conditions before
-  the first trial and recorded in a later run manifest. Gate A does not select
-  a model.
+- A trial workspace contains only the current implementation (if any), exactly
+  one model-facing condition, and exactly one model-facing request.
+- The agent cannot read `FACT_MANIFEST.json`, `SCORING.md`, evaluator code,
+  hidden results, the sibling condition, other trial outputs, or the wider US
+  repository.
+- A fresh agent context is used for every stage.
+- Model identity, reasoning/effort or temperature-equivalent settings, tool
+  permissions, and repetition ordering are fixed identically across paired
+  conditions before the first model trial and recorded in a run manifest.
 
-## Required deliverable shape
+## Frozen model-facing inputs
 
-The implementation must create a package named `report_builder` with these
-public names available for deterministic tests:
+Representation condition — exactly one of:
 
-- `report_builder.ui.UI`
-- `report_builder.service.ReportService`
-- `report_builder.data.DataReader`
-- `report_builder.render.Renderer`
-- `report_builder.results.ReadFailure`
-- `report_builder.results.EmptyReport`
+- `REPORTBUILDER.us.txt`
+- `REPORTBUILDER.md`
 
-`ReportService` exposes `build_report(query)`. Dependencies may be injected.
-No other file layout or internal data structure is prescribed.
+Task — exactly one matching the current stage:
 
-## Request 0 — initial implementation
+- `REQUEST_0_INITIAL.md`
+- `REQUEST_1_CSV.md`
+- `REQUEST_2_CACHE.md`
 
-> Implement the supplied ReportBuilder specification in Python 3.11 using only
-> the standard library. Use the required public package/API shape. Keep the
-> solution small. Do not add network behavior. Do not modify the supplied
-> specification.
-
-This request is identical for both conditions.
-
-## Request 1 — maintenance: CSV
-
-> Add CSV report output as an optional output format while preserving all
-> existing behavior and constraints. Existing callers that do not request CSV
-> must keep their prior behavior.
-
-No original fact is repeated in this maintenance request.
-
-## Request 2 — maintenance: in-memory cache
-
-> Add an optional in-memory cache for successful report results while preserving
-> all existing behavior and constraints. Existing callers that do not enable
-> caching must keep their prior behavior.
-
-The request deliberately does not resolve the previously open eviction-policy
-decision.
+The request files contain the common executable API details needed by the
+hidden deterministic evaluator. Those details are identical across the US and
+Markdown conditions and therefore are not a representation advantage.
 
 ## Trial sequence
 
 For each paired repetition:
 
-1. Generate initial implementation from one condition + Request 0.
-2. Deterministically evaluate and archive the result without repair.
-3. Start a fresh agent context with that code + the same original condition +
-   Request 1; evaluate and archive without repair.
-4. Start a fresh agent context with that code + the same original condition +
-   Request 2; evaluate and archive without repair.
-5. Repeat with the sibling condition under the same model/settings/tool envelope.
+1. Fresh context: condition + `REQUEST_0_INITIAL.md`; generate the initial
+   implementation; evaluate and archive without repair.
+2. Fresh context: resulting code + the same original condition +
+   `REQUEST_1_CSV.md`; evaluate and archive without repair.
+3. Fresh context: resulting code + the same original condition +
+   `REQUEST_2_CACHE.md`; evaluate and archive without repair.
+4. Run the sibling representation under the identical model/settings/tool
+   envelope.
+
+Use five paired repetitions. Alternate pair order deterministically:
+US/Markdown, Markdown/US, US/Markdown, Markdown/US, US/Markdown.
 
 No failed output is repaired before scoring. Diagnostic reruns are separate and
-cannot replace the frozen trial.
+cannot replace a frozen trial.
+
+## Freeze rule
+
+After the first model output exists, changing any fact, condition, request,
+acceptance check, weight, threshold, or outcome rule invalidates the affected
+pilot series. A redesigned experiment must use a new version/directory and keep
+this frozen series intact.
