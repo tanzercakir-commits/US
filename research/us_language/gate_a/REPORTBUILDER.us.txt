@@ -1,0 +1,29 @@
+system ReportBuilder
+
+intent:
+    [F01] Produce reports from source records without modifying source data.
+
+architecture:
+    [F02] UI -> ReportService
+    [F03] ReportService -> DataReader
+    [F04] UI !-> DataReader
+    [F05] ReportService -> Renderer
+
+rules:
+    [F06] source records must remain immutable
+    [F07] network access must_not occur
+    [F08] ReadFailure distinct EmptyReport
+
+freedom:
+    [F09] may_choose internal data structures
+    [F10] may_choose cache mechanics except the eviction policy
+
+flow:
+    [F11] DataReader read fails => ReadFailure
+    [F12] DataReader succeeds with zero rows => EmptyReport
+    [F13] DataReader succeeds with non-empty rows => Renderer output for those rows
+
+unknowns:
+    [F14] unresolved cache eviction policy; no default may be silently selected.
+          If a cache depends on eviction behavior, require an explicit external
+          policy or expose/fail the unresolved decision.

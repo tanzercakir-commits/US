@@ -1,0 +1,26 @@
+{
+  "schema": "us-language-gate-a-facts-v0",
+  "evaluator_only": true,
+  "system": "ReportBuilder",
+  "facts": [
+    {"id":"F01","class":"intent","modality":"must_preserve","canonical":"Produce reports from source records without modifying source data."},
+    {"id":"F02","class":"architecture","modality":"allow_direct","subject":"UI","object":"ReportService"},
+    {"id":"F03","class":"architecture","modality":"allow_direct","subject":"ReportService","object":"DataReader"},
+    {"id":"F04","class":"architecture","modality":"forbid_direct","subject":"UI","object":"DataReader"},
+    {"id":"F05","class":"architecture","modality":"allow_direct","subject":"ReportService","object":"Renderer"},
+    {"id":"F06","class":"rules","modality":"must","canonical":"Source records remain immutable."},
+    {"id":"F07","class":"rules","modality":"must_not","canonical":"The implementation performs network access."},
+    {"id":"F08","class":"rules","modality":"distinct","left":"ReadFailure","right":"EmptyReport"},
+    {"id":"F09","class":"freedom","modality":"may_choose","canonical":"Internal data structures."},
+    {"id":"F10","class":"freedom","modality":"may_choose","canonical":"Cache mechanics except the eviction policy."},
+    {"id":"F11","class":"flow","modality":"required","when":"DataReader read fails","outcome":"ReadFailure"},
+    {"id":"F12","class":"flow","modality":"required","when":"DataReader succeeds with zero rows","outcome":"EmptyReport"},
+    {"id":"F13","class":"flow","modality":"required","when":"DataReader succeeds with non-empty rows","outcome":"Renderer output for those rows"},
+    {"id":"F14","class":"unknowns","modality":"unresolved","canonical":"Cache eviction policy. No default may be silently selected; a cache that depends on eviction behavior requires an explicit external policy or must expose/fail the unresolved decision."}
+  ],
+  "parity_rule": {
+    "required_fact_ids": ["F01","F02","F03","F04","F05","F06","F07","F08","F09","F10","F11","F12","F13","F14"],
+    "condition_files_must_contain_each_id_exactly_once": true,
+    "condition_files_may_not_add_normative_facts": true
+  }
+}
