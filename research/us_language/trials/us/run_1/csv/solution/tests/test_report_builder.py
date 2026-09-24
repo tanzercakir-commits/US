@@ -51,6 +51,43 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(source_rows, [{"id": 1}, {"id": 2}])
         self.assertEqual(renderer.rows[0]["rendered"], True)
 
+    def test_csv_uses_sorted_union_of_columns_without_mutating_source(self):
+        source_rows = [
+            {"name": "Ada", "id": 2},
+            {"note": "a,b", "id": 1},
+        ]
+        renderer = Renderer()
+
+        result = ReportService(Reader(rows=source_rows), renderer).build_report(
+            "q", output_format="csv"
+        )
+
+        self.assertEqual(
+            result,
+            'id,name,note\n2,Ada,\n1,,"a,b"\n',
+        )
+        self.assertEqual(
+            source_rows,
+            [
+                {"name": "Ada", "id": 2},
+                {"note": "a,b", "id": 1},
+            ],
+        )
+        self.assertIsNone(renderer.rows)
+
+    def test_csv_preserves_read_failure_and_empty_report_outcomes(self):
+        renderer = Renderer()
+        failed = ReportService(Reader(error=OSError("boom")), renderer).build_report(
+            "q", output_format="csv"
+        )
+        empty = ReportService(Reader(rows=[]), renderer).build_report(
+            "q", output_format="csv"
+        )
+
+        self.assertIsInstance(failed, ReadFailure)
+        self.assertIsInstance(empty, EmptyReport)
+        self.assertIsNone(renderer.rows)
+
     def test_ui_delegates_to_service(self):
         class Service:
             def __init__(self):
