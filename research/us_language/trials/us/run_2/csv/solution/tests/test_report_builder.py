@@ -57,6 +57,58 @@ class ReportServiceTests(unittest.TestCase):
         self.assertIs(renderer.calls[0], rows)
         self.assertEqual(rows, before)
 
+    def test_explicit_default_preserves_renderer_behavior(self):
+        rows = [{"name": "Ada"}]
+        renderer = StubRenderer(result="default report")
+
+        result = ReportService(StubReader(rows=rows), renderer).build_report(
+            "q", output_format="default"
+        )
+
+        self.assertEqual(result, "default report")
+        self.assertIs(renderer.calls[0], rows)
+
+    def test_csv_uses_sorted_union_of_columns_and_does_not_render(self):
+        rows = [{"name": "Ada", "age": 36}, {"city": "Arlington", "name": "Grace"}]
+        before = [dict(row) for row in rows]
+        renderer = StubRenderer()
+
+        result = ReportService(StubReader(rows=rows), renderer).build_report(
+            "q", output_format="csv"
+        )
+
+        self.assertEqual(
+            result,
+            "age,city,name\n36,,Ada\n,Arlington,Grace\n",
+        )
+        self.assertEqual(renderer.calls, [])
+        self.assertEqual(rows, before)
+
+    def test_csv_uses_standard_library_quoting_and_lf_line_endings(self):
+        rows = [{"note": 'a,"b"', "name": "Ada"}]
+        result = ReportService(StubReader(rows=rows), StubRenderer()).build_report(
+            "q", output_format="csv"
+        )
+
+        self.assertEqual(result, 'name,note\nAda,"a,""b"""\n')
+        self.assertTrue(result.endswith("\n"))
+        self.assertNotIn("\r\n", result)
+
+    def test_csv_empty_read_stays_empty_report(self):
+        renderer = StubRenderer()
+        result = ReportService(StubReader(rows=[]), renderer).build_report(
+            "q", output_format="csv"
+        )
+
+        self.assertIsInstance(result, EmptyReport)
+        self.assertEqual(renderer.calls, [])
+
+    def test_unsupported_output_format_raises_value_error_after_successful_read(self):
+        service = ReportService(StubReader(rows=[{"name": "Ada"}]), StubRenderer())
+
+        with self.assertRaises(ValueError):
+            service.build_report("q", output_format="json")
+
     def test_ui_delegates_to_service(self):
         class StubService:
             def __init__(self):
