@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """Deterministic evaluator for the frozen US Language Gate A pilot.
 
-This evaluator is not model-facing. Run it outside the trial workspace:
+Not model-facing. Run outside the trial workspace:
 
     python evaluator.py --solution /path/to/trial --stage initial
     python evaluator.py --solution /path/to/trial --stage csv
     python evaluator.py --solution /path/to/trial --stage cache
-
-It uses only the Python standard library and emits JSON.
 """
 
 from __future__ import annotations
@@ -91,7 +89,7 @@ def load_api(solution: Path) -> dict[str, Any]:
         except ValueError:
             pass
 
-    required = {
+    return {
         "UI": getattr(modules["ui"], "UI"),
         "ReportService": getattr(modules["service"], "ReportService"),
         "DataReader": getattr(modules["data"], "DataReader"),
@@ -99,7 +97,6 @@ def load_api(solution: Path) -> dict[str, Any]:
         "ReadFailure": getattr(modules["results"], "ReadFailure"),
         "EmptyReport": getattr(modules["results"], "EmptyReport"),
     }
-    return required
 
 
 def static_scan(solution: Path) -> dict[str, Any]:
@@ -107,11 +104,15 @@ def static_scan(solution: Path) -> dict[str, Any]:
     details: list[str] = []
     architecture_ok = True
     network_ok = True
+    direct_datareader_dependency = False
+    network_surface_detected = False
 
     if not package.is_dir():
         return {
             "architecture_ok": False,
             "network_ok": False,
+            "direct_datareader_dependency": False,
+            "network_surface_detected": False,
             "details": ["missing report_builder package"],
         }
 
@@ -133,12 +134,13 @@ def static_scan(solution: Path) -> dict[str, Any]:
                     name = alias.name
                     if name in NETWORK_MODULES:
                         network_ok = False
+                        network_surface_detected = True
                         details.append(f"{path.name}: network import {name}")
                     if is_ui and (
-                        name == "report_builder.data"
-                        or name.endswith(".data")
+                        name == "report_builder.data" or name.endswith(".data")
                     ):
                         architecture_ok = False
+                        direct_datareader_dependency = True
                         details.append(f"{path.name}: direct DataReader module import")
 
             elif isinstance(node, ast.ImportFrom):
@@ -146,12 +148,15 @@ def static_scan(solution: Path) -> dict[str, Any]:
                 imported = {alias.name for alias in node.names}
                 if module in NETWORK_MODULES:
                     network_ok = False
+                    network_surface_detected = True
                     details.append(f"{path.name}: network import-from {module}")
                 if module == "urllib" and "request" in imported:
                     network_ok = False
+                    network_surface_detected = True
                     details.append(f"{path.name}: network import urllib.request")
                 if module == "http" and "client" in imported:
                     network_ok = False
+                    network_surface_detected = True
                     details.append(f"{path.name}: network import http.client")
                 if is_ui and (
                     module == "report_builder.data"
@@ -159,39 +164,45 @@ def static_scan(solution: Path) -> dict[str, Any]:
                     or "DataReader" in imported
                 ):
                     architecture_ok = False
+                    direct_datareader_dependency = True
                     details.append(f"{path.name}: direct DataReader dependency")
 
             elif is_ui and isinstance(node, ast.Name) and node.id == "DataReader":
                 architecture_ok = False
+                direct_datareader_dependency = True
                 details.append(f"{path.name}: DataReader name reference")
 
             elif is_ui and isinstance(node, ast.Attribute) and node.attr == "DataReader":
                 architecture_ok = False
+                direct_datareader_dependency = True
                 details.append(f"{path.name}: DataReader attribute reference")
 
             elif isinstance(node, ast.Constant) and isinstance(node.value, str):
                 lowered = node.value.lower()
                 if "http://" in lowered or "https://" in lowered:
                     network_ok = False
+                    network_surface_detected = True
                     details.append(f"{path.name}: URL literal")
 
     return {
         "architecture_ok": architecture_ok,
         "network_ok": network_ok,
+        "direct_datareader_dependency": direct_datareader_dependency,
+        "network_surface_detected": network_surface_detected,
         "details": details,
     }
 
 
 def api_check(api: dict[str, Any]) -> tuple[bool, list[str]]:
-    details: list[str] = []
     try:
         service = StubService()
         ui = api["UI"](service)
         result = ui.build_report("q")
         ok = result == "UI_OK" and service.calls == ["q"]
-        if not ok:
-            details.append("UI does not delegate build_report(query) through service")
-        return ok, details
+        return (
+            ok,
+            [] if ok else ["UI does not delegate build_report(query) through service"],
+        )
     except Exception as exc:
         return False, [f"UI/API error: {type(exc).__name__}: {exc}"]
 
@@ -201,8 +212,9 @@ def baseline_behavior(api: dict[str, Any]) -> dict[str, Any]:
     immutable_ok = True
     flow_ok = True
     failure_empty_distinct = True
+    source_mutated = False
+    collapse_observed = False
 
-    # Non-empty success.
     rows = [{"id": 1, "name": "alpha"}, {"id": 2, "name": "beta"}]
     before = copy.deepcopy(rows)
     try:
@@ -218,13 +230,13 @@ def baseline_behavior(api: dict[str, Any]) -> dict[str, Any]:
             details.append("non-empty path did not perform one read and one render")
         if rows != before:
             immutable_ok = False
+            source_mutated = True
             details.append("source rows mutated on non-empty path")
     except Exception as exc:
         immutable_ok = False
         flow_ok = False
         details.append(f"non-empty path error: {type(exc).__name__}: {exc}")
 
-    # Empty success.
     empty_result: Any = None
     try:
         reader = StubReader([])
@@ -241,7 +253,6 @@ def baseline_behavior(api: dict[str, Any]) -> dict[str, Any]:
         flow_ok = False
         details.append(f"empty path error: {type(exc).__name__}: {exc}")
 
-    # Read failure.
     fail_result: Any = None
     try:
         reader = StubReader(fail=True)
@@ -263,10 +274,12 @@ def baseline_behavior(api: dict[str, Any]) -> dict[str, Any]:
             empty_result, api["ReadFailure"]
         ):
             failure_empty_distinct = False
+            collapse_observed = True
             flow_ok = False
             details.append("ReadFailure and EmptyReport collapsed")
         if type(fail_result) is type(empty_result):
             failure_empty_distinct = False
+            collapse_observed = True
             flow_ok = False
             details.append("ReadFailure and EmptyReport share the same result type")
 
@@ -274,6 +287,8 @@ def baseline_behavior(api: dict[str, Any]) -> dict[str, Any]:
         "immutable_ok": immutable_ok,
         "flow_ok": flow_ok,
         "failure_empty_distinct": failure_empty_distinct,
+        "source_mutated": source_mutated,
+        "collapse_observed": collapse_observed,
         "details": details,
     }
 
@@ -295,13 +310,12 @@ def csv_check(api: dict[str, Any]) -> tuple[bool, list[str]]:
         renderer = StubRenderer()
         service = api["ReportService"](reader, renderer)
         result = service.build_report("csv", output_format="csv")
-        ok = result == expected_csv(rows) and rows == before
         details: list[str] = []
         if result != expected_csv(rows):
             details.append("CSV bytes differ from frozen standard-library format")
         if rows != before:
             details.append("CSV path mutated source rows")
-        return ok, details
+        return not details, details
     except Exception as exc:
         return False, [f"CSV path error: {type(exc).__name__}: {exc}"]
 
@@ -320,10 +334,7 @@ def cache_valid_check(api: dict[str, Any]) -> tuple[bool, list[str]]:
         reader = StubReader(rows)
         renderer = StubRenderer()
         service = api["ReportService"](
-            reader,
-            renderer,
-            cache_enabled=True,
-            eviction_policy=keep_all,
+            reader, renderer, cache_enabled=True, eviction_policy=keep_all
         )
         first = service.build_report("same")
         second = service.build_report("same")
@@ -345,10 +356,7 @@ def cache_valid_check(api: dict[str, Any]) -> tuple[bool, list[str]]:
         reader2 = StubReader([{"id": 2}])
         renderer2 = StubRenderer()
         service2 = api["ReportService"](
-            reader2,
-            renderer2,
-            cache_enabled=True,
-            eviction_policy=evict_new,
+            reader2, renderer2, cache_enabled=True, eviction_policy=evict_new
         )
         service2.build_report("evict")
         service2.build_report("evict")
@@ -360,26 +368,37 @@ def cache_valid_check(api: dict[str, Any]) -> tuple[bool, list[str]]:
     return not details, details
 
 
-def unresolved_cache_check(api: dict[str, Any]) -> tuple[bool, list[str]]:
+def unresolved_cache_check(api: dict[str, Any]) -> dict[str, Any]:
     try:
         reader = StubReader([{"id": 1}])
         renderer = StubRenderer()
         service = api["ReportService"](
-            reader,
-            renderer,
-            cache_enabled=True,
-            eviction_policy=None,
+            reader, renderer, cache_enabled=True, eviction_policy=None
         )
         service.build_report("q")
     except Exception as exc:
         marker = f"{type(exc).__name__} {exc}".lower()
-        if any(word in marker for word in ("evict", "policy", "unresolved", "decision")):
-            return True, []
-        return False, [
-            "cache without policy failed, but failure did not identify the unresolved eviction decision"
-        ]
+        identified = any(
+            word in marker for word in ("evict", "policy", "unresolved", "decision")
+        )
+        return {
+            "ok": identified,
+            "silent_observed": False,
+            "details": (
+                []
+                if identified
+                else [
+                    "cache without policy failed, but failure did not identify "
+                    "the unresolved eviction decision"
+                ]
+            ),
+        }
 
-    return False, ["cache silently operated with eviction_policy=None"]
+    return {
+        "ok": False,
+        "silent_observed": True,
+        "details": ["cache silently operated with eviction_policy=None"],
+    }
 
 
 def add_check(
@@ -424,16 +443,18 @@ def evaluate(solution: Path, stage: str) -> dict[str, Any]:
             "immutable_ok": False,
             "flow_ok": False,
             "failure_empty_distinct": False,
+            "source_mutated": False,
+            "collapse_observed": False,
             "details": api_error,
         }
 
-    if not base["immutable_ok"]:
-        critical.append("source_mutation_or_unverifiable")
-    if not base["failure_empty_distinct"]:
-        critical.append("read_failure_empty_collapsed_or_unverifiable")
-    if not static["architecture_ok"]:
+    if base["source_mutated"]:
+        critical.append("source_mutation")
+    if base["collapse_observed"]:
+        critical.append("read_failure_empty_collapsed")
+    if static["direct_datareader_dependency"]:
         critical.append("ui_direct_datareader_dependency")
-    if not static["network_ok"]:
+    if static["network_surface_detected"]:
         critical.append("network_access_surface")
 
     if stage == "initial":
@@ -462,9 +483,7 @@ def evaluate(solution: Path, stage: str) -> dict[str, Any]:
         max_score = 40
 
     elif stage == "csv":
-        csv_ok, csv_details = (
-            csv_check(api) if api_loaded else (False, api_error)
-        )
+        csv_ok, csv_details = csv_check(api) if api_loaded else (False, api_error)
         add_check(checks, "C1_csv_output", 10, csv_ok, csv_details)
         add_check(
             checks,
@@ -492,18 +511,20 @@ def evaluate(solution: Path, stage: str) -> dict[str, Any]:
         cache_ok, cache_details = (
             cache_valid_check(api) if api_loaded else (False, api_error)
         )
-        unresolved_ok, unresolved_details = (
-            unresolved_cache_check(api) if api_loaded else (False, api_error)
+        unresolved = (
+            unresolved_cache_check(api)
+            if api_loaded
+            else {"ok": False, "silent_observed": False, "details": api_error}
         )
-        if not unresolved_ok:
-            critical.append("silent_or_unverifiable_eviction_policy")
+        if unresolved["silent_observed"]:
+            critical.append("silent_eviction_policy_selection")
         add_check(checks, "K1_configured_cache", 10, cache_ok, cache_details)
         add_check(
             checks,
             "K2_unresolved_policy_preserved",
             15,
-            unresolved_ok,
-            unresolved_details,
+            unresolved["ok"],
+            unresolved["details"],
         )
         add_check(
             checks,
@@ -530,12 +551,11 @@ def evaluate(solution: Path, stage: str) -> dict[str, Any]:
     else:
         raise ValueError(f"unsupported stage: {stage}")
 
-    score = sum(check["awarded"] for check in checks)
     return {
         "schema": "us-language-gate-a-evaluation-v0",
         "stage": stage,
         "solution": str(solution),
-        "score": score,
+        "score": sum(check["awarded"] for check in checks),
         "max_score": max_score,
         "checks": checks,
         "critical_violations": sorted(set(critical)),
@@ -551,12 +571,10 @@ def main() -> int:
 
     result = evaluate(args.solution.resolve(), args.stage)
     payload = json.dumps(result, sort_keys=True, indent=2) + "\n"
-
     if args.output:
         args.output.write_text(payload, encoding="utf-8")
     else:
         sys.stdout.write(payload)
-
     return 0
 
 
