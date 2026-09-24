@@ -145,6 +145,25 @@ Decisions are not re-litigated; changing one requires a new entry.
   deterministic pre-screen and human removal of `ai` are required before a
   contract can become accepted intent or a blocking CI input.
 
+- **D17 — PRACTICAL research lane:** owner-authorized pre-product research may
+  proceed under `research/<topic>/` without reordering the production TODO only
+  while it remains isolated from verifier/runtime semantics, shared schemas,
+  production tools, CI, release controls, and public support claims. Each lane
+  must state a hypothesis, boundaries, evidence plan, and stop/escalation gate.
+  Existing stage scope, fail-closed invariants, hooks, and product CI remain in
+  force.
+- **D18 — US Language starts as research, not a third production frontend:** the
+  proposed human/AI language may explore intent, architecture, rules, delegated
+  freedom, flow, and unresolved decisions inside the PRACTICAL research lane.
+  It does not yet supersede D2 or D13, does not add a production verifier
+  frontend, and does not change the meaning of `verified`.
+- **D19 — Evidence before integration:** before US Language changes shared
+  parser/IR/schema/verifier behavior, a controlled same-information comparison
+  against a strong Markdown baseline must be frozen and run. Research-only
+  prototypes may be built under `research/us_language/`; production
+  integration requires a new explicit PLAN stage and at least REVIEWED
+  governance. A null or negative result is a valid stop outcome.
+
 ## 3. Constitution (invariants for every stage)
 
 1. `unknown`/`unsupported` is never promoted to `verified`.
