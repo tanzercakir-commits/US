@@ -1,0 +1,22 @@
+{
+  "schema": "us-language-gate-a2-run-manifest-v0",
+  "status": "TEMPLATE_NOT_TRIAL_READY",
+  "source_commit": "TO_FILL_WITH_EXACT_40_HEX_COMMIT",
+  "model_identity": "TO_FILL_WITH_EXACT_MODEL_IDENTITY",
+  "reasoning_setting": "TO_FILL_WITH_EXACT_SETTING",
+  "tool_permissions": ["TO_FILL"],
+  "network_access": false,
+  "evaluation_runtime": {
+    "python": "TO_FILL_WITH_EXACT_VERSION",
+    "platform": "TO_FILL"
+  },
+  "fresh_context_per_stage": true,
+  "pair_order": [
+    ["us", "markdown"],
+    ["markdown", "us"],
+    ["us", "markdown"],
+    ["markdown", "us"],
+    ["us", "markdown"]
+  ],
+  "artifact_sha256": {}
+}
