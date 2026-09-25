@@ -1,0 +1,52 @@
+system WorkflowRelay
+
+intent:
+    [F01] Execute workflows without losing committed work or duplicating successful external effects.
+    [F02] Maintenance and WorkflowService replacement preserve behavior through persisted workflow state, not service-instance memory.
+
+architecture:
+    [F03] API -> WorkflowService
+    [F04] API !-> JobStore
+    [F05] API !-> Processor
+    [F06] API !-> Exporter
+    [F07] API !-> AuditLog
+    [F08] WorkflowService -> JobStore
+    [F09] WorkflowService -> Processor
+    [F10] WorkflowService -> Exporter
+    [F11] WorkflowService -> AuditLog
+    [F12] JobStore !-> Exporter
+    [F13] Exporter !-> JobStore
+
+rules:
+    [F14] JobStore must be the sole persistence owner of workflow payload, state, committed result, and per-exporter success receipts.
+    [F15] AuditLog must be append-only; later events must_not delete, reorder, or mutate earlier entries.
+    [F16] WorkflowService must record processing_failed, committed, export_failed, and exported audit events at the corresponding transitions.
+    [F17] Canonical JobStore payload must_not be mutated through aliases passed to Processor or later collaborators.
+    [F18] Committed JobStore result must_not be mutated through aliases passed to Exporter or later collaborators.
+    [F19] network access must_not occur
+    [F20] commit must occur before any export effect for that result.
+    [F21] export failure after commit must_not roll back the committed result or COMMITTED state.
+    [F22] successful external effect per (job, exporter_name) must occur at most once across later calls, maintenance, retries, and WorkflowService replacement.
+    [F23] workflow state must_not skip PENDING -> EXPORTED without a committed result.
+    [F24] NotFound distinct ProcessingFailure distinct ExportFailure distinct Completed
+    [F25] successful exporter receipts must remain persisted across later exporter failure and WorkflowService replacement.
+
+freedom:
+    [F26] may_choose internal data structures
+    [F27] may_choose internal batch partitioning strategy
+    [F28] may_choose private helpers and internal file layout beyond the required public API
+    [F29] may_choose AuditLog storage and indexing subject to append-only semantics
+    [F30] may_choose order among still-required exporters with no recorded success when no rule or explicit policy constrains it
+
+flow:
+    [F31] job missing => NotFound; Processor and Exporter are not called
+    [F32] PENDING + Processor failure => append processing_failed; ProcessingFailure; remain PENDING; no commit; no export
+    [F33] PENDING + Processor success => commit result; COMMITTED; append committed; then export
+    [F34] required export failure after commit => append export_failed; ExportFailure; remain COMMITTED
+    [F35] all explicitly required exporters have persisted success receipts => EXPORTED; append exported; Completed
+    [F36] already EXPORTED => Completed from persisted state; no exporter call
+    [F37] resume COMMITTED multi-export => successful exporters are not called again; only still-required exporters without receipts remain eligible
+
+unknowns:
+    [F38] unresolved multi-export required-exporter policy; must_not silently choose all, any, first-success, best-effort, or another default
+    [F39] unresolved automatic retry classification and attempt limit; must_not silently choose retryable failures or an attempt count
